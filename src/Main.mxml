@@ -1,0 +1,484 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<s:Application 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	minWidth="955" minHeight="600"	
+	creationComplete="init()"
+	xmlns:x2a="x2a.*"
+	xmlns:x2="x2.*"	
+	styleName="main"
+	width="100%" height="100%">
+	
+	<fx:Style source="css/winXP_f4.css"/>
+	<fx:Script source="x2/MainFun.as"/>
+	<fx:Script source="x2/MainFunSDI.as"/>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.controls.SWFLoader;
+			
+			import x2.*;
+			
+			import x2a.LabelImage;
+			
+			[Bindable]
+			private var ia_list:ArrayCollection = new ArrayCollection();
+			//[Bindable]
+			//private var iR:Object;
+			
+			private var ia_menu:Array;
+			//private var ia_menuOk:Array;	//has fun array list
+			
+			private var is_groupId:String;
+			private var is_lang:String;
+			
+			private var bExitWhenFail:Boolean = true;	//exit system when login failed.
+			
+			private function initSec():void{
+				Fun.openPopup(iw_login, this);
+				/*
+				iw_login.schoolCode.text = "";
+				iw_login.loginId.text = "";
+				iw_login.userPwd.text = "";
+				*/
+			}
+			
+			private function CmdSysSearch():void{
+				var ss_win:SysSearch = new SysSearch();				
+				Fun.openPopup(ss_win, this);
+			}			
+			
+			private function whenOpen():Boolean{
+				//in_maxApp = 1;
+				
+				return true;
+			}			
+			
+			private function closeWin():void{
+				if (bExitWhenFail){
+					Fun.exitSys();
+				}else{
+					Fun.closePopup(this);
+				}
+			}
+			
+			var iw_login:Login;
+			private function init():void{
+				//=== 必要的初始化設定 ===
+				Fun.wMain = this;
+				//Fun.aKeyByte = Fun.getKeyByte();		//set first !!
+				Fun.init(this);
+				//======
+				
+				AcaSetup.text = "";
+				
+				zz_showMain(true);
+				
+				//setMenu();
+				//showGroup("staff0");
+				
+				is_lang = Fun2.sLang;
+				
+				//var t_win:Login = new Login();
+				//t_win.fAfterLogin = init2;
+				//Fun.openPopup(t_win, this);
+				iw_login = new Login();
+				iw_login.fLoginOk = init2;
+				Fun.openPopup(iw_login, this);				
+			}
+			
+			private function init2(p_data:Object=null):void {
+				var t_data:Object = Fun.sync("_Main", Fun.sService, {fun:"getMain"}, true);
+				//var t_data:Object = Fun.sync("", Fun.sService, {fun:"Main"}, true);
+				if (Fun.catchResult(t_data, false, true)){
+					return;
+				}
+				
+				//change langeuage
+				//if (is_lang != Fun2.sLang){
+				is_lang = Fun2.sLang;
+				Fun.R = Fun.getLang("_Fun");
+				//}
+				
+				//set global variables
+				setGlobal(t_data);
+				
+				//Show login user info
+				
+				//setMenu();
+				//顯示次選單
+				ia_menu = (t_data[Fun.csMenu] == null) ? [] : t_data[Fun.csMenu] as Array;
+				showLang();
+				
+				//顯示主選單
+				//主選單顥示順序
+				var ta_group:Array = [base0, class0, teach0, school0, general0, staff0, parent0, manage0, learn0, accounts0];
+				var tn_group:int = ta_group.length;
+				var ts_groupId:String = "";
+				for (var g:int=0; g<tn_group; g++){
+					var tb_find:Boolean = false;
+					var ts_gId:String = ta_group[g].id;
+					for (var i:int=0; i<ia_menu.length; i++){
+						if (ia_menu[i].groupId == ts_gId){
+							tb_find = true;
+							break;
+						}
+					}	
+					
+					if (tb_find){					
+						if (ts_groupId == ""){
+							ts_groupId = ts_gId;
+						}
+						ta_group[g].width = "100%";
+						ta_group[g].height = "100%";
+						ta_group[g].visible = true;
+					}else{
+						ta_group[g].width = 0;
+						ta_group[g].height = 0;
+						ta_group[g].visible = false;						
+					}
+				}
+				
+				if (ts_groupId != "")
+					showGroup(ts_groupId);
+				
+				//自動跳出公佈欄				
+				var t_win:BoardView = new BoardView();				
+				Fun.openPopup(t_win, this);
+				
+				var s_win:SysProcess = new SysProcess();				
+				Fun.openPopup(s_win, this);
+				
+			}
+			
+			//設定 title
+			import mx.managers.BrowserManager;
+			import mx.managers.IBrowserManager;
+			import mx.events.BrowserChangeEvent;
+			
+			private var bm:IBrowserManager;
+			
+			private function showLang():void{
+				
+				//source="image/logo.png"
+				//抓取  LOGO 與 學校名稱 與 網址
+				var t_logo:Object = Fun.readRow("_Main", {data:"LogoSetup"});				
+				//imageName.source = "../dbUpLoadFiles/images/"+ t_logo.fileName;
+				imageName.source = Fun.sDirRoot + Fun2.fImages + t_logo.fileName;
+				imageName.toolTip = t_logo.schoolName;
+				webSiteUrl.text = t_logo.webSiteUrl;
+				
+				//設定 title
+				bm = BrowserManager.getInstance();
+				bm.init("KRP", t_logo.schoolName);
+				
+				iR = Fun.getLang("Main");
+				for (var i:int=0; i<ia_menu.length; i++){
+					ia_menu[i].label = iR[ia_menu[i].data];
+					switch (is_lang){
+						case "tw":
+						case "cn":
+							ia_menu[i].labelShort = ia_menu[i].label;							
+							break;
+						case "en":
+							if (String(ia_menu[i].label).length > 12){
+								ia_menu[i].labelShort = String(ia_menu[i].label).substring(0, 10) + ' ...';
+							}else{
+								ia_menu[i].labelShort = ia_menu[i].label;
+							}
+							
+							break;
+					}
+				}
+				
+				sysCodeA.text = iR.sysCodeA;
+				sysCodeB.text = iR.sysCodeB;
+				sysCodeC.text = iR.sysCodeC;
+				sysCodeD.text = iR.sysCodeD;
+				sysCodeE.text = iR.sysCodeE;
+				sysCodeF.text = iR.sysCodeF;
+				sysCodeG.text = iR.sysCodeG;
+				sysCodeH.text = iR.sysCodeH;
+				sysCodeI.text = iR.sysCodeI;
+				sysCodeJ.text = iR.sysCodeJ;
+				
+				var t_row:Object = Fun.readRow("_Main", {data:"userInfo"});			
+				var t_aca:Object = Fun.readRow("_Main", {data:"AcaSetup"});
+				
+				if (t_aca!=null){
+					AcaSetup.text=t_aca.academicYear + " "+ iR.loginInfoA + " "+ t_aca.semester + " "+ iR.loginInfoB + t_row.cName + " )";				
+				}else{
+					AcaSetup.text=iR.loginInfoC + t_row.cName + " )";
+					AcaSetup.setStyle("color",0xFF0000);
+				}
+				
+				cmdExit.label = iR.logout;
+				
+			}
+			
+			//public function showMain(pb_main:Boolean):void{
+			public function zz_showMain(pb_main:Boolean):void{
+				if (pb_main){
+					areaMain.x = 0;
+					areaMain.y = 0;
+					//contractItem.play();
+					//expandMain.play();
+				}else{
+					if (!areaItem.visible){
+						areaItem.visible = true;				
+					}				
+					areaItem.x = 0;
+					areaItem.y = 0;
+					//contractMain.play();
+					//expandItem.play();
+				}
+			}				
+			
+			
+			//open item function
+			//public function openApp(ps_item:String):void{
+			public function zz_openApp(ps_item:String):void{
+				
+				if (!areaItem.visible){
+					areaItem.visible = true;				
+				}				
+				areaItem.x = 0;
+				areaItem.y = 0;
+				//contractMain.play(); //主畫面縮小
+				//expandItem.play(); //顯示子畫面
+				
+				//load swf
+				var t_swf:SWFLoader = new SWFLoader();
+				t_swf.x = 0;
+				t_swf.y = 0;
+				t_swf.percentHeight = 100; 
+				t_swf.percentWidth = 100;	    
+				var ts_time:String = new Date().getTime().toString();	//for no cache !!	    
+				t_swf.load(ps_item+".swf?tt="+ts_time);
+				
+				if (areaItem.numChildren > 0){
+					areaItem.removeChildAt(0);
+				}
+				areaItem.addChild(t_swf);
+				
+			}
+			
+			
+			private function showGroup(ps_groupId:String):void{
+				//remove all old items
+				ia_list.removeAll();
+				
+				for (var i:int=0; i<ia_menu.length; i++){
+					if (ia_menu[i].groupId == ps_groupId){
+						ia_list.addItem(ia_menu[i]);						
+					}					
+				}				
+				
+				switch (ps_groupId){
+					case "staff0":						
+						menuItem.text = iR.sysCodeA;
+						break;					
+					case "class0":
+						menuItem.text = iR.sysCodeB;
+						break;
+					case "teach0":
+						menuItem.text = iR.sysCodeC;
+						break;
+					case "school0":
+						menuItem.text = iR.sysCodeD;
+						break;
+					case "general0":
+						menuItem.text = iR.sysCodeE;
+						break;
+					case "base0":
+						menuItem.text = iR.sysCodeF;
+						break;
+					case "parent0":
+						menuItem.text = iR.sysCodeG;
+						break;
+					case "manage0":
+						menuItem.text = iR.sysCodeH;
+						break;
+					case "learn0":
+						menuItem.text = iR.sysCodeI;
+						break;
+					case "accounts0":
+						menuItem.text = iR.sysCodeJ;
+						break;
+				}
+				
+				
+			}
+			
+			/*
+			private function itemClick(p_event:Event):void{
+			var tn_pos:int = (Object(p_event).rowIndex * tile1.columnCount) + Object(p_event).columnIndex;
+			setItemGlobal(ia_list[tn_pos]);
+			openApp(ia_list[tn_pos]);				
+			}
+			*/
+			
+			public function itemClick(p_row:Object = null):void{
+				if (tile1.selectedItem != null){					
+					openApp(tile1.selectedItem);
+				}
+			}
+			
+			private function openWebSite():void {				
+				Fun.openFile(webSiteUrl.text);
+			}			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<s:Parallel id="efShow">			
+			<s:Fade alphaFrom="0.0" alphaTo="1.0" duration="1000"/>
+		</s:Parallel>		
+		<s:Parallel id="efHide">			
+			<s:Fade alphaFrom="1.0" alphaTo="0.0" duration="1000"/>
+		</s:Parallel>
+	</fx:Declarations>
+	
+	<x2:sysBG/>
+	
+	<s:Group id="areaItem" x="0" y="0" width="100%" height="100%" visible="false"
+			 showEffect="{efShow}"
+			 hideEffect="{efHide}"
+			 >
+	</s:Group>
+	<s:Group id="areaSubItem" x="0" y="0" width="100%" height="100%" visible="false"
+			 showEffect="{efShow}"
+			 hideEffect="{efHide}"
+			 >
+	</s:Group>
+	
+	<s:Group id="areaMain" x="0" y="0" width="100%" height="100%"
+			 showEffect="{efShow}"
+			 hideEffect="{efHide}"
+			 >
+		<mx:HBox id="menu1" x="55" y="117" width="100%" height="151" fontSize="16" verticalScrollPolicy="off">
+<!--				
+			<mx:VBox height="100%" horizontalAlign="center" id="staff0">
+				<x2a:MenuImage sImageSource="image/menu/staff0.png" fClick="showGroup" sGroupId="staff0" 
+							   height="84" width="79" horizontalAlign="center" buttonMode="true" smoothBitmapContent="true"/>
+				<mx:Label id="sysCodeA"/>
+			</mx:VBox>
+-->			
+			<!--置換位置-->
+			<mx:VBox height="100%" horizontalAlign="center" id="base0">
+				<x2a:MenuImage sImageSource="image/menu/base0.png" fClick="showGroup" sGroupId="base0" 
+							   height="84" width="79" horizontalAlign="center" buttonMode="true" smoothBitmapContent="true"/>
+				<mx:Label id="sysCodeF"/>
+			</mx:VBox>
+			
+			<mx:VBox height="100%" horizontalAlign="center" id="class0">
+				<x2a:MenuImage sImageSource="image/menu/class0.png" fClick="showGroup" sGroupId="class0" 
+							   height="84" width="79" horizontalAlign="center" buttonMode="true" smoothBitmapContent="true"/>
+				<mx:Label id="sysCodeB"/>
+			</mx:VBox>
+			<mx:VBox height="100%" horizontalAlign="center" id="teach0">
+				<x2a:MenuImage sImageSource="image/menu/teach0.png" fClick="showGroup" sGroupId="teach0" 
+							   height="84" width="79" horizontalAlign="center" buttonMode="true" smoothBitmapContent="true"/>
+				<mx:Label id="sysCodeC"/>
+			</mx:VBox>
+			<mx:VBox height="100%" horizontalAlign="center" id="school0">
+				<x2a:MenuImage sImageSource="image/menu/school0.png" fClick="showGroup" sGroupId="school0" 
+							   height="84" width="79" horizontalAlign="center" buttonMode="true" smoothBitmapContent="true"/>
+				<mx:Label id="sysCodeD"/>
+			</mx:VBox>
+			<mx:VBox height="100%" horizontalAlign="center" id="general0">
+				<x2a:MenuImage sImageSource="image/menu/general0.png" fClick="showGroup" sGroupId="general0" 
+							   height="84" width="79" horizontalAlign="center" buttonMode="true" smoothBitmapContent="true"/>
+				<mx:Label id="sysCodeE"/>
+			</mx:VBox>
+<!--			
+			<mx:VBox height="100%" horizontalAlign="center" id="base0">
+				<x2a:MenuImage sImageSource="image/menu/base0.png" fClick="showGroup" sGroupId="base0" 
+							   height="84" width="79" horizontalAlign="center" buttonMode="true" smoothBitmapContent="true"/>
+				<mx:Label id="sysCodeF"/>
+			</mx:VBox>
+-->
+			<!--置換位置 -->
+			<mx:VBox height="100%" horizontalAlign="center" id="staff0">
+				<x2a:MenuImage sImageSource="image/menu/staff0.png" fClick="showGroup" sGroupId="staff0" 
+							   height="84" width="79" horizontalAlign="center" buttonMode="true" smoothBitmapContent="true"/>
+				<mx:Label id="sysCodeA"/>
+			</mx:VBox>
+			
+			<mx:VBox height="100%" horizontalAlign="center" id="parent0">
+				<x2a:MenuImage sImageSource="image/menu/parent0.png" fClick="showGroup" sGroupId="parent0" 
+							   height="84" width="79" horizontalAlign="center" buttonMode="true" smoothBitmapContent="true"/>
+				<mx:Label id="sysCodeG"/>
+			</mx:VBox>
+			<mx:VBox height="100%" horizontalAlign="center" id="manage0">
+				<x2a:MenuImage sImageSource="image/menu/manage0.png" fClick="showGroup" sGroupId="manage0" 
+							   height="84" width="79" horizontalAlign="center" buttonMode="true" smoothBitmapContent="true"/>
+				<mx:Label id="sysCodeH"/>
+			</mx:VBox>
+			<mx:VBox height="100%" horizontalAlign="center" id="learn0">
+				<x2a:MenuImage sImageSource="image/menu/learn0.png" fClick="showGroup" sGroupId="learn0" 
+							   height="84" width="79" horizontalAlign="center" buttonMode="true" smoothBitmapContent="true"/>
+				<mx:Label id="sysCodeI"/>
+			</mx:VBox>
+			<mx:VBox height="100%" horizontalAlign="center" id="accounts0">
+				<x2a:MenuImage sImageSource="image/menu/accounts0.png" fClick="showGroup" sGroupId="accounts0" 
+							   height="84" width="79" horizontalAlign="center" buttonMode="true" smoothBitmapContent="true"/>
+				<mx:Label id="sysCodeJ"/>
+			</mx:VBox>
+			
+		</mx:HBox>
+		
+		<mx:HBox x="55" y="270">
+			<!--<mx:HBox x="55" y="270" backgroundColor="#FFFFFF" borderStyle="solid" borderThickness="1" alpha="0.7" visible="true" creationIndex="1" tabIndex="1">-->
+			<mx:Image source="image/BB.png" smoothBitmapContent="true"/>		
+			<mx:Label id="menuItem" color="#000000"/>
+			<mx:Image source="image/GB.png" smoothBitmapContent="true"/>
+			<mx:Image source="image/RB.png" smoothBitmapContent="true"/>			
+		</mx:HBox>
+		
+		<mx:TileList id="tile1" x="55" y="295" width="92%" height="80%" borderStyle="solid"
+					 dataProvider="{ia_list}"
+					 itemRenderer="x2a.LabelImage"
+					 columnWidth="125"
+					 rowHeight="110"
+					 verticalScrollPolicy="off"
+					 itemClick="itemClick(event)"					 
+					 buttonMode="true"					 
+					 alpha="0.7" borderColor="#FFFFFF">
+		</mx:TileList>
+		<!--
+		<s:List id="tile1" x="55" y="295" width="92%" height="355" alpha="0.7" borderVisible="false"
+		contentBackgroundColor="#FFFFFF" dataProvider="{ia_list}" rollOverColor="#C2D7F3" textAlign="center">
+		<s:layout>
+		<s:TileLayout horizontalAlign="center"/>
+		</s:layout>
+		<s:itemRenderer>
+		<fx:Component>
+		<s:ItemRenderer toolTip="{data.label}" width="125" height="110" click="outerDocument.itemClick()" buttonMode="true">
+		<s:VGroup horizontalAlign="center" textAlign="center">
+		<s:Image source="{data.imageSource}" 
+		smooth="true" verticalAlign="middle" horizontalAlign="center" smoothingQuality="high"/>
+		<s:Label text="{data.labelShort}"/>
+		</s:VGroup>
+		</s:ItemRenderer>
+		</fx:Component>
+		</s:itemRenderer>			
+		</s:List>
+		-->
+		
+		<mx:Image y="10" height="110" id="imageName" scaleContent="true" left="30" smoothBitmapContent="true" click="openWebSite()" buttonMode="true"/>
+		<mx:TextInput id="webSiteUrl" width="0" visible="false"/>
+		<mx:HBox y="10" right="30">
+			<!--<mx:SWFLoader id="swfB" source="@Embed(source='image/other_walk.swf')" width="200"/>-->			
+			<mx:Label fontSize="16" id="AcaSetup"/>
+			<mx:Button click="CmdSysSearch()" height="25" icon="@Embed(source='x2/image/read.gif')" label="Search" id="cmdSearch" buttonMode="true"/>
+			<mx:Button click="initSec()" height="25" icon="@Embed(source='x2/image/close3.png')" id="cmdExit" buttonMode="true"/>
+		</mx:HBox>
+		
+		<!-- This TileList uses a custom data change effect --> 
+		<!-- offscreenExtraColumns and ..Rows should be 2, but '2' causes items to disappear --> 		
+	</s:Group>
+</s:Application>
+

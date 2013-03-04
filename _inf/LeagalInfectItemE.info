@@ -1,0 +1,16 @@
+{
+    "dws":[
+        {
+            "selectTable": "LeagalInfectItem",   
+            "items": [
+                {"fid":"sn"},
+                {"fid":"itemName"},
+                {"fid":"remark"},
+                {"fid":"creator"},
+                {"fid":"createDate"},           
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+			]
+		}			   
+   ]    
+}

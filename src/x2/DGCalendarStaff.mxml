@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:DataGrid 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	xmlns:ns1="x2.*"
+	color="#000000"
+	alternatingItemColors="[#E6E9EB, #FFFFFF]"
+	alpha="0.7" rollOverColor="#C6D1D7"		
+	selectionColor="#FFCECF"
+	rowHeight="50"
+	selectable="false"
+	sortableColumns="false"
+	headerStyleName="myCalHeaderStyles"
+	styleName="myStyle"	
+	creationComplete="init()"
+	preinitialize="preInit()"
+	buttonMode="true"
+	>
+
+	<fx:Style>
+		.headerStyle{
+			text-align:center;
+		}		
+	</fx:Style>
+	
+	<!--doubleClick="outerDocument.cellDbClick(this)"-->
+    <fx:Component id="comCell">		
+		<mx:VBox height="100%" width="100%"
+ 			borderColor="#9ED1FE" 
+ 			horizontalScrollPolicy="off"
+ 			verticalScrollPolicy="off"
+ 			verticalAlign="top"
+ 			verticalGap="0"
+ 			doubleClickEnabled="true"
+			initialize="outerDocument.initCell(this)"			
+			click="outerDocument.cellClick(this)"
+			doubleClick="outerDocument.cellDbClick(this)"		
+			creationPolicy="all"			 
+ 			>			
+			<mx:HBox width="100%" backgroundColor="#D2D4FE">
+				<mx:HBox width="90%">										
+				</mx:HBox>
+				<mx:HBox width="10%" backgroundColor="#FFFFFF">
+					<mx:Label id="labDay" width="100%" textAlign="right" fontWeight="bold" fontSize="12" textDecoration="underline" useHandCursor="true" mouseChildren="false" buttonMode="true"/>
+				</mx:HBox>				
+			</mx:HBox>			
+			<mx:List width="100%" height="100%" id="labText" styleName="ListItem" showDataTips="true"></mx:List>
+		</mx:VBox>		
+    </fx:Component>                 
+	
+	<mx:columns>
+		<mx:DataGridColumn headerText="{Fun.R.day0}" dataField="day0" itemRenderer="{comCell}" color="red" fontWeight="bold"/>
+		<mx:DataGridColumn headerText="{Fun.R.day1}" dataField="day1" itemRenderer="{comCell}" fontWeight="bold"/>
+		<mx:DataGridColumn headerText="{Fun.R.day2}" dataField="day2" itemRenderer="{comCell}" fontWeight="bold"/>
+		<mx:DataGridColumn headerText="{Fun.R.day3}" dataField="day3" itemRenderer="{comCell}" fontWeight="bold"/>
+		<mx:DataGridColumn headerText="{Fun.R.day4}" dataField="day4" itemRenderer="{comCell}" fontWeight="bold"/>
+		<mx:DataGridColumn headerText="{Fun.R.day5}" dataField="day5" itemRenderer="{comCell}" fontWeight="bold"/>
+		<mx:DataGridColumn headerText="{Fun.R.day6}" dataField="day6" itemRenderer="{comCell}" color="green" fontWeight="bold"/>
+	</mx:columns>	
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.controls.Label;
+
+			public var bTW:Boolean = true;			//true(中文), false(英文)
+			public var fEditCell:Function 			//function for open edit window			
+			
+			private var ia_cell:Array = [];			//0-41
+			private var in_ary:int = 0;				//serail no for initCell
+			private var in_year:int;				//current year
+			private var in_month:int;				//current month (0-11)
+			private var in_day:int;					//current day (1-31)
+			private var in_cell:int=-1;				//current cell ary no
+			//private var i_date:Date = new Date();	//current date
+			private var in_day1Ary:int;				//array position of day1
+			private var in_day9Ary:int;				//array position of last day 
+			
+			
+			[Bindable]
+			private var ia_data:Array = [];			
+			
+			private function preInit():void{
+				//flex4.0 必須在  preinitialize event 設定 dataProvider, (not creationComplete event !!)
+				this.dataProvider = ia_data;	//無法直接設定這個屬性, 所以在這裡執行 !!			
+			}
+			
+			//initialize	
+			private function init():void{
+				
+				//set row height
+				var tn_minR:int = this.rowHeight;
+				var tn_minH:int = tn_minR * 6 + this.headerHeight;
+				if (this.height < tn_minH){
+					this.height = tn_minH;
+				}
+				this.rowHeight = int((this.height - this.headerHeight)/6) - 1;
+				this.verticalScrollPolicy = "off";
+				
+				//add 6 empty rows
+				for (var i:int=0;i<6;i++){
+					ia_data[i] = {};
+				}
+
+				this.updateList();
+			}			
+		
+			//clear all cells
+			public function clear():void{
+				for (var i:int=0;i<ia_cell.length;i++){
+					ia_cell[i].labText.dataProvider = new ArrayCollection([]);
+				}
+			}
+		
+			//initialize, called by dataGrid cell(comCell) createComplete event, so public !!	
+			public function initCell(p_cell:Object):void{
+				var ts_field:String = p_cell.styleName.dataField;
+				var tn_col:int = int(ts_field.substr(3,1));
+				
+				//set day no color
+				switch (tn_col){
+					case 0:
+						p_cell.labDay.setStyle("color","red");
+						break;
+					case 6:
+						p_cell.labDay.setStyle("color","green");
+						break;					
+				}				
+
+				ia_cell[in_ary] = p_cell;
+				ia_cell[in_ary].label = in_ary;		//keep ary no into label field !!
+				in_ary++;
+			}		
+		
+			//show one day, will updata year and month of calendar
+			public function showDate(p_date:Date):void{		
+				//clear first
+				clear();
+
+				in_year = p_date.fullYear;
+				in_month = p_date.month;
+				in_day = p_date.date;
+				in_day1Ary = (in_day == 1) ? p_date.getDay() : (new Date(in_year, in_month, 1).day);
+				in_day9Ary = in_day1Ary + DT.monthDays(p_date) - 1;
+
+				var j:int=1;		
+				for (var i:int=in_day1Ary;i<=in_day9Ary;i++){
+					ia_cell[i].labDay.text = j;
+					j++;
+				}
+				
+				
+				//clear other day
+				for (i=0;i<in_day1Ary;i++){
+					ia_cell[i].labDay.text = "";				
+				} 
+				
+				for (i=in_day9Ary+1;i<42;i++){
+					if (ia_cell.length <= i){
+						ia_cell[i] = {};
+						ia_cell[i].labDay = {};
+						ia_cell[i].labText = {};
+					}
+					
+					ia_cell[i].labDay.text = "";				
+				}
+				
+				
+				//focus cell
+				focusCellByDay(p_date.date); 
+			}
+			
+			
+			//move month front or back
+			public function moveMonth(pn_move:int):void{
+				if (pn_move != 1 && pn_move != -1){
+					return;
+				}
+				
+				var tn_year:int = in_year;
+				var tn_month:int = in_month + pn_move;	//0-11
+				if (tn_month > 11){
+					tn_month = 0;
+					tn_year++;
+				}else if(tn_month < 0){
+					tn_month = 11;
+					tn_year--;
+				}
+				var t_date:Date = new Date(tn_year, tn_month, 1); 
+				showDate(t_date); 
+			}
+			
+			//called when user click one cell	
+			public function cellClick(p_cell:Object):void{
+				focusCellByNo(int(p_cell.label));
+			}
+			
+			public function cellDbClick(p_cell:Object):void{
+				//check location first
+				var tn_cell:int = int(p_cell.label);
+				if (tn_cell < in_day1Ary || tn_cell > in_day9Ary){
+					return;
+				}else if (fEditCell != null){
+					fEditCell({cellNo: in_cell});
+				}	
+			}	
+			
+			public function dayToNo(pn_day:int):int{
+				return in_day1Ary + pn_day - 1;
+			}
+			
+			//pn_day begins with 1
+			public function focusCellByDay(pn_day:int):void{
+				var tn_no:int = dayToNo(pn_day);
+				focusCellByNo(tn_no);
+			}
+			
+			//focus cell by cell no.
+			public function focusCellByNo(pn_cell:int):void{
+				//check location first
+				if (pn_cell < in_day1Ary || pn_cell > in_day9Ary || pn_cell == in_cell){
+					return;
+				}
+				
+				if (in_cell >= 0){
+					ia_cell[in_cell].setStyle("borderStyle", "none"); 				
+				}
+ 
+				ia_cell[pn_cell].setStyle("borderStyle", "solid"); 
+				in_cell = pn_cell;
+				in_day = pn_cell - in_day1Ary + 1;
+			}
+
+			//return current cell no
+			public function getCellNo():int{
+				return in_cell;
+			}			
+			
+			public function getCellByNo(pn_cell:int=-1):Object{
+				if (pn_cell == -1){
+					pn_cell = in_cell;
+				}
+				return ia_cell[pn_cell];
+			}
+			
+			public function getCellByDay(pn_day:int):Object{
+				var tn_no:int = dayToNo(pn_day);
+				return getCellByNo(tn_no);
+			}
+			
+			//get current focus date.
+			public function getDate():Date{
+				return new Date(in_year, in_month, in_day);
+			}
+			
+		]]>
+	</fx:Script>
+</mx:DataGrid>

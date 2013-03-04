@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ComEdit 
+	xmlns="x2.*" 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	width="156" height="32"
+	horizontalScrollPolicy="off" verticalScrollPolicy="off"
+	>
+	
+	<!--
+    <fx:Metadata>
+        [ResourceBundle("Setting")]
+    </fx:Metadata>
+	-->
+	
+	<fx:Script>
+		<![CDATA[
+		//initialize="initial()"
+		import mx.controls.Button;
+		import x2.*;
+
+			
+		//icon		
+		[Embed(source='image/toLeft.gif')]
+		private var i_left:Class;
+		[Embed(source='image/toLeft0.gif')]
+		private var i_left0:Class;
+		    
+		[Embed(source='image/toRight.gif')]
+		private var i_right:Class;
+		[Embed(source='image/toRight0.gif')]
+		private var i_right0:Class;
+		
+
+		/**
+		 * 使用者執行 "下一步" 之前執行的函數.(para int:old page/return boolean)
+		 */ 
+		public var fWhenMovePage:Function;
+
+
+
+		private var in_pages:int;	//page account
+		private var i_prev:Button;// = cmd_save;	
+		private var i_next:Button;// = cmdExit;	
+		
+		//for localization
+		//private var in_page:int;	//current active page	
+		//private var ic_save:String;	
+		//private var ic_next:String;	
+		//private var ic_sureExit:String;	
+		//private var ic_reSave:String;	
+		//private var ic_complete:String;	
+		
+		/*
+		//adjust object
+		private function initial():void{
+			cmdSave2.visible = false;			
+			cmdSave.setStyle("icon", i_left);
+			cmdSave.setStyle("disabledIcon", i_left0);			
+			cmdExit.setStyle("icon", i_right);
+			cmdExit.setStyle("disabledIcon", i_right0);
+			
+			txt_msg.visible = false;
+			if (this.width < 165) {
+				this.width = 165;
+			}
+		}
+		*/
+		
+		
+		/**
+		 * override.
+		 */ 
+		override public function init(p_data:Object, pf_afterInit:Function=null):void{
+			//check first 
+			if (xTab == null){
+				Fun.msg("E","xTab can not be null !");
+				//return false;
+				return;
+			}
+			
+			//set instance variables and ststus
+			in_pages = xTab.numChildren;
+			i_prev = cmdSave;	
+			i_next = cmdExit;	
+			i_prev.enabled = false;
+			i_next.enabled = false;
+						
+			//init, async call !!
+			super.init(p_data, afterInit);
+			
+			/*
+			//set title for titleWindow
+ 			if (ib_parentWin){
+	 			i_parent.title = ((sTitle != "") ? sTitle : p_data.title) + "--["+is_funName+"]";
+ 			}
+			*/
+		}
+		
+		
+		private function afterInit(p_data:Object):void{
+			/*
+			if (!tb_ok){
+				//return false;
+				return;
+			}	
+			*/
+						
+			//set title for titleWindow
+			if (ib_parentWin){
+				//i_parent.title = ((sTitle != "") ? sTitle : p_data.title) + "--["+is_funName+"]";
+				i_parent.title = "☆" + ((sTitle != "") ? sTitle : p_data.title) + "  》" + is_funName + "";
+			}
+			
+			//add event listener for parent window close event
+ 			if (ib_parentWin){
+				i_parent.addEventListener(Event.CLOSE, closeClick);
+			}
+			
+			//set object
+			//cmdSave2.visible = false;		//here!!
+			cmdSave.setStyle("icon", i_left);
+			cmdSave.setStyle("disabledIcon", i_left0);			
+			cmdExit.setStyle("icon", i_right);
+			cmdExit.setStyle("disabledIcon", i_right0);
+			
+			menu.visible = false;
+			txt_msg.visible = false;
+			if (this.width < 165) {
+				this.width = 165;
+			}
+
+			
+			/*
+ 			//title
+ 			if (is_fun == "C"){
+ 				is_funName = "新增";
+ 			}else if (is_fun == "U"){
+ 				is_funName = "修改";
+ 			}else{
+ 				is_funName = "檢視"; 				
+ 			}
+ 			i_parent.title = ((sTitle != "") ? sTitle : p_data.title) + "--["+is_funName+"]";
+			*/
+			
+			//case of view record
+			if (is_fun == "V"){
+				setPages(true);
+				//return true;				
+				return;
+			}				
+			
+			setPages(false);
+			viewPage(0);			
+			i_next.enabled = true;
+			
+			//set language
+			changeLanguage();
+
+ 			
+			//return true;
+		}
+			
+			
+		/**
+		 * override: change language
+		 */ 
+		override public function changeLanguage():void{
+			i_prev.label = Fun.R.previous;
+			i_next.label = Fun.R.next;
+			//
+			i_prev.toolTip = Fun.R.tipPre;
+			i_next.toolTip = Fun.R.tipNext;
+			//
+			//ic_sureExit = Fun.resStr("sureExit");
+			//ic_reSave = Fun.resStr("reSave");
+			//ic_complete = Fun.resStr("complete");
+			
+			is_funName = Fun.getFunName(is_fun);
+			/*
+ 			if (is_fun == "C"){
+ 				is_funName = Fun.resStr("create");
+ 			}else if (is_fun == "U"){
+ 				is_funName = Fun.resStr("update");
+ 			}else{
+ 				is_funName = Fun.resStr("view");				
+ 			}
+ 			*/
+ 			
+			/*
+			ic_save = Fun.resStr("save");
+			ic_next = Fun.resStr("next");
+			ic_sureExit = Fun.resStr("sureExit");
+			ic_reSave = Fun.resStr("reSave");
+			ic_complete = Fun.resStr("complete");
+
+			i_prev.label = Fun.resStr("previous");
+			i_prev.toolTip = Fun.resStr("tipPre");
+			*/
+						
+			//set next button
+			setCmdNext();
+		}
+
+		
+		//set next button property	
+		private function setCmdNext():void {
+			if (xTab.selectedIndex < in_pages - 1){
+				i_next.label = Fun.R.next;
+				i_next.toolTip = Fun.R.tipNext;			
+			}else{
+				i_next.label = Fun.R.complete;
+				i_next.toolTip = Fun.R.tipSave;							
+			}						
+		}	
+		
+		
+		/**
+		 * use prevClick() instead !!
+		 */ 	
+		override public function saveClick(p_event:Event=null):void{
+			prevClick();
+		}
+
+
+		/**
+		 * 執行 "上一步"
+		 */ 
+		public function prevClick():void{
+			movePage(-1);
+		}
+
+		
+		/**
+		 * use nextClick() instead !!
+		 */
+		override public function exitClick(p_event:Event=null):void{
+			nextClick();
+		}
+		
+				
+		/**
+		 * 執行 "下一步"
+		 */ 
+		public function nextClick():void{
+			//check fields
+			var tn_page:int = xTab.selectedIndex;
+			for (var i:int=0;i<in_dws;i++){
+				var ts_error:String = (aoDW[i] as DW).checkRows(true, tn_page);
+				if (ts_error != ""){
+					Fun.msg("E", ts_error);
+					return;
+				}
+			}
+			
+			//gfWhenMovePage
+			if (fWhenMovePage != null){
+				if (!fWhenMovePage(tn_page)){
+					return;
+				}
+			}
+			
+			//if last page, save data !
+			if (tn_page+1 == in_pages){
+				OkClick();
+			}else{
+				movePage(1);				
+			}
+		}
+		
+		
+		/**
+		 * override: called when user close window.
+		 */ 
+		protected function closeClick(p_event:Event=null):void{
+		//override protected function closeClick(p_event:Event=null):void{
+			//if user changed data, confirm saving.
+			var tb_change:Boolean = false;
+			if (is_fun != "V"){
+				for (var i:int=0;i<in_dws;i++){
+					if ((aoDW[i] as DW).isChanged()){
+						tb_change = true;
+						break;
+					}				
+				}
+			}
+			
+			if (tb_change){
+				Fun.ans(Fun.R.sureExit, 2, closeClick2);
+			}else{
+				closeClick2();
+			}
+			
+		}
+		
+		
+		//close window, comEdit has closeWin() !!
+		private function closeClick2(p_event:Event=null):void{
+ 			if (!ib_parentWin){
+ 				return;
+ 			}
+ 			
+			if (fAfterClose != null){
+				fAfterClose({fun:is_fun});
+			}
+			
+			//close window
+			Fun.closePopup(i_parent);			
+		}
+		
+		
+		private function OkClick():void{
+			
+			//case of get serverDT
+			var ts_now:String = "";
+			if (ib_serverDT){
+		 		ts_now = Fun.serverDT(sApp, "DT");
+		 		if (ts_now == ""){
+		 			Fun.msg("I", Fun.R.reSave);
+		 			return;
+		 		}
+			}
+						
+			/*			
+			if (fWhenSave != null){
+				var tb_ok:Boolean = fWhenSave({fun:is_fun});
+				if (!tb_ok){
+					return;
+				}				
+			}			
+			*/
+															
+			saveData(ts_now);
+			return;
+		}
+		
+		
+		//set all pages status 
+		private function setPages(pb_status:Boolean):void{
+			for (var i:int=0;i<in_pages;i++){
+				(xTab.getChildAt(i) as Object).enabled = pb_status;
+			}
+		}
+
+			
+		//enable one page to true 
+		private function viewPage(pn_page:int):void{
+			/*
+			if (in_page >= 0){
+				(oTab.getChildAt(in_page) as Object).enabled = false;				
+			}
+			*/
+			var tn_page:int = xTab.selectedIndex;
+			(xTab.getChildAt(tn_page) as Object).enabled = false;				
+			(xTab.getChildAt(pn_page) as Object).enabled = true;				
+			
+			//in_page = pn_page;
+			//var t_page:Object = oTab.getChildAt(pn_page); 
+			//t_page.enabled = true;
+			
+			//set button status
+			i_prev.enabled = (pn_page > 0);
+			xTab.selectedIndex = pn_page;
+			
+			setCmdNext();
+			//oTab.selectedIndex = pn_page;
+			//var tn_last:int = in_pages - 1;
+			//i_next.label = (pn_page == tn_last) ? ic_complete : ic_next;
+		}
+
+
+		private function movePage(pn_way:int):void{
+			var tn_page:int = xTab.selectedIndex + pn_way;
+			if (tn_page >= 0 && tn_page < in_pages){
+				viewPage(tn_page);				
+			}						
+		}
+					
+		]]>
+	</fx:Script>
+</ComEdit>

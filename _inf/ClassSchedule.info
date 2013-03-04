@@ -1,0 +1,20 @@
+{
+    "list":{
+        "select": "SELECT a.*, CONCAT(a.academicYear, ' - ', a.semester) AS acaName, 
+                    CONCAT(c.theClassCode, ' ', c.theClassName, ' ', b.classLeavesCode, ' ', b.classLeavesName) AS classInfo",
+        "from": "FROM ClassSchedule a INNER JOIN
+                ClassLeaves b ON a.classLeavesSn = b.sn INNER JOIN
+                ClassInfo c ON b.classInfoSn = c.sn
+                [_where]",
+        "order": "ORDER BY a.sn",
+        "items": [
+            {"fid":"academicYear",      "table":"a"},
+            {"fid":"semester",          "table":"a"},
+            {"fid":"classInfoSn",       "table":"b"},
+            {"fid":"classLeavesSn",     "table":"a"}
+      ]
+    },    
+    "progRange": 1,
+    "aFOwner": "a.creator",
+    "aFOwnerType": "L"
+}

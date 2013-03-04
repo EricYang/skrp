@@ -1,0 +1,16 @@
+{
+   "list":{
+        "select": "SELECT c.*, a.classLeavesSn",
+        "from": "FROM StartClass a INNER JOIN
+                StudentStatus b ON a.sn = b.startClassSn INNER JOIN
+                Student c ON b.studentSn = c.sn
+                WHERE (a.academicYear = [ss:academicYear]) AND (a.semester = [ss:semester]) 
+                AND (a.classLeavesSn = [classLeavesSn])
+                AND c.enrollFlag = 1 AND c.deleFlag = 0",
+        "order": "ORDER BY c.stuNo",
+        "defaultTable": "c",
+		"items": [					            
+			{"fid":"classLeavesSn", "isCond":0}
+		]
+   }
+}

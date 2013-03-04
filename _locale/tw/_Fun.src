@@ -1,0 +1,130 @@
+﻿# button/field label
+create=新增
+read=查詢
+update=修改
+delete2=刪除
+view=檢視
+report=報表
+print=列印
+export=匯出
+help=說明
+refresh=更新
+clear=清除
+previous=上一步
+next=下一步
+complete=完成
+save=儲存
+save2=儲存後繼續新增資料
+exit=離開
+ok=確定
+cancel=取消
+close=關閉
+updCombo=更新 ComboBox 欄位內容
+addRow=新增一列
+deleteRow=刪除一列
+getFile=檔案
+openFile=開啟
+toMain=回主畫面
+toPre=離開
+toUp=上移
+toDown=下移
+toLeft=左移
+toRight=右移
+select=選取
+information=訊息
+error=錯誤
+question=問題
+yes=是
+btnPdfLabel=匯出
+btnPdfTip=匯出PDF
+
+# public fields
+dataList=資料清單
+creator=建檔人員
+created=建檔日期
+reviser=修改人員
+revised=修改日期
+
+
+# button/image tip
+tipCreate=新增加一筆空白的資料
+tipRead=開啟查詢畫面
+tipUpdate=修改目前這筆資料
+tipDelete=刪除目前這筆資料
+tipView=以唯讀的方式開啟目前這筆資料
+tipReport=Report
+tipPrint=輸出目前這筆資料的報表
+tipExport=匯出資料到 Excel 檔案
+tipHelp=開啟線上說明文件
+tipSave=儲存資料, 並且關閉畫面
+tipSave2=儲存資料, 但是不關閉畫面
+tipOk=執行這個作業
+tipCancel=取消作業, 離開這個畫面
+tipExit=關閉這個畫面
+tipPre=回到上一個步驟
+tipNext=到下一個步驟
+tipImageRead=開啟查詢畫面
+tipImageCreate=新增加這個欄位的資料
+tipNewRow=這是一筆新資料
+tipUpdated=此筆資料已被修改
+tipAddRow=新增加一列空白的資料。
+tipDeleteRow=從畫面上移除目前這一列資料。
+tipRunRead=開始查詢資料
+tipClear=清除畫面上的查詢條件
+tipDeleteFile=刪除檔案
+tipGetFile=選取要上傳的檔案
+tipViewFile=開啟或播放檔案
+tipPlaySound=播放聲音
+tipToMain=關閉目前畫面, 回到主畫面
+tipToPre=關閉目前畫面, 回到上一個畫面
+tipToUp=將目前資料向上移動一個位置
+tipToDown=將目前資料向下移動一個位置
+tipToLeft=將目前資料向左移動一個位置
+tipToRight=將目前資料向右移動一個位置
+
+
+# message
+sureExit=是否確定離開這個畫面 ?
+sureDelete=是否確定刪除這筆資料 ?
+sureDeleteRow=是否確定從畫面上移除這筆資料? (系統將在儲存後刪除此資料) 
+sureDo=是否確定執行這個作業 ?
+reSave=請重新儲存資料。
+jobOk=資料{0}完成。
+noQuote=不可包含引號
+inputWrong=輸入錯誤 !
+between=輸入錯誤, 必須介於2數之間 !
+notEmpty=不可空白 !
+sysError=程式發生錯誤, 請連絡管理者 !
+noChange=無任何資料異動 。
+selectRow=請先選取一筆資料。
+selectDelete=請選取要刪除的資料 !
+selectUpRow=請先選取上一層資料 !
+noRight=權限不足, 無法{0}此筆資料 !
+qItemsEmpty=輸入條件不可全部空白 !
+findRow=找到 {0} 筆資料。
+noRow=此條件下無任何資料 !
+notUpload=檔案尚未上傳到主機, 無法開啟 !
+done=作業完成。
+uploading=檔案上傳中, 請稍候...
+fileOverSize=檔案大小不可大於 {0} MB !
+fileTypeWrong=檔案類型不正確。
+notExist=檔案不存在。
+dateWrong=日期格式輸入錯誤! (yyyy/mm/dd)
+saveOk=資料儲存完成。
+noLoginRow=您的登入記錄已經遺失, 請重新登入。
+
+
+# relogin window
+title=重新登入系統
+userId=使用者帳號
+plsRelogin=由於電腦閒置過久，請重新輸入使用者帳號 !
+userIdWrong=使用者帳號輸入錯誤 !
+
+# calendar
+day0=週日 Sun.
+day1=週一 Mon.
+day2=週二 Tues.
+day3=週三 Wed.
+day4=週四 Thur.
+day5=週五 Fri.
+day6=週六 Sat.

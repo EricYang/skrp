@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 paddingTop="5"
+		 paddingBottom="5"
+		 paddingRight="5"
+		 paddingLeft="5"
+		 backgroundColor="#FFFFFF"
+		 backgroundAlpha="0.7" borderStyle="solid"  borderColor="{_colorText}">
+	<mx:Label text="{_valueText}" width="100%"  fontSize="13" fontWeight="bold"/>
+	<fx:Declarations>
+		
+	</fx:Declarations>
+	<mx:Label text="{_labelText}" width="100%"  fontWeight="normal"  />
+	<fx:Script>
+		<![CDATA[
+			import flashx.textLayout.container.ColumnState;
+			
+			import mx.charts.ColumnChart;
+			import mx.charts.HitData;
+			import mx.charts.series.PieSeries;
+			import mx.charts.series.items.PieSeriesItem;
+			
+			[Bindable]
+			private var _labelText:String;			
+			[Bindable]
+			private var _valueText:String;
+			[Bindable]			
+			private var _colorText:uint;
+			
+			override public function set data(value:Object):void{
+				var hd:HitData = value as HitData;
+				
+				var item:PieSeriesItem = hd.chartItem as PieSeriesItem;								
+				
+				_colorText = hd.contextColor;
+				_labelText = String(item.item.label);
+				_valueText = String(item.item.data);
+			}
+		]]>
+	</fx:Script>
+	
+</mx:VBox>

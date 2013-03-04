@@ -1,0 +1,16 @@
+{
+    "list":{
+        "select": "SELECT *",
+        "from":   "FROM SelfEvaluate 
+                    WHERE deleFlag = 0 
+                    [_where]",
+        "order":  "ORDER BY selfEvaluateItem, sn",
+        "items": [
+            {"fid":"selfEvaluateItem"},
+            {"fid":"itemName",  "op":"like"}
+      ]
+    },    
+    "progRange": 1,
+    "aFOwner": "creator",
+    "aFOwnerType": "L"
+}

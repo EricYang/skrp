@@ -1,0 +1,11 @@
+{
+    "list":{
+		"select": "select *",
+		"from": "from Program [_where]",
+		"order": "order by sn",
+		"items": [
+            {"fid":"sysCode",        "op":"like"},
+            {"fid":"sysName",        "op":"like"}
+      ]
+    }
+}

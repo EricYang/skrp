@@ -1,0 +1,17 @@
+﻿# list/query fields
+academicYear=会计年度
+accMainCode=会计总目编号
+accMainName=会计总目名称
+accMainType=收入/支出别
+accTitleCode=会计科目编号
+accTitleName=会计科目名称
+accTitleType=注册/月费别
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# E
+
+
+# Q

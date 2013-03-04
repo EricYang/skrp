@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:DataGrid 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	headerStyleName="headerStyle"
+	rowHeight="45"
+	fontSize="12"
+	dataProvider="{ia_data}"
+	creationComplete="init()"
+	selectable="false"
+	 width="618" height="330" sortableColumns="false" verticalAlign="middle">
+
+	<fx:Style>
+		.headerStyle{
+			text-align:center;
+		}		
+	</fx:Style>
+	
+    <mx:Component id="comCell">
+		<mx:VBox height="100%" width="100%" creationPolicy="all" 
+ 			borderColor="green" 
+ 			borderThickness="2"
+ 			horizontalScrollPolicy="off"
+ 			verticalScrollPolicy="off"
+ 			verticalAlign="top"
+ 			verticalGap="0"
+ 			doubleClickEnabled="true"
+			initialize="outerDocument.initCell(this)"
+ 			click="outerDocument.cellClick(this)"
+ 			doubleClick="outerDocument.cellDbClick(this)"
+ 			>
+ 			
+			<fx:Script>
+				<![CDATA[
+				public var gData:Object = {}; 
+				]]>
+			</fx:Script>
+ 			
+			<mx:Label id="fHeader" width="100%"/>
+			<mx:Label id="fText" width="100%"/>
+		</mx:VBox>
+    </mx:Component>                 
+	
+	<mx:columns>
+		<mx:DataGridColumn dataField="leftLabel" headerText="" textAlign="center" width="65"/>
+		<mx:DataGridColumn dataField="day0" itemRenderer="{comCell}" color="red"/>
+		<mx:DataGridColumn dataField="day1" itemRenderer="{comCell}"/>
+		<mx:DataGridColumn dataField="day2" itemRenderer="{comCell}"/>
+		<mx:DataGridColumn dataField="day3" itemRenderer="{comCell}"/>
+		<mx:DataGridColumn dataField="day4" itemRenderer="{comCell}"/>
+		<mx:DataGridColumn dataField="day5" itemRenderer="{comCell}"/>
+		<mx:DataGridColumn dataField="day6" itemRenderer="{comCell}" color="green"/>
+	</mx:columns>	
+	
+	<fx:Script>
+		<![CDATA[
+		import mx.controls.Label;
+		
+		
+		public var gbChinese:Boolean = true;	//default language
+		//public var gbScroll:Boolean = false;	//scrollable or not
+		public var gfEditCell:Function 			//function for open edit window
+		
+		
+		public var gnStartHour:int = 8;
+		public var gnEndHour:int = 18;
+		//public var gsDate:String = Fun.dateToStr(Fun.today);
+		public var gsDateField:String = "tableDate";
+		public var gsHourField:String = "startHour";
+		
+
+		private var id_date0:Date;
+		private var ia_cell:Array = [];			//7 * rows
+		private var in_ary:int = 0;				//serail no for initCell
+		//private var in_year:int;				//current year
+		//private var in_month:int;				//current month (0-11)
+		//private var in_day:int;					//current day (1-31)
+		private var in_cell:int=-1;				//current cell ary no, initial to -1
+		//private var i_date:Date = new Date();	//current date
+		//private var in_day1Ary:int;				//array position of day1
+		//private var in_day9Ary:int;				//array position of last day 
+		
+		private var ias_week:Array = ["(日)","(一)","(二)","(三)","(四)","(五)","(六)"];
+		
+		[Bindable]
+		private var ia_data:Array = [];
+			
+			
+		//initialize	
+		private function init():void{
+			//set instance
+			//id_date = Fun.strToDate(gsDate);
+			
+			var tn_rows:int = gnEndHour - gnStartHour;
+			
+			//set row height
+			var tn_minR:int = this.rowHeight;
+			var tn_minH:int = tn_minR * (tn_rows) + this.headerHeight;
+			if (this.height < tn_minH){
+				this.height = tn_minH;
+			}
+			this.rowHeight = int((this.height - this.headerHeight)/tn_rows) - 1;
+			this.verticalScrollPolicy = "off";
+			
+			//add empty rows
+			for (var i:int=0;i<tn_rows;i++){
+				//ia_data[i] = {day0:"1",day1:"1",day2:"1",day3:"1",day4:"1",day5:"1",day6:"1"};
+				ia_data[i] = {
+					leftLabel: (gnStartHour + i) + " ~ " + (gnStartHour + i + 1) 
+				};
+			}
+			
+			//refresh grid (will initial cell !!)
+			this.updateList();			
+		}
+			
+		
+		//clear all cells
+		public function clear():void{
+			for (var i:int=0;i<ia_cell.length;i++){
+				ia_cell[i].gData = {};
+				ia_cell[i].fHeader.text = "";
+				ia_cell[i].fText.text = "";
+			}
+		}
+		
+		
+		//initialize, called by dataGrid cell createComplete event, so public !!	
+		public function initCell(p_cell:Object):void{
+			//var t_col:Object = p_cell.styleName;
+			//var ts_field:String = t_col.dataField;
+			
+			/*
+			var ts_field:String = p_cell.styleName.dataField;
+			var tn_col:int = int(ts_field.substr(3,1));
+			
+			//set day no color
+			switch (tn_col){
+				case 0:
+					p_cell.labDay.setStyle("color","red");
+					break;
+				case 6:
+					p_cell.labDay.setStyle("color","green");
+					break;					
+			}
+			*/
+			
+			//set ia_cell[]
+			/*
+			var tn_row:int;
+			if (ia_cell[tn_col] == null){
+				ia_cell[tn_col] = [];
+				tn_row = 0;
+			}else{
+				tn_row = (ia_cell[tn_col] as Array).length;
+			}
+			
+			ia_cell[tn_col][tn_row] = p_cell;
+			*/
+			//trace(in_ary);
+			ia_cell[in_ary] = p_cell;
+			ia_cell[in_ary].label = in_ary;		//keep ary no into label field !!
+			//p_cell.gnCell = in_ary;
+			in_ary++;
+		}	
+		
+		
+		//show one day, will updata year and month of calendar
+		public function updateHeader(p_date:Date):void{		
+			//clear first
+			//clear();
+			
+			id_date0 = Fun.addDate(p_date, (-1)*p_date.getDay());
+			var t_date:Date;
+			for (var i:int=0;i<7;i++){
+				t_date = Fun.addDate(id_date0, i);
+				this.columns[i+1].headerText = (t_date.month+1)+"/"+t_date.date+ias_week[i]; 
+			}
+			
+			//set instance
+			//id_date = p_date;
+						
+			//focus cell
+			//focusCellByDay(p_date.date); 
+		}
+		
+
+		//move month front or back
+		public function moveNext(pb_next:Boolean):void{
+			var tn_way:int = (pb_next) ? 1 : -1;
+			var t_date:Date = Fun.addDate(id_date0, tn_way * 7); 
+			updateHeader(t_date); 
+		}
+		
+			
+		/*
+		public function getYear():int{
+			return in_year;
+		}
+		public function getMonth():int{
+			return in_month;
+		}
+		*/
+			
+			
+		//called when user click one cell	
+		public function cellClick(p_cell:Object):void{
+			//var tt:String = "test";
+			focusCellByNo(int(p_cell.label));
+		}
+			
+		public function cellDbClick(p_cell:Object):void{
+			//check location first
+			var tn_cell:int = int(p_cell.label);
+			/*
+			if (tn_cell < in_day1Ary || tn_cell > in_day9Ary){
+				return;
+			}else
+			*/ 
+			if (gfEditCell != null){
+				gfEditCell(null);
+			}	
+		}	
+		
+		/*
+		//pn_day begins with 1
+		public function focusCellByDay(pn_day:int):void{
+			var tn_no:int = dayToNo(pn_day);
+			focusCellByNo(tn_no);
+		}
+		*/
+		
+		//focus cell by cell no.
+		public function focusCellByNo(pn_cell:int):void{
+			/*
+			//check location first
+			if (pn_cell < in_day1Ary || pn_cell > in_day9Ary || pn_cell == in_cell){
+				return;
+			}
+			*/
+			
+			if (in_cell >= 0){
+ 				ia_cell[in_cell].setStyle("borderStyle", "none"); 				
+			}
+			
+			//var tn_cell:int = pn_row * 7 + pn_col; 
+ 			ia_cell[pn_cell].setStyle("borderStyle", "solid"); 
+ 			in_cell = pn_cell;
+ 			//in_day = pn_cell - in_day1Ary + 1;
+		}
+			
+		/*	
+		public function setCellText(ps_text:String, pn_cell:int=-1):void{
+			if (pn_cell == -1){
+				pn_cell = in_cell;
+			}
+			ia_cell[pn_cell].labText.text = ps_text;
+		}
+		*/
+		
+		//return current cell no
+		public function cellNo():int{
+			return in_cell;
+		}
+		
+		
+		//return cell object by row data
+		public function cellByRow(p_row:Object):Object{
+			var tn_cell:int = (p_row[gsHourField] - gnStartHour) * 7 + Fun.strToDate(p_row[gsDateField]).day;
+			return cellByNo(tn_cell); 
+		}
+		
+			
+		public function cellByNo(pn_cell:int = -1):Object{
+			if (pn_cell == -1){
+				pn_cell = in_cell;
+			}
+			
+			if (pn_cell < 0){
+				return null;
+			}
+			
+			//set tableDate and startHour if need
+			if (!ia_cell[pn_cell].gData.hasOwnProperty(gsDateField)){
+				//Math.
+				var tn_days:int = ((pn_cell + 1) % 7) - 1;
+				ia_cell[pn_cell].gData[gsDateField] = Fun.dateToStr(Fun.addDate(id_date0, tn_days));
+				ia_cell[pn_cell].gData[gsHourField] = gnStartHour + int(pn_cell/7);
+			}			
+			return ia_cell[pn_cell];
+		}
+		
+
+		/*
+		public function getCell(pn_cell:int = null):Object{
+			if (pn_cell == null){
+				pn_cell = in_cell;
+			}
+			return (pn_cell >= 0) ? ia_cell[pn_cell] : null ;
+		}
+		*/
+
+		//get date0.
+		public function getDate0():Date{
+			return id_date0;
+		}
+			
+		/*
+		public function cellByDay(pn_day:int):Object{
+			var tn_no:int = dayToNo(pn_day);
+			return cellByNo(tn_no);
+		}
+		*/
+		
+		/*
+		//return cell-text label object.
+		public function textObject(pn_cell:int=-1):Label{
+			if (pn_cell == -1){
+				pn_cell = in_cell;
+			}
+			return ia_cell[pn_cell].labText;
+		}
+
+		//return cell-day label object
+		public function dayObject(pn_cell:int=-1):Label{
+			if (pn_cell == -1){
+				pn_cell = in_cell;
+			}
+			return ia_cell[pn_cell].labDay;
+		}
+			
+		//get current focus cell no.	
+		public function cellNo():int{
+			return in_cell;
+		}
+			
+			
+		public function zz_fTest():void{
+			//row height
+			var tt:String = "test";
+			//showMonth(2008, 9);			
+		}
+		*/
+			
+		]]>
+	</fx:Script>
+</mx:DataGrid>

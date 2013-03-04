@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*" 
+	 
+	
+	 
+	width="100%" height="100%"
+	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('FilesList')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			public var ia_itemName:ArrayList = new ArrayList(Fun2.itemNameDS(is_app, 20, true));
+
+			private function init():void {
+				list_1.wQuery = new FilesListQ();							
+				list_1.gList = grid_1;
+				list_1.init();
+				
+				list_1.btnCreate.visible = false;				
+				list_1.btnUpdate.visible = false;
+				list_1.btnDelete.visible = false;
+				list_1.btnView.visible = false;
+				list_1.btnPrint.visible = false;
+				list_1.btnExport.visible = false;
+				
+				list_1.btnCreate.width = 0;
+				list_1.btnUpdate.width = 0;
+				list_1.btnDelete.width = 0;
+				list_1.btnView.width = 0;
+				list_1.btnPrint.width = 0;
+				list_1.btnExport.width = 0;				
+			}
+			private function itemName(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_itemName, p_row[p_column.dataField]);
+			}
+			public function openFiles(pn_fileName:String):void{
+				var t_row:Object = grid_1.selectedItem;
+				
+				switch (t_row.authFlag){
+					case "0":
+						Fun.msg("I", iR.message01);
+						break;
+					case "1":						
+						//下載紀錄
+						var m_data:Object = {
+							filesManaSn: int(t_row.sn)
+						};
+						var ts_result:String = Fun.sync(is_app, "FilesUsed", m_data, false) as String;
+						
+						switch (ts_result){
+							case "0":
+								Fun.msg("E", iR.message02);
+								break;
+							case "1":
+								Fun.openFile(Fun.sDirRoot + Fun2.fMana + pn_fileName);								
+								break;
+						}
+						
+						break;
+				}
+			}			
+		]]>
+	</fx:Script>
+	<x2:sysBG/>
+	<x2:subFunHead/>
+	
+	<x2:comList x="81" y="59" id="list_1">
+	</x2:comList>
+	<s:DataGrid id="grid_1" x="55" y="87" width="92%" height="80%" alpha="0.7">
+		<s:columns>
+			<s:ArrayList>
+				<s:GridColumn dataField="sn" visible="false"/>
+				<s:GridColumn dataField="authFlag" visible="false"/>
+				<s:GridColumn dataField="fileName" visible="false"/>
+				<s:GridColumn headerText="{iR.openFileDG}" width="100">
+					<s:itemRenderer>
+						<fx:Component><x2:irCenterVH>
+							<mx:Button label="Open" enabled="{data.authFlag=='1'}" icon="@Embed(source='x2/image/star.gif')" click="outerDocument.openFiles(data.fileName)" buttonMode="true" toolTip="{data.authFlagTip}"/>
+						</x2:irCenterVH></fx:Component>
+					</s:itemRenderer>        		         
+				</s:GridColumn>
+				<s:GridColumn headerText="{iR.funcItemSn}" dataField="funcItemSn" labelFunction="itemName" width="150"/>
+				<s:GridColumn headerText="{iR.filesAlias}" dataField="filesAlias" width="250"/>
+				<s:GridColumn headerText="{iR.description}" dataField="description"/>			
+				<s:GridColumn headerText="{iR.createDate}" dataField="createDate" width="145"/>			
+				<s:GridColumn headerText="{iR.reviseDate}" dataField="reviseDate" width="145"/>		
+			</s:ArrayList>
+		</s:columns>
+	</s:DataGrid>
+</s:Application>

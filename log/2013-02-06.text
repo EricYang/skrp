@@ -1,0 +1,14 @@
+; ::1; 16:40:43; _Service2(GetLang)
+; ::1; 16:43:08; _Service2(GetLang)
+; ::1; 16:47:18; _Service2(GetLang)
+; ::1; 16:47:57; _Service2(GetLang)
+; ::1; 16:48:21; _Service2(GetLang)
+; ::1; 17:16:24; _Service2(GetLang)
+; ::1; 17:16:37; _Service2(GetLang)
+Supervisor; ::1; 17:16:44; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; ::1; 17:16:44; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1360142204)
+Supervisor; ::1; 17:16:44; Login; Supervisor
+; ::1; 17:17:43; _Service2(GetLang)
+; ::1; 17:18:55; _Service2(GetLang)
+; ::1; 17:21:01; _Service2(GetLang)
+; ::1; 17:21:40; _Service2(GetLang)

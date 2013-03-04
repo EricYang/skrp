@@ -1,0 +1,10 @@
+﻿# list/query fields
+acaName=Year(Semester)
+deptName=Department
+mCount=Number of Staff
+
+# Q
+deptSn=Department
+
+# message
+message01=Total

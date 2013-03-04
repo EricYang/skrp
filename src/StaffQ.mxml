@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	width="450" height="204" xmlns:x2="x2.*" 
+	
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('Staff')}"
+ 	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			private var is_app:String = Fun.sApp;
+			
+			[Bindable]
+			public var ia_dept:ArrayList = new ArrayList(Fun2.deptDS(is_app, false));
+
+			private function init():void{
+				qry_1.aoItem = [
+					{source:empNo},
+					{source:cName},
+					{source:eName},
+					{source:deptSn}
+				];		
+			}			
+		]]>
+	</fx:Script>
+	<mx:Form x="6" y="9" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+		<mx:FormItem label="{iR.empNo} :">
+			<s:TextInput id="empNo"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.cName} :">
+			<s:TextInput id="cName"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.eName} :">
+			<s:TextInput id="eName"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.deptSn} :">
+			<x2:DDL1 id="deptSn" dataProvider="{ia_dept}"></x2:DDL1>
+		</mx:FormItem>
+	</mx:Form>
+	<x2:comQuery x="358" y="10" id="qry_1">
+	</x2:comQuery>
+</s:TitleWindow>

@@ -1,0 +1,15 @@
+{
+    "list":{
+		"select": "SELECT *",
+		"from": "FROM LearnActDesign [_where]",
+		"order": "ORDER BY actScope",
+		"items": [
+            {"fid":"actScope",        "op":"like"},
+            {"fid":"unitName",        "op":"like"},
+            {"fid":"suitAge",         "op":"like"}
+      ]
+    },    
+    "progRange": 1,
+    "aFOwner": "creator",
+    "aFOwnerType": "L"
+}

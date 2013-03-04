@@ -1,0 +1,20 @@
+﻿# list/query fields
+accTitleCodeTmp=會計科目編號
+accTitleNameTmp=會計科目名稱
+accTitleType=註冊/月費別
+accIocCodeTmp=支出項目編號
+accIocNameTmp=支出項目名稱
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# E
+accIocCode=支出項目編號
+accIocName=支出項目名稱
+
+# Q
+accTitleCode=會計科目編號
+accTitleName=會計科目名稱
+accIocCode=支出項目編號
+accIocName=支出項目名稱

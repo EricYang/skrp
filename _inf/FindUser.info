@@ -1,0 +1,11 @@
+{
+   "list":{
+        "select": "SELECT userType, sn, userNo, userName, gender",
+        "from": "FROM vw_users [_where]",
+        "order": "ORDER BY userType, userName",
+        "items": [
+            {"fid":"userType",  "op":"="},
+            {"fid":"userName",  "op":"like"}
+        ]
+   }
+}

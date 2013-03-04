@@ -1,0 +1,17 @@
+{
+    "list":{
+        "select": "SELECT a.sn, a.funcItemSn, a.filesAlias, a.description, a.fileName, a.createDate, a.reviseDate,
+                    CASE WHEN c.sn IS NOT NULL THEN 1 ELSE 0 END AS authFlag,
+                    CASE WHEN c.sn IS NOT NULL THEN '請點選開啟此檔案' ELSE '無權限開啟此檔案' END AS authFlagTip",
+        "from": "FROM FilesMana a INNER JOIN
+                FilesRole b ON a.sn = b.filesManaSn AND a.deleFlag = 0 LEFT OUTER JOIN
+                RoleUser c ON b.roleSn = c.roleSn AND (c.userType = [ss:userType]) AND (c.userSn = [ss:usersSn]) 
+                [_where]",
+        "order": "GROUP BY  a.sn
+                ORDER BY a.createDate, a.reviseDate",
+        "items": [
+            {"fid":"funcItemSn",       "table":"a"},
+            {"fid":"filesAlias",       "table":"a",   "op":"like"}    
+      ]
+    }
+}

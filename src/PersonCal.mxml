@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*" 
+	 
+	
+	 
+	width="100%" height="100%" 
+	preinitialize="{iR=Fun.getLang('PersonCal')}"
+ 	creationComplete="init()"
+ 	>
+	<fx:Script>
+		<![CDATA[		
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+
+			private function init():void {			
+				list_1.wQuery = new PersonCalQ();
+				list_1.wEdit = new PersonCalE();			
+				list_1.gList = grid_1;
+				list_1.init();			
+				
+				list_1.btnPrint.enabled = false;
+			}						
+
+		]]>
+	</fx:Script>
+	<x2:sysBG/>
+	<x2:subFunHead/>
+
+	<x2:comList x="81" y="59" id="list_1">
+	</x2:comList>
+	<s:DataGrid id="grid_1" x="55" y="87" width="92%" height="80%" alpha="0.7">
+		<s:columns>
+			<s:ArrayList>
+				<s:GridColumn dataField="sn" visible="false"/>
+				<s:GridColumn headerText="{iR.cDate}" dataField="cDate" width="85"/>
+				<s:GridColumn headerText="{iR.timeHM}" dataField="timeHM" width="70"/>
+				<s:GridColumn headerText="{iR.contents}" dataField="contents"/>			
+				<s:GridColumn headerText="{iR.createDate}" dataField="createDate" width="130"/>			
+				<s:GridColumn headerText="{iR.reviseDate}" dataField="reviseDate" width="130"/>
+			</s:ArrayList>
+		</s:columns>
+	</s:DataGrid>
+</s:Application>

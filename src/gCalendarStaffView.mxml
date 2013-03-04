@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*" 
+	preinitialize="{iR=Fun.getLang('gCalendar')}"
+	creationComplete="init()"
+	creationPolicy="all"
+	close="closeWin()"
+	width="800" height="650"
+	>
+
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.*;
+			import mx.collections.ArrayCollection;
+			import mx.collections.ArrayList;
+			import mx.controls.List;
+			
+			import x2.*;
+			private var id_now:Date;
+			private var is_fun:String;	
+			private var is_seq:String;
+				
+			[Bindalbe]
+			private var is_app:String = Fun.csMain;
+			[Bindable]
+			private var iR:Object;
+			
+			[Bindable]	
+			private var months_class:ArrayCollection = new ArrayCollection(
+				[					
+					{data:1, 	label:"1"},
+					{data:2, 	label:"2"},					
+					{data:3, 	label:"3"},				
+					{data:4, 	label:"4"},				
+					{data:5, 	label:"5"},
+					{data:6, 	label:"6"},
+					{data:7, 	label:"7"},
+					{data:8, 	label:"8"},
+					{data:9, 	label:"9"},
+					{data:10, 	label:"10"},
+					{data:11, 	label:"11"},
+					{data:12, 	label:"12"}
+				]);			
+			
+			public var StaffsnTemp:int;
+			public var cNameTemp:String, eNameTemp:String;
+			
+			private function init():void{
+				ceName.text = cNameTemp + ' ' + eNameTemp;
+				
+				grid_1.showDate(new Date());
+				
+				setYM();
+			}	
+			
+			private function setYM():void{
+				var t_date:Date = grid_1.getDate();
+				txtYear.text = String(t_date.fullYear);
+				Fun.setItem(txtMonth, String(t_date.month + 1));				
+				//txtMonth.selectedItem.data = String(t_date.month + 1);
+				
+				readDB();						
+			}
+			
+			private function readDB():void{
+				var t_data:Object = {
+					data: "gCalendarStaffView",
+					ym: txtYear.text+ ST.preZero(2,int(Fun.getItem(txtMonth))),
+					StaffSn: StaffsnTemp
+				};
+				
+				var ta_date:Array = Fun.readRows(is_app, t_data);
+				if (ta_date != null){			
+					var tn_day:int;
+					var t_cell:Object;			
+					for (var i:int=0;i<ta_date.length;i++){
+						tn_day = ST.toDate(ta_date[i].calDate).getDate();
+						t_cell = grid_1.getCellByDay(tn_day);
+						setText(t_cell, (ta_date[i].isWork == 1), ta_date[i].comment, ta_date[i].infoFlag);
+					}
+				}
+			}
+			
+			private function setText(p_cell:Object, pb_work:Boolean, ps_text:String, ps_info:int):void{			
+				var t_cell:List = p_cell.labText;		
+				var ta_row:ArrayCollection;		
+				
+				if (t_cell.dataProvider == null){
+					ta_row = new ArrayCollection([]);
+					t_cell.dataProvider = ta_row;
+				}else{
+					ta_row = t_cell.dataProvider as ArrayCollection;			
+				}
+				ta_row.addItem({label:ps_text});				
+			}
+			
+			private function moveMonth(pn_move:int):void{
+				grid_1.moveMonth(pn_move);
+				setYM();
+			}	
+			
+			private function funGo():void{
+				grid_1.showDate(new Date(txtYear.text, int(Fun.getItem(txtMonth)) - 1, 1));
+				setYM();
+			}
+			
+			//接收程式 FindStaffCal
+			public var winUp:Object;
+			private function getYMD():void{
+				var t_date:Date = grid_1.getDate();			
+				var	theYearMonthDay:String = String(t_date.fullYear + '-' + ST.preZero(2,t_date.month + 1) + '-' + ST.preZero(2,t_date.date));
+
+				var g_data:Object = {
+					sn: StaffsnTemp,
+					cName: cNameTemp,
+					eName: eNameTemp,
+					TYMD: theYearMonthDay
+				};
+				
+				//將程式關閉
+				Fun.closePopup(winUp);				
+				Fun2.oGlobal.fnT1(g_data);
+				closeWin();
+				
+				//Fun2.oGlobal.fnT1(theYearMonthDay);
+			}
+			//離開
+			private function closeWin():void{
+				Fun.closePopup(FindStaffCal);
+				Fun.closePopup(this);
+			}
+		]]>
+	</fx:Script>
+	<mx:HBox x="10" y="10" verticalAlign="bottom">
+		<mx:Label text="{iR.txtYear}"/>
+		<x2:Num1 id="txtYear"/>
+		<mx:Label width="9"/>
+		<mx:Label text="{iR.txtMonth}"/>
+		<x2:DDL1 id="txtMonth" dataProvider="{months_class}"></x2:DDL1>
+		<mx:Button label="go" click="funGo()" icon="@Embed(source='x2/image/checked.gif')"/>
+		<mx:Button label="&lt;" click="moveMonth(-1)"/>
+		<mx:Button label="&gt;" click="moveMonth(1)"/>		
+		<mx:Label id="ceName" color="#0000FF"/>
+	</mx:HBox>
+	<x2:DGCalendarStaff x="10" y="48" id="grid_1" height="90%" width="97%" click="getYMD()"/>
+</s:TitleWindow>

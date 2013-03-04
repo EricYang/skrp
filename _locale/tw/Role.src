@@ -1,0 +1,24 @@
+﻿# list/query fields
+roleName=角色名稱
+description=說明
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# E
+Canvas01=基本資料
+Canvas02=系統權限設定
+sysCodeName=系統名稱
+insertFunc=新增
+updateFunc=修改
+deleteFunc=刪除
+searchFunc=查詢
+viewFunc=檢視
+reportFunc=報表
+exportFunc=匯出
+Canvas03=角色人員
+userType=角色
+userNo=編號
+userName=姓名
+gender=性別

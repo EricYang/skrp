@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="500" height="220"
+	close="closeWin()"
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('AccReport')}"
+	title="{iR.reportTitle232}"
+	>
+	<fx:Script>
+		<![CDATA[
+
+			import mx.utils.StringUtil;
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			public var fAfterOk:Function;
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["academicYear","semester", "usersSn","schoolDSn"]});
+			
+			private function init():void{
+				Fun.setItem(academicYear, int(i_session.academicYear));
+				Fun.setItem(semester, int(i_session.semester));
+			}	
+			private function openPdfFiles():void {				
+				//執行 PDF 資料匯出
+				var fileNameTmp:String = StringUtil.trim('AccReport232_' + String(i_session.schoolDSn) + '_' + String(i_session.usersSn) + '_' + String(new Date().getTime()) + '.pdf');
+				var m_data:Object = {
+					cDate: Fun.getItem(cDate),
+					fileNameTmp: fileNameTmp,
+					defaultPdfPath: "../" + Fun2.fPdf				
+				};
+				var ts_result:String = Fun.sync(is_app, "AccReport232", m_data, false) as String;
+				
+				switch (ts_result){
+					case "0":
+						Fun.msg("E", iR.message04);
+						break;
+					case "1":
+						Fun.openFile(Fun.sDirRoot + Fun2.fPdf + fileNameTmp);
+						break;
+				}	
+			}
+			//離開
+			private function closeWin():void{
+				Fun.closePopup(this);
+			}
+		]]>
+	</fx:Script>
+	<s:Form x="10" y="10" width="100%">
+		<s:layout> 
+			<s:FormLayout gap="-8"/>
+		</s:layout>
+		<s:FormItem label="{iR.yearFor}">
+			<mx:HBox width="100%">
+				<mx:Label id="academicYear"/>
+				<mx:Label text=" ("/>
+				<mx:Label id="semester"/>
+				<mx:Label text=")"/>
+			</mx:HBox>
+		</s:FormItem>
+		<s:FormItem label="{iR.dateFor}">			
+			<x2:Date1 formatString="YYYY/MM/DD" id="cDate" yearNavigationEnabled="true"/>			
+		</s:FormItem>
+	</s:Form>
+	<mx:HBox x="10" y="152">
+		<x2:BtnPdf id="outputPdf" click="openPdfFiles()"/>		
+		<mx:Button height="26" click="closeWin()" icon="@Embed(source='x2/image/close.png')" id="cmdExit" label="{Fun.R.exit}" buttonMode="true"/>
+	</mx:HBox>
+</s:TitleWindow>

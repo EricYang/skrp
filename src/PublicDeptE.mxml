@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="580" height="380" 
+	 
+  	creationComplete="init()"  	 		
+	preinitialize="{iR=Fun.getLang('PublicDept')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindable]
+			private var idw_master:DW;
+			[Bindalbe]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			public var ia_infoCategory:ArrayList = new ArrayList(Fun2.infoCategoryDS(is_app, true));
+			
+			private function init():void{
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					mapping: true,
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					items: [
+						{source:sn, 			dataType:"N",	inputType:"I"}, 
+						{source:infoCategory},
+						{source:unitName},
+						{source:contactName},
+						{source:conTel},
+						{source:fax},
+						{source:address}, 
+						{source:webSite}, 
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"DT",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"DT",	inputType:"R"}
+					]				
+				};			
+			}			
+		]]>
+	</fx:Script>
+	<x2:Num1 id="sn" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>	
+	<s:Form x="10" y="10">		
+		<s:layout> 
+			<s:FormLayout gap="-8"/>
+		</s:layout>
+		<s:FormItem label="{iR.infoCategory} :" required="true">
+			<x2:DDL1 id="infoCategory" dataProvider="{ia_infoCategory}"></x2:DDL1>										
+		</s:FormItem>
+		<s:FormItem label="{iR.unitName} :" required="true">
+			<s:TextInput id="unitName" width="376"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.contactName} :">
+			<s:TextInput id="contactName"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.conTel} :">
+			<s:TextInput id="conTel"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.fax} :">
+			<s:TextInput id="fax"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.address} :">
+			<s:TextInput id="address" width="376"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.webSite} :">
+			<s:TextInput id="webSite" width="376"/>
+		</s:FormItem>
+	</s:Form>
+	<x2:comEdit x="10" y="303" id="edit_1">
+	</x2:comEdit>	
+</s:TitleWindow>

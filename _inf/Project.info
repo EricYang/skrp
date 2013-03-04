@@ -1,0 +1,16 @@
+{
+    "list":{
+        "select": "SELECT *, 
+                    CONCAT(sTimeH, '：', sTimeM, ' — ', eTimeH, '：', eTimeM) AS seTimeHM",
+        "from": "FROM Project
+                [_where]",
+        "order": "ORDER BY eDate",
+        "items": [
+            {"fid":"funcItemSn"},
+            {"fid":"eLoaction",    "op":"like"}
+      ]
+    },    
+    "progRange": 1,
+    "aFOwner": "creator",
+    "aFOwnerType": "L"
+}

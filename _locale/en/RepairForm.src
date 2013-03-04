@@ -1,0 +1,13 @@
+﻿# list/query fields
+sn=Serial Number
+createDate=Created on
+fortuneName=Item
+finishDate=Expected finishing Date
+rName=Repaired by
+reviseDate=Revised on
+
+# E
+fortuneNo=Property Number
+damageState=State of Damage
+conTel=Contact Number
+repairState=Repair Status

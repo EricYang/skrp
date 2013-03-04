@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	width="410" height="176" xmlns:x2="x2.*" 
+	
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('Board')}"
+ 	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			
+			private function init():void{
+				qry_1.aoItem = [
+					{source:subject},
+					{source:contents}
+				];					
+			}			
+		]]>
+	</fx:Script>
+	<mx:Form x="6" y="9" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+		<mx:FormItem label="{iR.subject} :">			
+			<s:TextInput id="subject"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.contents} :">				
+			<s:TextInput id="contents"/>
+		</mx:FormItem>
+	</mx:Form>
+	<x2:comQuery x="316" y="10" id="qry_1">
+	</x2:comQuery>
+</s:TitleWindow>

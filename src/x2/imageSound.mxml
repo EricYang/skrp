@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Image xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 buttonMode="true" 
+		 source="{bPlaying ? i_sound2 : i_sound}"
+		 >
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here 
+		-->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			
+			[Embed(source="image/sound.png")]
+			[Bindable]
+			private var i_sound:Class;
+			
+			[Embed(source="image/sounding.png")]
+			[Bindable]
+			private var i_sound2:Class;
+			
+			[Bindable]
+			public var bPlaying:Boolean = false;
+			//public function 
+			
+		]]>
+	</fx:Script>
+		
+</s:Image>

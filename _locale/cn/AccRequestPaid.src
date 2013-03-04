@@ -1,0 +1,32 @@
+﻿# list/query fields
+serialNos=流水编号
+cDate=支出日期
+sumOfMoney=金额合计
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# E
+SelFun2=搜寻
+selected=选取
+
+paidSno=请款单号
+paidDate=请款日期
+expensesSummary=支出摘要
+paidSum=请款金额
+expensesSum=支出金额
+paidOff=已支付
+
+# message
+Emessage01=收据号码或班别或年/ 月份不得为空白
+Emessage02=年 格式请输入 1900 ~ 3000 间
+Emessage03=月 格式请输入 1 ~ 12 间
+
+errSelected=选取的收据号码已经存在，无法新增。
+errNoSelect=请先选取右列 资料。
+
+# Q
+
+
+btnP​​dfLabel=汇出

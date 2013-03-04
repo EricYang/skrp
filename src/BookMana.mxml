@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*" 
+	 	 
+	width="100%" height="100%" 
+ 	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('BookMana')}"
+ 	>
+	<fx:Script>
+		<![CDATA[		
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			private var is_app:String = Fun.sApp;
+
+			private function init():void {		
+				list_1.nAppRange = 1; //0 不分  1 個人	2 部門
+				list_1.asFOwner = ["creator"];
+				
+				list_1.wQuery = new BookManaQ();
+				list_1.wEdit = new BookManaE();			
+				list_1.gList = grid_1;
+				list_1.init();			
+				
+				var t_data:Object ={
+					data: "listBookMana"
+				};
+				grid_1.dataProvider = new ArrayCollection(Fun.readRows(is_app, t_data));	
+			}						
+			
+			public function cmdFunOpen():void{
+				Main(Fun.wMain).openApp("BookData");
+				return;
+				
+				
+				//var t_win:BookData = new BookData();
+				/*
+				var t_data:Object = {
+					win: t_win,
+					fun: "V",
+					row: {sn:pn_ParSn}
+				};
+				*/
+				//Fun.openPopup(t_win, this);
+				/*
+				var t_edit:comEdit = t_win.edit_1; 
+				t_edit.sApp = is_app;
+				t_edit.sInf = "BookData";
+				t_edit.sTitle = "圖書資料";				
+				t_edit.init(t_data);
+				*/
+			}
+		]]>
+	</fx:Script>
+	<x2:sysBG/>
+	<x2:subFunHead/>
+	
+	<x2:comList x="81" y="59" id="list_1">
+	</x2:comList>
+	<!--
+	<mx:Button x="864" y="60" height="25" click="cmdFunOpen()" icon="@Embed(source='x2/image/update.gif')" id="cmdOpen" label="圖書資料" buttonMode="true"/>
+	-->
+	<s:DataGrid id="grid_1" x="55" y="87" width="92%" height="80%" alpha="0.7">
+		<s:columns>
+			<s:ArrayList>
+				<s:GridColumn dataField="sn" visible="false"/>
+				<s:GridColumn headerText="{iR.bookNo}" dataField="bookNo" width="80"/>
+				<s:GridColumn headerText="{iR.bookName}" dataField="bookName"/>
+				<s:GridColumn headerText="{iR.staffName}" dataField="staffName" width="100"/>
+				<s:GridColumn headerText="{iR.cDate}" dataField="cDate" width="85"/>
+				<s:GridColumn headerText="{iR.rDate}" dataField="rDate" width="80"/>			
+				<s:GridColumn headerText="{iR.creator}" dataField="creator" width="80"/>
+				<s:GridColumn headerText="{iR.createDate}" dataField="createDate" width="130"/>
+				<s:GridColumn headerText="{iR.reviser}" dataField="reviser" width="80"/>
+				<s:GridColumn headerText="{iR.reviseDate}" dataField="reviseDate" width="130"/>
+			</s:ArrayList>
+		</s:columns>
+	</s:DataGrid>
+</s:Application>

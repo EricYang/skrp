@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="924" height="544" 
+	 
+	creationComplete="init()"  	 	
+	preinitialize="{iR=Fun.getLang('Project')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindable]
+			private var idw_master:DW;
+			[Bindalbe]
+			private var idw_TodoList:DW2;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["usersSn"]});
+			[Bindable]
+			public var ia_itemName:ArrayList = new ArrayList(Fun2.itemNameDS(is_app, 4, true));
+			[Bindable]
+			public var ia_titles:ArrayList = new ArrayList(Fun2.titlesDS(is_app, true));
+			[Bindable]
+			public var ia_proFlagReply:ArrayList = new ArrayList(Fun2.proFlagReplyDS(is_app, true));
+			
+			public var docNoaTemp:String;
+			
+			private function init():void{				
+				//dw1: Project
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					mapping: true,
+					items: [
+						{source:sn,				dataType:"N",	inputType:"I"},
+						{source:funcItemSn,		dataType:"N"},
+						{source:eGoal,			dataType:"S"},
+						{source:eDate,			dataType:"D"},
+						{source:sTimeH,			dataType:"N"},
+						{source:sTimeM,			dataType:"N"},
+						{source:eTimeH,			dataType:"N"},
+						{source:eTimeM,			dataType:"N"},
+						{source:seTimeHM,						update:false,	inputType:"R"},
+						{source:eLoaction,		dataType:"S"},
+						{source:attendees,		dataType:"S"},
+						{source:numAttendees,	dataType:"N"},
+						{source:budget,			dataType:"N"},
+						{source:budgetSource,	dataType:"S"},
+						{source:eventType01,	dataType:"N"},
+						{source:eventType02,	dataType:"N"},
+						{source:eventType03,	dataType:"N"},
+						{source:eventType04,	dataType:"N"},
+						{source:eventType05,	dataType:"N"},
+						{source:remark,			dataType:"S"},						
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"D",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"D",	inputType:"R"}
+					]				
+				}; 			
+				
+				//dw2: ProjectDetail
+				edit_1.aoDW[1] = new DW2();
+				(edit_1.aoDW[1] as DW2).xTool = tb_ProjectDetail;
+				edit_1.aoDW[1].oConfig = {					
+					upDW: idw_master,
+					grid: grid_ProjectDetail,
+					upQKeys: ["sn"],
+					qKeys: ["ProjectSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"ProjectSn", 		dataType:"N", 	inputType:"2"},
+						{fid:"process",			dataType:"S"},
+						{fid:"activities",		dataType:"S"},
+						{fid:"cDescribe",		dataType:"S"}
+					]				
+				};
+				
+				//dw3: TodoList
+				edit_1.aoDW[2] = new DW2();				
+				idw_TodoList = edit_1.aoDW[2]; 
+				idw_TodoList.xTool = tb_TodoList;
+				idw_TodoList.oConfig = {		
+					autos: ["creator","createDate","reviser","reviseDate"],
+					upDW: idw_master,
+					grid: grid_TodoList,
+					upQKeys: ["sn"],
+					qKeys: ["correlSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"correlSn", 		dataType:"N", 	inputType:"2"},
+						{fid:"sysType",			dataType:"N",	init:2},
+						{fid:"docNoa",			dataType:"S"},
+						{fid:"docNob",			dataType:"S"},
+						{fid:"subject",			dataType:"S"},
+						{fid:"staffSnA", 		dataType:"N"},
+						{fid:"staffSn", 		update:false},
+						{fid:"titlesSn",		update:false},
+						{fid:"cName",			update:false},
+						{fid:"eName",			update:false},
+						{fid:"cDate",			dataType:"D"},
+						{fid:"contents",		dataType:"S"},
+						{fid:"staffSnC", 		dataType:"N"},
+						{fid:"sncDate",			dataType:"DT"},
+						{fid:"proFlagReply", 	update:false},
+						{fid:"creator",			dataType:"S",	inputType:"R"}, 
+						{fid:"createDate",		dataType:"DT",	inputType:"R"}, 
+						{fid:"reviser",			dataType:"S",	inputType:"R"}, 
+						{fid:"reviseDate",		dataType:"DT",	inputType:"R"}
+					]				
+				};
+				
+				tb_TodoList.cmdAdd.visible = false;
+				tb_TodoList.cmdAdd.width = 0;
+			}
+			
+			//對象
+			public function fnClickStaffAll():void{			
+				if (Fun.getItem(eGoal)!="" && Fun.getItem(eDate)!=""){
+					Fun2.bGlobal = ArrayCollection(grid_TodoList.dataProvider);
+					
+					var t_win:FindStaffOpt = new FindStaffOpt();
+					Fun.openPopup(t_win, this);				
+					
+					//t_win.qry_1.fSelectRow = fSelectRowStaff;
+					t_win.qry_1.bCloseAfterQuery = false;
+					t_win.fAfterOk = fSelectRowStaff;
+				}else{
+					Fun.msg("E", "專案內容尚未填寫完成");
+				}
+			}			
+			private function fSelectRowStaff():void{
+				if (Fun2.aGlobal.length!=0){					
+					for (var i:int=Fun2.aGlobal.length - 1; i>=0; i--){
+						var idw_data:Object = {			
+							sysType: 2,
+							docNoa: docNoaTemp,
+							docNob: 1,
+							subject: Fun.getItem(eGoal),
+							staffSnA: Fun2.aGlobal[i].sn,
+							staffSn: Fun2.aGlobal[i].sn,
+							titlesSn: Fun2.aGlobal[i].titlesSn,
+							cName: Fun2.aGlobal[i].cName, 
+							eName: Fun2.aGlobal[i].eName,
+							staffSnC: i_session.usersSn,
+							sncDate: Fun.getItem(eDate),
+							proFlagReply: 0							
+						};
+						idw_TodoList.addRow(idw_data);						
+					}
+				}
+			}
+			
+			private function whenSave(p_data:Object):Boolean{
+				if (p_data.fun != "D"){
+					Fun.setItem(seTimeHM, Fun.getItem(sTimeH)+ '：'+Fun.getItem(sTimeM)+ ' — ' +Fun.getItem(eTimeH)+ '：'+Fun.getItem(eTimeM));
+				}
+				return true;
+			}
+			private function titles(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_titles, p_row[p_column.dataField]);
+			}
+			private function serialNoLabelFunc(p_row:Object, p_column:GridColumn):String {
+				var index:int = p_column.grid.dataProvider.getItemIndex(p_row);
+				if (index > -1) {
+					return (index + 1).toString();
+				}
+				return "";
+			}
+			private function proFlagReplyName(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_proFlagReply, p_row[p_column.dataField]);
+			}
+			private function afterOpen(p_data:Object):void {
+				FunID.visible = true;
+				switch (p_data.fun){					
+					case "V":
+						FunID.visible = false;						
+						break;
+				}
+			}
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10.5" y="474" id="edit_1" fWhenSave="whenSave" fAfterOpen="afterOpen">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>
+	<s:TextInput id="seTimeHM" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+	
+	<mx:TabNavigator x="10" y="10" width="894" height="455">
+		<mx:Canvas label="{iR.Canvas01}">
+			<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+				<mx:FormItem label="{iR.funcItemSn} :" required="true">
+					<x2:DDL1 id="funcItemSn" dataProvider="{ia_itemName}"></x2:DDL1>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.eGoal} :" required="true">
+					<mx:TextArea width="494" height="68" id="eGoal"/>					
+				</mx:FormItem>				
+				<mx:FormItem label="{iR.eDate} :" required="true">
+					<mx:HBox width="100%">
+						<mx:DateField formatString="YYYY/MM/DD" id="eDate" yearNavigationEnabled="true"/>
+						<mx:FormItem label="{iR.seTimeHM} :" required="true">
+							<mx:HBox x="92" y="2" width="100%">
+								<mx:NumericStepper maximum="24" id="sTimeH"/>
+								<mx:Label text="："/>
+								<mx:NumericStepper maximum="59" id="sTimeM"/>
+								<mx:Label text="—"/>
+								<mx:NumericStepper maximum="24" id="eTimeH"/>
+								<mx:Label text="："/>
+								<mx:NumericStepper maximum="59" id="eTimeM"/>
+							</mx:HBox>
+						</mx:FormItem>
+					</mx:HBox>
+				</mx:FormItem>				
+				<mx:FormItem label="{iR.eLoaction} :" required="true">
+					<s:TextInput id="eLoaction" width="250"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.attendees} :" required="true">
+					<s:TextInput id="attendees" width="250"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.numAttendees} :" required="true">
+					<mx:NumericStepper minimum="1" maximum="99999" id="numAttendees" width="100"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.budget} :" required="true">
+					<mx:HBox width="100%">
+						<mx:NumericStepper minimum="1" maximum="9999999" id="budget" width="100"/>
+						<mx:FormItem label="{iR.budgetSource} :" required="true">
+							<s:TextInput id="budgetSource" width="250"/>
+						</mx:FormItem>
+					</mx:HBox>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.eventType} :" required="true">
+					<mx:HBox x="67" y="4" width="100%">
+						<x2:Check1 label="{iR.eventType01}" id="eventType01"/>
+						<x2:Check1 label="{iR.eventType02}" id="eventType02"/>
+						<x2:Check1 label="{iR.eventType03}" id="eventType03"/>
+						<x2:Check1 label="{iR.eventType04}" id="eventType04"/>
+						<x2:Check1 label="{iR.eventType05}" id="eventType05"/>						
+					</mx:HBox>
+				</mx:FormItem>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas04}">
+			<mx:HBox x="638" y="4" id="FunID">				
+				<!--<x2:TBar2 id="tb_TodoList"/>-->
+				<x2:BtnIBar id="cmdInsert" click="fnClickStaffAll()"/>
+				<x2:btnDeleteRow id="btnDelete" click="idw_TodoList.deleteRow();"/>
+				<x2:TBar2 id="tb_TodoList" width="0" visible="false"/>
+			</mx:HBox>
+			<mx:Form x="10" y="29">				
+				<x2:DG2 width="841" alpha="0.7" rowHeight="50"
+						 height="340" x="10.5" y="143" id="grid_TodoList">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>						
+						<s:GridColumn dataField="correlSn" visible="false"/>		
+						<s:GridColumn dataField="sysType" visible="false"/>
+						<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>			
+						<s:GridColumn headerText="{iR.docNoa}" dataField="docNoa" width="140"/>
+						<s:GridColumn dataField="docNob" visible="false"/>
+						<s:GridColumn dataField="subject" visible="false"/>
+						<s:GridColumn dataField="staffSnA" visible="false"/>
+						<s:GridColumn dataField="staffSn" visible="false"/>
+						<s:GridColumn headerText="{iR.titlesSn}" dataField="titlesSn" labelFunction="titles"/>
+						<s:GridColumn headerText="{iR.cName}" dataField="cName"/>
+						<s:GridColumn headerText="{iR.eName}" dataField="eName"/>
+						<s:GridColumn headerText="{iR.cDate}" dataField="cDate" width="120">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:Date2 id="cDate"/>																																			
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.contents}" dataField="contents" width="300">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:TextArea2/>																	
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn dataField="staffSnC" visible="false"/>
+						<s:GridColumn dataField="sncDate" visible="false"/>
+						<s:GridColumn headerText="{iR.proFlagReply}" dataField="proFlagReply" width="80" labelFunction="proFlagReplyName"/>
+						<s:GridColumn dataField="creator" visible="false"/>
+						<s:GridColumn dataField="createDate" visible="false"/>
+						<s:GridColumn dataField="reviser" visible="false"/>
+						<s:GridColumn dataField="reviseDate" visible="false"/>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas02}">
+			<mx:Form x="10" y="29">
+				<x2:DG2 alpha="0.7" id="grid_ProjectDetail" rowHeight="100" height="340" width="841">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="ProjectSn" visible="false"/>
+						<s:GridColumn headerText="{iR.process}" dataField="process">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:Text2/>																																			
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.activities}" dataField="activities">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>									
+									<x2:TextArea2/>
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.cDescribe}" dataField="cDescribe">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:TextArea2/>																	
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>
+			<x2:TBar2 x="607" y="4" id="tb_ProjectDetail">
+			</x2:TBar2>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas03}">
+			<mx:Form x="10" y="10">
+				<mx:TextArea width="841" height="360" id="remark"/>
+			</mx:Form>
+		</mx:Canvas>
+	</mx:TabNavigator>	
+</s:TitleWindow>

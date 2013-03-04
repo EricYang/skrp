@@ -1,0 +1,48 @@
+{
+    "dws":[
+	    {
+			"selectTable": "Board",   
+			"items": [
+                {"fid":"sn"}, 
+                {"fid":"subject"},
+                {"fid":"contents"},
+                {"fid":"sDate"},
+                {"fid":"eDate"},
+                {"fid":"seDate",        "table":"", "colName":"CONCAT(sDate, ' — ', eDate)"},
+                {"fid":"fileName"},
+                {"fid":"creator"},
+                {"fid":"createDate"},
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+            ]				
+	    },
+        {
+            "selectTable": "BoardTG a INNER JOIN Role b ON a.roleSn = b.sn [_where] ORDER BY b.roleName",
+            "updateTable": "BoardTG",
+            "defaultTable":"a",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"boardSn"},
+                {"fid":"roleSn"},
+                {"fid":"roleName",    "table":"b"}
+            ]                
+        },
+        {
+            "selectTable": "BoardUE a INNER JOIN vw_users b ON a.userSn = b.sn AND a.userType = b.userType [_where] ORDER BY a.dDate DESC",
+            "updateTable": "BoardUE",
+            "defaultTable":"a",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"boardSn"},
+                {"fid":"userType"},
+                {"fid":"userSn"},
+                {"fid":"dDate"},
+                {"fid":"userNo",    "table":"b"},
+                {"fid":"userName",  "table":"b"},
+                {"fid":"gender",    "table":"b"}
+            ]                
+        }
+    ]    
+}

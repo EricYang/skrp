@@ -1,0 +1,33 @@
+{
+    "dws":[
+        {
+            "selectTable": "ViolenceAnn a INNER JOIN Student b ON a.studentSn = b.sn",   
+            "updateTable": "ViolenceAnn",
+            "defaultTable": "a",
+            "items": [
+                {"fid":"sn"}, 
+                {"fid":"academicYear"},
+                {"fid":"semester"},
+                {"fid":"acaName",         "table":"", "colName":"CONCAT(a.academicYear, ' - ', a.semester)"},
+                {"fid":"classLeavesSn"},
+                {"fid":"studentSn"},
+                {"fid":"studentName",     "table":"", "colName":"CONCAT(b.cName, ' ', b.eName)"},
+                {"fid":"cDate"},
+                {"fid":"timeH"},
+                {"fid":"timeM"},
+                {"fid":"timeHM",          "table":"", "colName":"CONCAT(a.timeH, '：', a.timeM)"},
+                {"fid":"occurPlace"},
+                {"fid":"proDescribe"},
+                {"fid":"funcItemSnA"},
+                {"fid":"identity"},
+                {"fid":"uniStatus"},
+                {"fid":"funcItemSnB"},
+                {"fid":"funcItemSnBCon"},
+                {"fid":"creator"},
+                {"fid":"createDate"},
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+             ]                
+        }
+    ]    
+}

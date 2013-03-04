@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="620" height="510" 
+	 
+  	creationComplete="init()"  	 		
+	preinitialize="{iR=Fun.getLang('BabyHealth')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			import mx.formatters.DateFormatter;
+			import mx.utils.StringUtil;
+			
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var idw_master:DW;			
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["usersSn","academicYear","semester","schoolDSn"]});
+			[Bindable]
+			public var ia_itemName:ArrayList = new ArrayList(Fun2.itemNameDS(is_app, 1, true));	
+			[Bindable]
+			private var ia_healthResult:ArrayList = new ArrayList(Fun2.healthResultDS(is_app, true));
+			
+			private function doFindStu():void{
+				Fun2.openStudent(is_app, this, ReturnStu, false);
+			}
+			
+			private function ReturnStu(p_row:Object):void{				
+				Fun.setItem(studentName, p_row.cName + " " + p_row.eName);
+				idw_master.setItem(studentSn, p_row.sn, true);
+				idw_master.setItem(classLeavesSn, p_row.classLeavesSn, true);
+			}
+			
+			private function init():void{
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					mapping: true,
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					items: [
+						{source:sn, 			dataType:"N",	inputType:"I"}, 
+						{source:academicYear,	dataType:"N",	init:int(i_session.academicYear)}, 
+						{source:semester,		dataType:"N",	init:int(i_session.semester)},
+						{source:acaName,						update:false,	inputType:"R"},
+						{source:classLeavesSn,	dataType:"N"},
+						{source:studentSn,		dataType:"N"},
+						{source:studentName,					update:false,	inputType:"R",	required:true},
+						{source:funcItemSn,		dataType:"N"},						
+						{source:cDate,			dataType:"D"},
+						{source:cHealthResult,	dataType:"S"},
+						{source:cDescribe,		dataType:"S"},
+						{source:rDate,			dataType:"D"},
+						{source:rHealthResult,	dataType:"S"},
+						{source:rDescribe,		dataType:"S"},						
+						{source:fileName,		dataType:"S"},						
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"DT",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"DT",	inputType:"R"}				
+					]				
+				};
+			}
+			private var fileNames:String;
+			private function afterOpen(p_data:Object):void{
+				tmpFileName.text = "";
+				textFilesName.visible = false;
+				switch (p_data.fun){
+					case "V":
+					case "U":
+						fileNames = StringUtil.trim(Fun.getItem(fileName) as String);
+						if (fileNames!=""){
+							textFilesName.visible = true;
+						}
+						if (p_data.fun == "V"){
+							SchStu.visible = false; //檢視模是不顯示搜尋按鈕							
+						}
+						break;
+				}
+				
+				var dateFormatter:DateFormatter = new DateFormatter();
+				dateFormatter.formatString = "YYYY/MM/DD JJ:NN:SS";
+				idw_master.setItem(cDate, dateFormatter.format(Fun.getItem(cDate)), true);
+				
+				if (Fun.getItem(rDate)!=""){
+					idw_master.setItem(rDate, dateFormatter.format(Fun.getItem(rDate)), true);
+				}
+				
+				switch (Fun.getItem(cHealthResult)){
+					case "":
+					case "1":
+						nonItem.visible = false;
+						reItem.visible = false;						
+						break;					
+					case "2":
+						nonItem.visible = true;
+						reItem.visible = true;
+						break;
+				}
+				
+			}
+			private function whenSave(p_data:Object):Boolean{				
+				if (p_data.fun != "D"){
+					switch (Fun.getItem(cHealthResult)){					
+						case "1":
+							idw_master.setItem(cDescribe, '', true);
+							//idw_master.setItem(rDate, '', true);
+							idw_master.setItem(rHealthResult, '', true);
+							idw_master.setItem(rDescribe, '', true);
+							idw_master.setItem(fileName, '', true);
+							break;
+						case "2":
+							if (Fun.getItem(cDescribe)==""){
+								Fun.msg("E", iR.message01);
+								return false;
+							}
+							if (Fun.getItem(rDate)!=""){
+								if (Fun.getItem(rDate)<Fun.getItem(cDate)){					
+									Fun.msg("E", iR.message02);
+									Fun.setItem(rDate, Fun.getItem(cDate));
+									return false;
+								}
+								if (Fun.getItem(rHealthResult)==""){
+									Fun.msg("E", iR.message03);
+									return false;								
+								}
+								if (Fun.getItem(rDescribe)==""){
+									Fun.msg("E", iR.message04);
+									return false;
+								}
+							}						
+							break;
+					}
+					Fun.setItem(acaName, String(Fun.getItem(academicYear))+ ' - '+String(Fun.getItem(semester)));					
+				}
+				return true;
+			}
+			private var i_file:FileReference;
+			private function fnUpload():void {
+				if (Fun.getItem(rDate)!=""){
+					i_file = new FileReference();
+					i_file.addEventListener(Event.SELECT, getFile);
+					i_file.browse();
+				}else{
+					Fun.msg("I",iR.message05);
+				}				
+			}
+			private function getFile(p_event:Event):void {				
+				var fileTypeTmp:String = String(p_event.target.type).toLowerCase();				
+				switch (fileTypeTmp){
+					case ".pdf":
+					case ".xls":
+					case ".xlsx":
+					case ".doc":
+					case ".docx":
+					case ".ppt":
+					case ".jpg":
+					case ".gif":
+					case ".jpeg":
+					case ".png":
+						var fileNameTmp:String = StringUtil.trim('BabyHealth_' + String(i_session.schoolDSn) + '_' + String(i_session.usersSn) + '_' + String(new Date().getTime()) + fileTypeTmp);
+						
+						var t_file:Object = {};
+						t_file[Fun.csFile] = i_file;
+						t_file[Fun.csFilePath] = Fun2.fTeachers + fileNameTmp;
+						FL.upload(this, is_app, [t_file]);			
+						
+						Fun.setItem(tmpFileName, p_event.target.name);
+						idw_master.setItem(fileName, fileNameTmp, true);					
+						
+						fileNames = fileNameTmp;
+						textFilesName.visible = true;
+						
+						break;					
+					default:					
+						Fun.msg("E", iR.message06);
+						break;
+				}
+			}
+			private function openFiles():void {				
+				Fun.openFile(Fun.sDirRoot + Fun2.fTeachers + fileNames);
+			}
+			private function hrFlag():void{
+				switch (Fun.getItem(cHealthResult)){
+					case "":
+					case "1":
+						nonItem.visible = false;
+						reItem.visible = false;
+						break;
+					case "2":
+						nonItem.visible = true;
+						reItem.visible = true;
+						break;
+				}
+			}
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10" y="442" id="edit_1" fAfterOpen="afterOpen" fWhenSave="whenSave">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="academicYear" visible="false"/>
+	<x2:Num1 id="semester" visible="false"/>
+	<s:TextInput id="acaName" visible="false"/>
+	<x2:Num1 id="classLeavesSn" visible="false"/>
+	<x2:Num1 id="studentSn" visible="false"/>	
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+	<s:Form x="10" y="10">
+		<s:layout> 
+			<s:FormLayout gap="-8"/>			
+		</s:layout>
+		<s:FormItem label="{iR.studentName} :" required="true">
+			<mx:HBox x="72" y="1" width="100%">
+				<s:TextInput id="studentName" editable="false" click="doFindStu()"/>
+				<x2:btnPick id="SchStu" click="doFindStu()"/>				
+			</mx:HBox>
+		</s:FormItem>
+		<s:FormItem label="{iR.funcItemSn} :" required="true">
+			<x2:DDL1 id="funcItemSn" dataProvider="{ia_itemName}"></x2:DDL1>
+		</s:FormItem>
+		<s:FormItem label="{iR.cDate} :" required="true">
+			<mx:DateField formatString="YYYY/MM/DD" id="cDate" yearNavigationEnabled="true"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.cHealthResult} :" required="true">
+			<!--請參考 _code_tw 的 healthResult -->
+			<x2:DDL1 id="cHealthResult" dataProvider="{ia_healthResult}" change="hrFlag();"></x2:DDL1>
+		</s:FormItem>
+		<s:FormItem label="{iR.cDescribe} :" id="nonItem">
+			<s:TextInput id="cDescribe" width="375"/>
+		</s:FormItem>
+	</s:Form>
+	<s:Form x="10" y="210" id="reItem">
+		<s:layout> 
+			<s:FormLayout gap="-8"/>			
+		</s:layout>
+		<s:FormItem label="{iR.rDate} :">
+			<mx:DateField formatString="YYYY/MM/DD" id="rDate" yearNavigationEnabled="true"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.rHealthResult} :">
+			<!--請參考 _code_tw 的 healthResult -->
+			<x2:DDL1 id="rHealthResult" dataProvider="{ia_healthResult}"></x2:DDL1>			
+		</s:FormItem>
+		<s:FormItem label="{iR.rDescribe} :">
+			<s:TextInput id="rDescribe" width="375"/>
+		</s:FormItem>
+		<s:FormItem id="textFilesName">
+			<x2:btnTBar buttonMode="true" label="{iR.textFilesName}" icon="@Embed(source='x2/image/star.gif')" click="openFiles()" toolTip="{iR.textFilesName}"/>
+		</s:FormItem>		
+		<s:FormItem label="{iR.tmpFileNameUpload} :">
+			<mx:HBox width="100%">				
+				<s:TextInput id="tmpFileName" editable="false" enabled="false" width="121"/>										
+				<mx:Button label="{iR.tmpFileName}" click="fnUpload()"/>								
+			</mx:HBox>			
+		</s:FormItem>
+		<s:TextInput id="fileName" visible="false"/>
+	</s:Form>	
+</s:TitleWindow>

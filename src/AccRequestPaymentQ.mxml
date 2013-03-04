@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	width="770" height="220" xmlns:x2="x2.*" 
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('AccRequestPayment')}"
+ 	>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.ArrayList;
+			import mx.utils.StringUtil;
+			
+			import x2.*;
+			[Bindable]
+			private var iR:Object;	
+			[Bindable]
+			private var is_app:String = Fun.sApp;	
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["usersSn","schoolDSn"]});
+			
+			private function init():void{
+				qry_1.aoItem = [
+					{source:serialNo,		dataType:"S"},
+					{source:staffSn,		dataType:"N"},
+					{source:cDate,			dataType:"D",	relat:cDate2},
+					{source:cDate2,			dataType:"D"},
+					{source:accIocSn,		dataType:"N"}
+				];				
+			}			
+			//找職員
+			private var i_col1:Object, i_col2:Object;			
+			private function doFindStaff(p_col1:Object, p_col2:Object):void{				
+				i_col1 = p_col1;
+				i_col2 = p_col2;
+				Fun2.openStaff(is_app, this, ReturnStaff);
+			}
+			private function ReturnStaff(p_row:Object):void{				
+				Fun.setItem(i_col1, p_row.cName + " " + p_row.eName);
+				Fun.setItem(i_col2, p_row.sn);
+			}
+			private function fnClick():void{
+				Fun2.openAccMTI(is_app, 2, this, ReturnMTI, false);	
+			}
+			private function ReturnMTI(p_row:Object):void{				
+				Fun.setItem(accName, p_row.accIocCode + " " + p_row.accIocName);
+				Fun.setItem(accIocSn, p_row.accIocSn);
+			}			
+			/*
+			private function openPdfFiles():void {				
+				//執行 PDF 資料匯出
+				var fileNameTmp:String = StringUtil.trim('AccRequestPaymentDate_' + String(i_session.schoolDSn) + '_' + String(i_session.usersSn) + '_' + String(new Date().getTime()) + '.pdf');
+				var m_data:Object = {
+					cDate: Fun.getItem(cDate),
+					cDate2: Fun.getItem(cDate2),
+					fileNameTmp: fileNameTmp,
+					defaultPdfPath: "../" + Fun2.fPdf				
+				};
+				var ts_result:String = Fun.sync(is_app, "AccRequestPaymentDate", m_data, false) as String;
+
+				switch (ts_result){
+					case "0":
+						Fun.msg("E", iR.message02);
+						break;
+					case "1":
+						Fun.openFile(Fun.sDirRoot + Fun2.fPdf + fileNameTmp);
+						break;
+				}	
+			}
+			*/
+		]]>
+	</fx:Script>
+	<x2:Num1 id="staffSn" visible="false"/>
+	<x2:Num1 id="accIocSn" visible="false"/>
+	<s:Form x="10" y="10">		
+		<s:layout> 
+			<s:FormLayout gap="-8"/>
+		</s:layout>
+		<s:FormItem label="{iR.serialNos} :">
+			<s:TextInput id="serialNo" width="100%"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.staffName} :">
+			<s:HGroup>
+				<s:TextInput id="staffName" click="doFindStaff(staffName, staffSn)" editable="false"  enabled="false"/>
+				<x2:btnPick id="SchStaff" click="doFindStaff(staffName, staffSn)"/>
+			</s:HGroup>
+		</s:FormItem>
+		<s:FormItem label="{iR.cDate} :">			
+			<s:HGroup width="100%">
+				<x2:Date1 formatString="YYYY/MM/DD" id="cDate" yearNavigationEnabled="true"/>
+				<s:Label text=" - "/>
+				<x2:Date1 formatString="YYYY/MM/DD" id="cDate2" yearNavigationEnabled="true"/>
+			</s:HGroup>			
+		</s:FormItem>
+		<s:FormItem label="{iR.accIocName} :">
+			<s:HGroup>
+				<s:TextInput id="accName" width="350" editable="false" enabled="false"/>
+				<x2:btnPick id="Schfn" click="fnClick()"/>
+			</s:HGroup>
+		</s:FormItem>
+	</s:Form>
+	<x2:comQuery x="680" y="10" id="qry_1">
+	</x2:comQuery>
+	<!--
+	<x2:BtnPdf x="680" y="144" id="outputPdf" click="openPdfFiles()"/>
+	-->
+</s:TitleWindow>

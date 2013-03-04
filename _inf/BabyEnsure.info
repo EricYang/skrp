@@ -1,0 +1,24 @@
+{
+    "list":{
+        "select": "SELECT a.*, CONCAT(a.academicYear, ' - ', a.semester) AS acaName, 
+                    CONCAT(b.cName, ' ', b.eName) AS studentName",
+        "from": "FROM BabyEnsure a INNER JOIN
+                Student b ON a.studentSn = b.sn INNER JOIN
+                ClassLeaves c ON a.classLeavesSn = c.sn
+                [_where]",
+        "order": "ORDER BY a.sn",
+        "items": [
+            {"fid":"academicYear",      "table":"a"},
+            {"fid":"semester",          "table":"a"},
+            {"fid":"classInfoSn",       "table":"c"},
+            {"fid":"classLeavesSn",     "table":"a"},
+            {"fid":"cName",             "table":"b",    "op":"like"},
+            {"fid":"eName",             "table":"b",    "op":"like"},
+            {"fid":"funcItemSn",        "table":"a"},            
+            {"fid":"cDate",             "table":"a",    "op":"between"}
+      ]
+    },    
+    "progRange": 1,
+    "aFOwner": "a.creator",
+    "aFOwnerType": "L"
+}

@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="1100" height="510" 	 
+  	creationComplete="init()"  	 
+	preinitialize="{iR=Fun.getLang('AccMonthPaid')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.ArrayList;
+			
+			import x2.*;			
+			[Bindable]
+			private var iR:Object;	
+			[Bindable]
+			private var idw_master:DW;
+			[Bindalbe]
+			private var idw_AccMonthPaid:DW2;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]			
+			private var ia_classInfoStartConb:ArrayList = new ArrayList(Fun2.classInfoStartConbDS(is_app, true));		
+			[Bindable]
+			private var ia_classInfoName:ArrayList = new ArrayList(Fun2.classInfoNameDS(is_app, false));
+			
+			private function init():void{	
+				//dw1: AccMonthPaidDT
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {	
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					mapping: true,
+					items: [
+						{source:sn,					dataType:"N",	inputType:"I"},
+						{source:serialNo,			dataType:"S"},
+						{source:cDate,				dataType:"D"},
+						{source:creator,			dataType:"S",	inputType:"R"}, 
+						{source:createDate,			dataType:"DT",	inputType:"R"}, 
+						{source:reviser,			dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,			dataType:"DT",	inputType:"R"}
+					]				
+				}; 			
+				
+				//dw1: AccMonthPaid
+				edit_1.aoDW[1] = new DW2();				
+				idw_AccMonthPaid = edit_1.aoDW[1]; 
+				idw_AccMonthPaid.xTool = tb_AccMonthPaid;
+				idw_AccMonthPaid.oConfig = {				
+					autos: ["creator","createDate","reviser","reviseDate"],
+					upDW: idw_master,
+					grid: grid_AccMonthPaid,
+					upQKeys: ["sn"],
+					qKeys: ["accMonthPaidDTSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 					dataType:"N", 	inputType:"I"},
+						{fid:"accMonthPaidDTSn", 	dataType:"N", 	inputType:"2"},
+						{fid:"accMIncomeStuSn", 	dataType:"N"},
+						{fid:"serialNo",			update:false,	inputType:"R",	required:true},
+						{fid:"classLeavesSn",		update:false,	inputType:"R"},
+						{fid:"studentName",			update:false,	inputType:"R"},
+						{fid:"cYearMonth",			update:false,	inputType:"R"},
+						{fid:"amounts",				dataType:"N"},
+						{fid:"creator",				dataType:"S",	inputType:"R"}, 
+						{fid:"createDate",			dataType:"DT",	inputType:"R"}, 
+						{fid:"reviser",				dataType:"S",	inputType:"R"}, 
+						{fid:"reviseDate",			dataType:"DT",	inputType:"R"}
+					]				
+				};
+				idw_AccMonthPaid.fAfterFun = sumOfMo;
+				
+			}
+			private function serialNoLabelFunc(p_row:Object, p_column:GridColumn):String {
+				var index:int = p_column.grid.dataProvider.getItemIndex(p_row);
+				if (index > -1) {
+					return (index + 1).toString();
+				}
+				return "";
+			}
+			private function afterOpen(p_data:Object):void{				
+				serialNoFI.visible = true;
+				sumOfMoney.text = "";
+				
+				//清除搜尋資料
+				Fun.setItem(classLeavesSn, "");
+				
+				var t_date:Date = new Date();
+				Fun.setItem(cYear, int(t_date.fullYear));
+				Fun.setItem(cMonth, int(t_date.month + 1));
+
+				grid_query.dataProvider = new ArrayCollection();				
+				
+				switch (p_data.fun){
+					case "C":						
+						serialNoFI.visible = false;
+						break;
+					case "U":
+					case "V":
+						sumOfMo(p_data);
+						break;
+				}
+				
+				SelFun0.visible = true;
+				SelFun1.visible = true;
+				SelFun2.visible = true;
+				grid_query.visible = true;				
+				btnDelete.visible = true;
+				switch (p_data.fun){
+					case "V":
+						SelFun0.visible = false;
+						SelFun1.visible = false;
+						SelFun2.visible = false;
+						grid_query.visible = false;
+						btnDelete.visible = false;
+						break;
+				}
+			}
+			private function whenSave(p_data:Object):Boolean{
+				switch (p_data.fun){
+					case "C":
+						var t_data:Object = {
+							data: "AccSerialNo",
+							accSysN: "AccMonthPaidDT",
+							accSysC: "P"
+						};
+						t_data = Fun.readRow(is_app, t_data);
+						if (t_data){
+							idw_master.setItem(serialNo, t_data.serialNo, true);
+						}
+						break;
+				}				
+				
+				//更新已繳費
+				var ia_data:Array = (grid_AccMonthPaid.dataProvider as ArrayCollection).source;
+				if (ia_data){
+					var snString:String = '0';
+					for (var i:int=0; i<ia_data.length; i++){
+						snString = snString + ',' + String(ia_data[i].accMIncomeStuSn);			
+					}
+					
+					var t_data1:Object = {	
+						tableName: "AccMIncomeStu",
+						columnName: "paidFlag",
+						theValue: 1,
+						type: "type3", columnKeyName: "sn",
+						keyValue: snString												
+					};					
+					Fun.updateDB(is_app, t_data1);
+				}
+				
+				return true;
+			}
+			public function sumOfM(p_event:Event):void{
+				var tn_row:int = grid_AccMonthPaid.selectedIndex;
+				
+				var gmCount:int = 0;
+				var ia_data:Array = [];				
+				ia_data = (grid_AccMonthPaid.dataProvider as ArrayCollection).source;
+				if (ia_data){					
+					for (var i:int=0; i<ia_data.length; i++){
+						if (i!=tn_row){
+							gmCount = gmCount + int(ia_data[i].amounts);	
+						}												
+					}					
+				}
+				sumOfMoney.text = String(gmCount + int(p_event.target.text));
+			}
+			
+			public function sumOfMo(p_data:Object):void{				
+				var gmCount:int = 0;
+				var ia_data:Array = [];				
+				ia_data = (grid_AccMonthPaid.dataProvider as ArrayCollection).source;
+				if (ia_data){					
+					for (var i:int=0; i<ia_data.length; i++){
+						gmCount = gmCount + int(ia_data[i].amounts);											
+					}					
+				}
+				sumOfMoney.text = String(gmCount);
+			}
+			//選取資料到右邊 datagrid
+			private function selectRows():void{
+				var tb_findOld:Boolean = false;
+				var ta_old:Array = ArrayCollection(grid_AccMonthPaid.dataProvider).source;
+				var tn_len:int = 0;
+				var tan_pos:Array = [];
+				var ta_row:Array = ArrayCollection(grid_query.dataProvider).source;
+				for (var i:int=0; i<ta_row.length; i++){
+					if (ta_row[i].selected != 1){
+						continue;
+					}else if(AR.find(ta_old, "accMIncomeStuSn", ta_row[i].accMIncomeStuSn) != -1){
+						tb_findOld = true;
+						continue;
+					}
+					//記錄位置
+					tan_pos[tn_len] = i;
+					tn_len++;					
+
+					var amp_data:Object = {
+						accMIncomeStuSn: ta_row[i].accMIncomeStuSn,
+						serialNo: ta_row[i].serialNo, 
+						classLeavesSn: ta_row[i].classLeavesSn,
+						studentName: ta_row[i].studentName,
+						cYearMonth: ta_row[i].cYearMonth,
+						amounts: ta_row[i].amounts
+					};
+					
+					//寫入右邊清單
+					idw_AccMonthPaid.addRow(amp_data);
+				}
+				
+				//判斷
+				if (tn_len == 0){
+					if (tb_findOld){
+						Fun.msg("I", iR.errSelected);
+					}else{
+						Fun.msg("I", iR.errNoSelect);						
+					}
+					return;
+				}
+				
+				//刪除左邊資料 step -1
+				var ta_query:ArrayCollection = ArrayCollection(grid_query.dataProvider);
+				for (i=tn_len-1; i>=0; i--){
+					ta_query.removeItemAt(tan_pos[i]);
+				}
+			}
+			
+			private function keyEnter(p_event:KeyboardEvent):void{
+				if (p_event.keyCode == 13){
+					findAccMTI();
+				}	    	
+			}
+			
+			private function findAccMTI():void {
+				if (Fun.isFieldEmpty(serialNoSch) && Fun.isFieldEmpty(classLeavesSn) && Fun.isFieldEmpty(cYear) && Fun.isFieldEmpty(cMonth)) {
+					Fun.msg("I", iR.Emessage01);
+					return;					
+				}
+				if (Fun.getItem(cYear) != null && (int(Fun.getItem(cYear))<1900 || int(Fun.getItem(cYear)) > 3000)){					
+					Fun.msg("E", iR.Emessage02);
+					Fun.focusField(cYear);
+					return;
+				}
+				if (Fun.getItem(cMonth) != null && (int(Fun.getItem(cMonth))<1 || int(Fun.getItem(cMonth)) > 12)){
+					Fun.msg("E", iR.Emessage03);
+					Fun.focusField(cMonth);
+					return;
+				}
+				
+				var t_data:Object = {
+					fun: "QueryList",
+					app: is_app, 
+					inf: "FindAccMIncome",
+					data:[["serialNo","S",Fun.getItem(serialNoSch)],["classLeavesSn","N",Fun.getItem(classLeavesSn)],["cYear","N",Fun.getItem(cYear)],["cMonth","N",Fun.getItem(cMonth)]]
+				};
+				
+				Fun.async(is_app, Fun.sService, t_data, findAccMTI2);
+			}
+			
+			private function findAccMTI2(p_data:Object):void {
+				if (Fun.catchResult(p_data, true, true)){
+					return;
+				}
+				
+				var ta_row:Array = p_data as Array;
+				grid_query.dataProvider = new ArrayCollection(ta_row);
+				Fun.msg("I", ST.format(Fun.R.findRow, [ta_row.length]));
+			}
+			private function classInfoName(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_classInfoName, p_row[p_column.dataField]);
+			}
+			
+			public var fAfterSave:Function;
+			private function afterSave(p_data:Object):void {
+				fAfterSave(p_data);
+			}			
+		]]>
+		
+		
+	</fx:Script>
+	<x2:Num1 id="sn" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+	<s:Form x="10" y="10" width="96%">
+		<s:layout> 
+			<s:FormLayout gap="-8"/>
+		</s:layout>
+		<s:FormItem label="{iR.serialNos} :" id="serialNoFI">
+			<s:Label id="serialNo" width="100%" color="#0000FF"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.paidDate} :" required="true">			
+			<x2:Date1 formatString="YYYY/MM/DD" id="cDate" yearNavigationEnabled="true"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.sumOfMoney} :">
+			<s:Label id="sumOfMoney" width="100%" color="#FF0000"/>
+		</s:FormItem>
+	</s:Form>
+	
+	<x2:btnDeleteRow id="btnDelete" x="469" y="104" click="idw_AccMonthPaid.deleteRow();"/>
+	<x2:TBar2 id="tb_AccMonthPaid" width="0" visible="false">
+	</x2:TBar2>
+	<x2:DG2 id="grid_AccMonthPaid" x="10" y="132" width="566" height="306">
+		<x2:columns><s:ArrayList>
+			<s:GridColumn dataField="sn" visible="false"/>
+			<s:GridColumn dataField="accMonthPaidDTSn" visible="false"/>
+			<s:GridColumn dataField="accMIncomeStuSn" visible="false"/>			
+			<s:GridColumn dataField="creator" visible="false"/>
+			<s:GridColumn dataField="createDate" visible="false"/>
+			<s:GridColumn dataField="reviser" visible="false"/>
+			<s:GridColumn dataField="reviseDate" visible="false"/>
+			<s:GridColumn headerText="No." labelFunction="serialNoLabelFunc" width="40"/>
+			<s:GridColumn headerText="{iR.invoiceSno}" dataField="serialNo"/>
+			<s:GridColumn headerText="{iR.classFor}" dataField="classLeavesSn" labelFunction="classInfoName" width="110"/>
+			<s:GridColumn headerText="{iR.childSnoName}" dataField="studentName" width="115"/>
+			<s:GridColumn headerText="{iR.yearMonthFor}" dataField="cYearMonth" width="75"/>
+			<s:GridColumn headerText="{iR.paidFor}" dataField="amounts" width="75"/>
+		</s:ArrayList></x2:columns>
+	</x2:DG2>
+	
+	<s:Button id="SelFun0" x="584" y="157" width="44" height="105" label="&lt;&lt;" click="selectRows()" fontWeight="bold" buttonMode="true"/>
+	
+	<s:Form x="636" y="10" width="325" id="SelFun1">
+		<s:layout> 
+			<s:FormLayout gap="-10"/>
+		</s:layout>
+		<s:FormItem label="{iR.invoiceSno} :">
+			<s:TextInput id="serialNoSch" width="100%"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.classFor} :">
+			<x2:DDL1 id="classLeavesSn" dataProvider="{ia_classInfoStartConb}"></x2:DDL1>
+		</s:FormItem>
+		<s:FormItem label="{iR.yearMonthFor} :">
+			<s:HGroup>			
+				<x2:Num1 id="cYear"/>			
+				<mx:Label text=" /"/>
+				<x2:Num1 id="cMonth"/>
+			</s:HGroup>		
+		</s:FormItem>		
+	</s:Form>
+	<x2:btnRead id="SelFun2" x="968" y="64" width="82" height="25" click="findAccMTI()" toolTip="{iR.SelFun2}"/>
+	
+	<s:DataGrid id="grid_query"  x="636" y="132" width="450" height="306" requestedRowCount="4" horizontalScrollPolicy="off">			
+		<s:columns><s:ArrayList>
+			<s:GridColumn dataField="accMIncomeStuSn" visible="false"/>
+			<s:GridColumn headerText="{iR.selected}" dataField="selected" width="50">
+				<s:itemRenderer><fx:Component><x2:irCenterVH>
+					<x2:Check2 label=""/>
+				</x2:irCenterVH></fx:Component></s:itemRenderer>
+			</s:GridColumn>
+			<s:GridColumn headerText="{iR.invoiceSno}" dataField="serialNo" width="100"/>
+			<s:GridColumn headerText="{iR.classFor}" dataField="classLeavesSn" labelFunction="classInfoName" width="75"/>
+			<s:GridColumn headerText="{iR.childSnoName}" dataField="studentName" width="75"/>
+			<s:GridColumn headerText="{iR.yearMonthFor}" dataField="cYearMonth" width="75"/>
+			<s:GridColumn headerText="{iR.paidFor}" dataField="amounts" width="75"/>
+		</s:ArrayList></s:columns>
+	</s:DataGrid>
+
+	<x2:comEdit x="10" y="440" id="edit_1" fAfterOpen="afterOpen" fWhenSave="whenSave" fAfterSave="afterSave">
+	</x2:comEdit>	
+</s:TitleWindow>

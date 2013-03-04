@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="670" height="390" 
+	 
+  	creationComplete="init()"  	 
+	preinitialize="{iR=Fun.getLang('DamageRepair')}"
+	>
+	<fx:Script>
+		<![CDATA[			
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			private var is_app:String = Fun.sApp;
+			private var idw_master:DW;
+			
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["usersSn","userCName","userEName"]});			
+			
+			private function init():void{
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {					
+					mapping: true,
+					autos: ["","","","reviseDate"],					
+					keys: ["sn"],
+					items: [
+						{source:sn,				dataType:"N",	inputType:"I"}, 
+						{source:staffSnA,						update:false,	inputType:"R"},
+						{source:aName,							update:false,	inputType:"R"},
+						{source:conTel,							update:false,	inputType:"R"},
+						{source:fortuneSn,						update:false,	inputType:"R"},
+						{source:fortuneNo,						update:false,	inputType:"R"},
+						{source:fortuneName,					update:false,	inputType:"R"},
+						{source:damageState,					update:false,	inputType:"R"},						
+						{source:finishDate,		dataType:"S"},
+						{source:staffSnR,		dataType:"N",	init:int(i_session.usersSn)},
+						{source:rName,							update:false,	inputType:"R"},
+						{source:repairState,	dataType:"S"},
+						{source:createDate,						update:false,	inputType:"R"},
+						{source:reviseDate,		dataType:"DT",					inputType:"R"}						
+					]				
+				}; 
+			}
+			private function whenSave(p_data:Object):Boolean{
+				if (p_data.fun != "D"){
+					idw_master.setItem(staffSnR, int(i_session.usersSn), true);
+					Fun.setItem(rName, i_session.userCName+" "+i_session.userEName);
+				}
+				return true;
+			}
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10" y="318" id="edit_1" fWhenSave="whenSave">
+	</x2:comEdit>	
+	<x2:Num1 id="staffSnA" visible="false"/>
+	<x2:Num1 id="fortuneSn" visible="false"/>	
+	<x2:Num1 id="staffSnR" visible="false"/>	
+	<s:TextInput id="rName" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+	<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+		<mx:FormItem label="{iR.sn} :">
+			<s:TextInput id="sn" editable="false" enabled="false"/>			
+		</mx:FormItem>
+		<mx:FormItem label="{iR.createDate} :">
+			<s:TextInput id="createDate" editable="false" enabled="false"/>			
+		</mx:FormItem>
+		<mx:FormItem label="{iR.aName} :">
+			<mx:HBox x="231" y="3" width="100%">
+				<s:TextInput id="aName" editable="false" enabled="false"/>
+				<mx:FormItem label="{iR.conTel} :">
+					<s:TextInput id="conTel" editable="false" enabled="false"/>			
+				</mx:FormItem>
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.fortuneNo} :">
+			<mx:HBox x="231" y="3" width="100%">
+				<s:TextInput id="fortuneNo" editable="false" enabled="false" width="92"/>
+				<mx:FormItem label="{iR.fortuneName} :">
+					<s:TextInput id="fortuneName" editable="false" enabled="false" width="227"/>			
+				</mx:FormItem>
+			</mx:HBox>		
+		</mx:FormItem>
+		<mx:FormItem label="{iR.damageState} :">
+			<mx:TextArea width="400" id="damageState" enabled="false"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.finishDate} :" required="true">
+			<mx:DateField formatString="YYYY/MM/DD" id="finishDate" yearNavigationEnabled="true"/>				
+		</mx:FormItem>
+		<mx:FormItem label="{iR.repairState} :" required="true">
+			<mx:TextArea width="400" id="repairState"/>
+		</mx:FormItem>
+	</mx:Form>
+</s:TitleWindow>

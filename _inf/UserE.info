@@ -1,0 +1,17 @@
+{
+    "dws":[
+	    {
+			"selectTable": "User",
+			"items": [
+				{"fid":"userId"}, 
+				{"fid":"userName"}, 
+				{"fid":"roleId"}, 
+				{"fid":"userPwd"}, 
+				{"fid":"departName"}, 
+				{"fid":"gradeName"}, 
+				{"fid":"houseName"}, 
+				{"fid":"email"}
+			]				
+	    }
+    ]    
+}

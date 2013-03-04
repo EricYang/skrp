@@ -1,0 +1,43 @@
+﻿# list/query fields
+subject=主旨
+contents=內容
+seDate=日期區間
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# E
+Canvas01=基本資料
+textFilesName=開啟公告檔案
+tmpFileNameUpload=公告檔案上傳
+tmpFileName=瀏覽檔案
+Canvas02=公佈對象
+roleName=角色名稱
+Canvas03=公告閱讀紀錄
+dDate=日期
+userType=角色
+userNo=編號
+userName=姓名
+gender=性別
+
+# message
+message01=主旨尚未填寫
+message02=檔案類型不符, 檔案必須為 (.pdf, .xls, .xlsx, .doc, .docx, .ppt, .jpg, .gif, .jpeg, .png) 格式
+message06=角色權限管理
+
+# V
+checkAllFun=全選
+readed=閱畢
+checkFlag=請勾選
+viewFilesName=附檔
+
+# message
+messageV01=無檔案可開啟
+messageV02=取消全選
+messageV03=全選
+messageV04=計閱畢 
+messageV05= 筆公告。
+messageV06=已無公告。
+messageV07=資料存取失敗，請重新點閱。
+messageV08=請先點選項目！

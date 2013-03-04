@@ -1,0 +1,35 @@
+{
+    "dws":[
+        {            
+            "selectTable": "FireControlCheck a INNER JOIN Staff b ON a.staffSn = b.sn",
+            "updateTable": "FireControlCheck",
+            "defaultTable": "a",
+            "items": [
+                {"fid":"sn"},
+                {"fid":"academicYear"},
+                {"fid":"semester"},
+                {"fid":"acaName",         "table":"", "colName":"CONCAT(a.academicYear, ' - ', a.semester)"},                
+                {"fid":"staffSn"},
+                {"fid":"staffName",       "table":"", "colName":"CONCAT(b.cName, ' ', b.eName)"},
+                {"fid":"cDate"},                
+                {"fid":"creator"},
+                {"fid":"createDate"},           
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+            ]
+        },
+        {
+            "selectTable": "FireControlCheckDetail [_where] ORDER BY sn",
+            "updateTable": "FireControlCheckDetail",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"fireControlCheckSn"},                
+                {"fid":"multiFuncItemDetailSn"},
+                {"fid":"itemName",      "table":"",    "colName":"''"},
+                {"fid":"contents",      "table":"",    "colName":"''"},                
+                {"fid":"checkSign"}
+            ]                
+        }
+   ]    
+}

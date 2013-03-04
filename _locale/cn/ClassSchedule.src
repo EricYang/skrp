@@ -1,0 +1,16 @@
+﻿# list/query fields
+acaName=学年(期)
+classLeavesSn=班级别
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# E
+remark=备注
+
+# Q
+academicYear=学年
+semester=学期
+classInfoSn=班级
+classLeavesSn=班别

@@ -1,0 +1,17 @@
+﻿# list/query fields
+babyCarInfoSn=车辆代号
+cDate=日期
+timeInter=时段
+leaveTimeH=去程(时)
+leaveTimeM=去程(分)
+backTimeH=回程(时)
+backTimeM=回程(分)
+eventRec=特殊事件纪录
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# E
+leaveTimeHM=去程时间
+backTimeHM=回程时间

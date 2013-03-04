@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  xmlns:ns1="*"
+		  >		  
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+    <s:layout>
+        <s:HorizontalLayout verticalAlign="middle" horizontalAlign="center"/>
+    </s:layout>
+    <s:VideoPlayer id="video"/>
+	
+	<fx:Script>
+		<![CDATA[
+            import skin.FileEmbeddedBorder;
+           
+            import spark.components.VideoPlayer;
+            
+            import x2.*;
+            
+            public var ib_border:Boolean = true;    //是否顯示外框，預設為true
+            
+            private const csBorder:int = 26;        //外框邊距(需與skin內的設定相同)
+            private const csControl:int = 24;       //VideoPlayer控制列高
+            private const csMinWidth:int = 320;     //VideoPlayer最小寬限制(以16:9為準)
+            private const csMinHeight:int = 180;    //VideoPlayer最小高限制(以16:9為準)
+				
+			public var is_path:String;
+            
+            public var ib_autoPlay:Boolean = false;
+            
+            public function show():void {
+                var tn_border:int = 0;
+                if (ib_border) {
+                   this.setStyle("skinClass",Class(skin.FileEmbeddedBorder));
+                   tn_border = csBorder;
+                }
+                video.source = is_path;
+                video.autoPlay = ib_autoPlay;
+                
+                if (this.width > (csMinWidth + tn_border) || this.height > (csMinHeight + csControl + tn_border)) {  //若有設定元件寬(高)且元件寬(高)大於VideoPlayer最小寬(高)限制，則依影片播放預設比例適應容器寬(高)
+                    var tn_ratio:Number = csMinWidth/csMinHeight;
+
+                    if (this.width > (csMinWidth + tn_border)) {
+                        video.width = this.width - tn_border;
+                        video.height = (video.width / tn_ratio) + csControl;
+                    }
+                    if (this.height > (csMinWidth + csControl + tn_border) && video.height > (this.height - tn_border)) {
+                        video.height = this.height - tn_border;
+                        video.width = (video.height - csControl) * tn_ratio;                    
+                    }
+                } else {    //若容器沒設定寬(高)但有設定寬(高)百分比則填滿寬(高)(無視原比例)，否則以VideoPlayer最小尺寸限制顯示
+                    if (isNaN(this.percentWidth)) {     
+                        video.width = csMinWidth;
+                        this.width = video.width + tn_border;
+                    } else {
+                        video.percentWidth = 100;
+                    }
+                    if (isNaN(this.percentHeight)) {
+                        video.height = csMinHeight + csControl;
+                        this.height = video.height + tn_border;
+                    } else {
+                        video.percentHeight = 100;
+                    }                    
+                }  
+            }	            
+		]]>
+	</fx:Script>
+</s:SkinnableContainer>

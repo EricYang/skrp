@@ -1,0 +1,28 @@
+﻿# list/query fields
+inputExcelType=資料匯入項目
+example=上傳格式範例
+openFilesF=開啟檔案
+classLeavesSn=所屬班別(級)
+fileUploadLabel=檔案上傳匯入
+tmpFileName=瀏覽檔案
+cmdOk=確定匯入
+cmdExit=離開
+
+# message
+message01=所屬班別(級) 尚未選擇。
+message02=資料匯入項目 尚未選擇。
+message03=檔案類型不符, 檔案必須為 (.xls, .xlsx) 格式。
+message04=資料匯入項目 尚未選擇。
+message05=所屬班別(級) 尚未選擇。
+message06=資料匯入項目 尚未選擇 或 檔案尚未上傳。
+
+# E
+
+
+# message
+
+
+# Q
+
+
+# message

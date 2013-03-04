@@ -1,0 +1,53 @@
+﻿# list/query fields
+acaName=学年(期)
+classLeavesSn=班级(别)
+studentName=学生姓名
+devControlSn=检核年龄
+controlResult=检核结果
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# message
+
+# E
+Canvas01=检核对象
+studentName=学生姓名
+devAgeName=检核年龄别名
+ageScope=年龄范围
+remark=备注
+Canvas02=发展里程检核
+devControlDetailSn=检核项目
+checkSign=答案
+Canvas03=相关图档
+
+# message
+message01=岁
+message02=个月
+message03=天 ~
+message04=岁
+message05=个月
+message06=天
+message07=尚未填写发展检核表。
+message08= 检核结果，需要进一步进行确认。
+message09= 检核结果正常。
+message10=岁
+message11=个月
+message12=天 ~
+message13=岁
+message14=个月
+message15=天
+message16=无相关发展检核资料。
+message17=出生日期错误，请先确认该生日是否已经填写。
+
+# Q
+academicYear=学年
+semester=学期
+classInfoSn=班级
+classLeavesSn=班别
+cName=中文姓名
+eName=英文名
+controlResult=检核结果
+
+# message

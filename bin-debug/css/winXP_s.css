@@ -1,0 +1,24 @@
+
+@namespace mx "library://ns.adobe.com/flex/mx";
+@namespace s "library://ns.adobe.com/flex/spark";
+
+
+/* global did not work !! */
+global {
+	/* font-family:"Tahoma"; */ 
+    fontWeight: normal;
+   	fontSize:12px;
+	font-size:12px; 
+}
+
+
+mx|ToolTip {
+	font-family: Tahoma;
+	fontSize: 12;
+	background-color: #FFFFEB;
+	color: #000000;
+	/* border-color: #000000; */
+	/* border-thickness: 1; */
+	drop-shadow: false;
+	corner-radius: 0;
+}

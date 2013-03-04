@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:AdvancedDataGrid 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	width="668" height="582"
+ 	creationComplete="creationComplete()"
+ 	fontSize="12" fontFamily="Arial" textAlign="center" fontWeight="normal" dataProvider="{x2_ds}"
+ 	selectionMode="singleCell" sortableColumns="false" sortExpertMode="true">
+
+	<fx:Script>
+		<![CDATA[
+		
+	    import mx.collections.*;
+		import mx.controls.dataGridClasses.DataGridColumn;
+		import x2.Fun;
+		
+		
+		[Bindable]
+		public var x2_ds:ArrayCollection = new ArrayCollection();
+		
+		//=== public instance variables begin ===
+		//
+		//public var x2_show6:Boolean = true;		//show Saturday or not
+		//public var x2_show7:Boolean = true;		//show Sunday or not
+		public var x2_beginDate:Date;
+		public var x2_beginHour:int;
+		public var x2_beginMin:int;
+		public var x2_endHour:int;
+		public var x2_endMin:int;
+		public var x2_minsPerUnit:int;			//minutes per unit
+		public var x2_rowHeight:int = 50	;	//row height
+		
+		//=== end ===
+		
+		
+		//
+		private function creationComplete():void{
+			//=== initialize object begin ===
+			//set row height
+			this.rowHeight = x2_rowHeight;
+			
+			/*
+			//add columns
+			var ta_col:Array = new Array(8);
+			for (var i:int=0;i<8;i++){
+				ta_col[i] = new AdvancedDataGridColumn("day"+i.toString());
+			}		
+			this.columns = ta_col;
+			*/	
+			this.columns[0].headerText = "";
+			
+			//=== add empty rows schema begin ===
+			var tn_beginHour:int = x2_beginHour;
+			var tn_beginMin:int = x2_beginMin;
+			//var tn_endHour:int = x2_endHour;
+			//var tn_endMin:int = x2_endMin;
+			var tn_mins:int = x2_beginHour * 60 + x2_beginMin;   
+			var tn_minsEnd:int = x2_endHour * 60 + x2_endMin;
+			var ta_row:Array = new Array();
+			var ts_str:String;  
+			var tn_row:int = 0; 
+			while (tn_mins < tn_minsEnd){
+				ts_str = tn_beginHour.toString()+":"+Fun.preZero(2,tn_beginMin)+"~";
+				
+				//update variables
+				tn_beginMin += x2_minsPerUnit;
+				if (tn_beginMin > 60){
+					tn_beginMin -= 60;
+					tn_beginHour++;
+				}
+				tn_mins = tn_beginHour * 60 + tn_beginMin;   
+				
+				ta_row[tn_row] = {
+					day0: ts_str + "\n" + tn_beginHour.toString()+":"+Fun.preZero(2,tn_beginMin)
+				};
+							
+				x2_ds.addItem(ta_row[tn_row]);	
+				tn_row++;
+			}
+			//=== end ===
+	
+			//show data
+			showData();			
+		}
+		
+		
+		//show head and records
+		public function showData():void{
+			//=== show head begin ===
+			//var ta_col:Array = this.columns;
+				
+			//var t_date:Date;
+			var tn_day:int = x2_beginDate.day;
+			if (tn_day == 0){
+				tn_day = 7;
+			}
+			
+			//get first date be showed
+			var tas_day:Array = ["一","二","三","四","五","六","日"];
+			//var tas_day:Array = ["11","22","33","44","55","66","77"];
+			var td_begin:Date = Fun.addDate(x2_beginDate, tn_day * (-1));	//Sunday		
+			
+			for (var i:int=1;i<8;i++){			
+				td_begin = Fun.addDate(td_begin, 1);
+				this.columns[i].headerText = (td_begin.month+1).toString()+"/"+td_begin.date.toString()+"\n("+tas_day[i-1]+")";
+			}
+			//=== end ===
+			
+						
+			//show record
+			
+		}
+			
+		]]>
+	</fx:Script>
+
+
+    <mx:columns>
+        <mx:AdvancedDataGridColumn dataField="day0"/>
+        <mx:AdvancedDataGridColumn dataField="day1"/>
+        <mx:AdvancedDataGridColumn dataField="day2"/>
+        <mx:AdvancedDataGridColumn dataField="day3"/>
+        <mx:AdvancedDataGridColumn dataField="day4"/>
+        <mx:AdvancedDataGridColumn dataField="day5"/>
+        <mx:AdvancedDataGridColumn dataField="day6"/>
+        <mx:AdvancedDataGridColumn dataField="day7"/>
+    </mx:columns>
+	
+</mx:AdvancedDataGrid>

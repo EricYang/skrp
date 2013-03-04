@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	width="540" height="176" xmlns:x2="x2.*" 
+	
+	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('LeagalInfectItem')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			[Bindable]
+			private var iR:Object;
+			private function init():void{
+				qry_1.aoItem = [
+					{source:itemName}
+				];					
+			}			
+		]]>
+	</fx:Script>
+	<x2:comQuery x="446" y="10" id="qry_1">
+	</x2:comQuery>
+	<mx:Form x="10" y="10" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+		<mx:FormItem label="{iR.itemName} :">
+			<s:TextInput id="itemName" width="270"/>													
+		</mx:FormItem>
+	</mx:Form>
+</s:TitleWindow>

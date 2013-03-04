@@ -1,0 +1,15 @@
+{
+    "list":{
+		"select": "SELECT *",
+		"from": "FROM TodoList
+                WHERE (staffSnA = [staffSn] OR staffSnB = [staffSn] OR staffSnC = [staffSn])
+                [_where]",
+		"order": "ORDER BY docNoa, docNob, cDate",
+		"items": [            
+            {"fid":"staffSn",   "isCond":0},            
+            {"fid":"docNoa",    "op":"like"},
+            {"fid":"cDate",     "op":"between"},
+            {"fid":"subject",   "op":"like"}
+		]
+    }
+}

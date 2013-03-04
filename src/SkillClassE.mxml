@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="854" height="470" 
+	 
+  	creationComplete="init()"  	 		
+	preinitialize="{iR=Fun.getLang('SkillClass')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;	
+
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindalbe]
+			private var idw_master:DW;
+			[Bindalbe]
+			private var idw_ClassTeacher:DW2, idw_StudentStatus:DW2;
+			[Bindalbe]
+			private var is_app:String = Fun.sApp;
+			[Bindalbe]
+			public var bShowColumn:Boolean = true;
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["academicYear","semester"]});			
+			[Bindable]
+			public var ia_staffList:ArrayList = new ArrayList(Fun2.staffListDS(is_app, true));			
+			[Bindable]
+			private var ia_class:ArrayList;			
+			[Bindable]			
+			public var ia_classInfoList:ArrayList = new ArrayList(Fun2.classInfoListDS(is_app, 1, true));			
+			[Bindable]
+			public var ia_cTitles:ArrayList = new ArrayList(Fun2.cTitlesDS(is_app, true));
+			[Bindable]
+			private var ia_gender:ArrayList = new ArrayList(Fun2.genderDS(is_app, true));
+						
+			private function getClassLeaves():void{			
+				var t_data:Object = {
+					type: "classLeavesList",
+					classInfoSn: int(Fun.getItem(classInfoSn2))					
+				};								
+				ia_class = new ArrayList(Fun.comboDS2(is_app, t_data, true));				
+				classLeavesSn2.validateNow();
+			}			
+			
+			private function init():void{			
+				//dw1: StartClass
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {				
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					mapping: true,
+					items: [
+						{source:sn,				dataType:"N",	inputType:"I"}, 
+						{source:academicYear,	dataType:"N",	init:int(i_session.academicYear)}, 
+						{source:semester,		dataType:"N",	init:int(i_session.semester)},
+						{source:classLeavesSn,	dataType:"N"},
+						{source:classType,		dataType:"N",	init:1},
+						{source:theClassName,	inputType:"R",	read:false,	update:false},
+						{source:classLeavesName,inputType:"R",	read:false,	update:false},
+						{source:tuition,		dataType:"N"},
+						{source:classH,			dataType:"N"},
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"D",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"D",	inputType:"R"}						
+					]				
+				}; 			
+				
+				//dw2: ClassTeacher
+				edit_1.aoDW[1] = new DW2();				
+				idw_ClassTeacher = edit_1.aoDW[1]; 
+				idw_ClassTeacher.xTool = tb_ClassTeacher;
+				idw_ClassTeacher.oConfig = {
+					autos: ["creator","createDate","reviser","reviseDate"],
+					upDW: idw_master,
+					grid: grid_ClassTeacher,
+					upQKeys: ["sn"],
+					qKeys: ["startClassSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"startClassSn", 	dataType:"N", 	inputType:"2"},
+						{fid:"cTitles",			dataType:"S"},
+						{fid:"staffSn",			dataType:"N"},						
+						{fid:"creator",			dataType:"S",	inputType:"R"}, 
+						{fid:"createDate",		dataType:"DT",	inputType:"R"}, 
+						{fid:"reviser",			dataType:"S",	inputType:"R"}, 
+						{fid:"reviseDate",		dataType:"DT",	inputType:"R"},
+						{fid:"empNo",			update:false},
+						{fid:"cName",			update:false},
+						{fid:"eName",			update:false},
+						{fid:"gender",			update:false}
+					]				
+				};
+				
+				//dw3: StudentStatus
+				edit_1.aoDW[2] = new DW2();
+				idw_StudentStatus = edit_1.aoDW[2]; 
+				idw_StudentStatus.xTool = tb_StudentStatus;
+				idw_StudentStatus.oConfig = {					
+					upDW: idw_master,
+					grid: grid_StudentStatus,
+					upQKeys: ["sn"],
+					qKeys: ["startClassSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"startClassSn", 	dataType:"N", 	inputType:"2"},						
+						{fid:"studentSn",		dataType:"N"},						
+						{fid:"stuNo",			update:false},
+						{fid:"cName",			update:false},
+						{fid:"eName",			update:false},
+						{fid:"gender",			update:false},
+						{fid:"birthDate",		update:false,		dataType:"D"}
+					]				
+				};			
+				
+				tb_StudentStatus.cmdAdd.visible = false;
+				tb_StudentStatus.cmdAdd.width = 0;
+			}
+			
+			private function whenSave(p_data:Object):Boolean{
+				if (p_data.fun != "D"){
+					idw_master.setItem(classLeavesSn, int(Fun.getItem(classLeavesSn2)), true);			
+				
+					//為了讓儲存時, 也能同時更新顯示的頁面, 所以要特別給予值
+					Fun.setItem(theClassName, classInfoSn2.selectedItem.label);
+					Fun.setItem(classLeavesName, classLeavesSn2.selectedItem.label);
+				}
+				return true;
+			}
+			private function afterOpen(p_data:Object):void{
+				FunID.visible = true;
+				
+				switch (p_data.fun){
+					case "C":
+					case "U":
+						classInfoSn2.enabled = true;
+						classLeavesSn2.enabled = true;
+						bShowColumn = true;				
+						break;
+					case "V":
+						FunID.visible = false;
+						classInfoSn2.enabled = false;
+						classLeavesSn2.enabled = false;
+						bShowColumn = false;				
+						break;
+				}
+				
+				switch (p_data.fun){
+					case "U":
+					case "V":						
+						//抓到原始的班級序號, 帶回, 也帶上班別的序號
+						var t_data:Object = {
+							data: "getClassInfoSn",
+							classLeavesSn: int(Fun.getItem(classLeavesSn))
+						};
+						var s_data:Object = Fun.readRow(is_app, t_data);
+						Fun.setItem(classInfoSn2, int(s_data.classInfoSn));
+						getClassLeaves();				
+						Fun.setItem(classLeavesSn2, t_data.classLeavesSn);				
+						break;
+				}
+			}
+			
+			//學生			
+			public function fnClickStudentAll():void{
+				if (bShowColumn){					
+					Fun2.bGlobal = ArrayCollection(grid_StudentStatus.dataProvider);
+					Fun2.aGlobal = [];
+					
+					var t_win:FindStuOpt = new FindStuOpt();
+					Fun.openPopup(t_win, this);				
+					
+					//t_win.qry_1.fSelectRow = fSelectRowStudent;
+					t_win.qry_1.bCloseAfterQuery = false;
+					t_win.fAfterOk = fSelectRowStudent;
+				}
+			}
+			
+			private function fSelectRowStudent():void{
+				if (Fun2.aGlobal.length!=0){					
+					for (var i:int=Fun2.aGlobal.length - 1; i>=0; i--){
+						var idw_data:Object = {
+							studentSn: Fun2.aGlobal[i].sn, 
+								stuNo: Fun2.aGlobal[i].stuNo, 
+								cName: Fun2.aGlobal[i].cName, 
+								eName: Fun2.aGlobal[i].eName, 
+								gender: Fun2.aGlobal[i].gender, 
+								birthDate: Fun2.aGlobal[i].birthDate							
+						};
+						idw_StudentStatus.addRow(idw_data);						
+					}
+				}
+			}
+			/*
+			//學生
+			public function fnClickStudentStatus(pn_sn:int):void{
+				if (bShowColumn){
+					var t_win:FindStu = new FindStu();
+					Fun.openPopup(t_win, this);				
+					t_win.qry_1.fSelectRow = fSelectRowStudentStatus;
+				}
+			}			
+			private function fSelectRowStudentStatus(p_row:Object):void{
+				var tn_row:int = grid_StudentStatus.selectedIndex;
+				
+				var t_row:Object = grid_StudentStatus.selectedItem;				
+				t_row.stuNo = p_row.stuNo;
+				t_row.cName = p_row.cName;
+				t_row.eName = p_row.eName;
+				t_row.gender = p_row.gender;
+				t_row.birthDate = p_row.birthDate;
+				
+				idw_StudentStatus.setItemByFid("studentSn", p_row.sn, true, tn_row);
+				Fun.refreshGrid(grid_StudentStatus, tn_row);
+			}
+			*/
+			
+			//教師
+			public function fnClickClassTeacher(pn_sn:int):void{
+				if (bShowColumn){
+					var t_win:FindStaff = new FindStaff();
+					Fun.openPopup(t_win, this);				
+					
+					t_win.qry_1.fSelectRow = fSelectRowStaff;
+					t_win.qry_1.bCloseAfterQuery = false;
+					t_win.fAfterOk = fSelectRowStaff;
+				}
+			}			
+			private function fSelectRowStaff(p_row:Object):void{
+				var tn_row:int = grid_ClassTeacher.selectedIndex;
+				
+				var t_row:Object = grid_ClassTeacher.selectedItem;				
+				t_row.empNo = p_row.empNo;
+				t_row.cName = p_row.cName;
+				t_row.eName = p_row.eName;
+				t_row.gender = p_row.gender;
+				
+				idw_ClassTeacher.setItemByFid("staffSn", p_row.sn, true, tn_row);
+				Fun.refreshGrid(grid_ClassTeacher, tn_row);
+			}
+			
+			private function gender(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_gender, p_row[p_column.dataField]);
+			}
+			
+			public function fnStuClick(pn_StuSn:int):void{
+				if (int(pn_StuSn)){
+					var t_win:StudentE = new StudentE();
+					var t_data:Object = {
+						win: t_win,
+						fun: "V",
+						row: {sn:pn_StuSn}
+					};
+					Fun.openPopup(t_win, this);				
+					var t_edit:comEdit = t_win.edit_1; 
+					t_edit.sApp = is_app;
+					t_edit.sInf = "StudentE";
+					t_edit.sTitle = iR.message01;				
+					t_edit.init(t_data);					
+				}				
+			}
+			private function serialNoLabelFunc(p_row:Object, p_column:GridColumn):String {
+				var index:int = p_column.grid.dataProvider.getItemIndex(p_row);
+				if (index > -1) {
+					return (index + 1).toString();
+				}
+				return "";
+			}
+		]]>
+	</fx:Script>
+	<x2:Num1 id="sn" visible="false"/>	
+	<x2:Num1 id="academicYear" visible="false"/>
+	<x2:Num1 id="semester" visible="false"/>
+	<x2:Num1 id="classLeavesSn" visible="false"/>
+	<s:TextInput id="theClassName" visible="false"/>
+	<s:TextInput id="classLeavesName" visible="false"/>
+	<x2:Num1 id="classType" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+	
+	<mx:TabNavigator x="10" y="10" width="822" height="376" id="tns">
+		<mx:Canvas label="{iR.Canvas01}">
+			<mx:Form x="10" y="10" horizontalScrollPolicy="off">				
+				<mx:FormItem label="{iR.classInfoSn2} :" required="true">
+					<x2:DDL1 id="classInfoSn2" dataProvider="{ia_classInfoList}" change="getClassLeaves()"></x2:DDL1>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.classLeavesSn2} :" required="true">
+					<x2:DDL1 id="classLeavesSn2" dataProvider="{ia_class}"></x2:DDL1>
+				</mx:FormItem>				
+				<mx:FormItem label="{iR.tuition} :" id="fTuition">
+					<mx:NumericStepper id="tuition" maximum="999999"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.classH} :" id="fClassH">
+					<mx:NumericStepper maximum="200" id="classH"/>
+				</mx:FormItem>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas02}" height="100%">
+			<x2:TBar2 x="532" y="4" id="tb_ClassTeacher">
+			</x2:TBar2>
+			<mx:Form x="10" y="29">				
+				<x2:DG2 width="765" alpha="0.7" height="270" x="10.5" y="143" id="grid_ClassTeacher">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>						
+						<s:GridColumn dataField="startClassSn" visible="false"/>
+						<s:GridColumn dataField="staffSn" visible="false"/>
+						<s:GridColumn dataField="creator" visible="false"/>
+						<s:GridColumn dataField="createDate" visible="false"/>
+						<s:GridColumn dataField="reviser" visible="false"/>
+						<s:GridColumn dataField="reviseDate" visible="false"/>
+						<s:GridColumn headerText="{iR.cTitles}" dataField="cTitles" width="100">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:DDL2 dataProvider="{outerDocument.ia_cTitles}"/>
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.empNo}" dataField="empNo"/>
+						<s:GridColumn headerText="{iR.cName}" dataField="cName"/>
+						<s:GridColumn headerText="{iR.eName}" dataField="eName"/>
+						<s:GridColumn headerText="{iR.gender}" dataField="gender" labelFunction="gender"/>
+						<s:GridColumn width="40">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:btnPick click="outerDocument.fnClickClassTeacher(data.sn)"/>									
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas03}" height="100%" id="canvasLabel3">
+			<mx:Form x="10" y="29">
+				<x2:DG2 width="765" alpha="0.7" height="270" id="grid_StudentStatus">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="startClassSn" visible="false"/>
+						<s:GridColumn dataField="studentSn" visible="false"/>			
+						<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+						<s:GridColumn headerText="{iR.stuNo}" dataField="stuNo"/>
+						<s:GridColumn headerText="{iR.cName}" dataField="cName">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<mx:Label text="{data.cName}" useHandCursor="true" mouseChildren="false" buttonMode="true" textDecoration="underline" color="#0000FF" click="outerDocument.fnStuClick(data.studentSn)"/>															
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.eName}" dataField="eName"/>
+						<s:GridColumn headerText="{iR.gender}" dataField="gender" labelFunction="gender"/>
+						<s:GridColumn headerText="{iR.birthDate}" dataField="birthDate"/>
+						<!--
+						<s:GridColumn width="40">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:BtnPick click="outerDocument.fnClickStudentStatus(data.sn)"/>									
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						-->
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>
+			<mx:HBox x="429" y="4" id="FunID">
+				<!--<x2:TBar2 id="tb_StudentStatus"/>-->
+				<x2:BtnIBar id="cmdInsert" click="fnClickStudentAll()"/>
+				<x2:btnDeleteRow id="btnDelete" click="idw_StudentStatus.deleteRow();"/>
+				<x2:TBar2 id="tb_StudentStatus" width="0" visible="false"/>			
+			</mx:HBox>
+		</mx:Canvas>		
+	</mx:TabNavigator>
+	<x2:comEdit x="10" y="393" id="edit_1" fWhenSave="whenSave" fAfterOpen="afterOpen">
+	</x2:comEdit>
+</s:TitleWindow>

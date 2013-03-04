@@ -1,0 +1,12 @@
+﻿# list/query fields
+cDate=school start date
+classLeavesSn= class
+searchData=search data
+checkAllFun=select all
+saveData=save data
+
+# message
+message01=please select the date
+message02=cancel select all
+message03=select all
+message04=attendance record saved

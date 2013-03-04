@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="890" height="600" 
+	 
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('FireCommittee')}"
+	>
+	<fx:Script>
+		<![CDATA[
+
+			
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			[Bindable]
+			private var iR:Object;
+			[Bindalbe]
+			private var idw_master:DW;
+			[Bindalbe]
+			private var idw_FireCommitteeAC:DW2, idw_FireCommitteePV:DW2;
+			[Bindalbe]
+			private var is_app:String = Fun.sApp;			
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["academicYear","semester","usersSn","userCName","userEName"]});
+			[Bindable]
+			public var ia_fireTitles:ArrayList = new ArrayList(Fun2.fireTitlesDS(is_app, true));
+			[Bindable]
+			public var ia_titles:ArrayList = new ArrayList(Fun2.titlesDS(is_app, true));
+			
+			private function init():void{				
+				//dw1: FireCommittee
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					mapping: true,
+					items: [
+						{source:sn, 				dataType:"N",	inputType:"I"},
+						{source:academicYear,		dataType:"N",	init:int(i_session.academicYear)}, 
+						{source:semester,			dataType:"N",	init:int(i_session.semester)},
+						{source:acaName,							update:false,	inputType:"R"},
+						{source:cDate,				dataType:"D"},
+						{source:remark,				dataType:"S"},
+						{source:creator,			dataType:"S",	inputType:"R"}, 
+						{source:createDate,			dataType:"DT",	inputType:"R"}, 
+						{source:reviser,			dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,			dataType:"DT",	inputType:"R"}
+					]				
+				}; 			
+				
+				//dw1: FireCommitteeAC
+				edit_1.aoDW[1] = new DW2();
+				idw_FireCommitteeAC = edit_1.aoDW[1]; 
+				idw_FireCommitteeAC.xTool = tb_FireCommitteeAC;
+				idw_FireCommitteeAC.oConfig = {			
+					upDW: idw_master,
+					grid: grid_FireCommitteeAC,
+					upQKeys: ["sn"],
+					qKeys: ["fireCommitteeSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"fireCommitteeSn", dataType:"N", 	inputType:"2"},
+						{fid:"staffSn",			dataType:"N"},
+						{fid:"fireTitles",		dataType:"S"},
+						{fid:"titlesSn",		update:false},
+						{fid:"cName",			update:false},
+						{fid:"remark",			dataType:"S"}
+					]				
+				};
+				
+				//dw2: FireCommitteePV
+				edit_1.aoDW[2] = new DW2();
+				idw_FireCommitteePV = edit_1.aoDW[2]; 
+				idw_FireCommitteePV.xTool = tb_FireCommitteePV;
+				idw_FireCommitteePV.oConfig = {			
+					upDW: idw_master,
+					grid: grid_FireCommitteePV,
+					upQKeys: ["sn"],
+					qKeys: ["fireCommitteeSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"fireCommitteeSn", dataType:"N", 	inputType:"2"},
+						{fid:"fireTitles",		dataType:"S"},
+						{fid:"staffSnA",		dataType:"N"},
+						{fid:"place",			dataType:"S"},						
+						{fid:"staffSnB",		dataType:"N"},
+						{fid:"pfPerson",		update:false},
+						{fid:"fsPerson",		update:false}
+					]				
+				};
+			}
+			
+			private function whenSave(p_data:Object):Boolean{
+				Fun.setItem(acaName, String(Fun.getItem(academicYear))+ ' - '+String(Fun.getItem(semester)));
+				return true;
+			}
+			
+			private function afterOpen(p_data:Object):void{
+				Fun.setItem(acaName, String(i_session.academicYear)+ ' - '+String(i_session.semester));
+			}
+			
+			//防火管理委員會編組
+			public function fnClickStaffAC(pn_sn:int):void{
+				var t_win:FindStaff = new FindStaff();
+				Fun.openPopup(t_win, this);			
+				
+				t_win.qry_1.fSelectRow = fSelectRowStaffAC;
+				t_win.qry_1.bCloseAfterQuery = false;
+				t_win.fAfterOk = fSelectRowStaffAC;
+			}			
+			private function fSelectRowStaffAC(p_row:Object):void{
+				var tn_row:int = grid_FireCommitteeAC.selectedIndex;
+				
+				var t_row:Object = grid_FireCommitteeAC.selectedItem;
+				t_row.titlesSn = p_row.titlesSn;
+				t_row.cName = p_row.cName;
+				
+				idw_FireCommitteeAC.setItemByFid("staffSn", p_row.sn, true, tn_row);
+				Fun.refreshGrid(grid_FireCommitteeAC, tn_row);
+			}
+			
+			//火災預防管理編組
+			public function fnClickStaffPVA(pn_sn:int):void{
+					var t_win:FindStaff = new FindStaff();
+					Fun.openPopup(t_win, this);				
+					
+					t_win.qry_1.fSelectRow = fSelectRowStaffPVA;
+					t_win.qry_1.bCloseAfterQuery = false;
+					t_win.fAfterOk = fSelectRowStaffPVA;
+			}			
+			private function fSelectRowStaffPVA(p_row:Object):void{
+				var tn_row:int = grid_FireCommitteePV.selectedIndex;
+				
+				var t_row:Object = grid_FireCommitteePV.selectedItem;
+				t_row.pfPerson = p_row.titlesName + ' ' + p_row.cName;
+				
+				idw_FireCommitteePV.setItemByFid("staffSnA", p_row.sn, true, tn_row);
+				Fun.refreshGrid(grid_FireCommitteePV, tn_row);
+			}
+			
+			public function fnClickStaffPVB(pn_sn:int):void{
+				var t_win:FindStaff = new FindStaff();
+				Fun.openPopup(t_win, this);				
+				
+				t_win.qry_1.fSelectRow = fSelectRowStaffPVB;
+				t_win.qry_1.bCloseAfterQuery = false;
+				t_win.fAfterOk = fSelectRowStaffPVB;
+			}			
+			private function fSelectRowStaffPVB(p_row:Object):void{
+				var tn_row:int = grid_FireCommitteePV.selectedIndex;
+				
+				var t_row:Object = grid_FireCommitteePV.selectedItem;
+				t_row.fsPerson = p_row.titlesName + ' ' + p_row.cName;
+				
+				idw_FireCommitteePV.setItemByFid("staffSnB", p_row.sn, true, tn_row);
+				Fun.refreshGrid(grid_FireCommitteePV, tn_row);
+			}
+			
+			private function titles(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_titles, p_row[p_column.dataField]);
+			}
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10" y="531" id="edit_1" fWhenSave="whenSave" fAfterOpen="afterOpen">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="academicYear" visible="false"/>
+	<x2:Num1 id="semester" visible="false"/>
+	<!--
+	<s:TextInput id="acaName" visible="false"/>
+	-->
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+
+	<mx:TabNavigator x="10" y="10" width="864" height="514" id="tns">
+		<mx:Canvas label="{iR.Canvas01}">
+			<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+				<mx:FormItem label="{iR.acaName} :">
+					<mx:Label id="acaName"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.cDate} :" required="true">
+					<mx:DateField id="cDate" formatString="YYYY/MM/DD" yearNavigationEnabled="true"/>
+				</mx:FormItem>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas02}">
+			<x2:TBar2 x="567" y="4" id="tb_FireCommitteeAC">
+			</x2:TBar2>
+			<mx:Form x="10" y="29">
+				<x2:DG2 width="800"
+						 
+						 
+						 alpha="0.7"		
+						 		 
+						 
+						 
+						 height="400" id="grid_FireCommitteeAC" sortableColumns="true">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>						
+						<s:GridColumn dataField="fireCommitteeSn" visible="false"/>
+						<s:GridColumn dataField="staffSn" visible="false"/>
+						<s:GridColumn headerText="{iR.fireTitles}" dataField="fireTitles" width="150">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:DDL2 dataProvider="{outerDocument.ia_fireTitles}"/>
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.titlesSn}" dataField="titlesSn" width="150" labelFunction="titles"/>
+						<s:GridColumn headerText="{iR.cName}" dataField="cName" width="100"/>
+						<s:GridColumn width="40">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:btnPick click="outerDocument.fnClickStaffAC(data.sn)"/>									
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.remark}" dataField="remark">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:Text2/>						
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas03}">
+			<x2:TBar2 x="567" y="4" id="tb_FireCommitteePV">
+			</x2:TBar2>
+			<mx:Form x="10" y="29">
+				<x2:DG2 width="800"
+						 
+						 
+						 alpha="0.7"		
+						 		 
+						 
+						 
+						 height="400" id="grid_FireCommitteePV">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>						
+						<s:GridColumn dataField="fireCommitteeSn" visible="false"/>
+						<s:GridColumn dataField="staffSnA" visible="false"/>
+						<s:GridColumn dataField="staffSnB" visible="false"/>
+						<s:GridColumn headerText="{iR.fireTitles}" dataField="fireTitles" width="150">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:DDL2 dataProvider="{outerDocument.ia_fireTitles}"/>
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.pfPerson}" dataField="pfPerson" width="150"/>
+						<s:GridColumn width="40">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:btnPick click="outerDocument.fnClickStaffPVA(data.sn)"/>									
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.place}" dataField="place">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:Text2/>						
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.fsPerson}" dataField="fsPerson" width="150"/>
+						<s:GridColumn width="40">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:btnPick click="outerDocument.fnClickStaffPVB(data.sn)"/>									
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas04}">
+			<mx:Form x="10" y="10">
+				<mx:TextArea width="812" height="422" id="remark"/>
+			</mx:Form>	
+		</mx:Canvas>
+	</mx:TabNavigator>	
+</s:TitleWindow>

@@ -1,0 +1,31 @@
+﻿# list/query fields
+acaName=Year(semester)
+classLeavesSnA=class grade and classification
+studentSnA=injured student A
+classLeavesSnB=class grade and classification
+studentSnB=injured student B
+occurDate=date of incident
+occurTime=time of incident
+staffSn=teacher on-duty
+creator=created on
+createDate=created by
+reviser=modified by
+reviseDate=last modified
+
+# E
+studentNameA=name of injured student A
+studentNameB=Student involved in the incident
+staffName=teacher on-duty
+occurPlace=place of incident
+proDescribe=Detail of the incident
+occurDeal=sequential management
+introspection=individual introspection
+remark=remark
+
+# Q
+academicYear=academic year
+semester=semester
+classInfoSn=class grade
+classLeavesSn=classification
+cName=Chinese name of injured student
+eName=English name of injured student

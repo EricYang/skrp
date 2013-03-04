@@ -1,0 +1,13 @@
+{
+    "list":{
+        "select": "SELECT *, CONCAT(academicYear, ' - ', semester) AS acaName",
+        "from": "FROM FireDrill
+                [_where]",
+        "order": "ORDER BY cDate",
+        "items": [
+            {"fid":"academicYear"},
+            {"fid":"semester"},
+            {"fid":"cDate",    "op":"between"}
+      ]
+    }
+}

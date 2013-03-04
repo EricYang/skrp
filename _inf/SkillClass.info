@@ -1,0 +1,17 @@
+{
+    "list":{    
+        "select": "SELECT c.*,
+                    CONCAT(a.theClassCode, ' ', a.theClassName) AS theClassName, 
+                    CONCAT(b.classLeavesCode, ' ', b.classLeavesName) AS classLeavesName",
+        "from": "FROM ClassInfo a INNER JOIN
+                    ClassLeaves b ON a.sn = b.classInfoSn INNER JOIN
+                    StartClass c ON b.sn = c.classLeavesSn
+                    WHERE (c.academicYear = [ss:academicYear] AND c.semester = [ss:semester]) AND (c.classType = 1)
+                    [_where]",
+        "order": "ORDER BY a.theClassCode, b.classLeavesCode",        
+        "items": [                        
+            {"fid":"classInfoSn",       "table":"b"},
+            {"fid":"classLeavesSn",     "table":"c"}
+        ]
+    }
+}

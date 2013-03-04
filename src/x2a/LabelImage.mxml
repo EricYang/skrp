@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	verticalScrollPolicy="off" horizontalScrollPolicy="off" 
+	horizontalAlign="center"
+	verticalGap="0" 
+	paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0"
+	toolTip="{data.label}"	
+	buttonMode="true"
+	>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+
+	<!--
+	creationComplete="init()"
+	<mx:Image source="{data.imageSource}" width="100%" height="100%" verticalAlign="middle" horizontalAlign="center"/>
+	<mx:Label text="{data.label}" width="100%" height="25" truncateToFit="true"/>
+	click="imageClick(event)"
+	-->
+	<mx:Image 
+		source="{data.imageSource}" 
+		verticalAlign="middle" horizontalAlign="center" 
+		smoothBitmapContent="true"
+		/>
+	<mx:Label text="{data.labelShort}" truncateToFit="true"/>
+	<!--
+	<mx:Label text="{data.label}" truncateToFit="true"/>
+	-->	
+	
+	<fx:Script>
+		<![CDATA[
+			/**
+			 * 物件的寬高由 container 決定
+			 * 
+			width="116" height="100"
+			public function init(ps_file:String, ps_label:String):void{
+				image1.source = ps_file;
+				label1.text = ps_label;
+			}
+			*/
+			//[Bindable]
+			//private var is_imageSource:String;
+			
+			//[Bindable]
+			//private var is_label:String;
+			
+			/*
+			//constructor
+			//public function LabelImage(ps_image:String, ps_label:String):LabelImage{
+			public function init(ps_image:String, ps_label:String):void{
+				is_imageSource = ps_image;
+				is_label = ps_label;
+				//return this;
+			}
+			
+			private var is_groupId:String;
+			
+			private function init():void{
+				is_groupId = data.groupId;
+			}
+			
+			private function imageClick():void{
+				parent.dispatchEvent(new MouseEvent(MouseEvent.CLICK, is_groupId));
+			
+			}
+			*/
+			
+		]]>
+	</fx:Script>
+</mx:VBox>

@@ -1,0 +1,28 @@
+﻿# list/query fields
+txtYear=西元年度 :
+txtMonth=月份 :
+explain=＊ 年度行事历◎ 个人行事历＃ 待办事项＆ 伙食表◇ 排班表
+
+# Detail
+Canvas01=◎ 个人行事历
+contents=内容
+
+Canvas02=＊ 年度行事历
+
+Canvas03=＃ 待办事项
+subject=主旨
+
+Canvas04=＆ 伙食表
+amSnack=上午点心
+noonMeal=营养午餐
+fruit=水果
+pmSnack=下午点心
+nightSnack=晚上延托点心
+
+Canvas05=◇ 排班表
+staffSn=负责老师
+seTimeHM=起迄时间
+jobs=工作项目
+
+# message
+message01=本日无资料

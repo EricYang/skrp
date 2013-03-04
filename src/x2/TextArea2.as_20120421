@@ -1,0 +1,93 @@
+/**
+ * Flex bug, 無法在 spark datagrid 內正常使用 textInput mxml, 所以改用 as !!
+ */ 
+package x2
+{     
+	import flash.events.Event;
+	import mx.events.FlexEvent;	
+	import spark.components.TextArea;	
+	import x2.*;
+	
+	
+	public class TextArea2 extends TextArea {
+		
+		[Bindable]	
+		public var oRow:Object;		//用來對應 datagrid.data
+		
+		[Bindalbe]
+		private var i_info:Object;	
+		
+		public function TextArea2(){
+			super();
+			
+			this.percentWidth = 98;
+			this.percentHeight = 98;
+			
+			this.addEventListener("creationComplete", init);
+			//this.addEventListener(FlexEvent.INITIALIZE, init);
+			this.addEventListener("focusIn", focusIn);
+			this.addEventListener("focusOut", focusOut);	//欄位資料會亂跑 !!
+			this.addEventListener("render", setStatus);
+			//initialize="init()"
+			//focusIn="focusIn(event)"
+			//focusOut="focusOut(event)"
+			//render="setStatus()"						
+		}
+		
+		
+		private function init(p_event:Event):void{
+			i_info = Fun.initDW2Field(this);
+			
+			//did not work, 必須改用動態 binding !!
+			//this.text = i_info.row.data[i_info.fid];
+			
+			//使用動態 binding, http://help.adobe.com/en_US/flex/using/WS2db454920e96a9e51e63e3d11c0bf69084-7cc9.html
+			//var t_bind:ChangeWatcher = BindingUtils.bindSetter(bindValue, this, "text");			
+			//var tt:Object = BindingUtils.bindProperty(this, "text", i_info.row.data, ["row","data","i_info.fid"]);			
+			//var tt:Object = BindingUtils.bindProperty(this, "text", i_info.row.data, "i_info.fid");			
+			//var tt:Object = BindingUtils.bindProperty(this, "text", i_info.row.data, ["i_info.fid"]);			
+			//var tt:Object = BindingUtils.bindProperty(this, "text", i_info.row.data, ["userId"]);			
+			//var tt:Object = BindingUtils.bindProperty(this, "text", i_info, ["row","data","userId"]);
+			//var t1:String = "t1";
+		}
+		
+		/*		
+		// Method called when myTI.text changes.
+		private function bindValue(p_value:String):void {
+			//this.text = i_info.row.data[i_info.fid];
+		}
+		*/		
+		
+		//set status
+		private function setStatus(p_event:Event):void{
+			DW2(i_info.dw2).setSubStatus(this);
+		}
+		
+		//private function change(p_event:Event):void{
+		//	(i_info.dw2 as DW2).changeText(p_event);    
+		//}
+		
+		private function focusIn(p_event:Event):void{
+			DW2(i_info.dw2).fieldFocusIn(p_event);            
+		}
+		
+		
+		//will triggerred twice, filter out one !		
+		private function focusOut(p_event:Event):void{
+			//update field value to dataProvider, important !!
+			
+			//if (i_info.box){
+			//Object(this.parent).data[i_info.fid] = this.text;
+			//}else{
+			////temp remark
+			////this.data[i_info.fid] = this.text;	
+			//}
+			
+			if (oRow[i_info.fid] != this.text){
+				oRow[i_info.fid] = this.text;
+				DW2(i_info.dw2).fieldFocusOut(p_event);
+			}
+		}
+		
+	}
+}

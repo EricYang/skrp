@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="820" height="530" 
+	 
+  	creationComplete="init()"	
+	preinitialize="{iR=Fun.getLang('FireDrill')}"
+	>
+	<fx:Script>
+		<![CDATA[
+
+			import mx.collections.ArrayCollection;
+			import mx.collections.ArrayList;
+			import mx.utils.StringUtil;
+			
+			import x2.*;
+			[Bindable]
+			private var iR:Object;
+			[Bindalbe]
+			private var idw_master:DW;
+			[Bindalbe]
+			private var is_app:String = Fun.sApp;			
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["academicYear","semester","usersSn","userCName","userEName","schoolDSn"]});
+			[Bindable]
+			public var ia_drillContent:ArrayList = new ArrayList(Fun2.drillContentDS(is_app, true));
+			[Bindable]
+			public var ia_drillType:ArrayList = new ArrayList(Fun2.drillTypeDS(is_app, true));
+			
+			private function init():void{				
+				//dw1: FireDrill
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					mapping: true,
+					items: [
+						{source:sn, 			dataType:"N",	inputType:"I"}, 
+						{source:academicYear,	dataType:"N",	init:int(i_session.academicYear)}, 
+						{source:semester,		dataType:"N",	init:int(i_session.semester)},
+						{source:acaName,						update:false,	inputType:"R"},
+						{source:staffSnA,		dataType:"N"},
+						{source:staffNameA,						update:false,	inputType:"R",	required:true},
+						{source:staffSnB,		dataType:"N"},
+						{source:staffNameB,						update:false,	inputType:"R",	required:true},
+						{source:cDate,			dataType:"D"},
+						{source:place,			dataType:"S"},
+						{source:drillContent,	dataType:"N"},
+						{source:drillType,		dataType:"N"},
+						{source:perNum,			dataType:"N"},						
+						{source:fileName,		dataType:"S"},
+						{source:fileNameB,		dataType:"S"},
+						{source:remark,			dataType:"S"},						
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"D",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"D",	inputType:"R"}
+					]				
+				};
+			}
+			
+			//找職員
+			private var i_col1:Object, i_col2:Object;			
+			private function doFindStaff(p_col1:Object, p_col2:Object):void{				
+				i_col1 = p_col1;
+				i_col2 = p_col2;
+				Fun2.openStaff(is_app, this, ReturnStaff);
+			}
+			private function ReturnStaff(p_row:Object):void{				
+				Fun.setItem(i_col1, p_row.cName + " " + p_row.eName);
+				idw_master.setItem(i_col2, p_row.sn, true);
+			}
+			
+			private var fileNames:String;
+			private var fileNamesB:String;
+			private function afterOpen(p_data:Object):void{
+				tmpFileName.text = "";
+				textFilesName.visible = false;
+				tmpFileNameB.text = "";
+				textFilesNameB.visible = false;
+				switch (p_data.fun){
+					case "V":
+					case "U":
+						fileNames = StringUtil.trim(Fun.getItem(fileName) as String);
+						if (fileNames!=""){
+							textFilesName.visible = true;
+						}
+						fileNamesB = StringUtil.trim(Fun.getItem(fileNameB) as String);
+						if (fileNamesB!=""){
+							textFilesNameB.visible = true;
+						}
+						break;
+				}
+				switch (p_data.fun){
+					case "V":
+						SchStaffA.visible = false;
+						SchStaffB.visible = false;
+						fileUploadLabel.visible = false;
+						fileUploadLabelB.visible = false;
+						break;
+				}
+			}
+			
+			private var i_file:FileReference;
+			private function fnUpload():void {
+				if (Fun.getItem(cDate)!=""){
+					i_file = new FileReference();
+					i_file.addEventListener(Event.SELECT, getFile);
+					i_file.browse();
+				}else{
+					Fun.msg("I", iR.message01);
+				}				
+			}
+			private function getFile(p_event:Event):void {				
+				var fileTypeTmp:String = String(p_event.target.type).toLowerCase();				
+				switch (fileTypeTmp){
+					case ".pdf":
+					case ".xls":
+					case ".xlsx":
+					case ".doc":
+					case ".docx":
+					case ".ppt":
+					case ".jpg":
+					case ".gif":
+					case ".jpeg":
+					case ".png":
+						var fileNameTmp:String = StringUtil.trim('FireDrill_' + String(i_session.schoolDSn) + '_' + String(i_session.usersSn) + '_' + String(new Date().getTime()) + fileTypeTmp);
+						
+						var t_file:Object = {};
+						t_file[Fun.csFile] = i_file;
+						t_file[Fun.csFilePath] = Fun2.fTeachers + fileNameTmp;
+						FL.upload(this, is_app, [t_file]);
+						
+						Fun.setItem(tmpFileName, p_event.target.name);
+						idw_master.setItem(fileName, fileNameTmp, true);					
+						
+						fileNames = fileNameTmp;
+						textFilesName.visible = true;
+						/*
+						var t_url:URLVariables = new URLVariables();
+						var t_data:Object = {
+							fun: "Upload",							
+							path: Fun2.fTeachers,
+							file: fileNameTmp
+						};
+						
+						t_url.data = Fun.encode(t_data);
+						
+						var ts_file:String = Fun.sDirApp + Fun.sService + ".php";
+						var t_request:URLRequest = new URLRequest(ts_file);
+						
+						t_request.data = t_url;
+						t_request.method = URLRequestMethod.POST;	//使用post, 不然會有2k的限制!!						
+						
+						i_file.upload(t_request, "Filedata");
+						
+						Fun.setItem(tmpFileName, p_event.target.name);
+						idw_master.setItem(fileName, fileNameTmp, true);					
+						
+						fileNames = fileNameTmp;
+						textFilesName.visible = true;
+						*/
+						
+						break;					
+					default:					
+						Fun.msg("E", iR.message02);
+						break;
+				}
+			}
+			private function openFiles():void {				
+				Fun.openFile(Fun.sDirRoot + Fun2.fTeachers + fileNames);
+			}
+			
+			//逃生圖
+			private var i_fileB:FileReference;
+			private function fnUploadB():void {
+				if (Fun.getItem(cDate)!=""){
+					i_fileB = new FileReference();
+					i_fileB.addEventListener(Event.SELECT, getFileB);
+					i_fileB.browse();
+				}else{
+					Fun.msg("I", iR.message03);
+				}				
+			}
+			private function getFileB(p_event:Event):void {				
+				var fileTypeTmpB:String = String(p_event.target.type).toLowerCase();				
+				switch (fileTypeTmpB){
+					case ".pdf":
+					case ".xls":
+					case ".xlsx":
+					case ".doc":
+					case ".docx":
+					case ".ppt":
+					case ".jpg":
+					case ".gif":
+					case ".jpeg":
+					case ".png":
+						var fileNameTmpB:String = StringUtil.trim('FireDrill_' + String(i_session.schoolDSn) + '_' + String(i_session.usersSn) + '_' + String(new Date().getTime()) + fileTypeTmpB);
+						
+						var t_fileB:Object = {};
+						t_fileB[Fun.csFile] = i_fileB;
+						t_fileB[Fun.csFilePath] = Fun2.fTeachers + fileNameTmpB;
+						FL.upload(this, is_app, [t_fileB]);
+						
+						Fun.setItem(tmpFileNameB, p_event.target.name);
+						idw_master.setItem(fileNameB, fileNameTmpB, true);					
+						
+						fileNamesB = fileNameTmpB;
+						textFilesNameB.visible = true;
+						
+						break;					
+					default:					
+						Fun.msg("E", iR.message04);
+						break;
+				}
+			}
+			private function openFilesB():void {				
+				Fun.openFile(Fun.sDirRoot + Fun2.fTeachers + fileNamesB);
+			}
+			
+			private function whenSave(p_data:Object):Boolean{
+				if (p_data.fun != "D"){
+					Fun.setItem(acaName, String(Fun.getItem(academicYear))+ ' - '+String(Fun.getItem(semester)));
+				}
+				return true;
+			}
+		]]>
+	</fx:Script>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="academicYear" visible="false"/>
+	<x2:Num1 id="semester" visible="false"/>
+	<s:TextInput id="acaName" visible="false"/>
+	<x2:Num1 id="staffSnA" visible="false"/>
+	<x2:Num1 id="staffSnB" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>	
+	<mx:TabNavigator x="10" y="10" width="790" height="440">
+		<mx:Canvas label="{iR.Canvas01}">
+			<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+				<mx:FormItem label="{iR.staffNameA} :" required="true">
+					<mx:HBox x="72" y="1" width="100%">
+						<s:TextInput id="staffNameA" click="doFindStaff(staffNameA, staffSnA)"/>
+						<x2:btnPick id="SchStaffA" click="doFindStaff(staffNameA, staffSnA)"/>						
+					</mx:HBox>	
+				</mx:FormItem>
+				<mx:FormItem label="{iR.staffNameB} :" required="true">
+					<mx:HBox x="72" y="1" width="100%">
+						<s:TextInput id="staffNameB" click="doFindStaff(staffNameB, staffSnB)"/>
+						<x2:btnPick id="SchStaffB" click="doFindStaff(staffNameB, staffSnB)"/>						
+					</mx:HBox>	
+				</mx:FormItem>
+				<mx:FormItem label="{iR.cDate} :" required="true">
+					<mx:DateField id="cDate" formatString="YYYY/MM/DD" yearNavigationEnabled="true"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.place} :" required="true">
+					<mx:TextArea id="place" width="580" height="42"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.drillContent} :" required="true">
+					<x2:DDL1 id="drillContent" dataProvider="{ia_drillContent}"></x2:DDL1>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.drillType} :" required="true">
+					<x2:DDL1 id="drillType" dataProvider="{ia_drillType}"></x2:DDL1>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.perNum} :" required="true">
+					<mx:NumericStepper maximum="99999" id="perNum"/>
+				</mx:FormItem>
+				<mx:FormItem id="textFilesName">
+					<x2:btnTBar buttonMode="true" label="{iR.textFilesName}" icon="@Embed(source='x2/image/star.gif')" click="openFiles()" toolTip="{iR.textFilesName}"/>
+				</mx:FormItem>		
+				<mx:FormItem label="{iR.fileUploadLabel}  :" id="fileUploadLabel">
+					<mx:HBox>			
+						<s:TextInput id="tmpFileName" editable="false" enabled="false" width="285"/>
+						<mx:Button label="{iR.tmpFileName}" click="fnUpload()"/>
+					</mx:HBox>			
+					<s:TextInput id="fileName" visible="false"/>
+				</mx:FormItem>		
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas02}">	
+			<mx:Form x="10" y="10">
+				<mx:FormItem id="textFilesNameB">
+					<x2:btnTBar buttonMode="true" label="{iR.textFilesNameB}" icon="@Embed(source='x2/image/star.gif')" click="openFilesB()" toolTip="{iR.textFilesNameB}"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.fileUploadLabelB}  :" id="fileUploadLabelB">
+					<mx:HBox>			
+						<s:TextInput id="tmpFileNameB" editable="false" enabled="false" width="285"/>
+						<mx:Button label="{iR.tmpFileNameB}" click="fnUploadB()"/>
+					</mx:HBox>			
+					<s:TextInput id="fileNameB" visible="false"/>
+				</mx:FormItem>	
+				<mx:TextArea id="remark" width="695" height="250"/>
+			</mx:Form>
+		</mx:Canvas>
+	</mx:TabNavigator>
+	<x2:comEdit x="10" y="459" id="edit_1" fWhenSave="whenSave" fAfterOpen="afterOpen">
+	</x2:comEdit>
+</s:TitleWindow>

@@ -1,0 +1,14 @@
+{
+    "list":{
+        "select": "SELECT a.*, b.cName AS driverStaffCName, b.eName AS driverStaffEName, b.conTel AS driverTel, 
+                    c.cName AS venStaffCName, c.eName AS venStaffEName, b.conTel AS vehTeacherTel",
+        "from":   "FROM BabyCarInfo a LEFT OUTER JOIN
+                    Staff b ON a.driverStaffSn = b.sn LEFT OUTER JOIN
+                    Staff c ON a.venStaffSn = c.sn [_where]",
+        "order":  "ORDER BY a.carCode",
+        "items": [
+            {"fid":"carCode",   "op":"like"},
+            {"fid":"carNumber", "op":"like"}
+      ]
+    }
+}

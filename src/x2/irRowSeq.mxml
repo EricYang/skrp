@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:GridItemRenderer 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	>
+	
+	<s:layout>
+		<s:VerticalLayout verticalAlign="middle" horizontalAlign="center"/>
+	</s:layout>	
+	<s:Label text="{getRowSeq(data)}"/>
+
+	<fx:Script>
+		<![CDATA[
+
+		//grid 自動產生序號
+		private function getRowSeq(p_row:Object):String {
+			//return String(grid_FinalEvaluateStuDetail.dataProvider.getItemIndex(p_row)+1);
+			return 1;
+		}			
+			
+		]]>
+	</fx:Script>	
+</s:GridItemRenderer>

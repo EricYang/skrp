@@ -1,0 +1,1056 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:HGroup 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*" 
+	width="494" height="32" 
+	verticalAlign="middle" gap="2" paddingLeft="2"	
+	>
+	
+	<x2:btnSave id="btnSave" click="btnSaveClick(event)"/>
+	<x2:btnCancel id="btnCancel" click="btnCancelClick(event)"/>
+	<s:TextInput x="113" y="2" id="txtMsg" width="{this.width - txtMsg.x - menu.width - 5}" editable="false" styleName="editMsg" borderVisible="false" alpha="0"/>
+	<mx:PopUpMenuButton id="menu" fontWeight="normal" height="24" width="97" itemClick="menuClick(event.item)" visible="false">
+		<mx:dataProvider>  
+			<fx:Array> 
+				<fx:Object data="save2" label="{Fun.R.save2}" icon="@Embed(source='image/save2.png')" disabledIcon="@Embed(source='image/save0.gif')"/> 
+				<fx:Object data="updCombo" label="{Fun.R.updCombo}" icon="@Embed(source='image/star.gif')" disabledIcon="@Embed(source='image/star0.gif')"/>
+				<!--
+				<mx:Object data="copy" label="" icon="@Embed(source='icon3.png')"/> 
+				<mx:Object data="paste" label="" icon="@Embed(source='icon3.png')"/>
+				-->
+			</fx:Array> 
+		</mx:dataProvider> 
+	</mx:PopUpMenuButton>
+	
+	<!--
+	<mx:Button label="{Fun.R.save2}" fontWeight="normal" id="cmdSave2" height="24" click="save2Click(event)" toolTip="{Fun.R.tipSave2}"/>
+	-->
+
+	<fx:Script>
+		<![CDATA[			
+			import flash.text.engine.DigitWidth;
+			
+			import mx.collections.ArrayCollection;
+			import mx.containers.TabNavigator;
+			
+			import spark.components.DataGrid;
+			import spark.components.TitleWindow;
+			
+			import x2.*;
+		
+				
+
+		//=================	
+		//=== public  ===
+		//=================	
+
+		/**
+		 * 開啟編輯畫面時(for U,D,V), 是否讀取資料庫.
+		 */ 
+		public var bReadDB:Boolean=true;
+		
+		/**
+		 * (Optional)更新資料時, 執行的後端程式名稱, 不含副檔名, 如果不指定則使用 _CRUD
+		 */ 	
+		public var sServerApp:String;			//optional, server side app name for update record. (has extension) when save.
+				
+		/**
+		 * DW 物件陣列
+		 */ 
+		public var aoDW:Array = [];
+				
+		/**
+		 * 開啟畫面前執行的函數, for C,U,D,V (para object/return boolean)
+		 */ 
+		public var fWhenOpen:Function;
+		
+		/**
+		 * 開啟畫面後執行的函數, for C,U,D,V (para object/void)<br/>
+		 * 如果這個時候要捉取 comboBox 欄位的值, 必須先執行 validateNew()
+		 */ 
+		public var fAfterOpen:Function;
+		//
+		
+		/**
+		 * 儲存資料前執行的函數, for C,U,D (para object/return boolean)
+		 */ 
+		public var fWhenSave:Function;
+		
+		/**
+		 * 儲存資料後執行的函數, for C,U,D (para object/void)
+		 */ 
+		public var fAfterSave:Function;
+		
+		/**
+		 * 關閉畫面後執行的函數, for C,U,D,V (para object/void), 例如更新 DataGrid Row.
+		 */ 
+		public var fAfterClose:Function;
+		
+		/**
+		 * 儲存資料發生錯誤時執行的函數. (para error string/void)
+		 */ 
+		public var fSaveError:Function;
+		
+		/**
+		 * 更新combobox爛位清單的函數. (para void/void)
+		 */ 
+		public var fUpdateCombo:Function;
+			
+		/**
+		 * App ID.
+		 */ 
+		public var sApp:String="";
+		
+		/**
+		 * inf 檔案名稱, 不含副檔名, 如果空白則使用 sApp.
+		 */ 
+		public var sInf:String="";
+		
+		/**
+		 * 視窗的標題文字
+		 */ 
+		public var sTitle:String="";
+		
+		/**
+		 * 畫面中的 Tab 物件 if any, ComStepEdit 需要此物件.
+		 */ 
+		public var xTab:TabNavigator;
+		
+		/**
+		 * (Optional) 清單畫面上的 DataGrid 物件, 用來讀取欄位值和更新資料到 Row.
+		 */ 
+		public var gList:DataGrid;
+
+
+		
+		//=================	
+		//=== protected ===
+		//=================	
+		
+		/**
+		 * Resource 檔案名稱, 不含副檔名
+		 */ 
+		//protected var ic_rsFile:String = "Setting";
+		
+		/**
+		 * DW 物件總數
+		 */ 
+		protected var in_dws:int;					//dw amount
+		
+		/**
+		 * 畫面的原始寬度
+		 */ 
+		protected var in_width:int;					//original width
+		
+		/**
+		 * 畫面的原始高度
+		 */ 
+		protected var in_height:int;				//original height
+		
+		/**
+		 * 目前執行的功能代號: C(create),U(update),D(delete),V(view)
+		 */ 
+		protected var is_fun:String;				//function type
+		
+		/**
+		 * is_fun 的中文
+		 */ 
+		protected var is_funName:String;			//function type name
+		
+		/**
+		 * 是否已經初始化
+		 */ 
+		protected var ib_init:Boolean=false;		//initialized or not
+		
+		/**
+		 * 是否需要讀取 web 主機的時間
+		 */ 
+		protected var ib_serverDT:Boolean=false;	//fetch server datetime or not	
+		
+		/**
+		 * 包含這個元件的 TitleWindow/Application 物件
+		 */ 
+		protected var i_parent:Object;				//parent TitleWindow or application			
+				
+		/**
+		 * 上一層物件是否為 TitleWindow: true(titlewindow), false(application)
+		 */ 
+		protected var ib_titleWin:Boolean;			//parent is TitleWindow(true) or application(false)			
+				
+		/**
+		 * 傳送到後端的資料
+		 */ 
+		protected var i_send:Object = {};			
+		//=== end ===
+					
+
+		/**
+		 * 物件初始化, 如果發生錯誤將直接顯示錯誤訊息
+		 * @param p_data 用來讀取資料, 包含以下變數:<br/>
+		 *   win: edit window (ComEdit's Parent), should be titleWindow or application.
+		 *   app: app id(如果沒有指定, 則必須指定 sApp, 從這裡設定會比較方便).
+		 *   inf: inf file name(如果沒有指定, 則必須指定 sInf, 從這裡設定會比較方便).
+		 *   title: window title(如果沒有指定, 則必須指定 sTitle, 從這裡設定會比較方便).
+		 *   fun: 功能代號, should be C,U,D,V.<br/>
+		 *   funName: (Optional) 功能名稱, 如果設定則使用這個名稱.<br/>
+		 *   row: 欄位資料, 包含鍵值欄位的資訊<br/>
+		 *   <br/>
+		 * @param pf_afterInit (Optional)初始化之後要執行的函數(para object:fun/void)
+		 */
+		//public function init(p_data:Object, pf_afterInit:Function=null):void{
+		public function init(p_data:Object):void{
+			
+			//initialize if need
+			//var t_parent:Object = parent;
+			is_fun = p_data.fun;
+			
+			var i:int, j:int; 
+			var t_data:Object;
+			var t_dw:DW;
+			if (!ib_init){		
+				if (p_data.app != null)
+					sApp = p_data.app;
+				
+				if (p_data.inf != null)
+					sInf = p_data.inf;
+				
+				if (p_data.title != null)
+					sTitle = p_data.title;
+				
+			   	if (sApp == ""){ 		    	
+					//return "gsApp can not be Empty in comEdit.init() !";
+					Fun.msg("E", "sApp can not be Empty !");
+					return;
+			   	}
+			   	if (sInf == ""){
+			   		sInf = sApp + "E";
+			   	} 		    	
+
+				//update combobox fields
+				updateComboClick();
+				
+				//set titlewindow property
+				//(parent as TitleWindow).creationPolicy = "all";
+
+				
+				//set instance variables
+				i_parent = p_data.win;
+                in_width = i_parent.width;
+                in_height = i_parent.height;					
+				ib_titleWin = i_parent.hasOwnProperty("title");
+				ib_init = true;
+				in_dws = aoDW.length;
+				//showWin(true);
+				if (is_fun == "D"){
+					if (ib_titleWin){
+						i_parent.visible = false;		//hide first !!
+					}
+				} else if (ib_titleWin){
+					i_parent.visible = true;					
+					i_parent.addEventListener(Event.CLOSE, btnCancelClick);
+				}
+				
+								
+				//initialize dws[] and set instance variables
+				//t_data = {app:gsApp, Read:gbReadDB, msg:txtMsg};
+				for (i=0;i<in_dws;i++){
+					t_dw = aoDW[i] as DW;
+					t_dw.nDW = i;
+					t_dw.sApp = sApp;
+					t_dw.xMsgBox = txtMsg;
+					
+					//t_data.dw = i;
+					//var ts_error:String = t_dw.init(gbReadDB, gTab);
+					var ts_error:String = t_dw.init(bReadDB);
+					if (ts_error != ""){
+						//return ts_error;
+						Fun.msg("E", ts_error);
+						return;
+					}
+				}
+			}//if ib_init
+			
+			
+			//=== set window object and instance variables begin ===		
+			//i_send = {};
+			is_funName = (p_data.funName != null) ? p_data.funName : Fun.getFunName(is_fun);
+			var t_fun:Object = {fun:is_fun};			
+			if (is_fun == "D"){
+				//TitleWindow.visible 屬性無作用 !!
+                //2012-05-04 Louis add
+                if (fWhenOpen != null){
+                    fWhenOpen(t_fun);
+                }
+                //Fun.closePopup(i_parent);
+				showWin(false);
+			}else{
+				if (ib_titleWin){
+					i_parent.title = "☆" + sTitle + ((is_funName != "") ? "  》" + is_funName : "");
+					//i_parent.title = sTitle + ((is_funName != "") ? "--[ "+is_funName+" ]" : "");
+				}
+				showWin(true);
+				
+				//call gfWhenOpen for not "D" fun
+				if (fWhenOpen != null){
+					fWhenOpen(t_fun);
+				}			
+			}
+						
+			
+			//set control
+			if (this.visible){
+				var tb_edit:Boolean = (is_fun == "C" || is_fun == "U" ) ? true: false;
+												
+				btnSave.enabled = tb_edit;
+				menu.enabled = tb_edit;
+				if (tb_edit){
+					//無法指定 menu selected item !!
+					var ta_menu:Array = menu.dataProvider.source;
+					ta_menu[0].enabled = (is_fun == "C"); 
+					ta_menu[1].enabled = (fUpdateCombo != null); 
+					if (ta_menu[0].enabled){
+						ta_menu[0].selected = true;
+						//ta_menu[1].selected = false;
+					}else if (ta_menu[1].enabled){
+						//ta_menu[0].selected = false;
+						ta_menu[1].selected = true;
+					}else{
+						menu.enabled = false;
+					}
+				}			
+				//menu.validateNow();
+			}
+			//=== end ===
+			
+						
+			//get query info and pass to server side.	
+			var ta_query:Array = [];
+			var ta_data0:Array = [];
+			var ta_data:Array = [];
+			//var t_dw:DW;
+			/*
+			if (is_fun == "P"){
+				exitClick(null);
+				ta_query[0] = gDWs[0].getQueryInfo(p_data.row);
+				return JSON.encode(ta_query);
+			*/
+			
+			//Fun.oGlobal.fnAfterInit = pf_afterInit;
+			var tb_async:Boolean = false;
+			//try{
+				if (is_fun == "C"){
+					//show data for each dw
+					for (i=0;i<in_dws;i++){
+						DW(aoDW[i]).showData(is_fun, null);
+					}
+				}else{
+					//read from grid
+					//show data for single row dw
+					ta_data0[0] = p_data.row;
+					/*
+					//ta_data[0] = gListGrid.selectedItem;
+					for (i=0;i<in_dws;i++){
+						if ((gDWs[i] as DW).isRows() == false){
+							(gDWs[i] as DW).showData(is_fun, ta_data);						
+						}
+					}
+					*/
+
+					//read db if need
+					if (bReadDB){
+						//如果 DB 存在此筆資料, 則先從 grid 寫入欄位, 再從 DB 寫入
+						for (i=0;i<in_dws;i++){
+							ta_query[i] = DW(aoDW[i]).getQueryInfo(p_data.row);
+							if (ta_query[i] == null){
+								ta_query[i] = {};
+							}
+						}
+						
+						//ia_queryInfo[0].values = gDWs[0].getQueryValue(p_data);
+						tb_async = true;
+						Fun.oVar.row = ta_data0;
+						t_data = {
+							fun: "QueryEdit",
+							app: sApp,
+							inf: sInf,
+							data: (Fun2.cbJsonToStr) ? ST.jsonToStr(ta_query) : ta_query,
+							send: (Fun2.cbJsonToStr) ? ST.jsonToStr(i_send) : i_send
+							//data: ta_query,
+							//send: i_send
+							//send: i_send
+						};
+						Fun.async(sApp, Fun.sService, t_data, init2);
+					}else{
+						//只寫入第一 個 DW !!
+						DW(aoDW[0]).showData(is_fun, ta_data0);
+					}
+				}
+			//}catch (e:Error){
+			//	Fun.msg("E", Fun.R.sysError);
+			//	return;
+			//}
+			
+ 			//set title
+ 			//i_parent.title = ((gsTitle != "") ? gsTitle : p_data.title) + "--["+is_funName+"]";
+ 			//if (p_data.funName != null){
+ 			//	is_funName = p_data.funName; 
+ 			//}
+ 			//if (ib_titleWin && is_fun != "D"){
+ 			//	i_parent.title = sTitle + "--["+is_funName+"]";
+ 			//}
+
+			if (!tb_async){
+				init3();
+			}
+			//refresh title window to get updated field value, did not work !!
+			//i_parent.dispatchEvent(new ResizeEvent(ResizeEvent.RESIZE));
+			//i_parent.dispatchEvent(new Event(Event.RENDER));
+		}//init 
+
+			
+		//callback function of init()
+		private function init2(p_data:Object):void{
+			
+			//show read data for each dw
+			var i:int;
+			var t_dw:DW;
+			var ta_data:Array;
+			var ta_data0:Array = Fun.oVar.row;
+			for (i=0; i<in_dws; i++){							
+				//var ta_data:Array = t_data["dw"+i.toString()];
+				t_dw = aoDW[i] as DW; 
+				ta_data = p_data["dw"+i.toString()];
+				if (ta_data == null || ta_data.length == 0){
+					ta_data = [];
+				}else if (t_dw.isRows() == false){ 	//write from grid first if got records !!
+					//如果是單筆的話先顯示前畫面帶過來的資料 !!
+					t_dw.showData(is_fun, ta_data0);						
+				}
+				
+				//顯示資料
+				t_dw.showData(is_fun, ta_data);
+			}
+			
+			init3();
+		}		
+		
+		
+		//callback function of init2()
+		private function init3():void{
+			
+			//reset DW instance variables
+			var t_dw:DW;
+			for (var i:int=0;i<in_dws;i++){
+				t_dw = aoDW[i]; 
+				t_dw.initVar();
+				
+				if (!ib_serverDT){
+					ib_serverDT = t_dw.hasServerDT(); 
+				}
+			}
+						
+			//call gfAfterOpen
+			var t_fun:Object = {fun:is_fun};
+			if (fAfterOpen != null){
+				fAfterOpen(t_fun);
+			}
+						
+			/*
+			//設定 filter function if need.
+			var t_dw2:DW2;
+			var t_ac:ArrayCollection;
+			for (i=0;i<in_dws;i++){
+				if (DW(aoDW[i]).isRows()){
+					t_dw2 = DW2(aoDW[i]);
+					if (t_dw2.fFilter != null){
+						t_ac = t_dw2.getAC(); 
+						t_ac.filterFunction = t_dw2.fnFilter;
+						t_ac.refresh();						
+					}					
+				}
+			}
+			*/
+			
+			//case of delete row
+			if (is_fun == "D"){
+				saveData({bCheck:false, bClose:true});
+				
+				//重新設定視窗大小, 否則刪除後再第一次修改或檢視, 其位置會移到右下角
+				showWin(true);
+			}
+			
+			
+			/**
+			 * 2012-5-14 Malcom add
+			 * 以下的程式碼必須在 fAfterOpen 之後執行 !!
+			 */  
+			for (i=0;i<in_dws;i++){
+				(aoDW[i] as DW).doAfterOpen(is_fun); 
+			}
+			
+			/*
+			if (Fun.oGlobal.fnAfterInit != null){
+				Fun.oGlobal.fnAfterInit(t_fun);
+			}
+			*/
+		}
+		
+			
+			
+		//menu click
+		private function menuClick(p_item:Object):void{
+			if (p_item.enabled){
+				switch (p_item.data){
+					case "save2":
+						btnSave2Click();
+						break;
+					case "updCombo":
+						updateComboClick();
+						break;
+					/*
+					case "copy":
+						break;
+					case "paste":
+						break;
+					*/
+				}
+			}
+		}
+			
+
+		//更新combobox欄位
+		private function updateComboClick():void{
+			if (fUpdateCombo != null){
+				fUpdateCombo({fun:is_fun});
+			}
+		}
+			
+			
+		//顯示或隱藏畫面
+		private function showWin(pb_show:Boolean):void{
+ 			if (!ib_titleWin){
+ 				return;
+ 			}else if (pb_show){
+                //TitleWindow(i_parent).visible = true;
+                TitleWindow(i_parent).alpha = 1;
+				//i_parent.width = in_width;
+				//i_parent.height = in_height;
+			}else{
+				//TitleWindow(i_parent).visible = false;
+				//TitleWindow(i_parent).validateNow();
+				//i_parent.validNow();
+                TitleWindow(i_parent).alpha = 0;
+				//i_parent.width = 0;
+				//i_parent.height = 0;				
+			}
+		}
+
+
+		/*
+		//workable by using binding width !!				
+		public function setMsgSize():void{	
+			//cmdSave2.validateSize();			//did not work !!
+			//cmdSave2.validateProperties();	//did not work !!
+			//this.validateDisplayList();		
+ 			//txtMsg.width = this.width - txtMsg.x - cmdSave2.width - 20 ;
+		}
+		*/
+
+			
+		public function addSend(p_data:Object):void{			
+			Fun.rowAddData(i_send, p_data);
+		}
+			
+
+		/**
+		 * 改變語系
+		 */ 
+		//public function changeLanguage():void{			
+		public function changeLang():void{			
+			btnSave.label = Fun.R.save;
+			btnCancel.label = Fun.R.exit;
+			//cmdSave2.label = Fun.R.save2;
+			btnSave.toolTip = Fun.R.tipSave;
+			btnCancel.toolTip = Fun.R.tipExit;
+			//cmdSave2.toolTip = Fun.R.tipSave2;
+			//ic_complete = Fun.R.complete;
+			is_funName = Fun.getFunName(is_fun)
+		}
+
+		
+		/**
+		 * 傳回功能代號.
+		 */ 
+		public function getFun():String{
+			return is_fun;
+		}
+		
+
+		/**
+		 * 執行 Save Button Click 動作 for fun != "D"
+		 */ 
+		private var ib_btnSave:Boolean;		//true(btnSave), false(btnSave2)
+		public function btnSaveClick(p_event:Event=null):void{
+			//Fun.oVar.saveOnly = true;		//會傳送到
+			ib_btnSave = true;
+			Fun.sessionFun(btnSaveClick2);		//ensure session is ok !!
+		}
+		
+		
+		//callback function of btnSaveClick(), btnSave2Click()		
+		private function btnSaveClick2(p_data:Object):void{
+			//var t_event:Event = Fun.oGlobal.event as Event;
+			//var tb_saveOnly:Boolean = Fun.oVar.saveOnly;			
+
+			/*
+			//case of get serverDT
+			var ts_now:String = "";
+			if (ib_serverDT){
+		 		ts_now = Fun.serverDT(sApp, "DT");
+		 		if (ts_now == ""){
+		 			Fun.msg("I", Fun.R.reSave);	//??
+		 			return;
+		 		}
+			}
+			*/
+			
+			//saveData(ts_now, tb_saveOnly);
+			saveData({bClose:ib_btnSave});
+			
+				/*
+			//reset all DW2
+			//if (!tb_saveOnly){
+			if (!ib_saveOnly){
+				var t_dw:DW;
+				for (var i:int=0;i<in_dws;i++){
+					t_dw = DW(aoDW[i]); 
+					if (t_dw.isRows()){
+						t_dw.showData("C");
+					}
+				}			
+			}			
+				*/
+			return;
+		}
+
+			
+		/**
+		 * 執行 Save2 Button Click 動作.
+		 */ 
+		public function btnSave2Click():void{
+			//public function save2Click(p_event:Event=null):void{
+			//Fun.oVar.saveOnly = false;
+			Fun.sessionFun(btnSaveClick2);		//ensure session is ok !!
+		}
+
+			
+		/**
+		 * 執行儲存資料的動作, called by this, comStepEdit, 刪除資料時不使用此函數 !!
+		 * p_data 包含以下欄位:
+		 *   sNow: 目前時間, 如果空白, 則系統會自行讀取 (if need)
+		 *   bClose: 儲存後是否關閉 title window.
+		 *   bCheck: 是否檢查資料, 由 comStepEdit呼叫, 系統已經先檢查, 在這裡不需再檢查 
+		 *   
+		 */
+		/*	
+		public function saveData(p_data):Boolean {
+			//set saving flag to true
+			var tb_check:Boolean = (p_data.bCheck != null && p_data.bCheck);
+			var tb_close:Boolean = (p_data.bClose != null && p_data.bClose);
+			var ts_now:String = (p_data.sNow == null) ? "" : p_data.sNow;
+			
+			var tb_ok:Boolean = true;
+			var ts_error:String;
+			var t_dw:DW:
+			var i:int;
+			for (i=0;i<in_dws;i++){
+				t_dw = aoDW[i] as DW;
+				//call tp2FormToRow() !!
+				if (t_dw.getType() == "2"){
+					(t_dw as DW2).tp2FormToRow();
+				}
+				
+				//set saving flag
+				t_dw.setSaving(true);
+				
+				//check rows
+				if (tb_check){
+					ts_error = t_dw.checkRows();
+					if (ts_error != ""){
+						tb_ok = false;
+						Fun.msg("E", ts_error);
+						break;
+					}
+				}
+			}//for
+			
+			if (tb_ok){
+				//call whenSave first !!
+				if (fWhenSave != null){
+					if (!fWhenSave({fun:is_fun})){
+						tb_ok = false;
+					}
+				}
+				
+				//save data
+				if (tb_ok){
+					tb_ok = saveData2(ts_now, tb_close);
+				}
+			}
+			
+			//set saving flag to false
+			for (i=0;i<in_dws;i++){
+				(aoDW[i] as DW).setSaving(false);
+			}
+			
+			return tb_ok;			
+		}
+		*/
+			
+			
+		/**
+		 * 儲存異動到資料庫. 
+		 * @param ps_now web 主機目前的時間, default ''
+		 * @param pb_check 是否檢查資料, default true
+		 * @param pb_close 儲存後是否關閉視窗, default true
+		 * @return true(完成), false(將顯示錯誤訊息)
+		 */
+		//protected function saveData(ps_now:String="", pb_close:Boolean=true):Boolean {
+		public function saveData(p_data:Object):Boolean {
+			//set saving flag to true
+			var tb_check:Boolean = (p_data.bCheck == null) ? true : p_data.bCheck;
+			var tb_close:Boolean = (p_data.bClose == null) ? true : p_data.bClose;
+			var ts_now:String = "";
+			if (p_data.sNow == null && ib_serverDT){
+				ts_now = Fun.serverDT(sApp, "DT");
+			}
+			
+			var tb_ok:Boolean = true;
+			var ts_error:String;
+			var t_dw:DW;
+			var i:int;
+			for (i=0;i<in_dws;i++){
+				t_dw = aoDW[i] as DW;
+				//call tp2FormToRow() !!
+				if (t_dw.getType() == "2"){
+					(t_dw as DW2).tp2FormToRow();
+				}
+				
+				//set saving flag
+				t_dw.setSaving(true);
+				
+				//check rows
+				if (tb_check){
+					ts_error = t_dw.checkRows();
+					if (ts_error != ""){
+						tb_ok = false;
+						Fun.msg("E", ts_error);
+						break;
+					}
+				}
+			}//for
+
+			/*
+			//set saving flag to true
+			var i:int;
+			for (i=0;i<in_dws;i++){				
+				//call tp2FormToRow() !!
+				if (DW(aoDW[i]).getType() == "2"){
+					DW2(aoDW[i]).tp2FormToRow();
+				}
+				
+				DW(aoDW[i]).setSaving(true);
+			}
+
+			//2010-12-25 改成先檢查資料的正確性 !!
+			//2011-1-3 但是 tp2 DW2 必須先將執行 formToRow(), 有衝突 !!
+			var tb_ok:Boolean = true;
+			var ts_error:String;
+			if (is_fun != "D"){
+				for (i=0;i<in_dws;i++){
+					ts_error = DW(aoDW[i]).checkRows();
+					if (ts_error != ""){
+						tb_ok = false;
+						Fun.msg("E", ts_error);
+						break;
+					}
+				}
+			}
+			*/
+			
+			//check data
+			//var i:int;
+			if (tb_ok){
+				//call whenSave first !!
+				if (fWhenSave != null){
+					if (!fWhenSave({fun:is_fun})){
+						tb_ok = false;
+					}
+				}
+			
+				//save data
+				if (tb_ok){
+					//tb_ok = saveData2(ts_now, tb_close);
+					tb_ok = saveData2(ts_now);
+				}
+			}
+			
+			//set saving flag to false
+			for (i=0;i<in_dws;i++){
+				DW(aoDW[i]).setSaving(false);
+			}
+
+            if (!tb_ok)
+                return false;
+            
+			//refresh grid
+			refreshGrid();
+			
+			
+			//如果不關閉畫面, 則更新畫面上的欄位
+			if (!tb_close && is_fun == "C"){
+				//var t_dw:DW;
+				for (i=0;i<in_dws;i++){
+					t_dw = aoDW[i] as DW; 
+					if (t_dw.isRows()){
+						t_dw.showData("C");
+					}
+				}			
+			}			
+			
+						
+			//call afterSave()
+			if (fAfterSave != null){
+				fAfterSave({fun:is_fun, win:i_parent});
+			}
+			
+			//case of fun = "D"
+			if (is_fun == "D" || tb_close){				
+				closeWin();
+			}
+			
+			var ts_msg:String = ST.format(Fun.R.jobOk, [is_funName]);
+			Fun.msg("I", ts_msg);			
+			
+			return tb_ok;
+		}
+		
+			
+		//檢查資料是否異動	
+		public function isChanged():Boolean {						
+			for (var i:int=0; i<in_dws; i++){
+				if ((aoDW[i] as DW).isChanged()){
+					return true;
+				}
+			}
+			return false;
+		}
+			
+		
+		//part of saveData()
+		//private function saveData2(ps_now:String="", pb_close:Boolean=true):Boolean {						
+		private function saveData2(ps_now:String=""):Boolean {						
+			//=== write dws[] update info into ia_info[] begin ===
+			//must call after gfWhenSave()
+			//ia_info = [];
+			var i:int;
+			var j:int;
+			var tb_change:Boolean = false;
+			var ta_upd:Array = [];		
+			var t_dw:DW;
+			for (i=0; i<in_dws; i++){
+				t_dw = aoDW[i] as DW;
+				if (is_fun != "D" && t_dw.isChanged() == false){
+					continue;	
+				}
+				
+				tb_change = true;
+				var ta_dwUpd:Array = t_dw.getUpdateInfo(ps_now);
+				var tn_len:int = ta_upd.length;
+				var tn_dwLen:int = (ta_dwUpd != null) ? ta_dwUpd.length : 0;
+				for (j=0; j<tn_dwLen; j++){
+					ta_upd[tn_len+j] = ta_dwUpd[j];	
+				}				
+			}
+			
+			//check change or not
+			if (!tb_change){
+				Fun.msg("I", Fun.R.noChange);
+				return false;				
+			}
+			
+			//get send info
+			//var t_send2:Object;
+			/*
+			for (i=0;i<in_dws;i++){
+				t_dw = aoDW[i] as DW;
+				Fun.rowAddData(i_send, t_dw.getSend());
+			}
+			*/
+			setSend();
+			//=== end ===
+			
+
+			//pass update info to server side
+	    	var ts_app:String = (sServerApp) ? sServerApp : Fun.sService;
+			var t_data:Object = {
+				fun: is_fun, 
+				inf: sInf, 
+				data: (Fun2.cbJsonToStr) ? ST.jsonToStr(ta_upd) : ta_upd,		//必須包裝成字串, 否則內容斷行符號時, php無法解碼 !! 
+				send: (Fun2.cbJsonToStr) ? ST.jsonToStr(i_send) : i_send				
+				//data: ta_upd, 
+				//send: i_send				
+			};		
+			var ta_row:Object = Fun.sync(sApp, ts_app, t_data, true);			
+			var tb_doError:Boolean = (fSaveError != null);
+			if (Fun.catchResult(ta_row, false, !tb_doError)){
+				return false;
+			}else if(tb_doError && ta_row.error != null){
+				fSaveError(ta_row.error);
+				return false;
+			}
+			
+
+			//set identify field and update grid.
+			//var ts_msg:String = ST.format(Fun.R.jobOk, [is_funName]);
+			if (is_fun != "D"){
+				var ts_fid:String;
+				var tn_dw:int, tn_row:int, tn_ident:int;
+				
+				//2012-4-8 改成後端傳回identity字串清單(欄位名稱為auto, 逗號分隔), Flex再轉成字串陣列。
+				//var ta_row2:Array = (ta_row == null || ta_row[0] == null) ? [] : ta_row[0];  
+				var ta_row2:Array = (ta_row == null || ta_row.auto == "") ? [] : (ta_row.auto as String).split(",");
+				
+				var tn_rows:int = ta_row2.length; 
+				var tb_ident:Boolean = false;
+				for (i=0;i<tn_rows;i++){
+					if (ta_row2[i] != null && ta_upd[i].ident >= 0){
+						tb_ident = true;
+						tn_dw = ta_upd[i].dw;
+						tn_row = ta_upd[i].row;		
+						tn_ident = ta_upd[i].ident;
+						ts_fid = aoDW[tn_dw].oConfig.items[tn_ident].fid;
+						DW(aoDW[tn_dw]).setItemByFid(ts_fid, int(ta_row2[i]), false, tn_row);					
+					}
+				}
+			}			
+			//refreshGrid();
+
+			/*
+			//call afterSave()
+			if (fAfterSave != null){
+				fAfterSave({fun:is_fun, win:i_parent});
+			}
+						
+			//case of fun = "D"
+			if (is_fun == "D" || pb_close){				
+				closeWin();
+			}
+
+			Fun.msg("I", ts_msg);
+			*/
+			return true;
+		}
+
+			
+		private function setSend():void{	
+			for (var i:int=0; i<in_dws; i++){
+				//t_dw = aoDW[i] as DW;
+				Fun.rowAddData(i_send, DW(aoDW[i]).getSend());
+			}			
+		}
+			
+			
+		/*
+		public function closeClick(p_event:Event=null):void{
+			exitClick();
+		}
+		*/
+		
+
+		/**
+		 * 執行 Exit Button Click, 在 ComStepEdit 複寫此函數.
+		 */ 
+		public function btnCancelClick(p_event:Event=null):void{
+ 			if (!ib_titleWin){
+ 				return;
+ 			}
+			
+			//if user changed data, confirm saving.
+			var tb_change:Boolean = false;
+			if (is_fun != "V"){
+				for (var i:int=0;i<in_dws;i++){
+					if (DW(aoDW[i]).isUserChanged()){
+						tb_change = true;
+						break;
+					}				
+				}
+			}
+			
+			if (tb_change){
+				Fun.ans(Fun.R.sureExit, 2, closeWin);
+			}else{
+				//2012-7-12 change: 如果沒有任何異動, 也觸發此函數, 但是 fun=''
+				//Fun.closePopup(i_parent);
+				is_fun = "";
+				closeWin();				
+			}
+		}
+		
+		
+		/**
+		 * 關閉編輯畫面, 如果指定 fAfterClose 函數, 則關閉前會呼叫此函數.
+		 */ 
+		protected function closeWin():void{
+ 			if (!ib_titleWin){
+ 				return;
+ 			}
+			
+			//if (pb_call && gfAfterClose != null){
+			if (fAfterClose != null){
+				fAfterClose({fun:is_fun});
+			}
+			
+			//close window
+			Fun.closePopup(i_parent);
+		}
+							
+		
+		/**
+		 * 把異動的資料更新到 DataGrid.
+		 */ 
+		protected function refreshGrid():void{
+			//check
+			if (gList == null || gList.dataProvider == null){
+				return;
+			}
+			
+			//get mapping field value
+			var t_data:Object = {};
+			if (is_fun != "D"){
+				var t_field:Object;
+				for (var i:int=0; i<in_dws; i++){
+					if (DW(aoDW[i]).isRows())		//only write back single DW.
+						continue;
+						
+					var ta_item:Array = aoDW[i].oConfig.items; 
+					for (var j:int=0; j<ta_item.length; j++){
+						var ts_field:String = ta_item[j].mapping;
+						if (ts_field != "false"){
+							t_field = ta_item[j].source;
+							t_data[ts_field] = DW(aoDW[i]).getItem(t_field);
+						}
+					}
+				}
+			}
+			
+			//update
+			Fun.rowToGrid(gList, is_fun, t_data);
+		}
+								
+		]]>
+	</fx:Script>		
+		
+</s:HGroup>

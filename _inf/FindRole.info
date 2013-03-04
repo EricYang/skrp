@@ -1,0 +1,10 @@
+{
+   "list":{
+        "select": "SELECT *",
+        "from": "FROM Role [_where]",
+        "order": "ORDER BY roleName",
+        "items": [            
+            {"fid":"roleName",  "op":"like"}
+        ]
+   }
+}

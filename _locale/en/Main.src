@@ -1,0 +1,121 @@
+﻿# Login user info
+loginInfoA=Academic Year
+loginInfoB=Semester (Login ID:
+loginInfoC=default setting academic year/semester (login ID:
+
+logout=Logout
+
+# mainArea
+sysCodeA=☆Staff Only
+sysCodeB=☆Class Mgt
+sysCodeC=☆Teaching Dept
+sysCodeD=☆Admin Dept Mgt
+sysCodeE=☆General Mgt
+sysCodeF=☆Basic Info
+sysCodeG=☆Parent Only
+sysCodeH=☆Statistics Rpt
+
+# ia_menu
+ToDoList=To-do list
+gCalendar=Individual Agenda
+PersonCal=Personal Agenda Information
+RepairForm=Maintenance Report
+FilesList=Documents Download
+StaffSelf=Staff Personal Data
+BabyCheck=Class Attendance
+BabyExcuse=Leave Request
+MedicineTicket=Record of Times for Medication
+MedicineRec=Record of Times for Medication
+HurtInfo=Injury Report
+BabyWatch=Child Behavior Observation Record
+FoodSick=Food Allergy Report
+TeachBook=Teaching Diary
+TeachProject=Teaching Plan Documents
+EContactBook=Communication Book
+ParentTalk=Parent Contact Record
+TeachCard=Teaching Material 
+ExportBaby=Export Children Name List
+BabyHealth=Child Health Care
+HealthItem=Physical Examination Checklist Information
+ParentMsgReply=Reply from Parent
+BabyEnsure=Child Insurance
+EnsureItem=Child Insurance Item Information
+BabyCar=Commute Information
+BabyCarInfo=Commute Route Information
+ClassScheduleView=Class Schedule
+CleanList=Classroom Cleaning Checklist 
+DevControlStu=Child Development Checklist
+LeagalInfect=Infectious Disease
+FinalEvaluateStu=Semester Final Evaluation
+LearnActDesign=Lesson Plan
+UploadMeeting=Meeting Minutes
+ClassSchedule=Class Schedule
+FinalEvaluate=期末評量項目
+TimeTable=Staff Shift Schedule
+Board=Announcement Board
+Project=Project Planning Management
+FoodTable=Monthly Meal Record
+(2.1不存在)ParentAskSum=家長問卷統計=parent survey checklist
+SkillClass=Extracurricular Class
+SickSum=Record of Abnormality of Child Health
+(2.1不存在)SickItem=身體異常項目資料=health abnormality specification
+ProjectItem=Project Item
+DevControl=Children Development Checklist
+ViolenceAnn=Violence Report
+HygieneControl=Sanitation Self-Management
+HygieneProcess=Sanitation Flow Procedure
+SitotoxismAnn=Food Poisoning Report
+SelfEvaluate=School Evaluation Form
+SelfEvaluateCheck=School Self-Evaluation Form
+FilesMana=File Management
+TeachTool=Teaching Material Management
+BookData=Book Information
+BookMana=Book Management
+Fortune=Property Management
+(2.1不存在)CheckStock=庫存盤點=check stock
+DamageRepair=Maintenance Record
+CleanListCheck=Classroom Cleaning Checklist
+AccTitle=Expenditure Item
+SafeControl=安全檢核
+SafeControlCheck=School Safety Checklist
+CarCheck=School Bus Safety Checklist
+FireControlCheck=Fire Safety Inspection
+FireCommittee=Fire Safety Management Staff
+FireDrill=Record of Fire Drill
+Dept=Department Profile
+Titles=Job Title Description
+Staff=Staff Profile
+ClassInfo=Class Profile
+AcaSetup=Academic Year Setting
+StartClass=New Class
+Student=Personal Information of Child
+Parent=Personal Information of Parent
+BabyCostItem=Child Expenditure List
+BabyCarList=Commute Checklist
+BabyCarRec=Time Record of Commute
+YearCal=Annual Calendar
+PublicDept=Information of Government Agency
+Program=System Role Management
+Role=Role Management
+(2.1不存在)DiseaseItem=病症項目資料=illness type information
+FuncItem=Item Data
+LeagalInfectItem=Items of Infectious Disease
+SpStudent=Special Need Childs
+MultiFuncItem=Multi-item Information
+SchoolInfo=School Info
+EContactBookParent=Communication Book
+BabyRestParent=Record of Leave Request
+ParentMsg=Parent Message Board
+(2.1不存在)ParentAsk=填問卷=fill out surveys
+gCalendar=Annual Calendar
+FoodTable=Monthly Meal Record
+ClassScheduleView=Class Schedule
+MedicineTicketParent=Record of Times for Medication
+FinalEvaluateStuParent=Semester Evaluation Form
+ParentSelf=Parent Personal Data
+rptTeacher=Total of Staff
+rptStudent=Total of Childs
+SickSum=Record of Abnormality of Child Health		
+rptBook=Book Count
+rptTeachTool=Teaching Aid Count
+AbsentStatus=Current Day Attendance

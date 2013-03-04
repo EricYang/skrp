@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="890" height="460" 
+	 
+  	creationComplete="init()"  	 	
+	preinitialize="{iR=Fun.getLang('FoodTable')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import spark.components.DataGrid;
+			
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;		
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindalbe]
+			private var is_app:String = Fun.sApp;
+			[Bindalbe]
+			private var idw_master:DW;
+			[Bindalbe]
+			public var idw_amSnack:DW2, idw_noonMeal:DW2, idw_fruit:DW2, idw_pmSnack:DW2, idw_nightSnack:DW2;
+			[Bindalbe]
+			public var bShowColumn:Boolean = true;
+			[Bindable]
+			private var ia_classInfoName:ArrayList = new ArrayList(Fun2.classInfoNameDS(is_app, true));
+			
+			private function init():void{
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					mapping: true,
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					items: [
+						{source:sn, 			dataType:"N",	inputType:"I"}, 
+						{source:cDate,			dataType:"D"},
+						{source:remark,			dataType:"S"}, 
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"DT",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"DT",	inputType:"R"}
+					]				
+				};
+				
+				//dw1: amSnack
+				edit_1.aoDW[1] = new DW2();
+				idw_amSnack = edit_1.aoDW[1]; 
+				idw_amSnack.xTool = tb_amSnack;
+				idw_amSnack.oConfig = {			
+					upDW: idw_master,
+					grid: grid_amSnack,
+					upQKeys: ["sn"],
+					qKeys: ["foodTableSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"foodTableSn",		dataType:"N", 	inputType:"2"},
+						{fid:"sysType",			dataType:"N",	init:1},
+						{fid:"funcItemSn",		dataType:"N"},						
+						{fid:"itemName",		update:false}
+					]				
+				};
+				
+				//dw2: noonMeal
+				edit_1.aoDW[2] = new DW2();
+				idw_noonMeal = edit_1.aoDW[2]; 
+				idw_noonMeal.xTool = tb_noonMeal;
+				idw_noonMeal.oConfig = {			
+					upDW: idw_master,
+					grid: grid_noonMeal,
+					upQKeys: ["sn"],
+					qKeys: ["foodTableSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"foodTableSn",		dataType:"N", 	inputType:"2"},
+						{fid:"sysType",			dataType:"N",	init:2},
+						{fid:"funcItemSn",		dataType:"N"},						
+						{fid:"itemName",		update:false}
+					]				
+				};
+				
+				//dw3: fruit
+				edit_1.aoDW[3] = new DW2();
+				idw_fruit = edit_1.aoDW[3]; 
+				idw_fruit.xTool = tb_fruit;
+				idw_fruit.oConfig = {			
+					upDW: idw_master,
+					grid: grid_fruit,
+					upQKeys: ["sn"],
+					qKeys: ["foodTableSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"foodTableSn",		dataType:"N", 	inputType:"2"},
+						{fid:"sysType",			dataType:"N",	init:3},
+						{fid:"funcItemSn",		dataType:"N"},						
+						{fid:"itemName",		update:false}
+					]				
+				};
+				
+				//dw4: pmSnack
+				edit_1.aoDW[4] = new DW2();
+				idw_pmSnack = edit_1.aoDW[4]; 
+				idw_pmSnack.xTool = tb_pmSnack;
+				idw_pmSnack.oConfig = {			
+					upDW: idw_master,
+					grid: grid_pmSnack,
+					upQKeys: ["sn"],
+					qKeys: ["foodTableSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"foodTableSn",		dataType:"N", 	inputType:"2"},
+						{fid:"sysType",			dataType:"N",	init:4},
+						{fid:"funcItemSn",		dataType:"N"},						
+						{fid:"itemName",		update:false}
+					]				
+				};
+				
+				//dw5: nightSnack
+				edit_1.aoDW[5] = new DW2();
+				idw_nightSnack = edit_1.aoDW[5]; 
+				idw_nightSnack.xTool = tb_nightSnack;
+				idw_nightSnack.oConfig = {			
+					upDW: idw_master,
+					grid: grid_nightSnack,
+					upQKeys: ["sn"],
+					qKeys: ["foodTableSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"foodTableSn",		dataType:"N", 	inputType:"2"},
+						{fid:"sysType",			dataType:"N",	init:5},
+						{fid:"funcItemSn",		dataType:"N"},						
+						{fid:"itemName",		update:false}
+					]				
+				};
+			}
+			
+			//伙食表 功能
+			private var s_grid:DataGrid, s_idw:Object;
+			public function fnClickFuncItem(pn_sn:int, n_grid:DataGrid, n_idw:Object, pn_sysType:int):void{
+				if (bShowColumn){
+					s_grid = n_grid;
+					s_idw = n_idw;
+					
+					var t_win:FindFuncItem = new FindFuncItem();
+					t_win.sysTypeValue = String(pn_sysType);
+					Fun.openPopup(t_win, this);				
+					
+					t_win.qry_1.fSelectRow = fSelectRowPD;					
+					t_win.qry_1.bCloseAfterQuery = false;
+					t_win.fAfterOk = fSelectRowPD;
+				}
+			}			
+			private function fSelectRowPD(p_row:Object):void{
+				var tn_row:int = s_grid.selectedIndex;
+				
+				var t_row:Object = s_grid.selectedItem;
+				t_row.itemName = p_row.itemName;
+				
+				s_idw.setItemByFid("funcItemSn", p_row.sn, true, tn_row);
+				Fun.refreshGrid(s_grid, tn_row);
+			}
+			
+			private function serialNoLabelFunc(p_row:Object, p_column:GridColumn):String {
+				var index:int = p_column.grid.dataProvider.getItemIndex(p_row);
+				if (index > -1) {
+					return (index + 1).toString();
+				}
+				return "";
+			}
+			
+			private function afterOpen(p_data:Object):void{
+				
+				FS_amSnack.visible = false;
+				FS_noonMeal.visible = false;
+				FS_fruit.visible = false;
+				FS_pmSnack.visible = false;
+				FS_nightSnack.visible = false;
+				
+				switch (p_data.fun){			
+					case "U":
+					case "V":
+						//列出伙食過敏情形 早餐						
+						var t_data:Object = {
+							data: "listFoodTableSick",
+							foodTableSn: int(Fun.getItem(sn)),
+							sysType: 1
+						};
+						var t_row:Array = Fun.readRows(is_app, t_data);
+						if (t_row!=null){
+							
+							var ia_data1:Array = [], ia_data2:Array = [], ia_data3:Array = [], ia_data4:Array = [], ia_data5:Array = [];
+							
+							for (var i:int=0; i<t_row.length; i++){
+								switch (t_row[i].sysType){					
+									case "1":
+										ia_data1.push({classLeavesSn:t_row[i].classLeavesSn, ceName:t_row[i].ceName, studentSn:t_row[i].studentSn, senCon:t_row[i].senCon, itemName:t_row[i].itemName});										
+										break;
+									case "2":
+										ia_data2.push({classLeavesSn:t_row[i].classLeavesSn, ceName:t_row[i].ceName, studentSn:t_row[i].studentSn, senCon:t_row[i].senCon, itemName:t_row[i].itemName});
+										break;
+									case "3":
+										ia_data3.push({classLeavesSn:t_row[i].classLeavesSn, ceName:t_row[i].ceName, studentSn:t_row[i].studentSn, senCon:t_row[i].senCon, itemName:t_row[i].itemName});
+										break;
+									case "4":
+										ia_data4.push({classLeavesSn:t_row[i].classLeavesSn, ceName:t_row[i].ceName, studentSn:t_row[i].studentSn, senCon:t_row[i].senCon, itemName:t_row[i].itemName});
+										break;
+									case "5":
+										ia_data5.push({classLeavesSn:t_row[i].classLeavesSn, ceName:t_row[i].ceName, studentSn:t_row[i].studentSn, senCon:t_row[i].senCon, itemName:t_row[i].itemName});
+										break;
+								}
+							}
+							
+							if (ia_data1.length!=0){
+								FS_amSnack.visible = true;
+								grid_FS_amSnack.dataProvider = new ArrayCollection(ia_data1);
+							}
+							if (ia_data2.length!=0){
+								FS_noonMeal.visible = true;
+								grid_FS_noonMeal.dataProvider = new ArrayCollection(ia_data2);
+							}
+							if (ia_data3.length!=0){
+								FS_fruit.visible = true;
+								grid_FS_fruit.dataProvider = new ArrayCollection(ia_data3);
+							}
+							if (ia_data4.length!=0){
+								FS_pmSnack.visible = true;
+								grid_FS_pmSnack.dataProvider = new ArrayCollection(ia_data4);
+							}
+							if (ia_data5.length!=0){
+								FS_nightSnack.visible = true;
+								grid_FS_nightSnack.dataProvider = new ArrayCollection(ia_data5);
+							}
+						}
+						break;
+				}				
+				
+				switch (p_data.fun){					
+					case "C":
+					case "U":
+						bShowColumn = true;
+						break;
+					case "V":
+						bShowColumn = false;
+						break;
+				}
+			}
+			
+			public function fnStuClick(pn_StuSn:int):void{
+				if (int(pn_StuSn)){
+					var t_win:StudentE = new StudentE();
+					var t_data:Object = {
+						win: t_win,
+						fun: "V",
+						row: {sn:pn_StuSn}
+					};
+					Fun.openPopup(t_win, this);				
+					var t_edit:comEdit = t_win.edit_1; 
+					t_edit.sApp = is_app;
+					t_edit.sInf = "StudentE";
+					t_edit.sTitle = iR.message01;				
+					t_edit.init(t_data);					
+				}				
+			}
+			private function classInfoName(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_classInfoName, p_row[p_column.dataField]);
+			}
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10" y="390" id="edit_1" fAfterOpen="afterOpen">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>	
+	<mx:TabNavigator x="10" y="10" width="860" height="373" id="tns">
+		<mx:Canvas label="{iR.Canvas01}">
+			<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+				<mx:FormItem label="{iR.cDate} :" required="true">
+					<mx:DateField formatString="YYYY/MM/DD" id="cDate" yearNavigationEnabled="true"/>			
+				</mx:FormItem>
+				<mx:FormItem label="{iR.remark} :">
+					<mx:TextArea id="remark" width="457" height="247"/>
+				</mx:FormItem>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas02}">
+			<mx:Form x="10" y="29">
+				<x2:DG2 width="350" alpha="0.7" height="269" id="grid_amSnack">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>						
+						<s:GridColumn dataField="foodTableSn" visible="false"/>
+						<s:GridColumn dataField="sysType" visible="false"/>
+						<s:GridColumn dataField="funcItemSn" visible="false"/>
+						<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+						<s:GridColumn headerText="{iR.itemName}" dataField="itemName"/>						
+						<s:GridColumn width="40">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:btnPick click="outerDocument.fnClickFuncItem(data.sn, outerDocument.grid_amSnack, outerDocument.idw_amSnack, 15)"/>									
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>
+			<x2:TBar2 x="117" y="4" id="tb_amSnack">
+			</x2:TBar2>
+			
+			<mx:Form x="395" y="4" id="FS_amSnack" borderStyle="solid" borderColor="#FF0000">
+				<mx:Label text="幼兒過敏紀錄" color="#FF0000" fontWeight="bold"/>
+				<s:DataGrid alpha="0.7" id="grid_FS_amSnack" height="262" width="421">
+					<s:columns><s:ArrayList>
+						<s:GridColumn headerText="班級" dataField="classLeavesSn" labelFunction="classInfoName"/>						
+						<s:GridColumn headerText="姓名" dataField="ceName">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<mx:Label text="{data.ceName}" useHandCursor="true" mouseChildren="false" buttonMode="true" textDecoration="underline" color="#0000FF" click="outerDocument.fnStuClick(data.studentSn)"/>															
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>																		
+						<s:GridColumn headerText="過敏項目" dataField="senCon"/>						
+						<s:GridColumn headerText="禁吃食物" dataField="itemName"/>		
+					</s:ArrayList></s:columns>
+				</s:DataGrid>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas03}">
+			<mx:Form x="10" y="29">
+				<x2:DG2 width="350" alpha="0.7"	height="269" id="grid_noonMeal">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>						
+						<s:GridColumn dataField="foodTableSn" visible="false"/>
+						<s:GridColumn dataField="sysType" visible="false"/>
+						<s:GridColumn dataField="funcItemSn" visible="false"/>
+						<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+						<s:GridColumn headerText="{iR.itemName}" dataField="itemName"/>						
+						<s:GridColumn width="40">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:btnPick click="outerDocument.fnClickFuncItem(data.sn, outerDocument.grid_noonMeal, outerDocument.idw_noonMeal, 16)"/>									
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>
+			<x2:TBar2 x="117" y="4" id="tb_noonMeal">
+			</x2:TBar2>
+			
+			<mx:Form x="395" y="4" id="FS_noonMeal" borderStyle="solid" borderColor="#FF0000">
+				<mx:Label text="幼兒過敏紀錄" color="#FF0000" fontWeight="bold"/>
+				<s:DataGrid alpha="0.7" id="grid_FS_noonMeal" height="262" width="421">
+					<s:columns><s:ArrayList>
+						<s:GridColumn headerText="班級" dataField="classLeavesSn" labelFunction="classInfoName"/>						
+						<s:GridColumn headerText="姓名" dataField="ceName">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<mx:Label text="{data.ceName}" useHandCursor="true" mouseChildren="false" buttonMode="true" textDecoration="underline" color="#0000FF" click="outerDocument.fnStuClick(data.studentSn)"/>															
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>																		
+						<s:GridColumn headerText="過敏項目" dataField="senCon"/>						
+						<s:GridColumn headerText="禁吃食物" dataField="itemName"/>		
+					</s:ArrayList></s:columns>
+				</s:DataGrid>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas04}">
+			<mx:Form x="10" y="29">
+				<x2:DG2 width="350" alpha="0.7" height="269" id="grid_fruit">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>						
+						<s:GridColumn dataField="foodTableSn" visible="false"/>
+						<s:GridColumn dataField="sysType" visible="false"/>
+						<s:GridColumn dataField="funcItemSn" visible="false"/>
+						<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+						<s:GridColumn headerText="{iR.itemName}" dataField="itemName"/>						
+						<s:GridColumn width="40">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:btnPick click="outerDocument.fnClickFuncItem(data.sn, outerDocument.grid_fruit, outerDocument.idw_fruit, 17)"/>																		
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>
+			<x2:TBar2 x="117" y="4" id="tb_fruit">
+			</x2:TBar2>
+			
+			<mx:Form x="395" y="4" id="FS_fruit" borderStyle="solid" borderColor="#FF0000">
+				<mx:Label text="幼兒過敏紀錄" color="#FF0000" fontWeight="bold"/>
+				<s:DataGrid alpha="0.7"	id="grid_FS_fruit" height="262" width="421">
+					<s:columns><s:ArrayList>
+						<s:GridColumn headerText="班級" dataField="classLeavesSn" labelFunction="classInfoName"/>						
+						<s:GridColumn headerText="姓名" dataField="ceName">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<mx:Label text="{data.ceName}" useHandCursor="true" mouseChildren="false" buttonMode="true" textDecoration="underline" color="#0000FF" click="outerDocument.fnStuClick(data.studentSn)"/>															
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>																		
+						<s:GridColumn headerText="過敏項目" dataField="senCon"/>						
+						<s:GridColumn headerText="禁吃食物" dataField="itemName"/>		
+					</s:ArrayList></s:columns>
+				</s:DataGrid>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas05}">
+			<mx:Form x="10" y="29">
+				<x2:DG2 width="350" alpha="0.7"	height="269" id="grid_pmSnack">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>						
+						<s:GridColumn dataField="foodTableSn" visible="false"/>
+						<s:GridColumn dataField="sysType" visible="false"/>
+						<s:GridColumn dataField="funcItemSn" visible="false"/>
+						<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+						<s:GridColumn headerText="{iR.itemName}" dataField="itemName"/>						
+						<s:GridColumn width="40">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:btnPick click="outerDocument.fnClickFuncItem(data.sn, outerDocument.grid_pmSnack, outerDocument.idw_pmSnack, 18)"/>																		
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>
+			<x2:TBar2 x="117" y="4" id="tb_pmSnack">
+			</x2:TBar2>
+			
+			<mx:Form x="395" y="4" id="FS_pmSnack" borderStyle="solid" borderColor="#FF0000">
+				<mx:Label text="幼兒過敏紀錄" color="#FF0000" fontWeight="bold"/>
+				<s:DataGrid alpha="0.7" id="grid_FS_pmSnack" height="262" width="421">
+					<s:columns><s:ArrayList>
+						<s:GridColumn headerText="班級" dataField="classLeavesSn" labelFunction="classInfoName"/>						
+						<s:GridColumn headerText="姓名" dataField="ceName">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<mx:Label text="{data.ceName}" useHandCursor="true" mouseChildren="false" buttonMode="true" textDecoration="underline" color="#0000FF" click="outerDocument.fnStuClick(data.studentSn)"/>															
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>																		
+						<s:GridColumn headerText="過敏項目" dataField="senCon"/>						
+						<s:GridColumn headerText="禁吃食物" dataField="itemName"/>		
+					</s:ArrayList></s:columns>
+				</s:DataGrid>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas06}">
+			<mx:Form x="10" y="29">
+				<x2:DG2 width="350" alpha="0.7"	height="269" id="grid_nightSnack">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>						
+						<s:GridColumn dataField="foodTableSn" visible="false"/>
+						<s:GridColumn dataField="sysType" visible="false"/>
+						<s:GridColumn dataField="funcItemSn" visible="false"/>
+						<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+						<s:GridColumn headerText="{iR.itemName}" dataField="itemName"/>						
+						<s:GridColumn width="40">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:btnPick click="outerDocument.fnClickFuncItem(data.sn, outerDocument.grid_nightSnack, outerDocument.idw_nightSnack, 19)"/>																		
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>
+			<x2:TBar2 x="117" y="4" id="tb_nightSnack">
+			</x2:TBar2>
+			
+			<mx:Form x="395" y="4" id="FS_nightSnack" borderStyle="solid" borderColor="#FF0000">
+				<mx:Label text="幼兒過敏紀錄" color="#FF0000" fontWeight="bold"/>
+				<s:DataGrid alpha="0.7" id="grid_FS_nightSnack" height="262" width="421">
+					<s:columns><s:ArrayList>
+						<s:GridColumn headerText="班級" dataField="classLeavesSn" labelFunction="classInfoName"/>						
+						<s:GridColumn headerText="姓名" dataField="ceName">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<mx:Label text="{data.ceName}" useHandCursor="true" mouseChildren="false" buttonMode="true" textDecoration="underline" color="#0000FF" click="outerDocument.fnStuClick(data.studentSn)"/>															
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>																		
+						<s:GridColumn headerText="過敏項目" dataField="senCon"/>						
+						<s:GridColumn headerText="禁吃食物" dataField="itemName"/>		
+					</s:ArrayList></s:columns>
+				</s:DataGrid>
+			</mx:Form>
+		</mx:Canvas>
+	</mx:TabNavigator>
+</s:TitleWindow>

@@ -1,0 +1,21 @@
+﻿親愛的 [userName] ，您好：
+
+您於 [now] 執行忘記密碼，系統已經重新將您的密碼設定為 [newPwd]
+請使用新的密碼登入系統，並且執行設定密碼功能來修改您的密碼。
+                 
+謝謝！
+
+===========================================
+此信件由系統自動產生與發送，請勿直接回覆
+
+
+
+Dear [userName]：
+
+You requested "Forget Password" at [now], System already changed your password to "[newPwd]"
+Please login with new password, and change it by executing "Change Password" function as need.
+                 
+Thanks !
+
+==================================================
+This email was sent auto, Please do not reply it.

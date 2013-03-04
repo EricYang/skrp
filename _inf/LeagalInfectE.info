@@ -1,0 +1,41 @@
+{
+    "dws":[
+        {
+            "selectTable": "LeagalInfect a INNER JOIN Student b ON a.studentSn = b.sn LEFT OUTER JOIN PublicDept c ON a.publicDeptSn = c.sn",   
+            "updateTable": "LeagalInfect",
+            "defaultTable": "a",
+            "items": [
+                {"fid":"sn"}, 
+                {"fid":"academicYear"},
+                {"fid":"semester"},
+                {"fid":"acaName",         "table":"", "colName":"CONCAT(a.academicYear, ' - ', a.semester)"},
+                {"fid":"classLeavesSn"},
+                {"fid":"studentSn"},
+                {"fid":"studentName",     "table":"", "colName":"CONCAT(b.cName, ' ', b.eName)"},
+                {"fid":"cDate"},
+                {"fid":"cTimeH"},
+                {"fid":"cTimeM"},
+                {"fid":"cTime",           "table":"", "colName":"CONCAT(a.cTimeH, ' ', a.cTimeM)"},                
+                {"fid":"conDescribe"},
+                {"fid":"publicDeptSn"},
+                {"fid":"publicDeptName",  "table":"c", "colName":"unitName"},                
+                {"fid":"leagalInfectItemSn"},
+                {"fid":"creator"},
+                {"fid":"createDate"},           
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+             ]                
+        },
+        {
+            "selectTable": "LeagalInfectDetail [_where] ORDER BY funcItemSn",
+            "updateTable": "LeagalInfectDetail",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"leagalInfectSn"},                
+                {"fid":"funcItemSn"},
+                {"fid":"checkSign"}
+            ]                
+        }
+    ]    
+}

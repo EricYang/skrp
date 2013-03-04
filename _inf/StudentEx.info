@@ -1,0 +1,23 @@
+{
+    "list":{
+		"select": "select s.*, c.codeDesc as stuTypeName",
+		"from": "from Student s 
+            left outer join _Code_tw c on c.typeId='stuType' and c.codeId=s.stuType
+            [_where]",
+        "rptSelect": "select s.*, c.codeDesc as stuTypeName,
+            case when s.passTest=0 then '' else c2.codeDesc end as passTestName",
+        "rptFrom": "from Student s 
+            left outer join _Code_tw c on c.typeId='stuType' and c.codeId=s.stuType
+            left outer join _Code_tw c2 on c2.typeId='test' and c2.codeId=s.passTest
+            [_where]",
+		"order": "order by s.stuId",
+        "defaultTable": "s",
+		"items": [
+			{"fid":"stuId",         "op":"like"},
+			{"fid":"cName",         "op":"like"},
+            {"fid":"department",    "op":"like"},
+            {"fid":"grades",        "op":"like"},
+            {"fid":"passTest"}
+		]
+    }
+}

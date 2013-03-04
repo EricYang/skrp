@@ -1,0 +1,22 @@
+{
+    "list":{
+        "select": "SELECT b.*, CONCAT(b.academicYear, ' - ', b.semester) AS acaName, 
+                    CONCAT(d.cName, ' ', d.eName) AS studentName",
+        "from": "FROM ClassLeaves a INNER JOIN
+                    EContactBook b ON a.sn = b.classLeavesSn INNER JOIN
+                    PSRelation c ON b.studentSn = c.studentSn INNER JOIN
+                    Student d ON c.studentSn = d.sn
+                    WHERE (c.parentSn = [parentSn])
+                    [_where]",
+        "order": "ORDER BY b.sn",
+        "items": [
+            {"fid":"academicYear",      "table":"b"},
+            {"fid":"semester",          "table":"b"},
+            {"fid":"cName",             "table":"d",    "op":"like"},
+            {"fid":"eName",             "table":"d",    "op":"like"},
+            {"fid":"cDate",             "table":"b",    "op":"between"},
+            {"fid":"parentSn",          "isCond":0}
+      ]
+    }
+}
+

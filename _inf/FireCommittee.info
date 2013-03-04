@@ -1,0 +1,14 @@
+{
+    "list":{
+        "select": "SELECT a.*, CONCAT(a.academicYear, ' - ', a.semester) AS acaName",
+        "from": "FROM FireCommittee a
+                [_where]",
+        "order": "ORDER BY a.cDate",
+        "items": [
+            {"fid":"academicYear",      "table":"a"},
+            {"fid":"semester",          "table":"a"},
+            {"fid":"cDate",             "table":"a",    "op":"between"}
+      ]
+    }
+}
+

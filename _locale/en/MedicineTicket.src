@@ -1,0 +1,57 @@
+﻿# list/query fields
+selfFlag=自行填寫
+readTimeP=家長閱讀
+readTimeS=教師閱讀
+acaName=academic year (semester)
+classLeavesSn=grade and classification
+studentName=student name
+cDate=medication use date
+eventRec=special case handling
+creator=created by
+createDate=created on
+reviser=modified by
+reviseDate=modified by
+
+# message
+message02=此筆資料為 家長自行填寫，不可刪除。
+message03=此筆資料 家長已經閱讀，不可刪除。
+
+# E
+Canvas01=托藥單
+Canvas02=medicine prescription history
+
+disease=symptoms
+disease01=cold
+disease02=enterogastritis
+disease03=bronchitis
+disease04=tympanitis
+disease05=others
+inMed=internal use
+inMed01=powder
+inMed02=liquid
+inMed03=spindle
+inMed04=fever
+exMed=external use
+exMedCon=, medical condition
+remark=remark
+remark01=refrigeration needed
+remark02=shake before use
+remark03=others
+eventRec=special case handling
+medTime=medication time
+medTimeCon=remark
+medTimeH=medicine prescription time (hr)
+medTimeM=medicine prescription time (min)
+inMedType=medication administration
+ceName=administrator
+
+# message
+message01=please select a student's name
+
+# Q
+academicYear=academic year
+semester=semester
+classInfoSn=grade
+classLeavesSn=classification
+cName=Chinese name
+eName=English name

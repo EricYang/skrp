@@ -1,0 +1,22 @@
+﻿# list/query fields
+txtYear=year A.D.:
+txtMonth=month:
+
+# Detail
+Canvas01=◎ personal agenda
+contents=content
+
+Canvas02=＊ annual agenda
+
+Canvas03=＃ things to do list
+subject=subject
+
+Canvas04=＆ meal list
+amSnack=morning snack
+noonMeal=lunch
+fruit=fruit
+pmSnack=afternoon meal
+nightSnack=evening snack
+
+# message
+message01=no data found

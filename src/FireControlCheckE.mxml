@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="900" height="600" 
+	 
+  	creationComplete="init()"	
+	preinitialize="{iR=Fun.getLang('FireControlCheck')}"
+	>
+	<fx:Script>
+		<![CDATA[
+
+			
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			[Bindable]
+			private var iR:Object;
+			[Bindalbe]
+			private var idw_master:DW;
+			[Bindalbe]
+			private var idw_FireControlCheckDetail:DW2;
+			[Bindalbe]
+			private var is_app:String = Fun.sApp;			
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["academicYear","semester","usersSn","userCName","userEName"]});
+			[Bindable]
+			public var ia_ynFlag:ArrayList = new ArrayList(Fun2.ynFlagDS(is_app, true));
+			
+			private function init():void{				
+				//dw1: FireControlCheck
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					mapping: true,
+					items: [
+						{source:sn, 				dataType:"N",	inputType:"I"},
+						{source:academicYear,		dataType:"N",	init:int(i_session.academicYear)}, 
+						{source:semester,			dataType:"N",	init:int(i_session.semester)},
+						{source:acaName,							update:false,	inputType:"R"},
+						{source:staffSn,			dataType:"N"},
+						{source:staffName,							update:false,	inputType:"R",	required:true},
+						{source:cDate,				dataType:"D"},						
+						{source:creator,			dataType:"S",	inputType:"R"}, 
+						{source:createDate,			dataType:"DT",	inputType:"R"}, 
+						{source:reviser,			dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,			dataType:"DT",	inputType:"R"}
+					]				
+				}; 			
+							
+				//dw2: FireControlCheckDetail
+				edit_1.aoDW[1] = new DW2();				
+				idw_FireControlCheckDetail = edit_1.aoDW[1]; 
+				idw_FireControlCheckDetail.xTool = tb_FireControlCheckDetail;
+				idw_FireControlCheckDetail.oConfig = {					
+					grid: grid_FireControlCheckDetail,
+					upEditDW: idw_master,
+					upEKeys: ["sn"],
+					eKeys: ["fireControlCheckSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 						dataType:"N", 	inputType:"I"},
+						{fid:"fireControlCheckSn", 		dataType:"N", 	inputType:"2"},
+						{fid:"multiFuncItemDetailSn",	dataType:"N"},
+						{fid:"itemName",				update:false,	inputType:"R"},
+						{fid:"contents",				update:false,	inputType:"R"},						
+						{fid:"checkSign",				dataType:"N"}
+					]				
+				};
+			}
+			
+			//找職員
+			private var i_col1:Object, i_col2:Object;			
+			private function doFindStaff(p_col1:Object, p_col2:Object):void{				
+				i_col1 = p_col1;
+				i_col2 = p_col2;
+				Fun2.openStaff(is_app, this, ReturnStaff);
+			}
+			private function ReturnStaff(p_row:Object):void{				
+				Fun.setItem(i_col1, p_row.cName + " " + p_row.eName);
+				idw_master.setItem(i_col2, p_row.sn, true);
+			}
+			
+			private function afterOpen(p_data:Object):void{				
+				
+				var theCheckItemNum:String;								
+				switch (p_data.fun){
+					case "C":						
+						var t_data:Object ={
+							data: "FireControlCheck",
+							cuEvent: String(p_data.fun)
+						};						
+						var ta_data:Array = Fun.readRows(is_app, t_data);
+						if (ta_data){							
+							for (var i:int=0; i<ta_data.length; i++){								
+								idw_FireControlCheckDetail.addRow(ta_data[i]);								
+							}
+						}
+						theCheckItemNum = String(ta_data.length);												
+						break;
+					case "V":
+					case "U":
+						var u_data:Object ={
+							data: "FireControlCheck",
+							cuEvent: String(p_data.fun),
+							sn: int(Fun.getItem(sn))
+						};						
+						var ua_data:Array = Fun.readRows(is_app, u_data);
+						if (ua_data){
+							//自動點按新增
+							for (var j:int=0; j<ua_data.length; j++){
+								idw_FireControlCheckDetail.addRow(ua_data[j]);
+								if (String(ua_data[j].checkSign) != ""){
+									idw_FireControlCheckDetail.setDirtyRow("U", j, ua_data[j]);									
+								}							
+							}
+						}
+						theCheckItemNum = String(ua_data.length);						
+						break;
+				}				
+				checkItemNum.text = iR.message01 + theCheckItemNum + iR.message02;
+			}
+			
+			private function whenSave(p_data:Object):Boolean{
+				if (p_data.fun != "D"){
+					//為了讓儲存時, 也能同時更新顯示的頁面, 所以要特別給予值
+					Fun.setItem(acaName, String(Fun.getItem(academicYear))+ ' - '+String(Fun.getItem(semester)));
+					
+					switch (p_data.fun){
+						case "C":
+						case "U":
+							var ta_row:Array = ArrayCollection(grid_FireControlCheckDetail.dataProvider).source;
+							for (var i:int=ta_row.length - 1; i>=0; i--){								
+								if (String(ta_row[i].checkSign) == ""){
+									idw_FireControlCheckDetail.deleteRow(i, false);									
+								}						
+							}
+							break;
+						case "V":						
+							break;
+					}										
+				}
+				return true;
+			}
+			private function serialNoLabelFunc(p_row:Object, p_column:GridColumn):String {
+				var index:int = p_column.grid.dataProvider.getItemIndex(p_row);
+				if (index > -1) {
+					return (index + 1).toString();
+				}
+				return "";
+			}
+		]]>
+	</fx:Script>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="academicYear" visible="false"/>
+	<x2:Num1 id="semester" visible="false"/>
+	<s:TextInput id="acaName" visible="false"/>
+	<x2:Num1 id="staffSn" visible="false"/>	
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+	<mx:TabNavigator x="10" y="10" width="870" height="514">
+		<mx:Canvas label="{iR.Canvas01}">
+			<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+				<mx:FormItem label="{iR.staffName} :" required="true">
+					<mx:HBox x="72" y="1" width="100%">
+						<s:TextInput id="staffName" click="doFindStaff(staffName, staffSn)"/>
+						<x2:btnPick id="SchStaff" click="doFindStaff(staffName, staffSn)"/>						
+					</mx:HBox>
+				</mx:FormItem>				
+				<mx:FormItem label="{iR.cDate} :" required="true">
+					<mx:DateField id="cDate" formatString="YYYY/MM/DD" yearNavigationEnabled="true"/>
+				</mx:FormItem>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas2}">
+			<mx:Form x="9" y="29">
+				<x2:DG2 width="813"
+						 
+						 
+						 alpha="0.7"		
+						 		 
+						 
+						 
+						 rowHeight="50"
+						 height="400" id="grid_FireControlCheckDetail">
+					<x2:columns><s:ArrayList>					
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="fireControlCheckSn" visible="false"/>
+						<s:GridColumn dataField="multiFuncItemDetailSn" visible="false"/>
+						<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+						<s:GridColumn headerText="{iR.itemName}" dataField="itemName" width="100">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:TextArea2 editable="false"/>																	
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.contents}" dataField="contents">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:TextArea2 editable="false"/>																	
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.checkSign}" dataField="checkSign" width="80">							
+							<s:itemRenderer>								
+								<fx:Component><s:GridItemRenderer>
+									<x2:DDL2 dataProvider="{outerDocument.ia_ynFlag}"/>																		
+								</s:GridItemRenderer></fx:Component>								
+							</s:itemRenderer>					
+						</s:GridColumn>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>			
+			<x2:TBar2 x="336" y="4" id="tb_FireControlCheckDetail" visible="false">
+			</x2:TBar2>			
+			<mx:Label x="654" y="6" id="checkItemNum" color="#0000FF"/>
+		</mx:Canvas>
+	</mx:TabNavigator>
+	<x2:comEdit x="10" y="529" id="edit_1" fWhenSave="whenSave" fAfterOpen="afterOpen">
+	</x2:comEdit>
+</s:TitleWindow>

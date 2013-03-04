@@ -1,0 +1,26 @@
+﻿# list/query fields
+cDate=日期
+location=地點
+subject=主題
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# E
+Canvas01=基本資料
+Canvas02=與會者 & 工作分派
+
+seTimeHM=時間
+location=地點
+chairmanStaffName=主席
+recorderStaffName=紀錄
+meetingRecords=會議記錄
+empNo=員編
+titlesSn=職稱
+cName=姓名(中)
+eName=姓名(英)
+gender=性別
+
+Canvas03=決議
+Canvas04=待辦事項

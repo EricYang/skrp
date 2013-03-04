@@ -1,0 +1,45 @@
+{
+    "dws":[
+        {
+            "selectTable": "SitotoxismAnn a INNER JOIN Student b ON a.studentSn = b.sn LEFT OUTER JOIN PublicDept c ON a.publicDeptSn = c.sn",   
+            "updateTable": "SitotoxismAnn",
+            "defaultTable": "a",
+            "items": [
+                {"fid":"sn"}, 
+                {"fid":"academicYear"},
+                {"fid":"semester"},
+                {"fid":"acaName",         "table":"", "colName":"CONCAT(a.academicYear, ' - ', a.semester)"},
+                {"fid":"classLeavesSn"},
+                {"fid":"studentSn"},
+                {"fid":"studentName",     "table":"", "colName":"CONCAT(b.cName, ' ', b.eName)"},
+                {"fid":"cDate"},
+                {"fid":"cTimeH"},
+                {"fid":"cTimeM"},
+                {"fid":"cTime",           "table":"", "colName":"CONCAT(a.cTimeH, ' ', a.cTimeM)"},
+                {"fid":"iDate"},
+                {"fid":"iTimeH"},
+                {"fid":"iTimeM"},
+                {"fid":"iTime",           "table":"", "colName":"CONCAT(a.iTimeH, ' ', a.iTimeM)"},
+                {"fid":"mhHosp"},
+                {"fid":"publicDeptSn"},
+                {"fid":"publicDeptName",  "table":"c", "colName":"unitName"},                
+                {"fid":"supplier"},
+                {"fid":"creator"},
+                {"fid":"createDate"},           
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+             ]                
+        },
+        {
+            "selectTable": "SitotoxismAnnDetail [_where] ORDER BY funcItemSn",
+            "updateTable": "SitotoxismAnnDetail",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"sitotoxismAnnSn"},                
+                {"fid":"funcItemSn"},
+                {"fid":"checkSign"}
+            ]                
+        }
+    ]    
+}

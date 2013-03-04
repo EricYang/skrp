@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="600" height="490" 
+	 
+  	creationComplete="init()"  	 		
+	preinitialize="{iR=Fun.getLang('ParentTalk')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.ArrayList;
+			
+			import x2.*;
+			
+			[Bindable]
+			private var iR:Object;
+			private var is_app:String = Fun.sApp;
+			private var idw_master:DW;
+			
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["academicYear","semester"]});
+			[Bindable]
+			private var ia_sParent:ArrayList;	
+			
+			private function doFindStu():void{
+				Fun2.openStudent(is_app, this, ReturnStu, false);
+			}
+			
+			private function ReturnStu(p_row:Object):void{				
+				Fun.setItem(studentName, p_row.cName + " " + p_row.eName);
+				idw_master.setItem(studentSn, p_row.sn, true);
+				idw_master.setItem(classLeavesSn, p_row.classLeavesSn, true);
+				
+				var t_data:Object = {
+					type: "sParent",
+					studentSn: int(p_row.sn)					
+				};								
+				ia_sParent = new ArrayList(Fun.comboDS2(is_app, t_data, true));				
+				parentSn2.validateNow();
+			}			
+			private function init():void{
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					mapping: true,
+					autos: ["creator","createDate"],
+					keys: ["sn"],
+					items: [
+						{source:sn, 			dataType:"N",	inputType:"I"}, 
+						{source:academicYear,	dataType:"N",	init:int(i_session.academicYear)}, 
+						{source:semester,		dataType:"N",	init:int(i_session.semester)},
+						{source:acaName,						update:false,	inputType:"R"},
+						{source:classLeavesSn,	dataType:"N"},
+						{source:parentSn,		dataType:"N"},						
+						{source:parentSn2,						update:false},
+						{source:parentName,						update:false,	inputType:"R"},
+						{source:studentSn,		dataType:"N"},
+						{source:studentName,					update:false,	inputType:"R",	required:true},
+						{source:cDate,			dataType:"D"},
+						{source:timeH,			dataType:"N"},
+						{source:timeM,			dataType:"N"},
+						{source:conRecord,		dataType:"S"},
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"DT",	inputType:"R"}					
+					]				
+				};
+			}
+			private function afterOpen(p_data:Object):void{
+				switch (p_data.fun){
+					case "V":
+					case "U":
+						SchStu.visible = false; //檢視模是不顯示搜尋按鈕
+						
+						var t_data:Object = {
+							type: "sParent",
+							studentSn: int(Fun.getItem(studentSn))					
+						};								
+						ia_sParent = new ArrayList(Fun.comboDS2(is_app, t_data, true));				
+						parentSn2.validateNow();
+						Fun.setItem(parentSn2, Fun.getItem(parentSn));
+						break;
+					case "C":
+						SchStu.visible = true;
+						ia_sParent = new ArrayList([]);
+						//var time:Date = new Date();
+						//cDate.selectedDate=new Date();
+						//timeH.value = time.getHours();
+						//timeM.value = time.getMinutes();
+						break;
+				}
+			}
+			private function whenSave(p_data:Object):Boolean{
+				if (p_data.fun != "D"){
+					idw_master.setItem(parentSn, int(Fun.getItem(parentSn2)), true);				
+					Fun.setItem(acaName, String(Fun.getItem(academicYear))+ ' - '+String(Fun.getItem(semester)));
+					Fun.setItem(parentName, parentSn2.selectedItem.label);
+				}
+				return true;
+			}
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10" y="418" id="edit_1" fWhenSave="whenSave" fAfterOpen="afterOpen">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="academicYear" visible="false"/>
+	<x2:Num1 id="semester" visible="false"/>
+	<s:TextInput id="acaName" visible="false"/>
+	<x2:Num1 id="classLeavesSn" visible="false"/>
+	<x2:Num1 id="parentSn" visible="false"/>
+	<s:TextInput id="parentName" visible="false"/>
+	<x2:Num1 id="studentSn" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:Form x="10" y="10">
+		<s:layout> 
+			<s:FormLayout gap="-8"/>			
+		</s:layout>	
+		<s:FormItem label="{iR.studentName} :" required="true">
+			<mx:HBox x="72" y="1" width="100%">
+				<s:TextInput id="studentName" editable="false"/>
+				<x2:btnPick id="SchStu" click="doFindStu()"/>				
+			</mx:HBox>
+		</s:FormItem>
+		<s:FormItem label="{iR.parentSn2} :" required="true">
+			<x2:DDL1 id="parentSn2" dataProvider="{ia_sParent}" width="100%"></x2:DDL1>
+		</s:FormItem>
+		<s:FormItem label="{iR.cDate} :" required="true">
+			<mx:DateField id="cDate" formatString="YYYY/MM/DD" yearNavigationEnabled="true"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.timeHM} :" required="true">
+			<mx:HBox x="69" y="3" width="100%">
+				<mx:NumericStepper maximum="24" id="timeH"/>
+				<mx:Label text="："/>
+				<mx:NumericStepper maximum="59" id="timeM"/>
+			</mx:HBox>
+		</s:FormItem>
+		<s:FormItem label="{iR.conRecord} :" required="true">
+			<mx:TextArea width="400" height="231" id="conRecord"/>
+		</s:FormItem>
+	</s:Form>
+</s:TitleWindow>

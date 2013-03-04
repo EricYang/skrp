@@ -1,0 +1,27 @@
+{
+    "dws":[
+        {
+            "selectTable": "ParentMsg a INNER JOIN Student b ON a.studentSn = b.sn
+                            LEFT OUTER JOIN Staff c ON a.staffSn = c.sn",          
+            "updateTable": "ParentMsg",
+            "defaultTable": "a",  
+            "items": [
+                {"fid":"sn"},
+                {"fid":"academicYear"},
+                {"fid":"semester"},
+                {"fid":"acaName",         "table":"", "colName":"CONCAT(a.academicYear, ' - ', a.semester)"},
+                {"fid":"classLeavesSn"},
+                {"fid":"parentSn"},
+                {"fid":"studentSn"},    
+                {"fid":"studentName",     "table":"", "colName":"CONCAT(b.cName, ' ', b.eName)"},            
+                {"fid":"subject"},
+                {"fid":"leaveCon"},
+                {"fid":"staffSn"},
+                {"fid":"staffName",       "table":"", "colName":"CONCAT(c.cName, ' ', c.eName)"},
+                {"fid":"replyCon"},                
+                {"fid":"createDate"},
+                {"fid":"reviseDate"}
+            ]
+        }               
+   ]    
+}

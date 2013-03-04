@@ -1,0 +1,7 @@
+﻿# list/query fields
+sTitle=学生列表(请点选)
+select=选取
+classInfoName=班级别
+stuNo=学号
+cName=姓名(中)
+eName=姓名(英)

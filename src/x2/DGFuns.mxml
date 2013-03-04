@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	width="96" height="20" verticalAlign="middle" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+	<mx:Image source="x2/image/update.gif" toolTip="修改目前這筆資料" buttonMode="true"/>
+	<mx:Image source="x2/image/delete.gif" toolTip="刪除目前這筆資料"/>
+	<mx:Image source="x2/image/view.gif" toolTip="檢視目前這筆資料的內容"/>
+	<mx:Image source="x2/image/report.gif" toolTip="列印目前這筆資料"/>
+	
+</mx:HBox>

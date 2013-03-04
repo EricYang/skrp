@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="900" height="500"
+	 
+	close="closeWin()"
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('DispColumnChartAbsent')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			[Bindable]
+			private var iR:Object;
+			[Bindalbe]
+			private var is_app:String = Fun.sApp;		
+			
+
+			
+			import mx.charts.ChartItem;
+			import mx.charts.chartClasses.IAxis;
+			import mx.charts.chartClasses.Series;
+			
+			[Bindable]
+			public var g_row:Array;
+			
+			private function init():void{
+				myChart.dataProvider = new ArrayCollection(g_row);
+			}
+
+			private function linearAxis_labelFunc(item:Object, prevValue:Object, axis:IAxis):String {
+				return String(item) + iR.message01;				
+			}
+			
+			private function dispColumnCon(chartItem:ChartItem, series:Series):String {
+				var itemType:String = ColumnSeries(chartItem.element).displayName;
+				//var colx:String = ColumnSeries(chartItem.element).xField;
+				var coly:String = ColumnSeries(chartItem.element).yField;
+				return itemType + '：' + chartItem.item[coly] + iR.message02;				
+				
+			}
+			
+			private function closeWin():void{
+				Fun.closePopup(this);
+			}
+		]]>
+	</fx:Script>
+	<fx:Style>
+		.LegendFont {  
+			fontSize: 15;   
+		}
+	</fx:Style>
+	<mx:Legend dataProvider="{myChart}" legendItemClass="BigFontLegendItem" x="10" y="10"/>	
+	<mx:ColumnChart id="myChart"					
+					showDataTips="true"					
+					x="143" y="0"
+					height="100%" width="100%"
+					dataTipRenderer="TipSkinColumn"
+					showLabelVertically="true"
+					fontSize="15" type="clustered">
+		<mx:horizontalAxis>
+			<mx:CategoryAxis id="ca" categoryField="itemName"/> 
+		</mx:horizontalAxis>
+		<mx:verticalAxis>
+			<mx:LinearAxis labelFunction="linearAxis_labelFunc" interval="1"/>
+		</mx:verticalAxis>		
+		<mx:series>
+			<mx:ColumnSeries id="columnSeries1" 
+							 xField="itemName" 
+							 yField="M1" 
+							 displayName="{iR.M1}" 
+							 selectable="true"
+							 labelPosition="inside"
+							 labelFunction="dispColumnCon"
+							 /> 
+			<mx:ColumnSeries id="columnSeries2" 
+							 xField="itemName" 
+							 yField="M2" 
+							 displayName="{iR.M2}" 
+							 selectable="true"
+							 labelPosition="inside"
+							 labelFunction="dispColumnCon"
+							 /> 
+			<mx:ColumnSeries id="columnSeries3" 
+							 xField="itemName" 
+							 yField="M3" 
+							 displayName="{iR.M3}" 
+							 selectable="true"
+							 labelPosition="inside"
+							 labelFunction="dispColumnCon"
+							 />
+			<mx:ColumnSeries id="columnSeries4" 
+							 xField="itemName" 
+							 yField="M4" 
+							 displayName="{iR.M4}" 
+							 selectable="true"
+							 labelPosition="inside"
+							 labelFunction="dispColumnCon"
+							 /> 
+			<mx:ColumnSeries id="columnSeries5" 
+							 xField="itemName" 
+							 yField="M5" 
+							 displayName="{iR.M5}" 
+							 selectable="true"
+							 labelPosition="inside"
+							 labelFunction="dispColumnCon"
+							 /> 
+			<mx:ColumnSeries id="columnSeries6" 
+							 xField="itemName" 
+							 yField="M6" 
+							 displayName="{iR.M6}" 
+							 selectable="true"
+							 labelPosition="inside"
+							 labelFunction="dispColumnCon"
+							 /> 
+		</mx:series>
+	</mx:ColumnChart>
+	
+	<mx:Button x="10" y="432" click="closeWin()" icon="@Embed(source='x2/image/close.png')" id="cmdExit" label="{iR.cmdExit}" buttonMode="true"/>
+</s:TitleWindow>

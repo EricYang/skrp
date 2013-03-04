@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Image
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	source="{sImageSource}"
+	width="100%" height="100%"
+	rollOver="doZoom(event)"
+	rollOut="doZoom(event)"
+	click="imageClick()"
+	>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<mx:Zoom id="zoomImage" zoomWidthFrom="1" zoomHeightFrom="1" zoomWidthTo="1.5" zoomHeightTo="1.5"   />
+	</fx:Declarations>
+
+	<!--
+	paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0"
+	verticalScrollPolicy="off" horizontalScrollPolicy="off" 
+	horizontalAlign="center"
+	verticalGap="0" 
+	<mx:Image source="{data.imageSource}" width="100%" height="100%" verticalAlign="middle" horizontalAlign="center"/>
+	<mx:Label text="{data.label}" width="100%" height="25" truncateToFit="true"/>
+	<mx:Image source="{sImageSource}" width="100%" height="100%" 
+		verticalAlign="middle" horizontalAlign="center"
+		rollOver="doZoom(event)"
+		rollOut="doZoom(event)"
+	    click="imageClick()"
+		/>
+	<mx:Label text="{sLabel}" width="100%" height="25" truncateToFit="true" textAlign="center"/>
+	-->
+	
+	<fx:Script>
+		<![CDATA[
+			/**
+			 * 物件的寬高由 container 決定
+			 * 
+			 */
+			
+			[Bindable]
+			public var sImageSource:String;
+			
+			//[Bindable]
+			//public var sLabel:String;
+			
+			public var sGroupId:String;
+			public var fClick:Function;
+			
+			//[Bindable]
+			//private var is_label:String;
+			
+			
+			private function doZoom(p_event:MouseEvent):void {
+				if (zoomImage.isPlaying) {
+					zoomImage.reverse();
+				}else{
+					// If this is a ROLL_OUT event, play the effect backwards. 
+					// If this is a ROLL_OVER event, play the effect forwards.
+					zoomImage.play([p_event.target], p_event.type == MouseEvent.ROLL_OUT ? true : false);
+					//parent.height = p_event.target.height;
+				}
+			}
+			
+			private function imageClick():void {
+				if (fClick != null){
+					fClick(sGroupId);
+				}
+			}
+			
+			/*
+			//constructor
+			//public function LabelImage(ps_image:String, ps_label:String):LabelImage{
+			public function init(ps_image:String, ps_label:String):void{
+				is_imageSource = ps_image;
+				is_label = ps_label;
+				//return this;
+			}
+			*/
+		]]>
+	</fx:Script>
+</mx:Image>

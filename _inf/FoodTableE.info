@@ -1,0 +1,81 @@
+{
+    "dws":[
+	    {
+			"selectTable": "FoodTable",   
+			"items": [
+                {"fid":"sn"}, 
+                {"fid":"cDate"},
+                {"fid":"remark"},
+                {"fid":"creator"},
+                {"fid":"createDate"},           
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+            ]				
+	    },
+        {
+            "selectTable": "FoodTableDetail a INNER JOIN FuncItem b ON a.funcItemSn = b.sn AND a.sysType = 1 [_where] ORDER BY a.sn",
+            "updateTable":"FoodTableDetail",
+            "defaultTable":"a",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"foodTableSn"},
+                {"fid":"sysType"},
+                {"fid":"funcItemSn"},
+                {"fid":"itemName",   "table":"b"}
+            ]                
+        },
+        {
+            "selectTable": "FoodTableDetail a INNER JOIN FuncItem b ON a.funcItemSn = b.sn AND a.sysType = 2 [_where] ORDER BY a.sn",
+            "updateTable":"FoodTableDetail",
+            "defaultTable":"a",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"foodTableSn"},
+                {"fid":"sysType"},
+                {"fid":"funcItemSn"},
+                {"fid":"itemName",   "table":"b"}
+            ]                
+        },
+        {
+            "selectTable": "FoodTableDetail a INNER JOIN FuncItem b ON a.funcItemSn = b.sn AND a.sysType = 3 [_where] ORDER BY a.sn",
+            "updateTable":"FoodTableDetail",
+            "defaultTable":"a",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"foodTableSn"},
+                {"fid":"sysType"},
+                {"fid":"funcItemSn"},
+                {"fid":"itemName",   "table":"b"}
+            ]                
+        },
+        {
+            "selectTable": "FoodTableDetail a INNER JOIN FuncItem b ON a.funcItemSn = b.sn AND a.sysType = 4 [_where] ORDER BY a.sn",
+            "updateTable":"FoodTableDetail",
+            "defaultTable":"a",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"foodTableSn"},
+                {"fid":"sysType"},
+                {"fid":"funcItemSn"},
+                {"fid":"itemName",   "table":"b"}
+            ]                
+        },
+        {
+            "selectTable": "FoodTableDetail a INNER JOIN FuncItem b ON a.funcItemSn = b.sn AND a.sysType = 5 [_where] ORDER BY a.sn",
+            "updateTable":"FoodTableDetail",
+            "defaultTable":"a",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"foodTableSn"},
+                {"fid":"sysType"},
+                {"fid":"funcItemSn"},
+                {"fid":"itemName",   "table":"b"}
+            ]                
+        } 
+    ]    
+}

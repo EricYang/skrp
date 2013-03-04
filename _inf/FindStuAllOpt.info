@@ -1,0 +1,12 @@
+{
+   "list":{
+        "select": "SELECT *, 0 AS checkFlag",
+        "from": "FROM Student
+                [_where]",
+		"items": [
+			{"fid":"stuNo",    "op":"like"},
+            {"fid":"cName",    "op":"like"},
+            {"fid":"eName",    "op":"like"}
+		]
+   }
+}

@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="890" height="370" 
+	 
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('SitotoxismAnn')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+
+			[Bindable]
+			private var iR:Object;
+			[Bindalbe]
+			private var is_app:String = Fun.sApp;
+			[Bindalbe]
+			private var idw_master:DW;
+			[Bindalbe]
+			private var idw_SitotoxismAnnDetail:DW2;
+			
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["academicYear","semester"]});
+			[Bindable]
+			public var ia_itemName:ArrayList = new ArrayList(Fun2.itemNameDS(is_app, 14, true));
+			[Bindable]
+			public var ia_ynFlag:ArrayList = new ArrayList(Fun2.ynFlagDS(is_app, true));
+			
+			//找學生
+			private var s_col1:Object, s_col2:Object, s_col3:Object;			
+			private function doFindStu(n_col1:Object, n_col2:Object, n_col3:Object):void{
+				s_col1 = n_col1;
+				s_col2 = n_col2;
+				s_col3 = n_col3;
+				Fun2.openStudent(is_app, this, ReturnStu, false);
+			}			
+			private function ReturnStu(p_row:Object):void{				
+				Fun.setItem(s_col1, p_row.cName + " " + p_row.eName);
+				idw_master.setItem(s_col2, p_row.sn, true);
+				idw_master.setItem(s_col3, p_row.classLeavesSn, true);
+			}
+			
+			//找醫院
+			private var i_col1:Object, i_col2:Object;			
+			private function doFindPublicDept(p_col1:Object, p_col2:Object):void{				
+				i_col1 = p_col1;
+				i_col2 = p_col2;
+				
+				Fun2.openPublicDept(is_app, this, ReturnPublicDept, 1);				
+			}
+			private function ReturnPublicDept(p_row:Object):void{				
+				Fun.setItem(i_col1, p_row.unitName);
+				idw_master.setItem(i_col2, p_row.sn, true);
+			}
+			
+			private function funcItemName(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_itemName, p_row[p_column.dataField]);
+			}
+			private function serialNoLabelFunc(p_row:Object, p_column:GridColumn):String {
+				var index:int = p_column.grid.dataProvider.getItemIndex(p_row);
+				if (index > -1) {
+					return (index + 1).toString();
+				}
+				return "";
+			}
+			
+			private function init():void{
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					mapping: true,
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					items: [
+						{source:sn, 				dataType:"N",	inputType:"I"}, 
+						{source:academicYear,		dataType:"N",	init:int(i_session.academicYear)}, 
+						{source:semester,			dataType:"N",	init:int(i_session.semester)},
+						{source:acaName,							update:false,	inputType:"R"},
+						{source:classLeavesSn,		dataType:"N"},
+						{source:studentSn,			dataType:"N"},
+						{source:studentName,						update:false,	inputType:"R",	required:true},
+						{source:cDate,				dataType:"D"},
+						{source:cTimeH,				dataType:"N"},
+						{source:cTimeM,				dataType:"N"},
+						{source:cTime,								update:false,	inputType:"R"},
+						{source:iDate,				dataType:"D"},
+						{source:iTimeH,				dataType:"N"},
+						{source:iTimeM,				dataType:"N"},
+						{source:iTime,								update:false,	inputType:"R"},
+						{source:mhHosp,				dataType:"N"},												
+						{source:publicDeptSn,		dataType:"N"},
+						{source:publicDeptName,						update:false,	inputType:"R",	required:true},						
+						{source:supplier,			dataType:"S"},
+						{source:creator,			dataType:"S",	inputType:"R"}, 
+						{source:createDate,			dataType:"DT",	inputType:"R"}, 
+						{source:reviser,			dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,			dataType:"DT",	inputType:"R"}					
+					]				
+				};
+				
+				//dw2: SitotoxismAnnDetail
+				edit_1.aoDW[1] = new DW2();				
+				idw_SitotoxismAnnDetail = edit_1.aoDW[1]; 
+				idw_SitotoxismAnnDetail.xTool = tb_SitotoxismAnnDetail;
+				idw_SitotoxismAnnDetail.oConfig = {					
+					grid: grid_SitotoxismAnnDetail,
+					upEditDW: idw_master,
+					upEKeys: ["sn"],
+					eKeys: ["sitotoxismAnnSn"],					
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"sitotoxismAnnSn", dataType:"N", 	inputType:"2"},						
+						{fid:"funcItemSn",		dataType:"N"},
+						{fid:"checkSign",		dataType:"S"}
+					]				
+				};
+			}
+			
+			private function afterOpen(p_data:Object):void{
+				switch (p_data.fun){
+					case "C":
+						var g_data:Object ={
+							data: "SitotoxismAnnDetail",
+							cuEvent: String(p_data.fun)
+						};						
+						var ga_data:Array = Fun.readRows(is_app, g_data);
+						if (ga_data){							
+							for (var k:int=0; k<ga_data.length; k++){								
+								idw_SitotoxismAnnDetail.addRow(ga_data[k]);								
+							}
+						}
+						break;
+					case "V":
+						SchStudent.visible = false; //檢視模是不顯示搜尋按鈕
+						break;
+				}
+				
+				switch (p_data.fun){
+					case "U":
+					case "V":
+						var f_data:Object ={
+							data: "SitotoxismAnnDetail",
+							cuEvent: String(p_data.fun),
+							sn: int(Fun.getItem(sn))
+						};						
+						var fa_data:Array = Fun.readRows(is_app, f_data);
+						if (fa_data){
+							//自動點按新增
+							for (var x:int=0; x<fa_data.length; x++){
+								idw_SitotoxismAnnDetail.addRow(fa_data[x]);
+								if (String(fa_data[x].checkSign) != ""){
+									idw_SitotoxismAnnDetail.setDirtyRow("U", x, fa_data[x]);									
+								}							
+							}
+						}
+						break;
+				}
+				
+				switch (Fun.getItem(mhHosp)){
+					case "":
+					case "0":
+						nonItem.visible = false;
+						break;
+					case "1":
+						nonItem.visible = true;
+						break;
+				}				
+			}
+			private function whenSave(p_data:Object):Boolean{
+				if (p_data.fun != "D"){
+					Fun.setItem(acaName, String(Fun.getItem(academicYear))+ ' - '+String(Fun.getItem(semester)));
+					Fun.setItem(cTime, String(Fun.getItem(cTimeH))+ '：'+String(Fun.getItem(cTimeM)));
+					Fun.setItem(iTime, String(Fun.getItem(iTimeH))+ '：'+String(Fun.getItem(iTimeM)));
+					
+					switch (p_data.fun){
+						case "C":
+						case "U":							
+							var tg_row:Array = ArrayCollection(grid_SitotoxismAnnDetail.dataProvider).source;
+							for (var y:int=tg_row.length - 1; y>=0; y--){
+								if (String(tg_row[y].checkSign) == "" || int(tg_row[y].checkSign) == 0){									
+									idw_SitotoxismAnnDetail.deleteRow(y, false);									
+								}						
+							}
+							break;
+						case "V":						
+							break;
+					}
+					switch (Fun.getItem(mhHosp)){
+						case "":
+						case "0":
+							idw_master.setItem(publicDeptSn, '', true);
+							idw_master.setItem(publicDeptName, '', true);
+							break;
+						case "1":
+							if (Fun.getItem(publicDeptName)==""){
+								Fun.msg("E", iR.message01);
+								return false;
+							}
+							break;
+					}
+				}
+				return true;
+			}
+			private function hrFlag():void{
+				switch (Fun.getItem(mhHosp)){
+					case "":
+					case "0":
+						nonItem.visible = false;
+						break;
+					case "1":
+						nonItem.visible = true;
+						break;
+				}
+			}
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10" y="298" id="edit_1" fAfterOpen="afterOpen" fWhenSave="whenSave">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="academicYear" visible="false"/>
+	<x2:Num1 id="semester" visible="false"/>
+	<s:TextInput id="acaName" visible="false"/>
+	<x2:Num1 id="classLeavesSn" visible="false"/>		
+	<x2:Num1 id="studentSn" visible="false"/>
+	<x2:Num1 id="publicDeptSn" visible="false"/>
+	<s:TextInput id="cTime" visible="false"/>
+	<s:TextInput id="iTime" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+	<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+		<mx:FormItem label="{iR.studentName} :" required="true">
+			<mx:HBox x="72" y="1" width="100%">
+				<s:TextInput id="studentName" click="doFindStu(studentName, studentSn, classLeavesSn)"/>
+				<x2:btnPick id="SchStudent" click="doFindStu(studentName, studentSn, classLeavesSn)"/>				
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.cDate} :" required="true">
+			<mx:HBox width="100%">
+				<mx:DateField formatString="YYYY/MM/DD" id="cDate" yearNavigationEnabled="true"/>
+				<mx:FormItem label="{iR.cTime} :" required="true">
+					<mx:HBox x="92" y="2" width="100%">
+						<mx:NumericStepper maximum="24" id="cTimeH"/>
+						<mx:Label text="："/>
+						<mx:NumericStepper maximum="59" id="cTimeM"/>
+					</mx:HBox>
+				</mx:FormItem>
+			</mx:HBox>			
+		</mx:FormItem>
+		<mx:FormItem label="{iR.iDate} :" required="true">
+			<mx:HBox width="100%">
+				<mx:DateField formatString="YYYY/MM/DD" id="iDate" yearNavigationEnabled="true"/>
+				<mx:FormItem label="{iR.iTime} :" required="true">
+					<mx:HBox x="92" y="2" width="100%">
+						<mx:NumericStepper maximum="24" id="iTimeH"/>
+						<mx:Label text="："/>
+						<mx:NumericStepper maximum="59" id="iTimeM"/>
+					</mx:HBox>
+				</mx:FormItem>
+			</mx:HBox>			
+		</mx:FormItem>
+		<mx:Label text="{iR.mhHospSitu}：" fontWeight="bold"/>
+		<mx:FormItem label="{iR.mhHosp} :" required="true">
+			<x2:DDL1 id="mhHosp" dataProvider="{ia_ynFlag}" change="hrFlag();"></x2:DDL1>				
+		</mx:FormItem>
+		<mx:FormItem label="{iR.publicDeptName} :" id="nonItem">
+			<mx:HBox width="100%">
+				<s:TextInput id="publicDeptName" click="doFindPublicDept(publicDeptName, publicDeptSn)" width="350"/>
+				<x2:btnPick id="SchPublicDept" click="doFindPublicDept(publicDeptName, publicDeptSn)"/>				
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.supplier} :" required="true">
+			<mx:TextArea width="400" id="supplier" height="50"/>				
+		</mx:FormItem>
+	</mx:Form>
+	
+	<mx:Form x="560" y="10">
+		<mx:HBox width="100%">
+			<mx:VBox>				
+				<mx:HBox width="100%">
+					<mx:Label text="{iR.sitotoxismAnnDetail} :"/>
+					<mx:Label text="*" color="#AA0707"/>
+					<x2:TBar2 id="tb_SitotoxismAnnDetail" visible="false" width="10" height="10">
+					</x2:TBar2>
+				</mx:HBox>				
+				<x2:DG2 width="282"
+						 
+						 
+						 alpha="0.7"		
+						 		 
+						 
+						 
+						 height="218" id="grid_SitotoxismAnnDetail">
+					<x2:columns><s:ArrayList>			
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="sitotoxismAnnSn" visible="false"/>						
+						<s:GridColumn headerText="{iR.checkSign}" dataField="checkSign" width="60">
+							<s:itemRenderer>
+								<fx:Component><x2:irCenterVH>
+									<x2:Check2 />
+								</x2:irCenterVH></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+						<s:GridColumn headerText="{iR.funcItemSn}" dataField="funcItemSn" labelFunction="funcItemName"/>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:VBox>
+		</mx:HBox>
+	</mx:Form>
+</s:TitleWindow>

@@ -1,0 +1,26 @@
+{
+    "dws":[
+	    {
+			"selectTable": "FinalEvaluate",
+			"items": [
+				{"fid":"sn"}, 
+				{"fid":"targetName"},
+                {"fid":"creator"},
+                {"fid":"createDate"},
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+
+			]								
+	    },
+	    {
+			"selectTable": "FinalEvaluateDetail",
+			"upDW": 0,
+			"items": [
+                {"fid":"sn"},
+	            {"fid":"finalEvaluateSn"},
+                {"fid":"contents"},
+	            {"fid":"remark"}
+			]				
+	    }
+    ]    
+}

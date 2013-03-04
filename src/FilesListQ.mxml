@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	width="500" height="180" xmlns:x2="x2.*" 
+	
+	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('FilesList')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			[Bindable]
+			private var iR:Object;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			public var ia_itemName:ArrayList = new ArrayList(Fun2.itemNameDS(is_app, 20, true));
+			
+			private function init():void{
+				qry_1.aoItem = [
+					{source:funcItemSn},
+					{source:filesAlias}
+				];		
+			}			
+		]]>
+	</fx:Script>
+	<mx:Form x="10" y="9" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+		<mx:FormItem label="{iR.funcItemSn} :">			
+			<x2:DDL1 id="funcItemSn" dataProvider="{ia_itemName}"></x2:DDL1>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.filesAlias} :">
+			<s:TextInput id="filesAlias" width="225"/>
+		</mx:FormItem>
+	</mx:Form>
+	<x2:comQuery x="406" y="10" id="qry_1">
+	</x2:comQuery>
+</s:TitleWindow>

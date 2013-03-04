@@ -1,0 +1,381 @@
+; 127.0.0.1; 9:55:34; _Service2(GetLang)
+Supervisor; 127.0.0.1; 9:55:46; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 9:55:46; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1346205346)
+Supervisor; 127.0.0.1; 9:55:46; Login; Supervisor
+Supervisor; 127.0.0.1; 9:55:47; _Main(getMain)
+Supervisor; 127.0.0.1; 9:55:48; _Service2(GetLang)
+Supervisor; 127.0.0.1; 9:55:50; _Service2(GetLang)
+Supervisor; 127.0.0.1; 9:55:56; _Service2(GetLang)
+Supervisor; 127.0.0.1; 9:56:23; _Service2(GetLang)
+Supervisor; 127.0.0.1; 9:56:32; _Service2(GetLang)
+Supervisor; 127.0.0.1; 9:58:29; _Service2(GetLang)
+; 127.0.0.1; 10:00:47; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:00:50; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 10:00:50; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1346205650)
+Supervisor; 127.0.0.1; 10:00:50; Login; Supervisor
+Supervisor; 127.0.0.1; 10:00:51; _Main(getMain)
+Supervisor; 127.0.0.1; 10:00:52; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:00:54; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:01:00; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:01:15; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:01:25; _Service2(GetLang)
+; 127.0.0.1; 10:04:09; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:04:11; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 10:04:11; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1346205851)
+Supervisor; 127.0.0.1; 10:04:11; Login; Supervisor
+Supervisor; 127.0.0.1; 10:04:12; _Main(getMain)
+Supervisor; 127.0.0.1; 10:04:13; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:04:15; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:04:22; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:04:33; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:04:39; _Service2(GetLang)
+; 127.0.0.1; 10:06:18; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:06:21; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 10:06:21; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1346205981)
+Supervisor; 127.0.0.1; 10:06:21; Login; Supervisor
+Supervisor; 127.0.0.1; 10:06:22; _Main(getMain)
+Supervisor; 127.0.0.1; 10:06:23; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:06:24; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:06:30; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:07:02; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:07:11; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:07:44; _Service2(GetLang)
+; 127.0.0.1; 10:12:39; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:12:44; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 10:12:44; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1346206364)
+Supervisor; 127.0.0.1; 10:12:44; Login; Supervisor
+Supervisor; 127.0.0.1; 10:12:45; _Main(getMain)
+Supervisor; 127.0.0.1; 10:12:45; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:12:45; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:12:47; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:12:52; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:13:04; _Service2(GetLang)
+; 127.0.0.1; 10:15:44; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:15:48; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 10:15:48; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1346206548)
+Supervisor; 127.0.0.1; 10:15:48; Login; Supervisor
+Supervisor; 127.0.0.1; 10:15:48; _Main(getMain)
+Supervisor; 127.0.0.1; 10:15:48; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:15:49; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:15:51; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:15:58; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:16:02; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:18:50; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                            SELECT 'M2012082900001', 1, 85899365, 2012, 8, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 10:20:14; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                SELECT 23, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                FROM AccMIncome
+                                WHERE accMIncomeStuSn = 8
+; 127.0.0.1; 10:22:16; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:22:18; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 10:22:18; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1346206938)
+Supervisor; 127.0.0.1; 10:22:18; Login; Supervisor
+Supervisor; 127.0.0.1; 10:22:18; _Main(getMain)
+Supervisor; 127.0.0.1; 10:22:18; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:22:19; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:22:20; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:22:35; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:22:40; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:22:42; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:22:48; AccMonthIncome(QueryList)
+Supervisor; 127.0.0.1; 10:22:58; AccMonthIncome(QueryList)
+Supervisor; 127.0.0.1; 10:23:20; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:23:31; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                            SELECT 'M2012082900002', 13, 85899393, 2012, 10, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 10:23:31; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                SELECT 24, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                FROM AccMIncome
+                                WHERE accMIncomeStuSn = 18
+Supervisor; 127.0.0.1; 10:23:31; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                            SELECT 'M2012082900003', 13, 85899404, 2012, 10, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 10:23:31; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                SELECT 25, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                FROM AccMIncome
+                                WHERE accMIncomeStuSn = 20
+Supervisor; 127.0.0.1; 10:23:31; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                            SELECT 'M2012082900005', 13, 85899399, 2012, 10, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 10:23:31; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                SELECT 26, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                FROM AccMIncome
+                                WHERE accMIncomeStuSn = 22
+Supervisor; 127.0.0.1; 10:24:07; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                            SELECT 'M2012082900006', 13, 85899393, 2012, 10, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 10:24:07; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                SELECT 27, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                FROM AccMIncome
+                                WHERE accMIncomeStuSn = 18
+Supervisor; 127.0.0.1; 10:24:07; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                            SELECT 'M2012082900007', 13, 85899404, 2012, 10, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 10:24:07; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                SELECT 28, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                FROM AccMIncome
+                                WHERE accMIncomeStuSn = 20
+Supervisor; 127.0.0.1; 10:24:07; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                            SELECT 'M2012082900009', 13, 85899399, 2012, 10, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 10:24:07; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                SELECT 29, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                FROM AccMIncome
+                                WHERE accMIncomeStuSn = 22
+; 127.0.0.1; 10:25:32; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:27:01; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 10:27:01; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1346207221)
+Supervisor; 127.0.0.1; 10:27:01; Login; Supervisor
+Supervisor; 127.0.0.1; 10:27:02; _Main(getMain)
+Supervisor; 127.0.0.1; 10:27:03; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:27:05; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:27:11; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:27:23; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:27:30; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:28:57; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                            SELECT 'M2012082900010', 13, 85899393, 2012, 11, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 10:28:57; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                SELECT 30, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                FROM AccMIncome
+                                WHERE accMIncomeStuSn = 18
+Supervisor; 127.0.0.1; 10:28:57; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                            SELECT 'M2012082900011', 13, 85899404, 2012, 11, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 10:28:57; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                SELECT 31, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                FROM AccMIncome
+                                WHERE accMIncomeStuSn = 20
+Supervisor; 127.0.0.1; 10:28:57; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                            SELECT 'M2012082900013', 13, 85899399, 2012, 11, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 10:28:57; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                SELECT 32, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                FROM AccMIncome
+                                WHERE accMIncomeStuSn = 22
+Supervisor; 127.0.0.1; 10:31:00; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                            SELECT 'M2012082900014', 13, 85899393, 2012, 11, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 10:31:06; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                SELECT 33, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                FROM AccMIncome
+                                WHERE accMIncomeStuSn = 18
+Supervisor; 127.0.0.1; 10:31:22; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                            SELECT 'M2012082900015', 13, 85899404, 2012, 11, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 10:31:26; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                SELECT 34, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                FROM AccMIncome
+                                WHERE accMIncomeStuSn = 20
+Supervisor; 127.0.0.1; 10:32:14; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                            SELECT 'M2012082900017', 13, 85899399, 2012, 11, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 10:32:17; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                SELECT 35, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                FROM AccMIncome
+                                WHERE accMIncomeStuSn = 22
+Supervisor; 127.0.0.1; 10:35:27; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                            SELECT 'M2012082900019', 13, 85899393, 2012, 11, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 10:35:30; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                SELECT 36, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                FROM AccMIncome
+                                WHERE accMIncomeStuSn = 18
+Supervisor; 127.0.0.1; 10:35:35; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                            SELECT 'M2012082900020', 13, 85899404, 2012, 11, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 10:35:40; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                SELECT 37, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                FROM AccMIncome
+                                WHERE accMIncomeStuSn = 20
+Supervisor; 127.0.0.1; 10:35:48; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                            SELECT 'M2012082900021', 13, 85899399, 2012, 11, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 10:35:52; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                SELECT 38, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                FROM AccMIncome
+                                WHERE accMIncomeStuSn = 22
+Supervisor; 127.0.0.1; 10:37:03; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                            SELECT 'M2012082900023', 13, 85899393, 2012, 11, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 10:37:04; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                SELECT 39, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                FROM AccMIncome
+                                WHERE accMIncomeStuSn = 18
+Supervisor; 127.0.0.1; 10:37:05; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                            SELECT 'M2012082900024', 13, 85899404, 2012, 11, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 10:37:07; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                SELECT 40, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                FROM AccMIncome
+                                WHERE accMIncomeStuSn = 20
+Supervisor; 127.0.0.1; 10:37:07; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                            SELECT 'M2012082900025', 13, 85899399, 2012, 11, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 10:37:09; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                SELECT 41, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                FROM AccMIncome
+                                WHERE accMIncomeStuSn = 22
+; 127.0.0.1; 10:38:32; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:38:34; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 10:38:34; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1346207914)
+Supervisor; 127.0.0.1; 10:38:34; Login; Supervisor
+Supervisor; 127.0.0.1; 10:38:34; _Main(getMain)
+Supervisor; 127.0.0.1; 10:38:35; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:38:35; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:38:37; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:38:46; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:38:49; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:39:47; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                            SELECT 'M2012082900027', 13, 85899361, 2012, 12, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 10:39:47; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                SELECT 42, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                FROM AccMIncome
+                                WHERE accMIncomeStuSn = 6
+Supervisor; 127.0.0.1; 10:39:47; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                            SELECT 'M2012082900028', 13, 85899359, 2012, 12, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 10:39:47; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                SELECT 43, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                FROM AccMIncome
+                                WHERE accMIncomeStuSn = 15
+Supervisor; 127.0.0.1; 10:40:19; _Service2(GetLang)
+; 127.0.0.1; 10:41:15; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:41:21; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 10:41:21; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1346208081)
+Supervisor; 127.0.0.1; 10:41:21; Login; Supervisor
+Supervisor; 127.0.0.1; 10:41:21; _Main(getMain)
+Supervisor; 127.0.0.1; 10:41:21; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:41:22; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:41:23; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:41:28; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:41:31; _Service2(GetLang)
+; 127.0.0.1; 10:42:34; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:42:36; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 10:42:36; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1346208156)
+Supervisor; 127.0.0.1; 10:42:36; Login; Supervisor
+Supervisor; 127.0.0.1; 10:42:36; _Main(getMain)
+Supervisor; 127.0.0.1; 10:42:36; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:42:37; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:42:38; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:42:44; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:42:50; _Service2(GetLang)
+; 127.0.0.1; 10:45:58; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:46:00; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 10:46:00; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1346208360)
+Supervisor; 127.0.0.1; 10:46:00; Login; Supervisor
+Supervisor; 127.0.0.1; 10:46:00; _Main(getMain)
+Supervisor; 127.0.0.1; 10:46:01; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:46:01; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:46:03; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:46:08; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:46:11; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:46:51; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:47:06; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                            SELECT 'M2012082900030', 1, 85899365, 2012, 9, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 10:47:06; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                SELECT 44, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                FROM AccMIncome
+                                WHERE accMIncomeStuSn = 8
+; 127.0.0.1; 11:00:27; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:00:29; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 11:00:29; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1346209229)
+Supervisor; 127.0.0.1; 11:00:29; Login; Supervisor
+Supervisor; 127.0.0.1; 11:00:29; _Main(getMain)
+Supervisor; 127.0.0.1; 11:00:30; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:00:30; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:00:32; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:00:36; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:00:40; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:00:48; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                                SELECT 'M2012082900032', 1, 85899365, 2012, 9, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 11:00:48; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                    SELECT 45, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                    FROM AccMIncome
+                                    WHERE accMIncomeStuSn = 23
+Supervisor; 127.0.0.1; 11:00:56; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                                SELECT 'M2012082900034', 13, 85899361, 2012, 9, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 11:00:56; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                    SELECT 46, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                    FROM AccMIncome
+                                    WHERE accMIncomeStuSn = 6
+Supervisor; 127.0.0.1; 11:00:56; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                                SELECT 'M2012082900035', 13, 85899359, 2012, 9, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 11:00:56; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                    SELECT 47, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                    FROM AccMIncome
+                                    WHERE accMIncomeStuSn = 15
+Supervisor; 127.0.0.1; 11:01:18; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:01:23; AccMonthIncome(QueryList)
+Supervisor; 127.0.0.1; 11:01:51; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:02:07; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                                SELECT 'M2012082900037', 13, 85899393, 2012, 11, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 11:02:07; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                    SELECT 48, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                    FROM AccMIncome
+                                    WHERE accMIncomeStuSn = 18
+Supervisor; 127.0.0.1; 11:02:07; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                                SELECT 'M2012082900038', 13, 85899404, 2012, 11, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 11:02:07; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                    SELECT 49, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                    FROM AccMIncome
+                                    WHERE accMIncomeStuSn = 20
+Supervisor; 127.0.0.1; 11:02:07; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                                SELECT 'M2012082900039', 13, 85899399, 2012, 11, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 11:02:07; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                    SELECT 50, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                    FROM AccMIncome
+                                    WHERE accMIncomeStuSn = 22
+Supervisor; 127.0.0.1; 11:02:07; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                                SELECT 'M2012082900040', 13, 85899361, 2012, 11, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 11:02:07; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                    SELECT 51, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                    FROM AccMIncome
+                                    WHERE accMIncomeStuSn = 46
+Supervisor; 127.0.0.1; 11:02:07; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                                SELECT 'M2012082900041', 13, 85899359, 2012, 11, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 11:02:07; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                    SELECT 52, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                    FROM AccMIncome
+                                    WHERE accMIncomeStuSn = 47
+Supervisor; 127.0.0.1; 11:03:43; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                                SELECT 'M2012082900043', 13, 85899393, 2012, 1, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 11:03:43; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                    SELECT 53, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                    FROM AccMIncome
+                                    WHERE accMIncomeStuSn = 18
+Supervisor; 127.0.0.1; 11:03:43; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                                SELECT 'M2012082900044', 13, 85899404, 2012, 1, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 11:03:43; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                    SELECT 54, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                    FROM AccMIncome
+                                    WHERE accMIncomeStuSn = 20
+Supervisor; 127.0.0.1; 11:03:43; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                                SELECT 'M2012082900045', 13, 85899399, 2012, 1, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 11:03:43; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                    SELECT 55, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                    FROM AccMIncome
+                                    WHERE accMIncomeStuSn = 22
+Supervisor; 127.0.0.1; 11:03:43; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                                SELECT 'M2012082900046', 13, 85899361, 2012, 1, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 11:03:43; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                    SELECT 56, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                    FROM AccMIncome
+                                    WHERE accMIncomeStuSn = 46
+Supervisor; 127.0.0.1; 11:03:43; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                                SELECT 'M2012082900047', 13, 85899359, 2012, 1, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 11:03:43; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                    SELECT 57, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                    FROM AccMIncome
+                                    WHERE accMIncomeStuSn = 47
+Supervisor; 127.0.0.1; 11:03:52; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                                SELECT 'M2012082900049', 13, 85899393, 2012, 2, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 11:03:52; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                    SELECT 58, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                    FROM AccMIncome
+                                    WHERE accMIncomeStuSn = 18
+Supervisor; 127.0.0.1; 11:03:52; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                                SELECT 'M2012082900050', 13, 85899404, 2012, 2, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 11:03:52; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                    SELECT 59, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                    FROM AccMIncome
+                                    WHERE accMIncomeStuSn = 20
+Supervisor; 127.0.0.1; 11:03:52; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                                SELECT 'M2012082900051', 13, 85899399, 2012, 2, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 11:03:52; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                    SELECT 60, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                    FROM AccMIncome
+                                    WHERE accMIncomeStuSn = 22
+Supervisor; 127.0.0.1; 11:03:52; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                                SELECT 'M2012082900052', 13, 85899361, 2012, 2, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 11:03:52; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                    SELECT 61, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                    FROM AccMIncome
+                                    WHERE accMIncomeStuSn = 46
+Supervisor; 127.0.0.1; 11:03:52; _UpdateDB; INSERT INTO AccMIncomeStu (serialNo, classLeavesSn, studentSn, cYear, cMonth, creator, createDate)
+                                SELECT 'M2012082900053', 13, 85899359, 2012, 2, 'Supervisor', CURRENT_TIMESTAMP()
+Supervisor; 127.0.0.1; 11:03:52; _UpdateDB; INSERT INTO AccMIncome (accMIncomeStuSn, accIocSn, amounts, creator, createDate)
+                                    SELECT 62, accIocSn, amounts, 'Supervisor', CURRENT_TIMESTAMP()
+                                    FROM AccMIncome
+                                    WHERE accMIncomeStuSn = 47

@@ -1,0 +1,9 @@
+﻿Dear [userName]：
+
+You requested "Forget Password" at [now], System already changed your password to "[newPwd]"
+Please login with new password, and change it by executing "Change Password" function as need.
+                 
+Thanks !
+
+==================================================
+This email was sent auto, Please do not reply it.

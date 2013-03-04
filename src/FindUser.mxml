@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="500" height="480" 
+	 
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('FindUser')}"
+	close="closeWin()">
+	
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			public var fAfterOk:Function;
+			[Bindable]
+			private var iR:Object;
+			[Bindable]
+			private var is_app:String = Fun.sApp;			
+			[Bindable]
+			private var ia_gender:ArrayList = new ArrayList(Fun2.genderDS(is_app, false));
+			[Bindable]
+			private var ia_userTypeSearch:ArrayList = new ArrayList(Fun2.userTypeSearchDS(is_app, false));
+
+			private function init():void{
+				qry_1.sApp = is_app;
+				qry_1.sInf = "FindUser";
+				qry_1.gList = grid_1;
+				qry_1.aoItem = [
+					{source:userType},
+					{source:userName}
+				];
+				qry_1.init();				
+			}
+			private function gender(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_gender, p_row[p_column.dataField]);
+			}
+			private function userTypeFlag(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_userTypeSearch, p_row[p_column.dataField]);
+			}			
+			private function closeWin():void{
+				Fun.closePopup(this);
+			}
+			
+		]]>
+	</fx:Script>	
+	<mx:Form x="10" y="10">
+		<mx:Label text="{iR.search}：" fontWeight="bold"/>
+		<mx:FormItem label="{iR.userType} :" required="true">
+			<x2:DDL1 id="userType" dataProvider="{ia_userTypeSearch}"></x2:DDL1>			
+		</mx:FormItem>
+		<mx:FormItem label="{iR.userName} :">
+			<s:TextInput id="userName"/>
+		</mx:FormItem>
+	</mx:Form>
+	<mx:HRule x="10" y="135" width="470"/>
+	<mx:Form x="10.5" y="143">
+		<mx:HBox width="100%" verticalAlign="bottom">
+			<mx:Label text="{iR.sList}：" fontWeight="bold"/>
+			<mx:HBox horizontalAlign="right" width="100%">
+				<mx:Button click="qry_1.selectRow()" label="{iR.select}" width="75" icon="@Embed(source='x2/image/checked.gif')" />
+			</mx:HBox>
+		</mx:HBox>		
+		<s:DataGrid id="grid_1" width="439" alpha="0.7"	height="229"
+					 click="qry_1.selectRow()">
+			<s:columns><s:ArrayList>
+				<s:GridColumn headerText="{iR.userType}" dataField="userType" labelFunction="userTypeFlag" width="50"/>
+				<s:GridColumn headerText="{iR.userNo}" dataField="userNo"/>
+				<s:GridColumn headerText="{iR.userName}" dataField="userName" width="150"/>
+				<s:GridColumn headerText="{iR.gender}" dataField="gender" labelFunction="gender" width="50"/>				
+			</s:ArrayList></s:columns>
+		</s:DataGrid>			
+	</mx:Form>
+	<x2:comQuery id="qry_1" x="390" y="58" height="58">
+	</x2:comQuery>
+</s:TitleWindow>

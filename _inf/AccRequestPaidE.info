@@ -1,0 +1,38 @@
+{
+    "dws":[
+	    {
+		"selectTable": "AccRequestPaidDT",
+		"items": [
+                    {"fid":"sn"},
+                    {"fid":"serialNo"},
+                    {"fid":"cDate"},
+                    {"fid":"creator"},
+                    {"fid":"createDate"},
+                    {"fid":"reviser"},
+                    {"fid":"reviseDate"}
+		]								
+	    },
+	    {
+		"selectTable": "AccRequestPaid a INNER JOIN
+                                AccRequestPayment b ON a.accRequestPaymentSn = b.sn
+                                [_where] ORDER BY b.serialNo",
+                "updateTable": "AccRequestPaid",
+                "defaultTable": "a",
+		"upDW": 0,
+		"items": [
+                    {"fid":"sn"},
+	            {"fid":"accRequestPaidDTSn"},
+                    {"fid":"accRequestPaymentSn"},
+                    {"fid":"serialNo",  "table":"b"},
+                    {"fid":"cDate",     "table":"b"},
+                    {"fid":"pExcerpt",  "table":"b"},
+                    {"fid":"cAmounts",  "table":"b"},
+                    {"fid":"amounts"},
+                    {"fid":"creator"},
+                    {"fid":"createDate"},
+                    {"fid":"reviser"},
+                    {"fid":"reviseDate"}
+		]				
+	    }
+    ]    
+}

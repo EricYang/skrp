@@ -1,0 +1,8 @@
+﻿# list/query fields
+classLeavesSn=class grade (classification)
+CTeacher=class leader
+
+# message
+message01=none
+message02=class schedule
+message03=class operation

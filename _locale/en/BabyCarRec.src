@@ -1,0 +1,17 @@
+﻿# list/query fields
+babyCarInfoSn=vehicle code 
+cDate=date
+timeInter=time interval
+leaveTimeH=travel time (hr)
+leaveTimeM=travel time (min)
+backTimeH=return time (hr)
+backTimeM=return time (min)
+eventRec=special event record
+creator=created by
+createDate=created on
+reviser=modified by
+reviseDate=last modified
+
+# E
+leaveTimeHM=travel time
+backTimeHM=return time

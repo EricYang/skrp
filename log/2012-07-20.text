@@ -1,0 +1,276 @@
+; 127.0.0.1; 15:03:18; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:03:20; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 15:03:20; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1342767800)
+Supervisor; 127.0.0.1; 15:03:20; Login; Supervisor
+Supervisor; 127.0.0.1; 15:03:21; _Main(getMain)
+Supervisor; 127.0.0.1; 15:03:22; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:03:24; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:03:30; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:03:39; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:03:56; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 15:03:57; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 15:03:58; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:04:00; Role(QueryEdit)
+Supervisor; 127.0.0.1; 15:04:04; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:04:09; Role(QueryList)
+Supervisor; 127.0.0.1; 15:04:22; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 15:04:24; Role(U)
+Supervisor; 127.0.0.1; 15:04:34; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:04:37; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 15:04:37; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1342767877)
+Supervisor; 127.0.0.1; 15:04:37; Login; Supervisor
+Supervisor; 127.0.0.1; 15:04:38; _Main(getMain)
+Supervisor; 127.0.0.1; 15:04:39; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:04:41; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:04:47; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:04:55; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:04:55; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+Supervisor; 127.0.0.1; 15:05:01; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 15:05:02; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 15:05:03; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:05:03; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+; 127.0.0.1; 15:06:06; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:43:42; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 15:43:42; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1342770222)
+Supervisor; 127.0.0.1; 15:43:42; Login; Supervisor
+Supervisor; 127.0.0.1; 15:43:43; _Main(getMain)
+Supervisor; 127.0.0.1; 15:43:44; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:43:46; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:43:52; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:43:59; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:43:59; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+Supervisor; 127.0.0.1; 15:44:05; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 15:44:06; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 15:44:07; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:44:07; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+; 127.0.0.1; 15:45:04; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:45:12; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 15:45:12; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1342770312)
+Supervisor; 127.0.0.1; 15:45:12; Login; Supervisor
+Supervisor; 127.0.0.1; 15:45:13; _Main(getMain)
+Supervisor; 127.0.0.1; 15:45:14; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:45:16; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:45:22; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:45:30; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:45:30; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+Supervisor; 127.0.0.1; 15:45:35; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 15:45:36; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 15:45:37; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:45:37; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+Supervisor; 127.0.0.1; 15:45:49; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:45:53; AccMonthIncome(QueryList)
+; 127.0.0.1; 15:47:08; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:47:11; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 15:47:11; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1342770431)
+Supervisor; 127.0.0.1; 15:47:11; Login; Supervisor
+Supervisor; 127.0.0.1; 15:47:12; _Main(getMain)
+Supervisor; 127.0.0.1; 15:47:13; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:47:15; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:47:21; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:47:30; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:47:34; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:47:36; AccIncome(QueryList)
+; 127.0.0.1; 15:48:41; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:48:42; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 15:48:42; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1342770522)
+Supervisor; 127.0.0.1; 15:48:42; Login; Supervisor
+Supervisor; 127.0.0.1; 15:48:43; _Main(getMain)
+Supervisor; 127.0.0.1; 15:48:44; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:48:46; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:48:52; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:48:59; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:48:59; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+Supervisor; 127.0.0.1; 15:49:04; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 15:49:05; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 15:49:06; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:49:06; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+; 127.0.0.1; 15:53:57; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:53:59; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 15:53:59; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1342770839)
+Supervisor; 127.0.0.1; 15:53:59; Login; Supervisor
+Supervisor; 127.0.0.1; 15:54:00; _Main(getMain)
+Supervisor; 127.0.0.1; 15:54:01; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:54:03; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:54:09; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:54:18; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:54:18; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+Supervisor; 127.0.0.1; 15:54:23; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 15:54:24; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 15:54:25; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:54:25; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+; 127.0.0.1; 16:03:46; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:03:51; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 16:03:51; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1342771431)
+Supervisor; 127.0.0.1; 16:03:51; Login; Supervisor
+Supervisor; 127.0.0.1; 16:03:52; _Main(getMain)
+Supervisor; 127.0.0.1; 16:03:53; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:03:55; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:04:00; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:04:08; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:04:08; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+Supervisor; 127.0.0.1; 16:04:13; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:04:15; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:04:16; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:04:16; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+; 127.0.0.1; 16:06:20; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:06:23; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 16:06:23; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1342771583)
+Supervisor; 127.0.0.1; 16:06:23; Login; Supervisor
+Supervisor; 127.0.0.1; 16:06:24; _Main(getMain)
+Supervisor; 127.0.0.1; 16:06:25; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:06:27; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:06:33; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:06:40; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:06:40; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+Supervisor; 127.0.0.1; 16:06:45; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:06:46; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:06:47; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:06:47; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+; 127.0.0.1; 16:09:40; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:09:42; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 16:09:42; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1342771782)
+Supervisor; 127.0.0.1; 16:09:42; Login; Supervisor
+Supervisor; 127.0.0.1; 16:09:43; _Main(getMain)
+Supervisor; 127.0.0.1; 16:09:44; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:09:46; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:09:52; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:09:59; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:09:59; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+Supervisor; 127.0.0.1; 16:10:07; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:10:08; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:10:09; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:10:09; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+; 127.0.0.1; 16:11:07; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:11:10; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 16:11:10; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1342771870)
+Supervisor; 127.0.0.1; 16:11:10; Login; Supervisor
+Supervisor; 127.0.0.1; 16:11:11; _Main(getMain)
+Supervisor; 127.0.0.1; 16:11:12; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:11:14; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:11:20; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:11:27; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:11:27; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+Supervisor; 127.0.0.1; 16:11:33; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:11:34; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:11:35; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:11:35; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+; 127.0.0.1; 16:13:35; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:13:38; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 16:13:38; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1342772018)
+Supervisor; 127.0.0.1; 16:13:38; Login; Supervisor
+Supervisor; 127.0.0.1; 16:13:39; _Main(getMain)
+Supervisor; 127.0.0.1; 16:13:40; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:13:42; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:13:48; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:13:55; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:13:55; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+Supervisor; 127.0.0.1; 16:14:01; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:14:02; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:14:03; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:14:03; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+; 127.0.0.1; 16:16:09; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:16:12; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 16:16:12; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1342772172)
+Supervisor; 127.0.0.1; 16:16:12; Login; Supervisor
+Supervisor; 127.0.0.1; 16:16:13; _Main(getMain)
+Supervisor; 127.0.0.1; 16:16:14; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:16:16; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:16:22; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:16:28; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:16:28; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+Supervisor; 127.0.0.1; 16:16:34; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:16:35; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:16:36; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:16:36; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+Supervisor; 127.0.0.1; 16:17:12; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:17:13; _Service2(CheckSession)
+; 127.0.0.1; 16:18:26; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:18:30; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 16:18:30; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1342772310)
+Supervisor; 127.0.0.1; 16:18:30; Login; Supervisor
+Supervisor; 127.0.0.1; 16:18:31; _Main(getMain)
+Supervisor; 127.0.0.1; 16:18:32; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:18:34; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:18:40; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:18:50; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:18:50; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+Supervisor; 127.0.0.1; 16:18:56; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:18:57; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:18:58; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:18:58; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+; 127.0.0.1; 16:19:55; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:21:31; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 16:21:31; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1342772491)
+Supervisor; 127.0.0.1; 16:21:31; Login; Supervisor
+Supervisor; 127.0.0.1; 16:21:32; _Main(getMain)
+Supervisor; 127.0.0.1; 16:21:33; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:21:35; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:21:41; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:22:03; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:22:03; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+Supervisor; 127.0.0.1; 16:22:12; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:22:13; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:22:14; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:22:14; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+Supervisor; 127.0.0.1; 16:22:22; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:26:52; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:26:57; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:27:00; AccMonthIncome(QueryList)
+Supervisor; 127.0.0.1; 16:27:05; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:27:24; _Service2(CheckSession)
+; 127.0.0.1; 17:24:06; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:24:21; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 17:24:21; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1342776261)
+Supervisor; 127.0.0.1; 17:24:21; Login; Supervisor
+Supervisor; 127.0.0.1; 17:24:22; _Main(getMain)
+Supervisor; 127.0.0.1; 17:24:23; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:24:25; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:24:31; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:24:38; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:24:38; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+Supervisor; 127.0.0.1; 17:24:43; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 17:24:44; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 17:24:45; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:24:45; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+Supervisor; 127.0.0.1; 17:24:50; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:24:53; AccMonthIncome(QueryList)
+Supervisor; 127.0.0.1; 17:25:07; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 17:25:10; AccMonthIncome(C)
+Supervisor; 127.0.0.1; 17:27:58; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:27:58; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+Supervisor; 127.0.0.1; 17:28:04; AccMonthIncome(QueryList)
+Supervisor; 127.0.0.1; 17:28:17; AccMonthIncome(QueryList)
+Supervisor; 127.0.0.1; 17:28:56; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 17:28:57; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 17:28:58; AccMonthIncome(QueryEdit)
+; 127.0.0.1; 17:40:05; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:40:22; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 17:40:22; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1342777222)
+Supervisor; 127.0.0.1; 17:40:22; Login; Supervisor
+Supervisor; 127.0.0.1; 17:40:23; _Main(getMain)
+Supervisor; 127.0.0.1; 17:40:24; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:40:26; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:40:32; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:40:43; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:40:43; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+Supervisor; 127.0.0.1; 17:40:49; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 17:40:50; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 17:40:51; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:40:51; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+Supervisor; 127.0.0.1; 17:41:01; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:41:03; AccMonthIncome(QueryList)
+Supervisor; 127.0.0.1; 17:41:25; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 17:41:28; AccMonthIncome(C)
+Supervisor; 127.0.0.1; 18:22:40; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 18:22:41; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 18:22:42; AccMonthIncome(QueryEdit)
+Supervisor; 127.0.0.1; 18:22:53; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 18:22:55; AccMonthIncome(U)
+Supervisor; 127.0.0.1; 18:22:55; _UpdateDB; update AccMIncomeStu set cYear=2012,cMonth=8,reviser=N'Supervisor',reviseDate='2012-07-20 18:22:54' where sn=2
+Supervisor; 127.0.0.1; 18:23:18; _Service2(GetLang)
+Supervisor; 127.0.0.1; 18:23:18; C:\Project3\SKRP\_locale/tw/AccMonthIncome.src did not Exist!
+Supervisor; 127.0.0.1; 18:23:26; AccMonthIncome(QueryList)
+Supervisor; 127.0.0.1; 18:24:12; AccMonthIncome(QueryList)
+Supervisor; 127.0.0.1; 18:24:21; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 18:24:22; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 18:24:23; AccMonthIncome(QueryEdit)

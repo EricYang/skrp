@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx"	
+	xmlns:x2="x2.*"	 
+	width="100%" height="100%" 
+	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('Staff')}"
+	creationPolicy="all"
+	>
+	<fx:Script>
+		<![CDATA[		
+
+			import mx.utils.StringUtil;
+			
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["usersSn","userType","academicYear","semester","schoolDSn"]});
+			[Bindable]
+			private var idw_master:DW, idw_account:DW;
+			[Bindalbe]
+			private var idw_StaffEC:DW2, idw_StaffEP:DW2, idw_StaffDL:DW2, idw_StaffGL:DW2, idw_RoleUser:DW2;			
+			
+			[Bindable]
+			public var ia_dept:ArrayList = new ArrayList(Fun2.deptDS(is_app, false));
+			[Bindable]
+			public var ia_titles:ArrayList = new ArrayList(Fun2.titlesDS(is_app, false));
+			[Bindable]
+			public var ia_role:ArrayList = new ArrayList(Fun2.roleDS(is_app, false));
+			[Bindable]
+			public var ia_gender:ArrayList = new ArrayList(Fun2.genderDS(is_app, false));
+			[Bindable]
+			public var ia_maritalStatus:ArrayList = new ArrayList(Fun2.maritalStatusDS(is_app, false));			
+			[Bindable]
+			public var ia_bloodType:ArrayList = new ArrayList(Fun2.bloodTypeDS(is_app, false));
+			[Bindable]
+			public var ia_dutyFlag:ArrayList = new ArrayList(Fun2.dutyFlagDS(is_app, false));
+			[Bindable]
+			public var ia_deleFlag:ArrayList = new ArrayList(Fun2.deleFlagDS(is_app, false));
+			[Bindable]
+			public var ia_degree:ArrayList = new ArrayList(Fun2.degreeDS(is_app, false));
+			[Bindable]
+			public var ia_studyStatus:ArrayList = new ArrayList(Fun2.studyStatusDS(is_app, false));
+			[Bindable]
+			public var ia_itemName:ArrayList = new ArrayList(Fun2.itemNameDS(is_app, 10, true));
+			[Bindable]
+			private var ia_ynFlag:ArrayList = new ArrayList(Fun2.ynFlagDS(is_app, false));
+			
+			private function init():void{
+				if (i_session.userType!="3"){
+					Fun.msg("E", "非教職員不得進入");
+					Fun2.showMain();
+				}else{
+					edit_1.sApp = is_app;	
+					edit_1.sInf = is_app;
+					
+					//dw0: Staff
+					edit_1.aoDW[0] = new DW();
+					idw_master = edit_1.aoDW[0]; 
+					idw_master.oConfig = {
+						updatable: false,
+						keys: ["sn"],
+						items: [						
+							{source:sn, 			dataType:"N",	inputType:"I"},
+							{source:empNo,			dataType:"S"},
+							{source:cName,			dataType:"S"},
+							{source:eName,			dataType:"S"},
+							{source:deptSn,			dataType:"N",	inputType:"R"},
+							{source:titlesSn,		dataType:"N",	inputType:"R"},
+							{source:gender,			dataType:"S",	inputType:"R"},
+							{source:birthDate,		dataType:"D"},
+							{source:idNo,			dataType:"S"},
+							{source:conTel,			dataType:"S"},
+							{source:address,		dataType:"S"},
+							{source:eMail,			dataType:"S"},
+							{source:takeOfficeDate,	dataType:"D"},
+							{source:birthplace,		dataType:"S"},
+							{source:maritalStatus,	dataType:"S",	inputType:"R"},
+							{source:bloodType,		dataType:"S",	inputType:"R"},
+							{source:stature,		dataType:"N"},
+							{source:weight,			dataType:"N"},
+							{source:urgentName,		dataType:"S"},
+							{source:urgentTel,		dataType:"S"},
+							{source:dutyFlag,		dataType:"N",	inputType:"R"},
+							{source:fileName,		dataType:"S"},
+							{source:deleFlag,		dataType:"N",	inputType:"R"},
+							{source:creator,		dataType:"S",	inputType:"R"}, 
+							{source:createDate,		dataType:"DT",	inputType:"R"}, 
+							{source:reviser,		dataType:"S",	inputType:"R"}, 
+							{source:reviseDate,		dataType:"DT",	inputType:"R"}
+						]
+					};
+					
+					//dw2: Account
+					edit_1.aoDW[1] = new DW();
+					idw_account = edit_1.aoDW[1];
+					edit_1.aoDW[1].oConfig = {
+						autos: ["acreator","acreateDate","areviser","areviseDate"],					
+						upDW: idw_master,					
+						upQKeys: ["sn"],
+						qKeys: ["userSn"],
+						keys: ["asn"],
+						items: [
+							{source:asn, 		dataType:"N",	inputType:"I"},						
+							{source:userType,	dataType:"N",	init:3},
+							{source:userSn,		dataType:"N", 	inputType:"2"},												
+							{source:loginId,	dataType:"S",	inputType:"R"},
+							{source:loginPw,	dataType:"S"},
+							{source:adeleFlag,	dataType:"N",	inputType:"R"},
+							{source:acreator,	dataType:"S",	inputType:"R"}, 
+							{source:acreateDate,dataType:"DT",	inputType:"R"}, 
+							{source:areviser,	dataType:"S",	inputType:"R"}, 
+							{source:areviseDate,dataType:"DT",	inputType:"R"}
+						]				
+					};
+					
+					//dw3: StaffEC
+					edit_1.aoDW[2] = new DW2();
+					idw_StaffEC = edit_1.aoDW[2]; 
+					idw_StaffEC.xTool = tb_StaffEC;
+					idw_StaffEC.oConfig = {			
+						updatable: false,
+						upDW: idw_master,
+						grid: grid_StaffEC,
+						upQKeys: ["sn"],
+						qKeys: ["staffSn"],
+						keys: ["sn"],
+						items: [
+							{fid:"sn", 				dataType:"N", 	inputType:"I"},
+							{fid:"staffSn", 		dataType:"N", 	inputType:"2"},
+							{fid:"school",			dataType:"S"},
+							{fid:"degree",			dataType:"S"},
+							{fid:"department",		dataType:"S"},
+							{fid:"sDate",			dataType:"D"},
+							{fid:"eDate",			dataType:"D"},
+							{fid:"studyStatus",		dataType:"S"}
+						]				
+					};
+					
+					//dw4: StaffEP
+					edit_1.aoDW[3] = new DW2();
+					idw_StaffEP = edit_1.aoDW[3]; 
+					idw_StaffEP.xTool = tb_StaffEP;
+					idw_StaffEP.oConfig = {			
+						updatable: false,
+						upDW: idw_master,
+						grid: grid_StaffEP,
+						upQKeys: ["sn"],
+						qKeys: ["staffSn"],
+						keys: ["sn"],
+						items: [
+							{fid:"sn", 				dataType:"N", 	inputType:"I"},
+							{fid:"staffSn", 		dataType:"N", 	inputType:"2"},
+							{fid:"company",			dataType:"S"},
+							{fid:"titles",			dataType:"S"},
+							{fid:"sDate",			dataType:"D"},
+							{fid:"eDate",			dataType:"D"},
+							{fid:"jobContent",		dataType:"S"}
+						]				
+					};
+					
+					//dw5: StaffDL
+					edit_1.aoDW[4] = new DW2();
+					idw_StaffDL = edit_1.aoDW[4]; 
+					idw_StaffDL.xTool = tb_StaffDL;
+					idw_StaffDL.oConfig = {			
+						updatable: false,
+						upDW: idw_master,
+						grid: grid_StaffDL,
+						upQKeys: ["sn"],
+						qKeys: ["staffSn"],
+						keys: ["sn"],
+						items: [
+							{fid:"sn", 				dataType:"N", 	inputType:"I"},
+							{fid:"staffSn", 		dataType:"N", 	inputType:"2"},
+							{fid:"funcItemSn",		dataType:"N"}
+						]				
+					};
+					
+					//dw5: StaffGL
+					edit_1.aoDW[5] = new DW2();
+					idw_StaffGL = edit_1.aoDW[5]; 
+					idw_StaffGL.xTool = tb_StaffGL;
+					idw_StaffGL.oConfig = {			
+						updatable: false,
+						upDW: idw_master,
+						grid: grid_StaffGL,
+						upQKeys: ["sn"],
+						qKeys: ["staffSn"],
+						keys: ["sn"],
+						items: [
+							{fid:"sn", 				dataType:"N", 	inputType:"I"},
+							{fid:"staffSn", 		dataType:"N", 	inputType:"2"},
+							{fid:"licenseName",		dataType:"S"},
+							{fid:"fileName",		dataType:"S"}
+						]				
+					};
+					
+					//dw6: RoleUser
+					edit_1.aoDW[6] = new DW2();
+					idw_RoleUser = edit_1.aoDW[6]; 
+					idw_RoleUser.xTool = tb_RoleUser;
+					idw_RoleUser.oConfig = {		
+						updatable: false,
+						upDW: idw_master,
+						grid: grid_RoleUser,
+						upQKeys: ["sn"],
+						qKeys: ["userSn"],
+						keys: ["sn"],
+						items: [
+							{fid:"sn", 			dataType:"N", 	inputType:"I"},
+							{fid:"userSn", 		dataType:"N", 	inputType:"2"},
+							{fid:"roleSn", 		dataType:"N"},
+							{fid:"userType", 	dataType:"N"},
+							{fid:"roleName",	update:false}
+						]					
+					};
+					
+					var t_data:Object = {win:this};				
+					var u_data:Object ={
+						data: "StaffSelf"
+					};				
+					var t_row:Object = Fun.readRow(is_app, u_data);
+					if (t_row == null){
+						edit_1.enabled = false;
+						Fun.msg("E", "查無資料");
+					}else{					
+						t_data.fun = "U";
+						t_data.row = t_row;
+					}
+					
+					edit_1.init(t_data);				
+				}
+			}
+			
+			private function whenSave(p_data:Object):Boolean{
+				if (Fun.getItem(loginPw)!=Fun.getItem(loginPw2)){
+					Fun.msg("E", iR.message02);
+					focusManager.setFocus(loginPw2);					
+					return false;
+				}else{
+					if (Fun.getItem(loginPw)!=Fun.getItem(loginPw3)){
+						var t_md5:MD5 = new MD5();
+						var ts_code:String = t_md5.encrypt(String(Fun.getItem(loginPw)));
+						t_md5 = null;					
+						
+						idw_account.setItem(loginPw, ts_code, true);
+						Fun.setItem(loginPw2, ts_code);
+						Fun.setItem(loginPw3, ts_code);		
+					}
+				}
+				
+				return true;
+			}	
+			
+			private function afterOpen(p_data:Object):void{
+				var fileNames:String = StringUtil.trim(Fun.getItem(fileName) as String);
+				
+				if (fileNames==""){
+					fileNames="images.jpg";						
+				}
+				imageName.source = Fun.sDirRoot + Fun2.fTeachers + fileNames;
+				
+				Fun.setItem(loginPw2, Fun.getItem(loginPw));
+				Fun.setItem(loginPw3, Fun.getItem(loginPw));
+			}
+			
+			public function openFiles(pn_fileName:String):void{
+				if (pn_fileName!=""){
+					Fun.openFile(Fun.sDirRoot + Fun2.fTeachers + pn_fileName);
+				}else{
+					Fun.msg("E", iR.message09);
+				}				
+			}
+			private function genderLabel(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_gender, p_row[p_column.dataField]);
+			}	
+			private function itemName05(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_itemName, p_row[p_column.dataField]);
+			}
+			private function degree(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_degree, p_row[p_column.dataField]);
+			}
+			private function studyStatus(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_studyStatus, p_row[p_column.dataField]);
+			}
+		]]>
+	</fx:Script>
+	<x2:sysBG/>
+	<x2:subFunHead/>
+
+	<x2:comEdit x="81" y="59" id="edit_1" visible="false" fWhenSave="whenSave" fAfterOpen="afterOpen">
+	</x2:comEdit>	
+	<x2:btnTBar x="81" y="59" buttonMode="true" label="{Fun.R.update}" id="cmdUpdate" icon="@Embed(source='x2/image/update.gif')" click="edit_1.btnSaveClick(event)" toolTip="{Fun.R.tipUpdate}"/>
+	
+	<mx:TabNavigator x="55" y="87" width="92%" height="80%" alpha="0.9">
+		<mx:Canvas label="{iR.Canvas06}">
+			<x2:Num1 id="asn" visible="false"/>
+			<x2:Num1 id="userType" visible="false"/>
+			<x2:Num1 id="userSn" visible="false"/>			
+			<s:TextInput id="loginPw3" visible="false"/>
+			<s:TextInput id="acreator" visible="false"/>
+			<s:TextInput id="acreateDate" visible="false"/>
+			<s:TextInput id="areviser" visible="false"/>
+			<s:TextInput id="areviseDate" visible="false"/>
+			<mx:Form x="10" y="10">
+				<mx:FormItem label="{iR.adeleFlag} :" required="true">
+					<x2:DDL1 id="adeleFlag" dataProvider="{ia_deleFlag}"></x2:DDL1>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.loginId} :" required="true">
+					<mx:Label id="loginId"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.loginPw} :" required="true">
+					<s:TextInput id="loginPw" maxChars="20" displayAsPassword="true"/>
+				</mx:FormItem>				
+				<mx:FormItem label="{iR.loginPw2} :" required="true" id="loginPw2Form">
+					<s:TextInput id="loginPw2" maxChars="20" displayAsPassword="true"/>
+				</mx:FormItem>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas01}">
+			<x2:Num1 id="sn" visible="false"/>
+			<s:TextInput id="creator" visible="false"/>
+			<s:TextInput id="createDate" visible="false"/>
+			<s:TextInput id="reviser" visible="false"/>
+			<s:TextInput id="reviseDate" visible="false"/>
+			<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+				<mx:FormItem label="{iR.empNo} :" required="true">
+					<mx:Label id="empNo"/>					
+				</mx:FormItem>
+				<mx:FormItem label="{iR.cName} :" required="true">
+					<mx:Label id="cName"/>										
+				</mx:FormItem>
+				<mx:FormItem label="{iR.eName} :">
+					<mx:Label id="eName"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.gender} :" required="true">					
+					<x2:DDL1 id="gender" dataProvider="{ia_gender}"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.deptSn} :" required="true">
+					<x2:DDL1 id="deptSn" dataProvider="{ia_dept}"></x2:DDL1>					
+				</mx:FormItem>
+				<mx:FormItem label="{iR.titlesSn} :" required="true">
+					<x2:DDL1 id="titlesSn" dataProvider="{ia_titles}"></x2:DDL1>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.birthDate} :" required="true">
+					<mx:Label id="birthDate"/>					
+				</mx:FormItem>
+				<mx:FormItem label="{iR.idNo} :">
+					<mx:Label id="idNo"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.conTel} :" required="true">
+					<mx:Label id="conTel"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.address} :" required="true">
+					<mx:Label id="address"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.eMail} :">
+					<mx:Label id="eMail"/>
+				</mx:FormItem>
+			</mx:Form>
+			<mx:Form x="430" y="10">
+				<mx:Image id="imageName" width="148" height="123" autoLoad="true" scaleContent="true" smoothBitmapContent="true"/>
+				<s:TextInput id="fileName" visible="false" width="0"/>
+				<mx:FormItem label="{iR.takeOfficeDate} :" required="true">
+					<mx:Label id="takeOfficeDate"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.dutyFlag} :" required="true">
+					<x2:DDL1 id="dutyFlag" dataProvider="{ia_dutyFlag}"></x2:DDL1>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.deleFlag} :">
+					<x2:DDL1 id="deleFlag" dataProvider="{ia_ynFlag}"></x2:DDL1>			
+				</mx:FormItem>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas02}">
+			<mx:Form x="10" y="10">
+				<mx:FormItem label="{iR.birthplace} :">
+					<mx:Label id="birthplace"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.maritalStatus} :" required="true">
+					<x2:DDL1 id="maritalStatus" dataProvider="{ia_maritalStatus}"></x2:DDL1>										
+				</mx:FormItem>
+				<mx:FormItem label="{iR.bloodType} :" required="true">
+					<x2:DDL1 id="bloodType" dataProvider="{ia_bloodType}"></x2:DDL1>					
+				</mx:FormItem>
+				<mx:FormItem label="{iR.stature} :">
+					<mx:Label id="stature"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.weight} :">
+					<mx:Label id="weight"/>												
+				</mx:FormItem>
+				<mx:FormItem label="{iR.urgentName} :" required="true">
+					<mx:Label id="urgentName"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.urgentTel} :" required="true">
+					<mx:Label id="urgentTel"/>
+				</mx:FormItem>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas03}">
+			<mx:Form x="10" y="29">
+				<x2:DG2
+						 
+						 
+						 alpha="0.7"		
+						 		 
+						 
+						 
+						 id="grid_StaffEC" height="340" width="800">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="staffSn" visible="false"/>						
+						<s:GridColumn headerText="{iR.school}" dataField="school" width="190"/>
+						<s:GridColumn headerText="{iR.degree}" dataField="degree" width="70" labelFunction="degree"/>
+						<s:GridColumn headerText="{iR.department}" dataField="department" width="190"/>
+						<s:GridColumn headerText="{iR.sDate02}" dataField="sDate" width="120"/>
+						<s:GridColumn headerText="{iR.eDate02}" dataField="eDate" width="120"/>
+						<s:GridColumn headerText="{iR.studyStatus}" dataField="studyStatus" width="70" labelFunction="studyStatus"/>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>
+			<x2:TBar2 x="567" y="4" id="tb_StaffEC" visible="false">
+			</x2:TBar2>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas04}">
+			<mx:Form x="10" y="29">
+				<x2:DG2
+						 
+						 
+						 alpha="0.7"		
+						 		 
+						 
+						 
+						 id="grid_StaffEP" height="340" width="800">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="staffSn" visible="false"/>						
+						<s:GridColumn headerText="{iR.company}" dataField="company" width="190"/>
+						<s:GridColumn headerText="{iR.titles}" dataField="titles" width="190"/>
+						<s:GridColumn headerText="{iR.sDate03}" dataField="sDate" width="120"/>
+						<s:GridColumn headerText="{iR.eDate03}" dataField="eDate" width="120"/>
+						<s:GridColumn headerText="{iR.jobContent}" dataField="jobContent"/>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>
+			<x2:TBar2 x="567" y="4" id="tb_StaffEP" visible="false">
+			</x2:TBar2>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas05}">
+			<mx:Form x="10" y="29">
+				<x2:DG2
+						 
+						 
+						 alpha="0.7"		
+						 		 
+						 
+						 
+						 id="grid_StaffDL" height="340" width="300" editable="false" enabled="false">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="staffSn" visible="false"/>
+						<s:GridColumn headerText="{iR.funcItemSn}" dataField="funcItemSn" width="100" labelFunction="itemName05"/>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>
+			<x2:TBar2 x="67" y="4" id="tb_StaffDL" visible="false">
+			</x2:TBar2>
+			<mx:Form x="357" y="29">
+				<x2:DG2
+						 
+						 
+						 alpha="0.7"		
+						 		 
+						 
+						 
+						 id="grid_StaffGL" height="340" width="460">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="staffSn" visible="false"/>
+						<s:GridColumn dataField="fileName" visible="false"/>
+						<s:GridColumn headerText="{iR.theFiles}" width="100">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<mx:Button label="Open" icon="@Embed(source='x2/image/star.gif')" click="outerDocument.openFiles(data.fileName)" buttonMode="true" toolTip="Open"/>
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.licenseName}" dataField="licenseName"/>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>
+			<x2:TBar2 x="574" y="4" id="tb_StaffGL" visible="false">
+			</x2:TBar2>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas07}">			
+			<x2:TBar2 x="167" y="10" id="tb_RoleUser" visible="false">
+			</x2:TBar2>
+			<mx:Form x="10" y="35">
+				<x2:DG2 width="400"
+						 
+						 
+						 alpha="0.7"		
+						 		 
+						 
+						 
+						 height="324" x="10.5" y="144" id="grid_RoleUser">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="roleSn" visible="false"/>
+						<s:GridColumn dataField="userType" visible="false"/>
+						<s:GridColumn dataField="userSn" visible="false"/>
+						<s:GridColumn headerText="{iR.roleName}" dataField="roleName"/>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>
+		</mx:Canvas>
+	</mx:TabNavigator>	
+</s:Application>

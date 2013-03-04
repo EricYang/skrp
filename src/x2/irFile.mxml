@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:GridItemRenderer 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="209" height="22" 
+ 	dataChange="init()"
+	>
+	
+	<s:layout>
+		<s:HorizontalLayout verticalAlign="middle" horizontalAlign="left" gap="4"/>
+	</s:layout>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+
+	<s:TextInput x="50" width="102" enabled="false" visible="{bFileName}" includeInLayout="{bFileName}" text="{is_fileName}"/>
+	<s:Image enabled="{data[sfGetFile] == null || data[sfGetFile]}" click="getFile()" buttonMode="true" source="@Embed('x2/image/getFile.png')" toolTip="{Fun.R.tipGetFile}"/>
+	<s:Image enabled="{ib_fileUrl}" click="openFile()" visible="{sFileType!='S'}" includeInLayout="{sFileType!='S'}" buttonMode="true" source="@Embed('x2/image/view.png')" toolTip="{Fun.R.tipViewFile}"/>
+	<x2:imageSound id="sound1" enabled="{ib_fileUrl}" click="openFile()" visible="{sFileType=='S'}" includeInLayout="{sFileType=='S'}" buttonMode="true" toolTip="{Fun.R.tipPlaySound}"/>
+	<s:Image enabled="{data[sfGetFile] &amp;&amp; ib_fileUrl}" click="clearFile()" buttonMode="true" source="@Embed('x2/image/deleteRow.png')" toolTip="{Fun.R.tipClearFile}"/>
+	
+	<fx:Script>
+		<![CDATA[
+			/**
+			 * 用於 DataGrid
+			 * 按鈕的控制必須來自 datagrid 的資料, 不可從這個物件裡面的變數 !!
+			 * <s:Button width="27" icon="@Embed('x2/image/play.png')"/>
+			 */
+			
+			//import spark.components.gridClasses.GridColumn;
+			//import mx.binding.utils.*;		
+			import flash.events.*;
+			
+			/*
+			[Embed(source="image/getFile.png")]
+			[Bindable]
+			private var i_open:Class;
+			
+			[Embed(source="image/sound.png")]
+			[Bindable]
+			private var i_play:Class;
+			
+			[Embed(source="image/sounding.png")]
+			[Bindable]
+			private var i_play2:Class;
+			*/
+			
+			//[Bindable]		
+			//public var oRow:Object;		//datagrid row
+			
+			//=== 屬性  begin ===
+			public var fAfterGet:Function;
+			public var fAfterClear:Function;
+			public var bEmptyMsg:Boolean = true;	//開啟檔案不存在時, 是否顯示訊息
+			public var bDeleteMsg:Boolean = false;	//刪除檔案時, 是否顯示確認訊息
+			public var sFileDesc:String = "Select File";	//default file description
+			
+			[Bindable]		
+			public var sFileType:String = "";		//如果設定這個變數, 則不再需要設定 sfFileType
+			
+			[Bindable]
+			public var bFileName:Boolean = false;	//是否顯示檔案名稱
+			//=== 屬性  end ===
+			
+			
+			//=== 欄位定義, 因為 datagrid 可能會有2個以上的欄位要上傳檔案 ===
+			//public var sfFileType:String = "_fileType";
+			
+			[Bindable]
+			public var sfFileUrl:String = "_fileUrl";
+			public var sfFileDesc:String = "_fileDesc";
+			
+			[Bindable]
+			public var sfGetFile:String = "_getFile";
+			//=== 欄位定義 end ===
+			
+			
+			[Bindable]
+			private var ib_sound:Boolean = false;	//show sound or not
+			
+			[Bindable]
+			private var ib_fileUrl:Boolean = false;	//has file url or not
+			
+			[Bindable]
+			private var is_fileName:String;
+			/*
+			[Bindable]
+			private var ib_get:Boolean;
+			[Bindable]
+			private var ib_view:Boolean;
+			[Bindable]
+			private var ib_sound:Boolean;
+			[Bindable]
+			private var ib_delete:Boolean;
+			*/
+			
+			private var is_fileExt:String;	//選取的檔案副檔名, 不含 "."			
+			
+			/**
+			 * 讀取資料列(oRow)的固定欄位
+			 *   _fileUrl {string}
+			 *   _fileType {string}
+			 *   _fileDesc {string}
+			 *   _getFile {boolean}
+			 * 
+			 * 寫入 :
+			 *   _file {file reference}
+			 *   _filePath {string}
+			 */
+			
+			/*
+			//private var i_file:FileReference;
+			[Bindalbe]
+			private function fileName(ps_fileUrl:String):String{
+			return Fun.getFileName(ps_fileUrl);				
+			}
+			*/
+			
+			public function init():void{
+				if (data == null)
+					return;
+				
+				ib_sound = (sFileType == "S");
+				if (data.hasOwnProperty(sfFileUrl)){
+					ib_fileUrl = (data[sfFileUrl] != "");
+					is_fileName = FL.getName(data[sfFileUrl]);				
+				}else{
+					ib_fileUrl = false;
+					is_fileName = "";									
+				}
+				
+				//get1.enabled = bGetFile;
+				//view1.enabled = (sFile != "");
+				/*
+				if (bFileName
+				if (oRow == null){
+				return;				
+				}else if (oRow[sfFileType] == "S"){
+				ib_sound = true;
+				//ib_sound.includeInLayout = true;
+				ib_view = false;
+				//ib_view.includeInLayout = false;
+				}else{
+				ib_sound = false;
+				//ib_sound.includeInLayout = false;					
+				ib_view = true;
+				//ib_view.includeInLayout = true;
+				}
+				*/
+				
+				//get1.enabled = oRow._getFile;
+				//view1.enabled = (oRow.fileUrl != "");
+				//ib_get = oRow[sfGetFile];
+				//ib_view = (oRow[sfFileUrl] != "");
+				
+				//file1.text = Fun.getFileName(oRow[sfFileUrl]);
+				//sound1.enabled = view1.enabled;
+				
+			}
+			
+			private function getFile():void{
+				FL.fileGet(sFileType, getFile2, (data[sfFileDesc] != null ? data[sfFileDesc] : sFileDesc)); 
+			}
+			
+			private function getFile2(p_file:FileReference):void{
+				is_fileName = p_file.name;
+				is_fileExt = String(p_file.type).substr(1).toLowerCase();
+				//file1.text = p_file.name;
+				ib_fileUrl = true;
+				
+				if (fAfterGet != null){
+					fAfterGet(p_file);
+				}				
+			}
+			
+			private function openFile():void{
+				var ts_file:String = data[sfFileUrl];
+				if (Fun.isEmpty(ts_file))
+					return;
+				
+				//if (data._fileType.indexOf("S") >= 0 && Fun.csSoundTypes.indexOf(is_fileExt) >= 0){
+				if (Fun.csSoundTypes.indexOf(FL.getExt(ts_file).toLowerCase()) < 0){
+					Fun.openFile(ts_file);
+				}else if(sound1.visible){
+					//Fun.playSound(ts_file, bEmptyMsg, sound1);	//got error
+					Fun.playSound(ts_file, bEmptyMsg, sound1);						
+				}else{
+					Fun.playSound(ts_file, bEmptyMsg);
+				}
+			}
+			
+			private function clearFile():void{
+				if (bDeleteMsg){
+					Fun.ans("是否確定清除這個檔案? ", 2, clearFile2);
+				}else{
+					clearFile2();
+				}
+			}
+			
+			private function clearFile2():void{
+				//update field
+				//view1.enabled = false;
+				//ib_view = false;
+				data[sfFileUrl] = "";
+				ib_fileUrl = false;
+				is_fileName = "";
+				
+				//call fAfterGetFile
+				if (fAfterClear != null){
+					fAfterClear();
+				}				
+			}
+			
+		]]>
+	</fx:Script>	
+	
+</s:GridItemRenderer>

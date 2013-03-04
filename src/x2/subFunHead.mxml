@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  xmlns:x2="x2.*"
+		  x="0" y="0" width="100%" verticalAlign="top">
+	<fx:Script>
+		<![CDATA[
+			import x2.*;
+			
+			[Bindable]
+			private var is_app:String = Fun.sApp;		
+			[Bindable]
+			private var is_funName:String = Fun.oVar.item.label;
+		]]>
+	</fx:Script>
+	<mx:Image source="image/child/{is_app}.png" smoothBitmapContent="true"/>
+	<mx:Image source="image/BB.png" smoothBitmapContent="true"/>
+	<mx:Label text="{is_funName}" truncateToFit="true" color="#FF0000" fontWeight="bold" fontSize="16" fontStyle="normal"/>	
+	<mx:Image source="image/GB.png" smoothBitmapContent="true"/>
+	<mx:Image source="image/RB.png" smoothBitmapContent="true"/>		
+	<x2:btnToMain/>
+</s:HGroup>

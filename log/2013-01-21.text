@@ -1,0 +1,11 @@
+; ::1; 16:34:15; _Service2(GetLang)
+Supervisor; ::1; 16:34:21; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; ::1; 16:34:21; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1358757261)
+Supervisor; ::1; 16:34:21; Login; Supervisor
+Supervisor; ::1; 16:34:22; _Main(getMain)
+Supervisor; ::1; 16:34:23; _Service2(GetLang)
+Supervisor; ::1; 16:34:25; _Service2(GetLang)
+Supervisor; ::1; 16:34:31; _Service2(GetLang)
+Supervisor; ::1; 16:34:42; _Service2(GetLang)
+Supervisor; ::1; 16:34:52; _Service2(GetLang)
+Supervisor; ::1; 17:11:12; BabyExcuse(QueryList)

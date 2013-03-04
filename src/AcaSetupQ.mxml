@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	width="370" height="180" xmlns:x2="x2.*" 
+	
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('AcaSetup')}"
+ 	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			private function init():void{
+				qry_1.aoItem = [
+					{source:academicYear}
+				];					
+			}			
+		]]>
+	</fx:Script>
+	<x2:comQuery x="280" y="10" id="qry_1">
+	</x2:comQuery>
+	<mx:Form x="10" y="10" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+		<mx:FormItem label="{iR.academicYear} :">
+			<s:TextInput id="academicYear" width="82"/>			
+		</mx:FormItem>
+		<!--
+		<mx:NumericStepper maximum="3000" id="academicYear"/>
+		<mx:FormItem label="學期 :" required="true">
+			<mx:NumericStepper maximum="5" id="semester"/>
+		</mx:FormItem>
+		-->
+	</mx:Form>	
+</s:TitleWindow>

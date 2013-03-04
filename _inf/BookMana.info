@@ -1,0 +1,17 @@
+{
+    "list":{
+        "select": "SELECT a.*, b.bookNo, b.bookName, CONCAT(c.cName, ' ', c.eName) AS staffName",
+        "from":   "FROM BookMana a INNER JOIN
+                    BookData b ON a.bookDataSn = b.sn INNER JOIN
+                    Staff c ON a.staffSn = c.sn [_where]",
+        "order":  "ORDER BY a.cDate",
+        "items": [
+            {"fid":"bookDataSn",    "table":"a"},            
+            {"fid":"bookName",      "table":"b",      "op":"like"},
+            {"fid":"staffSn",       "table":"a"}
+      ]
+    },    
+    "progRange": 1,
+    "aFOwner": "a.creator",
+    "aFOwnerType": "L"
+}

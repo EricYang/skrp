@@ -1,0 +1,17 @@
+﻿# list/query fields
+carCode=車輛代號
+route=路線
+carNumber=車號
+driverStaffCName=駕駛人
+driverTel=駕駛人電話
+venStaffCName=隨車老師
+vehTeacherTel=隨車老師電話
+vehTel=隨車電話
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# E
+driverStaffName=駕駛人
+venStaffName=隨車老師

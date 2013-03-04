@@ -1,0 +1,16 @@
+{
+    "list":{    
+		"select": "SELECT *",
+		"from": "FROM Staff [_where]",
+		"order": "ORDER BY empNo",        
+		"items": [			            
+            {"fid":"empNo",         "op":"like"},
+			{"fid":"cName",         "op":"like"},
+            {"fid":"eName",         "op":"like"},                        
+            {"fid":"deptSn",        "op":"="}
+		]
+    },    
+    "progRange": 1,
+    "aFOwner": "creator",
+    "aFOwnerType": "L"
+}

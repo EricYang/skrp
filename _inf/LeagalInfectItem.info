@@ -1,0 +1,11 @@
+{
+    "list":{
+        "select": "SELECT *",
+        "from":   "FROM LeagalInfectItem
+                    [_where]",
+        "order":  "ORDER BY sn",
+        "items": [            
+            {"fid":"itemName",  "op":"like"}
+      ]
+    }
+}

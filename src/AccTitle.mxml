@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*" 
+	 
+	
+	 
+	width="100%" height="100%" 
+ 	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('AccTitle')}"
+ 	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			[Bindable]
+			private var iR:Object;	
+			private function init():void {			
+				list_1.wQuery = new AccTitleQ();
+				list_1.wEdit = new AccTitleE();			
+				list_1.gList = grid_1;
+				list_1.init();			
+			}
+		]]>
+	</fx:Script>
+	<x2:sysBG/>
+	<x2:subFunHead/>
+	
+	<x2:comList x="81" y="59" id="list_1">
+	</x2:comList>
+	<s:DataGrid id="grid_1" x="55" y="87" width="92%" height="80%" alpha="0.7">
+		<s:columns>
+			<s:ArrayList>
+				<s:GridColumn dataField="sn" visible="false"/>		
+				<s:GridColumn headerText="{iR.accClass}" dataField="accClass"/>
+				<s:GridColumn headerText="{iR.creator}" dataField="creator" width="80"/>
+				<s:GridColumn headerText="{iR.createDate}" dataField="createDate" width="130"/>
+				<s:GridColumn headerText="{iR.reviser}" dataField="reviser" width="80"/>
+				<s:GridColumn headerText="{iR.reviseDate}" dataField="reviseDate" width="130"/>
+			</s:ArrayList>
+		</s:columns>
+	</s:DataGrid>
+</s:Application>

@@ -1,0 +1,34 @@
+{
+    "dws":[
+	    {
+		"selectTable": "AccMain",
+		"items": [
+                    {"fid":"sn"}, 
+                    {"fid":"academicYear"},
+                    {"fid":"accMainCode"},
+                    {"fid":"accMainName"},
+                    {"fid":"accMainType"},
+                    {"fid":"creator"},
+                    {"fid":"createDate"},
+                    {"fid":"reviser"},
+                    {"fid":"reviseDate"}
+		]								
+	    },
+	    {
+		"selectTable": "AccTitle [_where] ORDER BY accTitleCode",
+                "updateTable": "AccTitle",
+		"upDW": 0,
+		"items": [
+                    {"fid":"sn"},
+	            {"fid":"accMainSn"},
+                    {"fid":"accTitleCode"},
+	            {"fid":"accTitleName"},
+                    {"fid":"accTitleType"},
+                    {"fid":"creator"},
+                    {"fid":"createDate"},
+                    {"fid":"reviser"},
+                    {"fid":"reviseDate"}
+		]				
+	    }
+    ]    
+}

@@ -1,0 +1,73 @@
+{
+    "dws":[
+	    {
+			"selectTable": "Project",
+			"items": [
+				{"fid":"sn"}, 
+                {"fid":"funcItemSn"},
+                {"fid":"eGoal"},
+                {"fid":"eDate"},
+                {"fid":"sTimeH"},
+                {"fid":"sTimeM"},
+                {"fid":"eTimeH"},
+                {"fid":"eTimeM"},
+                {"fid":"seTimeHM",      "colName":"CONCAT(sTimeH, '：', sTimeM, ' — ', eTimeH, '：', eTimeM)"},
+                {"fid":"eLoaction"},
+                {"fid":"attendees"},
+                {"fid":"numAttendees"},
+                {"fid":"budget"},
+                {"fid":"budgetSource"},
+                {"fid":"eventType01"},
+                {"fid":"eventType02"},
+                {"fid":"eventType03"},
+                {"fid":"eventType04"},
+                {"fid":"eventType05"},
+                {"fid":"remark"},
+                {"fid":"creator"},
+                {"fid":"createDate"},
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+
+			]								
+	    },
+	    {
+			"selectTable": "ProjectDetail",
+			"upDW": 0,
+			"items": [
+                {"fid":"sn"},
+	            {"fid":"ProjectSn"},
+                {"fid":"process"},
+                {"fid":"activities"},
+                {"fid":"cDescribe"}
+			]				
+	    },
+        {
+            "selectTable": "TodoList a INNER JOIN Staff b ON a.staffSnA = b.sn AND a.sysType = 2",
+            "updateTable":"TodoList",
+            "defaultTable":"a",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"correlSn"},
+                {"fid":"sysType"},
+                {"fid":"docNoa"},
+                {"fid":"docNob"},
+                {"fid":"subject"},
+                {"fid":"staffSnA"},
+                {"fid":"staffSn",   "colName":"staffSnA"},
+                {"fid":"titlesSn",  "table":"b"},
+                {"fid":"cName",     "table":"b"},
+                {"fid":"eName",     "table":"b"},
+                {"fid":"cDate"},
+                {"fid":"contents"},
+                {"fid":"staffSnC"},
+                {"fid":"sncDate"},
+                {"fid":"proFlagReply"},
+                {"fid":"creator"},
+                {"fid":"createDate"},           
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+            ]                
+        }
+    ]    
+}

@@ -1,0 +1,13 @@
+﻿# list/query fields
+deleFlag=刪除
+sysType=項目類別
+itemName=項目名稱
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# message
+message01=是否確定刪除這筆資料 ?
+message02=此筆資料已刪除 !
+message03=資料刪除完成。

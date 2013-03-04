@@ -1,0 +1,154 @@
+﻿# Login user info
+loginInfoA=学年度 第
+loginInfoB=学期 ( 登入者：
+loginInfoC=尚未设定目前之学年度学期( 登入者：
+
+logout=登出
+
+# mainArea
+sysCodeA=☆教职员工
+sysCodeB=☆班别经营
+sysCodeC=☆教务管理
+sysCodeD=☆园务行政管理
+sysCodeE=☆总务管理
+sysCodeF=☆基本资料
+sysCodeG=☆家长功能区
+sysCodeH=☆管理处统计报表
+sysCodeI=☆学习历程
+sysCodeJ=☆财会管理
+
+# ia_menu
+# sysCodeA=☆教职员工
+ToDoList=待办事项
+gCalendar=个人行事历
+PersonCal=个人行事历资料
+RepairForm=报修单
+FilesList=档案下载
+StaffSelf=员工个人资料
+
+# sysCodeB=☆班别经营
+BabyCheck=幼儿上课点名
+BabyExcuse=班别幼儿请假
+MedicineTicket=托药给药纪录
+MedicineRec=给药纪录
+HurtInfo=伤害事故
+BabyWatch=幼儿行为观察表
+FoodSick=伙食过敏情形
+TeachBook=教学日志
+TeachProject=教案维护
+EContactBook=电子联络簿
+ParentTalk=家长通联纪录
+TeachCard=教具卡
+ExportBaby=汇出幼儿名册
+BabyHealth=幼儿保健
+HealthItem=保健项目资料
+ParentMsgReply=家长留言回覆
+BabyEnsure=幼儿保险
+EnsureItem=保险项目资料
+BabyCar=幼儿搭车资料
+BabyCarInfo=交通车路线资讯
+ClassScheduleView=课程表
+CleanList=教室清洁单
+DevControlStu=发展检核表
+LeagalInfect=法定传染病
+FinalEvaluateStu=幼儿期末评量
+LearnPro=学习历程
+
+# sysCodeC=☆教务管理
+LearnActDesign=学习活动设计表
+UploadMeeting=会议记录
+ClassSchedule=课程表
+FinalEvaluate=期末评量项目
+
+# sysCodeD=☆园务行政管理
+TimeTable=排班表
+Board=公布栏
+Project=专案企划
+FoodTable=每月伙食表
+ParentAskSum=家长问卷统计
+SkillClass=才艺班
+SickSum=幼儿身体异常统计
+SickItem=身体异常项目资料
+ProjectItem=专案项目资料
+DevControl=发展检核表
+ViolenceAnn=暴力通报
+HygieneControl=卫生自主管理
+HygieneProcess=卫生事故流程
+SitotoxismAnn=食品中毒通报
+SelfEvaluate=评鉴表单
+SelfEvaluateCheck=自评表
+FilesMana=档案管理
+
+# sysCodeE=☆总务管理
+TeachTool=教具管理
+BookData=图书资料
+BookMana=图书管理
+Fortune=财产管理
+CheckStock=库存盘点
+DamageRepair=损坏维修
+CleanListCheck=教室清洁单
+AccTitle=会计科目
+SafeControl=安全检核
+SafeControlCheck=安全检核检查
+CarCheck=交通车行车检查
+FireControlCheck=消防安全检查
+FireCommittee=消防管理编制
+FireDrill=消防安全演练
+
+# sysCodeF=☆基本资料
+Dept=部门资料
+Titles=职称资料
+Staff=员工基本资料
+ClassInfo=班别资料
+AcaSetup=学年度设定
+StartClass=开班作业
+Student=幼儿基本资料
+Parent=家长资料
+BabyCostItem=幼儿费用项目
+BabyCarList=随车资料
+BabyCarRec=交通车时间纪录
+YearCal=年度行事历
+PublicDept=公务单位资料
+Program=系统名称管理
+Role=角色权限管理
+DiseaseItem=病症项目资料
+FuncItem=项目资料
+LeagalInfectItem=法定传染病项目
+SpStudent=特教生
+MultiFuncItem=多笔项目资料
+SchoolInfo=园所资料
+
+# sysCodeG=☆家长功能区
+EContactBookParent=电子联络簿
+BabyRestParent=幼儿请假纪录
+ParentMsg=家长留言
+ParentAsk=填问卷
+gCalendar=综合行事历
+FoodTable=每月伙食表
+ClassScheduleView=课程表
+MedicineTicketParent=托药给药纪录
+ParentSelf=家长个人资料
+
+# sysCodeH=☆管理处统计报表
+rptTeacher=教职员工人数统计
+rptStudent=幼儿人数统计
+SickSum=幼儿健康异常统计
+rptBook=书籍统计
+rptTeachTool=教具统计
+AbsentStatus=当日出席状况
+
+# sysCodeI=☆学习历程
+LearnProParent=活动照片
+FinalEvaluateStuParent=期末评量
+
+# sysCodeJ=☆财会管理
+AccMain=会计科目设定
+AccIncome=收入项目设定
+AccExpense=支出项目设定
+AccMonthIncome=月份收费
+AccMonthPaid=月份缴费
+AccRequestPayment=请款单
+AccPettyCash=零用金支出
+AccRequestPaid=支出资料维护
+AccReport=财会报表
+AccMIAdj=月份收费调整

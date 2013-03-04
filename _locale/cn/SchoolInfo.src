@@ -1,0 +1,12 @@
+﻿# list/query fields
+schoolCode=园所代码
+schoolName=园所名称
+imageName=园所 LOGO
+tmpFileName=浏览档案
+webSiteUrl=网址
+conTel=联络电话
+address=地址
+
+# message
+message01=查无资料
+message02=档案类型不符, LOGO 图档必须为(.jpg, .gif, .jpeg, .png) 格式图档

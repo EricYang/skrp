@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	x="0" y="0"
+	backgroundColor = "#000000"				
+	borderVisible="false"
+	height = "{Capabilities.screenResolutionY - 200}"	
+	width = "{Capabilities.screenResolutionX - 100}"	
+	creationComplete="init();"
+	close="closeWin()"
+	keyDown="titleWindow_keyDown(event);">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.core.INavigatorContent;
+			
+			import x2.*;			
+			[Bindable]
+			private var iR:Object;			
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			public var is_dir1:String = Fun.sDirRoot + Fun2.fLearnPro;
+			[Bindable]
+			private var ia_list:ArrayCollection = new ArrayCollection();
+			[Bindable]
+			private var imgNo:int = 0;
+			
+			private var _loader:Loader = new Loader;
+			private var _lightbox:Lightbox;
+			private var _bitmaps:Vector.<Bitmap> = new Vector.<Bitmap>;
+			private var _largeImageFilenames:Vector.<String> = new Vector.<String>;
+			
+			public var learnProSn:int;
+			public var academicYear:int;
+			public var semester:int;
+			public var classLeavesSn:int;
+			public var studentSn:int;
+
+			private function init():void{				 
+				var t_data:Object = {
+					data: "DispImagesLB",
+					learnProSn: learnProSn,
+					academicYear: academicYear,
+					semester: semester,
+					classLeavesSn: classLeavesSn,
+					studentSn: studentSn					
+				};
+				//defaultImgPath: is_dir1
+				var ta_row:Array = Fun.readRows(is_app, t_data);				 
+				ia_list = new ArrayCollection(ta_row);
+				
+				imgNo = ia_list.length;
+				
+				// Load the large versions of the four images				 
+				if (ia_list){
+					for (var i:int=ia_list.length-1; i>=0; i--){
+						switch (FL.getExt(ia_list[i].imageSource)){
+							case "jpg":
+							case "gif":
+							case "jpeg":
+							case "png":
+								_largeImageFilenames.push(is_dir1 + ia_list[i].imageSource);
+								break;
+							case "mp4":
+							case "avi":
+							case "wmv":
+								_largeImageFilenames.push(is_dir1 + 'Video.jpg');
+								break;
+						}
+					}					
+				}
+				loadBitmap(_largeImageFilenames.pop());	// start the large image loading process
+				
+				// Create a lightbox
+				//_lightbox = new Lightbox(Capabilities.screenResolutionX - 150, 600);	// matches app stage size
+				_lightbox = new Lightbox(Capabilities.screenResolutionX - 150, 100);	// matches app stage size
+				addElement(_lightbox);
+				_lightbox.visible = false;
+				
+				this.setFocus();
+			}
+			
+			public function loadBitmap(filename:String):void
+			{
+				_loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onComplete);
+				_loader.load(new URLRequest(filename));
+			}
+			
+			public function onComplete(event:Event):void 
+			{
+				var bitmap:Bitmap = Bitmap(_loader.content);
+				_bitmaps.push(bitmap);
+				
+				if(_bitmaps.length == imgNo)	// If all large bitmaps are loaded
+				{
+					var images:Vector.<LargeImage> = new Vector.<LargeImage>;
+					for(var i:int = 0; i < _bitmaps.length; i++)
+					{
+						var largeImage:LargeImage = new LargeImage(ia_list[i].label, i, _bitmaps[i]);
+						images.push(largeImage);
+					}
+					_lightbox.images = images;	// Provide the set of large images to the Lightbox class					
+				}
+				else
+				{
+					// With a single _loader we can only load one image at a time.
+					// So each time one is loaded, start loading the next one.
+					loadBitmap(_largeImageFilenames.pop());
+				}
+			}
+			
+			//private function displayLightbox(event:MouseEvent):void
+			public function displayLightbox(p_row:Object = null):void{
+				var t_row:Object = tile1.selectedItem;
+				switch (FL.getExt(t_row.imageSource)){
+					case "jpg":
+					case "gif":
+					case "jpeg":
+					case "png":
+						_lightbox.x = (Capabilities.screenResolutionX - 150) / 50;
+						_lightbox.y = (Capabilities.screenResolutionY) / 3.7;
+						_lightbox.showImage(tile1.selectedIndex);
+						break;
+					case "mp4":
+					case "avi":
+					case "wmv":
+						var t_win:DispImages = new DispImages();
+						t_win.ps_fileName = t_row.imageSource;
+						Fun.openPopup(t_win, this);
+						break;
+				}
+			}
+			
+			private function titleWindow_keyDown(evt:KeyboardEvent):void {
+				if (evt.charCode == Keyboard.ESCAPE) {					
+					closeWin();
+				}
+			}
+			private function closeWin():void{
+				Fun.closePopup(this);
+			}
+		]]>
+	</fx:Script>
+	<s:List id="tile1" y="20" height="92%" width="92%" alpha="1" borderVisible="false"
+			contentBackgroundAlpha="0" dataProvider="{ia_list}" focusColor="#000000"
+			horizontalCenter="0" rollOverColor="#000000" selectionColor="#000000"
+			symbolColor="#000000">
+		<s:layout>
+			<s:TileLayout horizontalAlign="center" horizontalGap="15" verticalGap="15"/>
+		</s:layout>
+		<s:itemRenderer>
+			<fx:Component><x2:irCenterVH><s:ItemRenderer>
+				<mx:Form backgroundColor="#000000" indicatorGap="0" horizontalGap="0" verticalGap="0" borderColor="#FFFFFF" borderStyle="solid" width="100%" height="210" verticalScrollPolicy="off" horizontalScrollPolicy="off" dropShadowVisible="true">
+					<s:VGroup gap="1" horizontalCenter="0" textAlign="center" verticalCenter="0" horizontalAlign="center" verticalAlign="middle">
+						<s:Image source="{(data.fileType!='1') ? outerDocument.is_dir1 + data.imageSource:outerDocument.is_dir1 + 'Video.jpg'}" click="outerDocument.displayLightbox()" width="200" height="200" scaleMode="letterbox" smooth="true" smoothingQuality="high" buttonMode="true" toolTip="{data.label}"/>
+					</s:VGroup>
+				</mx:Form>
+				<!--
+					<s:Image source="{data.imageSource}" click="outerDocument.displayLightbox()" width="200" height="200" scaleMode="letterbox" smooth="true" smoothingQuality="high" buttonMode="true" toolTip="{data.label}"/>
+					<s:VGroup><s:Label text="{data.labelShort}" backgroundColor="#FFFFFF"/></s:VGroup>
+					requestedColumnCount="5"
+				-->											 
+			</s:ItemRenderer></x2:irCenterVH></fx:Component>
+		</s:itemRenderer>			
+	</s:List>	
+
+</s:TitleWindow>

@@ -1,0 +1,29 @@
+﻿# list/query fields
+academicYear=Academic Year
+semester=Semester
+theClassName=Class
+classLeavesName=Class Name
+cmdOpen=Duplicate New Class Information
+
+# E
+classInfoSn2=Class 
+classLeavesSn2=Class Name
+Canvas01=帶班老師
+cTitles=Title of Position
+empNo=Employee Number
+cName=Chinese Name
+eName=English Name
+gender=Gender
+Canvas02=學生清單
+stuNo=學號
+cName=姓名(中)
+eName=姓名(英)
+gender=性別
+birthDate=生日
+
+# message
+message01=幼兒基本資料
+
+# Q
+classInfoSn=Class 
+classLeavesSn=Class Name

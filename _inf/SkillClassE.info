@@ -1,0 +1,57 @@
+{
+    "dws":[
+	    {
+			"selectTable": "StartClass",
+			"items": [
+				{"fid":"sn"}, 
+                {"fid":"academicYear"},
+                {"fid":"semester"},
+				{"fid":"classLeavesSn"},
+                {"fid":"classType"},
+                {"fid":"tuition"},
+                {"fid":"classH"},
+                {"fid":"creator"},
+                {"fid":"createDate"},
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+
+			]								
+	    },
+	    {
+			"selectTable": "ClassTeacher a LEFT OUTER JOIN Staff b ON a.staffSn = b.sn",
+            "updateTable":"ClassTeacher",
+            "defaultTable":"a",
+			"upDW": 0,
+			"items": [
+                {"fid":"sn"},
+	            {"fid":"startClassSn"},
+                {"fid":"cTitles"},
+                {"fid":"staffSn"},
+                {"fid":"creator"},
+                {"fid":"createDate"},
+                {"fid":"reviser"},
+                {"fid":"reviseDate"},
+                {"fid":"empNo", "table":"b"},
+                {"fid":"cName", "table":"b"},
+                {"fid":"eName", "table":"b"},
+                {"fid":"gender", "table":"b"}
+			]				
+	    },
+        {
+            "selectTable": "StudentStatus a LEFT OUTER JOIN Student b ON a.studentSn = b.sn [_where] ORDER BY b.stuNo",
+            "updateTable":"StudentStatus",
+            "defaultTable":"a",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"startClassSn"},
+                {"fid":"studentSn"},                
+                {"fid":"stuNo", "table":"b"},
+                {"fid":"cName", "table":"b"},
+                {"fid":"eName", "table":"b"},
+                {"fid":"gender", "table":"b"},
+                {"fid":"birthDate", "table":"b"}
+            ]                
+        }
+    ]    
+}

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:GridItemRenderer 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	creationComplete="init()"	
+	>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<s:layout>
+		<s:HorizontalLayout verticalAlign="middle" horizontalAlign="center" gap="0"/>
+	</s:layout>
+	
+	<!-- 點checkbox時: 全選/否, 點文字時: 排序-->
+	<s:CheckBox id="check1" label="" change="fnChange()"/>
+	<s:Label text="{this.column.headerText}" click="fnClick()"/>
+	
+	<fx:Script>
+		<![CDATA[
+			
+			private var i_header:CheckHeaderColumn;
+			
+			private function init():void{
+				//var tt:String = "tt";
+				i_header = CheckHeaderColumn(this.column);
+			}
+			
+			//sort
+			private function fnClick():void{
+				//i_header.
+				i_header.dispatchEvent(new MouseEvent(MouseEvent.CLICK));
+
+			}
+			
+			//select or unSelect
+			private function fnChange():void{
+				if (i_header.fClick != null){
+					i_header.fClick(check1.selected);
+				}				
+			}
+		]]>
+	</fx:Script>	
+	
+</s:GridItemRenderer>

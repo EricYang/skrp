@@ -1,0 +1,12 @@
+﻿# list/query fields
+sTitle=搜尋員工
+deptSn=部門
+sList=員工列表(請點選)
+select=選取
+
+empNo=員編
+titlesSn=職稱
+titlesName=職稱
+cName=姓名(中)
+eName=姓名(英)
+gender=性別

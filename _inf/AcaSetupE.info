@@ -1,0 +1,18 @@
+{
+    "dws":[
+	    {
+			"selectTable": "AcaSetup",   
+			"items": [
+                {"fid":"sn"}, 
+                {"fid":"academicYear"},
+                {"fid":"semester"},
+                {"fid":"currentStatus"}, 
+                {"fid":"deleFlag"}, 
+                {"fid":"creator"},
+                {"fid":"createDate"},           
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+            ]				
+	    }
+    ]    
+}

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<imageRead
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns="x2.*" 
+	click="fnClick()"
+	>
+
+	<fx:Script>
+		<![CDATA[
+		/*
+			complete="init()"
+	enabled="{xRelatField.enabled}"
+	visible="{xRelatField.enabled}"
+ 	source="{(xRelatField.enabled) ? i_inquiry : i_inquiry0}"
+ 		*/
+ 		
+		import mx.core.UIComponent;
+		//import x2.*;
+
+		//public var xRelatField:UIComponent;
+		public var fClick:Function;
+
+
+		/*
+        [Embed(source="x2/image/inquiry.gif")]
+        private var i_inquiry:Class;
+        
+        [Embed(source="x2/image/inquiry0.png")]
+        private var i_inquiry0:Class;
+		*/
+		
+		//private var ib_status:Boolean = true;
+		
+
+		/*	
+		private function init():void{
+			setStatus(true);
+		}
+		*/
+			
+		private function fnClick():void{
+			/*
+			if (!ib_status){
+				return;				
+			}else if (xRelatField != null && !xRelatField.enabled){
+				return;
+			}
+			*/
+			
+			if (fClick != null){
+				fClick({fid:xRelatField.id});
+			}
+		}	
+		
+		/*
+		//set image status	
+		public function setStatus(pn_status:int):void{
+			in_status = pn_status;
+		}
+		*/
+			
+		]]>
+	</fx:Script>
+		
+</imageRead>

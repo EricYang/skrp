@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	verticalScrollPolicy="off" horizontalScrollPolicy="off" 
+	horizontalAlign="left" verticalGap="5"
+	paddingBottom="0" paddingLeft="10" paddingRight="0" paddingTop="0"
+	preinitialize="{iR=Fun.getLang('BabyCheckItem')}"
+	borderStyle="solid">
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;	
+
+			private var is_app:String = Fun.sApp;
+			
+			public function fnStuClick(pn_StuSn:int):void{
+				if (int(pn_StuSn)){
+					var t_win:StudentE = new StudentE();
+					var t_data:Object = {
+						win: t_win,
+						fun: "V",
+						row: {sn:pn_StuSn}
+					};
+					Fun.openPopup(t_win, this);
+
+					t_win.x = int((stage.stageWidth - t_win.width)/2);
+					t_win.y = int((stage.stageHeight - t_win.height)/3);
+					
+					var t_edit:comEdit = t_win.edit_1; 
+					t_edit.sApp = is_app;
+					t_edit.sInf = "StudentE";
+					t_edit.sTitle = iR.message01;				
+					t_edit.init(t_data);
+					//隱藏
+					t_win.tb_hw.visible = false;
+					t_win.tb_studentMT.visible = false;
+					t_win.tb_studentDI.visible = false;
+					t_win.tb_student.visible = false;
+				}				
+			}
+		]]>
+	</fx:Script>
+	<mx:Image width="126" height="104" x="452" scaleContent="true" source="{Fun.sDirRoot + Fun2.fStudents + data.imageSource}" click="fnStuClick(data.studentSn)" buttonMode="true" toolTip="{data.cname}">		
+	</mx:Image>
+	<mx:HBox>		
+		<mx:CheckBox id="attendFlag" enabled="{data.vFlag!=1}" selected="{data.attendFlag==1}" click="isChecked();" visible="{data.exRemark==''}" toolTip="點名"/>
+		<mx:Label id="cname" text="{data.cname}" width="100%" toolTip="{data.cname}"/>					
+	</mx:HBox>
+	<mx:Label id="exRemark" text="{data.exRemark}" width="100%" color="#FF0000"/>
+	
+	<fx:Script>
+		<![CDATA[
+			private function isChecked():void {
+				data.attendFlag = (attendFlag.selected) ? 1 : 0;
+			}
+		]]>
+	</fx:Script>
+</mx:VBox>

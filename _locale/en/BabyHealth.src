@@ -1,0 +1,36 @@
+﻿# list/query fields
+acaName==academic year (term)
+classLeavesSn=classification
+studentName=student name
+funcItemSn==health check categories
+cDate=health check date
+cHealthResult=health check report
+creator=created by
+createDate=created on
+reviser=modified by
+reviseDate=last modified
+
+# E
+cDescribe=abnormality report
+rDate=return visit date
+rHealthResult=return visit medical report
+rDescribe=future consultation description
+textFilesName=open return visit report
+tmpFileNameUpload=upload return visit medical history 
+tmpFileName=browse files
+
+# message
+message01=abnormality description, incomplete
+message02=return visit date, can't be prior to health check date. 
+message03=return visit medical report, incomplete
+message04=future consultation description, incomplete
+message05=return visit date, incomplete
+message06=(.pdf, .xls, .xlsx, .doc, .docx, .ppt, .jpg, .gif, .jpeg, .png) 格式=file type not matched, the file must be in (...)form
+
+# Q
+academicYear=academic year
+semester=semester
+classInfoSn=grade
+classLeavesSn=class type
+cName=Chinese name
+eName=English name

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="610" height="270" 
+	 
+  	creationComplete="init()"  	 		
+	preinitialize="{iR=Fun.getLang('BabyExcuse')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			private var is_app:String = Fun.sApp;
+			private var idw_master:DW;
+			
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["academicYear", "semester", "usersSn", "userType"]});
+			
+			[Bindable]
+			public var ia_excuse:ArrayList;		
+			
+			private function doFindStu():void{
+				switch (i_session.userType){
+					case "2":
+						Fun2.openPStuList(is_app, this, ReturnStu);
+						break;
+					case "3":
+					case "4":
+						Fun2.openStudent(is_app, this, ReturnStu, false);
+						break;
+				}				
+			}
+			
+			private function ReturnStu(p_row:Object):void{				
+				Fun.setItem(studentName, p_row.cName + " " + p_row.eName);
+				idw_master.setItem(studentSn, p_row.sn, true);
+				idw_master.setItem(classLeavesSn, p_row.classLeavesSn, true);
+			}
+			
+			private function init():void{
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					mapping: true,
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					items: [
+						{source:sn, 			dataType:"N",	inputType:"I"}, 
+						{source:academicYear,	dataType:"N",	init:int(i_session.academicYear)}, 
+						{source:semester,		dataType:"N",	init:int(i_session.semester)},
+						{source:acaName,						update:false,	inputType:"R"},
+						{source:userType,		dataType:"N",	init:int(i_session.userType)},
+						{source:userSn,			dataType:"N",	init:int(i_session.usersSn)},
+						{source:selfFlag,						update:false,	inputType:"R"},
+						{source:classLeavesSn,	dataType:"N"},
+						{source:studentSn,		dataType:"N"},
+						{source:studentName,					update:false,	inputType:"R",	required:true},
+						{source:excuse,			dataType:"N"}, 
+						{source:exDate,			dataType:"D"}, 
+						{source:exRemark,		dataType:"S"},
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"DT",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"DT",	inputType:"R"}					
+					]				
+				};
+			}			
+			
+			private function fnParClick():void{
+				var t_win:ParentE = new ParentE();
+				var t_data:Object = {
+					win: t_win,
+					fun: "V",
+					row: {sn:Fun.getItem(userSn)}
+				};
+				Fun.openPopup(t_win, this);				
+				var t_edit:comEdit = t_win.edit_1; 
+				t_edit.sApp = is_app;
+				t_edit.sInf = "ParentE";
+				t_edit.sTitle = iR.message03;				
+				t_edit.init(t_data);
+				t_win.tnsa.removeChild(t_win.canvasLabel3);
+				t_win.tb_parent.visible = false;
+			}
+			
+			private function afterOpen(p_data:Object):void{
+				
+				CParent.visible = false;
+				
+				switch (p_data.fun){					
+					case "C":
+					case "U":
+						SchStu.visible = true;						
+						break;					
+					case "V":
+						SchStu.visible = false;
+						break;
+				}
+				
+				switch (p_data.fun){					
+					case "U":
+					case "V":
+						switch (i_session.userType){
+							case "3":
+							case "4":
+								if (Fun.getItem(userType)==2){
+									CParent.visible = true;
+								}								
+								break;
+						}
+						break;
+				}
+			}
+			private function whenSave(p_data:Object):Boolean{
+				if (p_data.fun != "D"){
+					Fun.setItem(acaName, String(Fun.getItem(academicYear))+ ' - '+String(Fun.getItem(semester)));
+					//1 學生, 2 家長, 3 職員, 4 管理者
+					switch (String(i_session.userType)){
+						case "1":
+						case "2":
+							Fun.setItem(selfFlag, '★');
+							break;
+					}				
+				}
+				return true;
+			}			
+		]]>
+	</fx:Script>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="academicYear" visible="false"/>
+	<x2:Num1 id="semester" visible="false"/>
+	<s:TextInput id="acaName" visible="false"/>
+	<x2:Num1 id="userType" visible="false"/>
+	<x2:Num1 id="userSn" visible="false"/>
+	<s:TextInput id="selfFlag" visible="false"/>	
+	<x2:Num1 id="classLeavesSn" visible="false"/>
+	<x2:Num1 id="studentSn" visible="false"/>	
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+	<x2:comEdit x="10" y="198" id="edit_1" fAfterOpen="afterOpen" fWhenSave="whenSave">
+	</x2:comEdit>	
+	<mx:Form x="10" y="10">
+		<mx:FormItem label="{iR.studentName} :" required="true">
+			<mx:HBox x="72" y="1" width="100%">
+				<s:TextInput id="studentName" editable="false"/>
+				<x2:btnPick id="SchStu" click="doFindStu()"/>						
+				<mx:Label text="{iR.CParent}" id="CParent" click="fnParClick()" useHandCursor="true" mouseChildren="false" buttonMode="true" textDecoration="underline" color="#0000FF"/>
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.excuse} :" required="true">
+			<x2:DDL1 id="excuse" dataProvider="{ia_excuse}"></x2:DDL1>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.exDate} :" required="true">
+			<x2:Date1 id="exDate" width="120" editable="false" formatString="YYYY/MM/DD" yearNavigationEnabled="true"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.exRemark} :" required="true">
+			<mx:TextArea width="404" id="exRemark"/>
+		</mx:FormItem>
+	</mx:Form>
+</s:TitleWindow>

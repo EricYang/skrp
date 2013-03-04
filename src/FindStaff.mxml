@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="460" height="480" 
+	 
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('FindStaff')}"
+	 close="closeWin()">
+	
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			public var fAfterOk:Function;
+			
+			[Bindable]
+			private var iR:Object;
+			
+			[Bindable]
+			private var is_app:String = Fun.sApp;			
+			[Bindable]
+			private var ia_staffInfo:ArrayList = new ArrayList(Fun2.staffDS(is_app, false));
+
+			private function init():void{
+				qry_1.sApp = is_app;
+				qry_1.sInf = "FindStaff";
+				qry_1.gList = grid_1;
+				qry_1.aoItem = [
+					{source:deptSn},
+					{source:cName}
+				];
+				qry_1.init();				
+			}
+			
+			/*
+			private function getData():void{
+				qry_1.btnReadClick();				
+			}
+			*/
+			
+			private function closeWin():void{
+				Fun.closePopup(this);
+			}
+			
+		]]>
+	</fx:Script>	
+	<s:Form x="10" y="10" width="333">
+		<mx:Label text="{iR.sTitle}：" fontWeight="bold"/>
+		<s:FormItem label="{iR.deptSn} :" height="26">
+			<x2:DDL1 id="deptSn" dataProvider="{ia_staffInfo}"></x2:DDL1>			
+		</s:FormItem>
+		<s:FormItem label="{iR.cName} :">
+			<s:TextInput id="cName"/>
+		</s:FormItem>
+	</s:Form>
+	<mx:HRule x="10" y="135" width="415"/>
+	<mx:Form x="10.5" y="143">
+		<mx:HBox width="100%" verticalAlign="bottom">
+			<mx:Label text="{iR.sList}：" fontWeight="bold"/>
+			<mx:HBox horizontalAlign="right" width="100%">
+				<mx:Button click="qry_1.selectRow()" label="{iR.select}" width="75" icon="@Embed(source='x2/image/checked.gif')" />
+			</mx:HBox>
+		</mx:HBox>		
+		<s:DataGrid id="grid_1" width="400" alpha="0.7" height="229"
+					 click="qry_1.selectRow()"
+					 >
+			<s:columns><s:ArrayList>
+				<s:GridColumn headerText="{iR.empNo}" dataField="empNo"/>
+				<s:GridColumn headerText="{iR.titlesName}" dataField="titlesName"/>
+				<s:GridColumn headerText="{iR.cName}" dataField="cName"/>
+			</s:ArrayList></s:columns>
+		</s:DataGrid>			
+	</mx:Form>
+	<x2:comQuery id="qry_1" x="351" y="10" height="58">
+	</x2:comQuery>
+</s:TitleWindow>

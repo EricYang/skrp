@@ -1,0 +1,57 @@
+﻿# list/query fields
+selfFlag=自行填寫
+readTimeP=家長閱讀
+readTimeS=教師閱讀
+acaName=學年(期)
+classLeavesSn=班別(級)
+studentName=學生姓名
+cDate=用藥日期
+eventRec=特殊事項處理
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# message
+message02=此筆資料為 家長自行填寫，不可刪除。
+message03=此筆資料 家長已經閱讀，不可刪除。
+
+# E
+Canvas01=托藥單
+Canvas02=給藥紀錄
+
+disease=病狀
+disease01=感冒
+disease02=腸胃炎
+disease03=支氣管炎
+disease04=中耳炎
+disease05=其它
+inMed=內用藥物
+inMed01=藥粉
+inMed02=藥水
+inMed03=藥錠
+inMed04=發燒
+exMed=外用藥物
+exMedCon=，部位
+remark=備註
+remark01=需冷藏
+remark02=用前需搖勻
+remark03=其它
+eventRec=特殊事項處理
+medTime=用藥時間
+medTimeCon=備註
+medTimeH=給藥時間(時)
+medTimeM=給藥時間(分)
+inMedType=用藥方式
+ceName=餵藥者
+
+# message
+message01=請先選擇 學生姓名
+
+# Q
+academicYear=學年
+semester=學期
+classInfoSn=班別
+classLeavesSn=班級
+cName=中文姓名
+eName=英文名

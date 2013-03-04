@@ -1,0 +1,52 @@
+﻿# list/query fields
+academicYear=学年
+semester=学期
+
+# message
+message01=班别(级) 与年/ 月份不得为空白
+message02=年 格式请输入 1900 ~ 3000 间
+message03=月 格式请输入 1 ~ 12 间
+message04=查无资料
+
+message05=班别(级)尚未选取
+message06=从年 / 月份尚未填写
+message07=COPY 至年 / 月份尚未填写
+
+result01=COPY 该班别(级)年/ 月份资料已存在
+result02=无资料可 COPY
+result03=COPY 作业完成, 已完成
+result04=笔
+
+incomeByDailyForm=每日收入明细表
+incomeByMonthForm=班级每月收入明细表
+receivableByMonthForm=班级月份未缴费明细
+receivableFromParentForm=家长未缴费明细表
+dateInvoiceForm=日期别请款明细表
+datePayment=日期别支出明细表
+receivablesOutstandingForm=请款未付明细表
+cashFlowByDaily_Register=每日现金收支(注册)
+cashFlowByDaily_MonthFee=每日现金收支(月费)
+cashFlowByMonthForm_Register=现金收支月报表(注册)
+cashFlowByDailyFrom_MonthFee=现金收支月报表(月费)
+
+
+yearFor=学年(期) :
+dateFor=日期 :
+classFor=班别(级) :
+formYearToMonth=从年 / 月份 :
+copyFormYearToMonth=COPY 至年 / 月份 :
+startDate=起迄日期 :
+theDate=日期 :
+spendItem=支出选项 :
+
+reportTitle202=幼儿月份收费资料Copy作业
+reportTitle232=每日收入明细表
+reportTitle233=班级每月收入明细表
+reportTitle234=班级月份未缴费明细表
+reportTitle331=日期别请款明细表
+reportTitle332=日期别支出明细表
+reportTitle333=请款未付明细表
+reportTitle601=每日现金收支明细表(注册)
+reportTitle602=每日现金收支明细表(月费)
+reportTitle603=现金收支月报表(注册)
+reportTitle604=现金收支月报表(月费)

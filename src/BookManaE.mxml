@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="580" height="300" 
+	 
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('BookMana')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import com.json.*;
+			
+			import mx.collections.ArrayCollection;
+			import mx.collections.ArrayList;
+			import mx.controls.Alert;
+			import mx.controls.TextInput;
+			import mx.events.CollectionEvent;
+			import mx.events.CollectionEventKind;
+			import mx.rpc.events.ResultEvent;
+			
+			import x2.*;
+			
+			[Bindable]
+			private var iR:Object;
+			import mx.formatters.DateFormatter;
+			
+			[Bindable]
+			private var idw_master:DW;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]			
+			private var i_col1:Object, i_col2:Object;
+						
+			private var urlLoader:URLLoader;
+			private var jsonObj:Object;	
+			private var jsonDataArray:Array;
+			private var QueryFlag:Boolean;
+
+			private function doFindStaff(p_col1:Object, p_col2:Object):void{				
+				i_col1 = p_col1;
+				i_col2 = p_col2;
+				Fun2.openStaff(is_app, this, ReturnStaff);
+			}
+			private function ReturnStaff(p_row:Object):void{				
+				Fun.setItem(i_col1,p_row.cName + " " + p_row.eName);
+				idw_master.setItem(i_col2, p_row.sn, true);
+			}
+			
+			private function doFindBookNo():void{
+				Fun2.openBookNo(is_app, this, ReturnBookNo);
+			}
+			private function ReturnBookNo(p_row:Object):void{				
+				Fun.setItem(bookNo, p_row.bookNo);
+				idw_master.setItem(bookDataSn, p_row.sn, true);
+				idw_master.setItem(bookName, p_row.bookName, true);
+			}
+			
+			private function init():void{	
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					mapping: true,
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					items: [						
+						{source:sn,				dataType:"N",	inputType:"I"}, 
+						{source:bookDataSn,		dataType:"N"},
+						{source:bookNo,							update:false,	inputType:"R",	required:true},
+						{source:bookName,						update:false,	inputType:"R"},
+						{source:staffSn,		dataType:"N"},
+						{source:staffName,						update:false,	inputType:"R",	required:true},
+						{source:cDate,			dataType:"D"},
+						{source:rDate,			dataType:"D"},
+						{source:remark,			dataType:"S"},
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"DT",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"DT",	inputType:"R"}
+					]				
+				};				
+			}
+			//編輯視窗開啟後顯示該代辦事項交辦人及負責人名字
+			private function afterOpen(p_data:Object):void{
+				var dateFormatter:DateFormatter = new DateFormatter();
+				dateFormatter.formatString = "YYYY/MM/DD JJ:NN:SS";
+				idw_master.setItem(cDate, dateFormatter.format(Fun.getItem(cDate)), true);
+				
+				if (Fun.getItem(rDate)!=""){
+					idw_master.setItem(rDate, dateFormatter.format(Fun.getItem(rDate)), true);
+				}
+				
+				switch (p_data.fun){
+					case "V":
+						SchBookNo.visible = false; //檢視模式不顯示搜尋按鈕及說明文字
+						SchStaff.visible = false; //檢視模式不顯示搜尋按鈕及說明文字
+						break;
+				}
+			}
+			
+			private function whenSave(p_data:Object):Boolean
+			{
+				if (p_data.fun != "D")
+				{
+					if (p_data.fun == "C")
+					{
+					    var ps_app:String = "BookManaE";
+					    var ps_serverApp:String ="DBQuery"; 
+					    var p_data:Object = new Object();
+						p_data.SQLCommand="BookManaE_Q1";
+					    p_data.bookNo=Fun.getItem(bookNo);
+					    var t_data:Object=DBQuery.syncQueryData(ps_app,ps_serverApp,p_data);
+					    if(int(t_data[0].balanced_quantity) <= 0)
+					    {
+						    Fun.msg("E","欲借出書籍已無可借數量");
+						    return false;
+					    }
+					}
+					
+					if (Fun.getItem(rDate)!="")
+					{
+						var et:Date = new Date();
+						if (rDate.selectedDate >  et)
+						{
+							Fun.msg("E","還書日期大於今日");
+							return false;
+						}
+						
+						if (Fun.getItem(rDate)<Fun.getItem(cDate))
+						{					
+							Fun.msg("E", iR.message01);
+							Fun.setItem(rDate, Fun.getItem(cDate));
+							return false;
+						}
+						
+					}
+					
+					
+				}
+				return true;
+			}
+		]]>
+	</fx:Script>
+    <x2:comEdit x="10" y="229" id="edit_1" fAfterOpen="afterOpen" fWhenSave="whenSave">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="bookDataSn" visible="false"/>
+	<s:TextInput id="bookName" visible="false"/>
+	<x2:Num1 id="staffSn" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+	<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+		<mx:FormItem label="{iR.bookNo} :" required="true">
+			<mx:HBox width="100%">
+				<s:TextInput id="bookNo" click="doFindBookNo()"/>
+				<x2:btnPick id="SchBookNo" click="doFindBookNo()"/>				
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.staffName} :" required="true">
+			<mx:HBox x="72" y="1" width="100%">
+				<s:TextInput id="staffName" click="doFindStaff(staffName, staffSn)"/>
+				<x2:btnPick id="SchStaff" click="doFindStaff(staffName, staffSn)"/>				
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.cDate} :" required="true">
+			<mx:DateField formatString="YYYY/MM/DD" id="cDate" yearNavigationEnabled="true"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.rDate} :">
+			<mx:DateField formatString="YYYY/MM/DD" id="rDate" yearNavigationEnabled="true"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.remark} :">
+			<mx:TextArea width="400" id="remark"/>
+		</mx:FormItem>
+	</mx:Form>
+	
+
+</s:TitleWindow>

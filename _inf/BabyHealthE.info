@@ -1,0 +1,30 @@
+{
+    "dws":[
+        {
+            "selectTable": "BabyHealth a INNER JOIN Student b ON a.studentSn = b.sn",
+            "updateTable": "BabyHealth",
+            "defaultTable": "a",
+            "items": [
+                {"fid":"sn"}, 
+                {"fid":"academicYear"},
+                {"fid":"semester"},
+                {"fid":"acaName",     "table":"", "colName":"CONCAT(a.academicYear, ' - ', a.semester)"},
+                {"fid":"classLeavesSn"},
+                {"fid":"studentSn"},
+                {"fid":"studentName", "table":"", "colName":"CONCAT(b.cName, ' ', b.eName)"},
+                {"fid":"funcItemSn"},                
+                {"fid":"cDate"},
+                {"fid":"cHealthResult"},
+                {"fid":"cDescribe"},                
+                {"fid":"rDate"},
+                {"fid":"rHealthResult"},
+                {"fid":"rDescribe"},
+                {"fid":"fileName"},
+                {"fid":"creator"},
+                {"fid":"createDate"},
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+             ]                
+        }
+    ]    
+}

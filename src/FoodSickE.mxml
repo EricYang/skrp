@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="690" height="460" 
+	 
+  	creationComplete="init()"  	 
+	preinitialize="{iR=Fun.getLang('FoodSick')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import spark.components.DataGrid;
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindalbe]
+			private var is_app:String = Fun.sApp;
+			[Bindalbe]
+			private var idw_master:DW;
+			//[Bindalbe]
+			//public var idw_FoodSickFB:DW2;			
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["academicYear","semester"]});
+				
+			private function init():void{
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					mapping: true,
+					autos: ["creator","createDate"],
+					keys: ["sn"],
+					items: [
+						{source:sn, 			dataType:"N",	inputType:"I"}, 
+						{source:academicYear,	dataType:"N",	init:int(i_session.academicYear)}, 
+						{source:semester,		dataType:"N",	init:int(i_session.semester)},
+						{source:acaName,						update:false,	inputType:"R"},
+						{source:classLeavesSn,	dataType:"N"},
+						{source:studentSn,		dataType:"N"},
+						{source:studentName,					update:false,	inputType:"R",	required:true},						
+						{source:cDate,			dataType:"D"}, 
+						{source:senCon,			dataType:"S"},
+						{source:avoidFood,		dataType:"S"},   //sam add
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"DT",	inputType:"R"}					
+					]				
+				};
+				
+				/*
+				//dw1: FoodSickFB
+				edit_1.aoDW[1] = new DW2();
+				idw_FoodSickFB = edit_1.aoDW[1]; 
+				idw_FoodSickFB.xTool = tb_FoodSickFB;
+				idw_FoodSickFB.oConfig = {			
+					upDW: idw_master,
+					grid: grid_FoodSickFB,
+					upQKeys: ["sn"],
+					qKeys: ["foodSickSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"foodSickSn",		dataType:"N", 	inputType:"2"},
+						{fid:"funcItemSn",		dataType:"N"},						
+						{fid:"itemName",		update:false}
+					]				
+				};//dw1: FoodSickFB
+				*/
+
+			}
+			
+			private function doFindStu():void{
+				Fun2.openStudent(is_app, this, ReturnStu, false);
+			}
+			
+			private function ReturnStu(p_row:Object):void{				
+				Fun.setItem(studentName, p_row.cName + " " + p_row.eName);
+				idw_master.setItem(studentSn, p_row.sn, true);
+				idw_master.setItem(classLeavesSn, p_row.classLeavesSn, true);
+			}
+			
+			//禁吃食物 功能
+			private var s_grid:DataGrid, s_idw:Object;
+			public function fnClickFuncItem(pn_sn:int, n_grid:DataGrid, n_idw:Object, pn_sysType:String):void{
+				s_grid = n_grid;
+				s_idw = n_idw;
+				
+				var t_win:FindFuncItem = new FindFuncItem();
+				t_win.sysTypeValue = pn_sysType;
+				Fun.openPopup(t_win, this);
+				
+				t_win.qry_1.fSelectRow = fSelectRowPD;				
+				t_win.qry_1.bCloseAfterQuery = false;
+				t_win.fAfterOk = fSelectRowPD;
+			}			
+			private function fSelectRowPD(p_row:Object):void{
+				var tn_row:int = s_grid.selectedIndex;
+				
+				var t_row:Object = s_grid.selectedItem;
+				t_row.itemName = p_row.itemName;
+				
+				s_idw.setItemByFid("funcItemSn", p_row.sn, true, tn_row);
+				Fun.refreshGrid(s_grid, tn_row);
+			}
+			
+			private function afterOpen(p_data:Object):void{
+				if (p_data.fun == "U" || p_data.fun == "V"){					
+					if (p_data.fun == "V") {
+						SchStu.visible = false; //檢視模是不顯示搜尋按鈕
+					}
+				}
+			}
+			private function whenSave(p_data:Object):Boolean{
+				if (p_data.fun != "D"){
+					Fun.setItem(acaName, String(Fun.getItem(academicYear))+ ' - '+String(Fun.getItem(semester)));
+				}
+				return true;
+			}
+			/*
+			private function serialNoLabelFunc(p_row:Object, p_column:GridColumn):String {
+				var index:int = p_column.grid.dataProvider.getItemIndex(p_row);
+				if (index > -1) {
+					return (index + 1).toString();
+				}
+				return "";
+			}
+			*/
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10" y="388" id="edit_1" fAfterOpen="afterOpen" fWhenSave="whenSave">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="academicYear" visible="false"/>
+	<x2:Num1 id="semester" visible="false"/>
+	<s:TextInput id="acaName" visible="false"/>
+	<x2:Num1 id="classLeavesSn" visible="false"/>
+	<x2:Num1 id="studentSn" visible="false"/>	
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>		
+	<mx:TabNavigator x="10" y="10" width="659" height="370">
+		<mx:Canvas label="{iR.Canvas01}">		
+			<s:Form x="10" y="10" width="615" height="301">
+				<s:FormItem label="{iR.studentName} :" required="true">
+					<s:TextInput id="studentName"/>
+					<x2:btnPick id="SchStu" click="doFindStu()"/>
+				</s:FormItem>
+				<s:FormItem width="292" label="{iR.cDate} :" required="true">
+					<mx:DateField id="cDate" formatString="YYYY/MM/DD"  yearNavigationEnabled="true"/>
+				</s:FormItem>
+				<s:FormItem label="{iR.senCon} :" required="true">
+					<s:TextInput id="senCon" width="457"/>
+				</s:FormItem>
+				<s:FormItem width="588" label="{iR.avoidFood} :">
+					<s:TextInput id="avoidFood" width="455"/>
+				</s:FormItem>
+			</s:Form>
+		</mx:Canvas>
+	</mx:TabNavigator>
+</s:TitleWindow>

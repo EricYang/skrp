@@ -1,0 +1,38 @@
+{
+    "dws":[
+	    {
+			"selectTable": "CarCheck a LEFT OUTER JOIN Staff b ON a.staffSn = b.sn",
+            "updateTable": "CarCheck",
+            "defaultTable": "a",
+			"items": [
+				{"fid":"sn"}, 
+                {"fid":"academicYear"},
+                {"fid":"semester"},                
+                {"fid":"acaName",       "table":"", "colName":"''"},
+                {"fid":"babyCarInfoSn"},
+                {"fid":"staffSn"},
+                {"fid":"staffName",    "table":"", "colName":"CONCAT(b.cName, ' ', b.eName)"},
+                {"fid":"cDate"},
+                {"fid":"sMileage"},
+                {"fid":"eMileage"},
+                {"fid":"remark"},
+                {"fid":"creator"},
+                {"fid":"createDate"},
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+
+			]								
+	    },
+	    {
+			"selectTable": "CarCheckItem [_where] ORDER BY funcItemSn",
+            "updateTable": "CarCheckItem",
+			"upDW": 0,
+			"items": [
+                {"fid":"sn"},
+	            {"fid":"carCheckSn"},                
+                {"fid":"funcItemSn"},
+                {"fid":"checkSign"}
+			]				
+	    }
+    ]    
+}

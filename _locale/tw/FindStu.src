@@ -1,0 +1,11 @@
+﻿# list/query fields
+sTitle=請先選擇 班別(級)
+classLeavesSn=班別(級)
+sList=學生列表(請點選)
+select=選取
+stuNo=學號
+birthDate=出生日期
+cName=姓名(中)
+eName=姓名(英)
+gender=性別
+idNo=身分證號

@@ -1,0 +1,18 @@
+{
+   "list":{
+        "select": "SELECT a.*, CONCAT(b.academicYear, ' - ', b.semester) AS acaName,
+                    CONCAT(b.sDate, ' ~ ', b.eDate) AS yearEduName",
+        "from": "FROM LearnPro a INNER JOIN
+                YearEdu b ON a.yearEduSn = b.sn INNER JOIN
+                ClassLeaves c ON a.classLeavesSn = c.sn [_where]",
+        "order": "ORDER BY b.sDate",
+        "items": [
+            {"fid":"csDataTemp",        "table":"a",     "colName":"classLeavesSn",    "op":"in"},
+            {"fid":"academicYear",      "table":"b"},
+            {"fid":"semester",          "table":"b"},
+            {"fid":"classInfoSn",       "table":"c"},
+            {"fid":"classLeavesSn",     "table":"a"},
+            {"fid":"subject",           "table":"a",    "op":"like"}
+        ]
+   }
+}

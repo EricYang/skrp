@@ -1,0 +1,25 @@
+﻿# list/query fields
+cDate=date
+location=location
+subject=theme
+creator=Created by
+createDate=Created on
+reviser=Revised by
+reviseDate=Revised on
+
+# E
+Canvas01=general profile
+Canvas02=participant
+
+seTimeHM=time
+location=location
+chairmanStaffName=name of chairman
+recorderStaffName=name of recorder
+meetingRecords=meeting minutes
+empNo=employee number
+cName=name (Chinese)
+eName=name (English)
+gender=gender
+
+Canvas03=決議
+Canvas04=待辦事項

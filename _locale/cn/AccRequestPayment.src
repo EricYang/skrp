@@ -1,0 +1,22 @@
+﻿# list/query fields
+serialNos=流水编号
+staffName=请款人
+cDate=请款日期
+cAmounts=请款金额
+eDate=预计付款日期
+funcItemSn=付款方式
+accIocName=支出项目
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# E
+pExcerpt=支出摘要
+cDesc=请款说明
+publicDeptName=厂商名称
+
+Emessage01=查无此
+Emessage02= 收入项目编号
+
+# Q

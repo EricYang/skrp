@@ -1,0 +1,13 @@
+{
+    "list":{    
+		"select": "select *",
+		"from": "from users where userType=1 [_where]",
+		"order": "order by userNo",        
+		"items": [			            
+            {"fid":"userNo",        "op":"like"},
+			{"fid":"cName",         "op":"like"},
+            {"fid":"eName",         "op":"like"},                        
+            {"fid":"deptName",      "op":"like"}
+		]
+    }
+}

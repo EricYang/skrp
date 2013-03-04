@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:HGroup 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:ns1="x2.*"
+	width="258" height="26" 
+	fontWeight="normal" 
+	initialize="init()"
+	verticalAlign="bottom" horizontalAlign="right" gap="2"
+	>
+	
+	<ns1:btnAddRow id="cmdAdd" click="addRow()"/>
+	<ns1:btnDeleteRow id="cmdDelete" click="deleteRow()"/>
+	<!--
+	<s:Button label="新增一列" fontWeight="normal" id="cmdAdd" click="addRow()" height="21" toolTip="新增加一列空白的資料。" icon="@Embed(source='image/create.gif')"/>
+	<s:Button label="刪除一列" fontWeight="normal" id="cmdDelete" click="deleteRow()" height="21" toolTip="從畫面上移除這一列資料。" icon="@Embed(source='image/delete.gif')"/>
+	<s:Button label="取消刪除" fontWeight="normal" id="cmdUnDelete" click="deleteRow(false)" height="21" toolTip="取消刪除目前這一列資料。" icon="@Embed(source='image/exit.gif')"/>
+	-->
+	
+	<fx:Script>
+		<![CDATA[
+		//import mx.controls.DataGrid;
+				
+		//public
+		public var gDW2:DW2;
+		public var gbShowLabel:Boolean = true;
+		//public var gfAddRow:Function;		//optional
+		//public var gfDeleteRow:Function;	//optional
+		
+		//private instance variables
+		//private var i_grid:DataGrid;	
+		//private var ic_funType:String;
+		
+		/*
+		private function creationComplete():void{
+			i_grid = gDW.x2o_config.sourceGrid;
+			ic_funType = gDW.ic_funType; 	
+		}
+		*/
+		
+		
+		//adjust output if need
+		private function init():void{
+			if (!gbShowLabel){
+				cmdAdd.label = "";
+				cmdDelete.label = "";
+				//cmdUnDelete.label = "";
+			}
+			
+			//set back color
+			//this.setStyle("backgroundColor", (parent as Object).getStyle("backgroundColor"));
+		}
+		
+		
+		private function addRow():void{
+			/*
+			if (gfAddRow != null){
+				gfAddRow();	
+			}else{
+			*/
+				gDW2.addRow();
+			//}
+		}	
+
+
+		private function deleteRow():void{
+			/*
+			if (gfDeleteRow != null){
+				gfDeleteRow(pb_delete);	
+			}else{
+			*/
+				gDW2.deleteRow();
+			//}
+		}
+		
+		]]>
+	</fx:Script>
+	
+</s:HGroup>

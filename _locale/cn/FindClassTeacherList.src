@@ -1,0 +1,7 @@
+﻿# list/query fields
+teacherList=老师列表(请点选)
+select=选取
+cTitles=职称别
+cName=姓名(中)
+eName=姓名(英)
+gender=性别

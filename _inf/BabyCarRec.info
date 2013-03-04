@@ -1,0 +1,15 @@
+{
+    "list":{
+        "select": "SELECT *",
+        "from": "FROM BabyCarRec [_where]",        
+        "order":  "ORDER BY babyCarInfoSn",
+        "items": [
+            {"fid":"babyCarInfoSn",     "op":"="},
+            {"fid":"cDate",             "op":"like"},
+            {"fid":"eventRec",          "op":"like"}
+      ]
+    },    
+    "progRange": 1,
+    "aFOwner": "creator",
+    "aFOwnerType": "L"
+}

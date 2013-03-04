@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="116" height="32" horizontalAlign="center" verticalAlign="middle" shadowDistance="2" shadowDirection="left" borderStyle="solid" borderThickness="2">
+	<mx:Label text="作業中..." id="labMsg"/>
+	
+</mx:VBox>

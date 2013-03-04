@@ -1,0 +1,15 @@
+{
+   list:{
+        select: "select a.*",
+        from: "from stAdd a
+			left outer join stLeave l on l.addSeq = a.dataSeq
+            where a.staffId = '[_userId]'
+            and a.wfJobStatus = 'Y'
+            and (a.dataSeq = [addSeq] or l.addSeq is null)",
+        defaultTable: "a",
+		items: [
+			{fid:"addDate",	    op:"between"},			
+			{fid:"addSeq",	    isCond:0}
+		]
+   }
+}

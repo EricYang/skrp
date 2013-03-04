@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="890" height="650" 
+	 
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('SelfEvaluate')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;	
+			[Bindable]
+			private var iR:Object;
+			private var idw_master:DW;
+			[Bindalbe]
+			private var idw_SelfEvaluateDetail:DW2;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var ia_selfEvaluateItem:ArrayList = new ArrayList(Fun2.selfEvaluateItemDS(is_app, true));
+			[Bindable]
+			private var ia_ynFlag:ArrayList = new ArrayList(Fun2.ynFlagDS(is_app, true));
+			
+			private function init():void{	
+				//dw1: SelfEvaluate
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {	
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					mapping: true,
+					items: [
+						{source:sn,					dataType:"N",	inputType:"I"}, 
+						{source:selfEvaluateItem,	dataType:"N"},
+						{source:itemName,			dataType:"S"},
+						{source:remark,				dataType:"S"},
+						{source:deleFlag,			dataType:"N"},
+						{source:creator,			dataType:"S",	inputType:"R"}, 
+						{source:createDate,			dataType:"D",	inputType:"R"}, 
+						{source:reviser,			dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,			dataType:"D",	inputType:"R"}
+					]				
+				}; 			
+				
+				//dw2: SelfEvaluateDetail
+				edit_1.aoDW[1] = new DW2();				
+				idw_SelfEvaluateDetail = edit_1.aoDW[1]; 
+				idw_SelfEvaluateDetail.xTool = tb_SelfEvaluateDetail;
+				idw_SelfEvaluateDetail.oConfig = {			
+					upDW: idw_master,
+					grid: grid_SelfEvaluateDetail,
+					upQKeys: ["sn"],
+					qKeys: ["selfEvaluateSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"selfEvaluateSn",  dataType:"N", 	inputType:"2"},
+						{fid:"contents",		dataType:"S"}
+					]				
+				};				
+			}
+			
+			
+			private function whenSave(p_data:Object):Boolean{
+				if (p_data.fun == "U" && idw_SelfEvaluateDetail.isUserChanged()){
+					idw_master.setDirtyByField(reviser);
+					idw_master.setDirtyByField(reviseDate);
+				}
+				return true;
+			}
+			
+			private function serialNoLabelFunc(p_row:Object, p_column:GridColumn):String {
+				var index:int = p_column.grid.dataProvider.getItemIndex(p_row);
+				if (index > -1) {
+					return (index + 1).toString();
+				}
+				return "";
+			}
+		]]>
+	</fx:Script>
+	<x2:Num1 id="sn" visible="false"/>	
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+	<s:Form x="10" y="10">
+		<s:layout> 
+			<s:FormLayout gap="-8"/>
+		</s:layout>
+		<s:FormItem label="{iR.selfEvaluateItem} :" required="true">			
+			<x2:DDL1 id="selfEvaluateItem" dataProvider="{ia_selfEvaluateItem}"></x2:DDL1>
+		</s:FormItem>
+		<s:FormItem label="{iR.itemName} :" required="true">
+			<s:HGroup>
+				<s:TextInput id="itemName" width="400"/>
+				<s:FormItem label="{iR.deleFlag} :">
+					<x2:DDL1 id="deleFlag" dataProvider="{ia_ynFlag}"></x2:DDL1>			
+				</s:FormItem>
+			</s:HGroup>
+		</s:FormItem>	
+	</s:Form>
+	<mx:TabNavigator x="10" y="102" width="860" height="475" id="tns">
+		<mx:Canvas label="{iR.Canvas01}" id="canvasLabel1">
+			<x2:TBar2 x="567" y="6" id="tb_SelfEvaluateDetail">
+			</x2:TBar2>
+			<mx:Form x="10" y="31">
+				<x2:DG2 width="800" alpha="0.7" rowHeight="50"
+						 height="360" x="10" y="112" id="grid_SelfEvaluateDetail">
+					<x2:columns><s:ArrayList>		
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="selfEvaluateSn" visible="false"/>
+						<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+						<s:GridColumn headerText="{iR.contents}" dataField="contents">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:TextArea2/>						
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>		
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>	
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas02}">
+			<mx:Form x="10" y="10">
+				<mx:TextArea width="800" height="384" id="remark"/>
+			</mx:Form>	
+		</mx:Canvas>
+	</mx:TabNavigator>
+	<x2:comEdit x="10" y="583" id="edit_1" fWhenSave="whenSave">
+	</x2:comEdit>	
+</s:TitleWindow>

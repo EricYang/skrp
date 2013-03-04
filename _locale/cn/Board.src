@@ -1,0 +1,42 @@
+﻿# list/query fields
+subject=主旨
+contents=内容
+seDate=日期区间
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# E
+Canvas01=基本资料
+textFilesName=开启公告档案
+tmpFileNameUpload=公告档案上传
+tmpFileName=浏览档案
+Canvas02=公布对象
+roleName=角色名称
+Canvas03=公告阅读纪录
+dDate=日期
+userType=角色
+userNo=编号
+userName=姓名
+gender=性别
+
+# message
+message01=主旨尚未填写
+message02=档案类型不符, 档案必须为(.pdf, .xls, .xlsx, .doc, .docx, .ppt, .jpg, .gif, .jpeg, .png) 格式
+
+# V
+checkAllFun=全选
+readed=阅毕
+checkFlag=请勾选
+viewFilesName=附档
+
+# message
+messageV01=无档案可开启
+messageV02=取消全选
+messageV03=全选
+messageV04=计阅毕
+messageV05= 笔公告。
+messageV06=已无公告。
+messageV07=资料存取失败，请重新点阅。
+messageV08=请先点选项目！

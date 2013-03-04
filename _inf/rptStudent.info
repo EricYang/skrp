@@ -1,0 +1,19 @@
+{
+    "list":{    
+		"select": "SELECT CONCAT(a.theClassName, ' ', b.classLeavesName) AS classInfoName, 
+                    c.classLeavesSn, COUNT(*) AS mCount",
+		"from": "FROM ClassInfo a INNER JOIN
+                ClassLeaves b ON a.sn = b.classInfoSn INNER JOIN
+                StartClass c ON b.sn = c.classLeavesSn INNER JOIN
+                StudentStatus d ON c.sn = d.startClassSn INNER JOIN
+                Student e ON d.studentSn = e.sn
+                WHERE (c.academicYear = [ss:academicYear] AND c.semester = [ss:semester]) 
+                AND (c.classType IN (0, 1)) AND (e.enrollFlag = 1) AND (e.deleFlag = 0)
+                [_where]",
+		"order": "GROUP BY c.classLeavesSn
+                ORDER BY a.theClassCode, b.classLeavesCode",
+		"items": [
+            {"fid":"classLeavesSn",       "table":"c"}            
+		]
+    }
+}

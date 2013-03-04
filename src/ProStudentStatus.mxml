@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="300" height="280" 
+	 
+	close="closeWin()"
+  	creationComplete="init()"  	 
+	preinitialize="{iR=Fun.getLang('ProStudentStatus')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			public var ia_oriStartClassList:ArrayList = new ArrayList(Fun2.oriStartClassListDS(is_app, false));
+			[Bindable]
+			public var ia_nowStartClassList:ArrayList = new ArrayList(Fun2.nowStartClassListDS(is_app, false));
+			
+			private function init():void{
+
+			}
+			
+			private function okClick():void{				
+				//判斷是否輸入正確
+				if (!int(Fun.getItem(oriStartClassSn))){					
+					Fun.msg("E", iR.message01);
+					return;
+				}
+				if (!int(Fun.getItem(nowStartClassSn))){					
+					Fun.msg("E", iR.message02);
+					return;
+				}
+						
+				//判斷是否已有相同學年期
+				var t_data1:Object = {
+					data: "StudentStatusS",					
+					nowStartClassSn: int(Fun.getItem(nowStartClassSn))
+				};						
+				var ia_data:Object = Fun.readRow(is_app, t_data1);
+				if (int(ia_data.cs) > 0){
+					Fun.msg("E", iR.message03);
+					return;
+				}else{
+					//新建並複製資料			
+					var m_data:Object = "";
+					m_data = {
+						oriStartClassSn: int(Fun.getItem(oriStartClassSn)),
+						nowStartClassSn: int(Fun.getItem(nowStartClassSn))
+					};
+					Fun.sync(is_app, "StudentStatusCopy", m_data, true);
+					
+					Fun.msg("E", iR.message04);
+					closeWin();	
+				}				
+			
+			}
+			private function closeWin():void{
+				Fun.closePopup(this);
+			}
+		]]>
+	</fx:Script>
+	<x2:Num1 id="sn" visible="false"/>
+	<mx:Form x="10" y="10" width="278" horizontalScrollPolicy="off">
+		<mx:Label text="{iR.oriStartClassSn} :" fontWeight="bold"/>		
+		<x2:DDL1 id="oriStartClassSn" dataProvider="{ia_oriStartClassList}"></x2:DDL1>		
+		<mx:Label text="{iR.List1} &gt;&gt;" fontWeight="bold" color="#FF0000"/>
+		<mx:Label text="{iR.nowStartClassSn} :" fontWeight="bold"/>
+		<x2:DDL1 id="nowStartClassSn" dataProvider="{ia_nowStartClassList}"></x2:DDL1>
+	</mx:Form>
+	<mx:Button x="12" y="208" click="okClick()" icon="@Embed(source='x2/image/checked.gif')" id="cmdOk" label="{iR.cmdOk}" buttonMode="true"/>
+	<mx:Button x="125" y="208" click="closeWin()" icon="@Embed(source='x2/image/close.png')" id="cmdExit" label="{iR.cmdExit}" buttonMode="true"/>
+</s:TitleWindow>

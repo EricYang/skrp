@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="590" height="368"
+	 
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('BabyCarRec')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			
+			private var idw_master:DW;						
+			private var is_app:String = Fun.sApp;
+			
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["academicYear","semester"]});
+			
+			[Bindable]
+			public var ia_babyCarInfo:ArrayList = new ArrayList(Fun2.babyCarInfoDS(is_app, true));
+			[Bindable]
+			public var ia_timeInter:ArrayList = new ArrayList(Fun2.timeInterDS(is_app, true));
+			
+			private function init():void{	
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					mapping: true,
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					items: [						
+						{source:sn,				dataType:"N",	inputType:"I"}, 
+						{source:academicYear,	dataType:"N",	init:int(i_session.academicYear)}, 
+						{source:semester,		dataType:"N",	init:int(i_session.semester)},
+						{source:babyCarInfoSn,	dataType:"N"},
+						{source:cDate,			dataType:"D"},
+						{source:timeInter,		dataType:"S"},
+						{source:leaveTimeH,		dataType:"N"},
+						{source:leaveTimeM,		dataType:"N"},
+						{source:backTimeH,		dataType:"N"},
+						{source:backTimeM,		dataType:"N"},
+						{source:eventRec,		dataType:"S"},
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"DT",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"DT",	inputType:"R"}
+					]				
+				};				
+			}	
+		]]>
+	</fx:Script>
+	<x2:comEdit x="8.5" y="298" id="edit_1">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="academicYear" visible="false"/>
+	<x2:Num1 id="semester" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+	<s:Form x="10" y="10">
+		<s:layout> 
+			<s:FormLayout gap="-8"/>
+		</s:layout>
+		<s:FormItem label="{iR.babyCarInfoSn} :" required="true">
+			<x2:DDL1 id="babyCarInfoSn" dataProvider="{ia_babyCarInfo}"></x2:DDL1>			
+		</s:FormItem>
+		<s:FormItem label="{iR.cDate} :" required="true">
+			<mx:DateField formatString="YYYY/MM/DD" id="cDate" width="120"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.timeInter} :" required="true">
+			<x2:DDL1 id="timeInter" dataProvider="{ia_timeInter}"></x2:DDL1>
+		</s:FormItem>
+		<s:FormItem label="{iR.leaveTimeHM} :" required="true">
+			<mx:HBox x="92" y="2" width="100%">
+				<mx:NumericStepper maximum="24" id="leaveTimeH"/>
+				<mx:Label text="："/>
+				<mx:NumericStepper maximum="59" id="leaveTimeM"/>
+			</mx:HBox>
+		</s:FormItem>
+		<s:FormItem label="{iR.backTimeHM} :" required="true">
+			<mx:HBox x="92" y="2" width="100%">
+				<mx:NumericStepper maximum="24" id="backTimeH"/>
+				<mx:Label text="："/>
+				<mx:NumericStepper maximum="59" id="backTimeM"/>
+			</mx:HBox>
+		</s:FormItem>
+		<s:FormItem label="{iR.eventRec} :">
+			<mx:TextArea width="377" height="81" id="eventRec"/>
+		</s:FormItem>
+	</s:Form>
+</s:TitleWindow>

@@ -1,0 +1,10 @@
+{
+   "list":{
+        "select": "SELECT *",
+        "from": "FROM TeachCard [_where]",
+		"items": [
+			{"fid":"cardNo",    "op":"like"},
+            {"fid":"cardName",  "op":"like"}
+		]
+   }
+}

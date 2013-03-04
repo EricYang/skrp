@@ -1,0 +1,17 @@
+{
+    "list":{    
+		"select": "SELECT CONCAT([ss:academicYear], ' - ', [ss:semester]) AS acaName,
+                    b.deptName, a.deptSn, COUNT(*) AS mCount,
+                    CASE a.gender WHEN 1 THEN COUNT(*) END AS G1,
+                    CASE a.gender WHEN 2 THEN COUNT(*) END AS G2",
+		"from": "FROM Staff a INNER JOIN
+                Dept b ON a.deptSn = b.sn
+                WHERE (dutyFlag = 1) AND (deleFlag = 0)                
+                [_where]",
+		"order": "GROUP BY a.deptSn
+                ORDER BY b.deptCode",
+		"items": [
+            {"fid":"deptSn"}            
+		]
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "list":{
+		"select": "SELECT *",
+		"from": "FROM BookData [_where]",
+		"order": "ORDER BY bookNo",
+		"items": [
+            {"fid":"bookNo",        "op":"like"},
+            {"fid":"bookName",      "op":"like"}
+      ]
+    },    
+    "progRange": 1,
+    "aFOwner": "creator",
+    "aFOwnerType": "L"
+}

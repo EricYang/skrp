@@ -1,0 +1,194 @@
+
+@namespace mx "library://ns.adobe.com/flex/mx";
+@namespace s "library://ns.adobe.com/flex/spark";
+
+
+/* global did not work !! */
+global {
+	font-family: "Arial"; 
+    fontWeight: normal;
+   	fontSize:15px;
+	/* font-size2:15px; */ 
+}
+
+
+/* === 考卷格式 pcs begin === */
+/* exam stru */
+.examStru {
+	font-family: "Arial"; 
+	fontWeight: normal;
+	fontSize:20px;
+	borderColor: #C3BFBF;
+	borderStyle: solid;
+	borderWeight: 1; 
+	cornerRadius: 50;
+	paddingBottom: 100;
+	paddingLeft: 50; 
+	paddingRight: 50; 
+	paddingTop: 50;	
+}
+
+/* exam big */
+.examB {
+	font-family: "Arial"; 
+    fontWeight: normal;
+   	fontSize:18px;
+}
+
+/* exam item */
+.examI {
+	font-family: "Arial"; 
+    fontWeight: normal;
+   	fontSize:18px;
+}
+
+/* exam ans */
+.examA {
+	font-family: "Arial"; 
+	fontWeight: normal;
+	fontSize:16px;
+}
+
+/* 答案:正確 */
+.examA_R {
+	font-family: "Arial"; 
+	fontWeight: normal;
+	fontSize:16px;
+	color: #FF0000;
+}
+
+/* exam group item */
+.examG {
+	font-family: "Arial"; 
+	fontWeight: normal;
+	fontSize:18px;
+}
+/* === 考卷格式 pcs end === */
+
+/* 整卷題目內容*/
+.examViewI {
+	font-family: "Arial"; 
+	fontWeight: normal;
+	fontSize:14px;
+	color: #000000;
+}
+
+/* 整卷答案說明*/
+.examViewI2 {
+	font-family: "Arial"; 
+	fontWeight: normal;
+	fontSize:14px;
+	color: #A00200;
+}
+
+/* 整卷答案內容*/
+.examViewA {
+	font-family: "Arial"; 
+	fontWeight: normal;
+	fontSize:14px;
+}
+
+/* 整卷答案說明*/
+.examViewA2 {
+	font-family: "Arial"; 
+	fontWeight: normal;
+	fontSize:14px;
+	color: #FF0000;
+}
+
+/* 整卷答案說明:正確*/
+.examViewA_R {
+	font-family: "Arial"; 
+	fontWeight: bold; 
+	fontSize:14px;
+	color: #FF0000;
+}
+
+/* exam group item */
+/*
+.examFullG {
+	font-family: "Arial"; 
+	fontWeight: normal;
+	fontSize:18px;
+}
+*/
+
+
+/*
+.itemApp {
+	backgroundImage: Embed("main_comp_1366.jpg");
+}
+*/
+
+
+/*
+s|application {
+	font-family: Tahoma;
+	fontSize: 15;
+}
+*/
+
+mx|ToolTip {
+	font-family: Tahoma;
+	fontSize: 12;
+	background-color: #FFFFEB;
+	color: #000000;
+	/* border-color: #000000; */
+	/* border-thickness: 1; */
+	drop-shadow: false;
+	corner-radius: 0;
+}
+
+/*
+s|Button {
+	skinClass: ClassReference("skin.test3"); 
+}
+*/
+
+/* 無法設定 mx|TabNavigator(flex bug??), 必須每一個元件指定 styleName */
+.mxTab {
+	tabStyleName: "mxTab2";
+	firstTabStyleName: "mxTab2";
+	lastTabStyleName: "mxTab2";
+	selectedTabTextStyleName: "mxTabText";
+}
+
+.mxTabText {
+}
+
+.mxTab2{
+	up-skin:ClassReference("skin.mxTab");	
+	down-skin:ClassReference("skin.mxTab");	
+	over-skin:ClassReference("skin.mxTab");	
+	disabled-skin:ClassReference("skin.mxTab");	
+	selected-up-skin:ClassReference("skin.mxTabSelect");	
+	selected-down-skin:ClassReference("skin.mxTabSelect");	
+	selected-over-skin:ClassReference("skin.mxTabSelect");	
+	selected-disabled-skin:ClassReference("skin.mxTabSelect");
+}
+
+.mxTabW {
+	tabStyleName: "mxTabW2";
+	firstTabStyleName: "mxTabW2";
+	lastTabStyleName: "mxTabW2";
+	selectedTabTextStyleName: "mxTabText";
+}
+
+.mxTabW2{
+	up-skin:ClassReference("skin.mxTab"); 
+	down-skin:ClassReference("skin.mxTab"); 
+	over-skin:ClassReference("skin.mxTab"); 
+	disabled-skin:ClassReference("skin.mxTab"); 
+	selected-up-skin:ClassReference("skin.mxTabSelectW"); 
+	selected-down-skin:ClassReference("skin.mxTabSelectW"); 
+	selected-over-skin:ClassReference("skin.mxTabSelectW"); 
+	selected-disabled-skin:ClassReference("skin.mxTabSelectW");
+}
+
+/* temp remark 
+s|NavigatorContent {
+	skinClass: ClassReference("skin.TabPage"); 	
+}
+*/
+
+

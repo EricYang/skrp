@@ -1,0 +1,16 @@
+﻿# list/query fields
+cDate=日期
+classInfoName=班別(級)
+M1=應到人數
+M2=實到人數
+M3=缺席人數
+M4=病假
+M5=事假
+M6=其他
+
+# Q
+classLeavesSn=班別(級)
+# message
+message01=合計
+message02=[日期]不可空白！
+message03=此條件下無任何資料！

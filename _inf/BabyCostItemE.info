@@ -1,0 +1,18 @@
+{
+    "dws":[
+        {
+            "selectTable": "BabyCostItem",   
+            "items": [
+                {"fid":"sn"},
+				{"fid":"payItemCode"},
+				{"fid":"payItemName"},
+                {"fid":"theAmount"},
+                {"fid":"remark"},
+                {"fid":"creator"},
+                {"fid":"createDate"},           
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+			]
+		}			   
+   ]    
+}

@@ -1,0 +1,22 @@
+﻿# list/query fields
+selfFlag=自行請假
+readTimeP=file read
+readTimeS=教師閱讀
+acaName=academic year(term)
+classLeavesSn=grade and classification
+studentName=student name
+exDate==absent date
+exRemark=reason for absence
+creator=created by
+createDate=created on
+
+# E
+# message
+message01=此筆資料為 非自行請假，不可刪除。
+message02=此筆資料 教師已經閱讀，不可刪除。
+
+# Q
+academicYear=academic year
+semester=semester
+cName=Chinese name
+eName=English name

@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+   	xmlns:s="library://ns.adobe.com/flex/spark" 
+   	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	width="326" height="146"
+	close="closeWin()"
+	>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:HGroup x="33" y="10" width="264" height="44" verticalAlign="middle">
+		<s:Button id="btnRec" height="26" label="錄音" click="record()" icon="@Embed('x2/image/record.png')"/>
+		<s:Button id="btnPlay" height="26" label="播放" click="play()" enabled="{!ib_recording}"
+				  icon="@Embed('x2/image/sound.png')"/>
+		<s:Button id="btnOk" visible="{!bSaveBtn}" height="26" label="確定" click="genMp3()"
+				  enabled="{!ib_recording}" icon="@Embed('x2/image/checked.png')" includeInLayout="{!bSaveBtn}"/>
+		<s:Button id="btnSave" visible="{bSaveBtn}" height="26" label="儲存" click="genMp3()"
+				  enabled="{!ib_recording}" icon="@Embed('x2/image/save.png')" includeInLayout="{bSaveBtn}"/>
+	</s:HGroup>
+	<s:HGroup x="33" y="62" width="238" height="32">
+		<s:Label text="狀態 :"/>
+		<s:Label id="labStatus" text="labStatus"/>
+	</s:HGroup>
+	
+	<!--
+	<mx:ComboBox id="comboMicList" x="100" y="10" dataProvider="{microphoneList}"/>
+	<mx:Button x="10" y="40" label="Start Rec" click="record()"/>
+	<mx:Button x="97" y="40" label="Stop Rec" click="stop()"/>
+	<mx:Button x="10" y="10" label="Select Mic" click="setupMicrophone()"/>
+	<mx:Button x="11" y="70" label="Playback" click="play()"/>
+	<mx:Button x="97" y="70" label="Save" click="saveFile()"/>
+	-->
+	
+	<fx:Script>
+		<![CDATA[
+			
+			import flash.events.SampleDataEvent;
+			import flash.media.Microphone;
+			import flash.media.Sound;
+			import flash.utils.ByteArray;
+			
+			//for convert wav -> mp3
+			import fr.kikko.lab.ShineMP3Encoder;
+			
+			//
+			import org.as3wavsound.WavSound;
+			import org.bytearray.micrecorder.MicRecorder;
+			import org.bytearray.micrecorder.encoder.WaveEncoder;
+			
+			import x2.*;
+			
+			//=== property start ===
+			[Bindable]
+			public var bSaveBtn:Boolean = false;
+			
+			public var fAfterSure:Function;		//按下確定按鈕之後要執行的函數
+			
+			//執行  save 前必須設定這 2 個變數
+			public var sApp:String;
+			public var sFile:String;
+			//=== property end ===
+			
+			
+			[Bindable]
+			private var ib_recording:Boolean = false;
+			[Bindable]
+			private var ib_playing:Boolean = false;
+			
+			private var i_mic:Microphone;
+			private var i_micRecorder:MicRecorder;
+			private var i_wavEncoder:WaveEncoder;
+			private var i_mp3Encoder:ShineMP3Encoder;
+			
+			private var ia_mp3:ByteArray;
+			private var ia_wav:ByteArray;
+			private var i_wavSound:WavSound;
+
+			
+			//called outside
+			public function init():void{
+				//check phone
+				var ta_phone:Array = Microphone.names;
+				if (ta_phone == null || ta_phone.length == 0){
+					Fun.msg("I", "No MicroPhone");
+					btnRec.enabled = false;
+					btnSave.enabled = false;
+					return;
+				}
+				
+				//initial				
+				labStatus.text = "";
+				
+				i_mic = Microphone.getMicrophone(0);
+				i_mic.codec = SoundCodec.NELLYMOSER;
+				i_mic.setLoopBack(false);
+				i_mic.rate = 44;				
+				i_mic.addEventListener(SampleDataEvent.SAMPLE_DATA, getMicData);
+				
+				i_wavEncoder = new WaveEncoder();
+				i_micRecorder = new MicRecorder(i_wavEncoder, i_mic);
+				i_micRecorder.addEventListener(Event.COMPLETE, recordComplete);
+			}
+						
+			
+			private function record():void{
+				if (!ib_recording){
+					labStatus.text = "錄音中...";
+					i_micRecorder.record();
+					ib_recording = true;				
+				}else{
+					stop();
+				}
+				
+				//ib_recording = !ib_recording;				
+				//btnSave.enabled = !ib_recording;
+			}
+			
+			private function recordComplete(e:Event):void {
+				labStatus.text = "錄音完成.";
+				
+				ia_mp3 = new ByteArray();
+				ia_mp3 = i_micRecorder.output;
+				
+				ia_wav = new ByteArray();
+				ia_wav.writeBytes(ia_mp3);
+				i_wavSound = new WavSound(ia_wav);
+			}
+			
+			private function getMicData(p_event:SampleDataEvent):void{
+				//do nothing
+			}
+			
+			
+			private function stop():void{
+				ib_recording = false;
+				i_micRecorder.stop();
+			}
+			
+			
+			
+			private function play():void{
+				if (!ib_playing){
+					//i_wavSound. ..a .addEventListener(SampleDataEvent.SAMPLE_DATA, playing);				
+					labStatus.text = "播放中...";
+					i_wavSound.play();
+				//}else{
+				//	i_wavSound.
+				}
+			}
+			
+			/*
+			private function playing(p_event:SampleDataEvent):void{
+				if (!ia_soundData.bytesAvailable > 0)
+					return;
+				
+				for (var i:int = 0; i < 8192; i++){
+					var tn_sample:Number = 0;
+					if (ia_soundData.bytesAvailable > 0)
+						tn_sample = ia_soundData.readFloat();
+					
+					p_event.data.writeFloat(tn_sample); 
+					//p_event.data.writeFloat(tn_sample);  
+				}				
+			}
+			*/
+			
+			//private var ib
+			//private function save():void{
+			
+			//private var _mp3Encoder:ShineMP3Encoder;
+			/**
+			 * 產生 mp3 byte array
+			 * //param ps_app app id
+			 * //param ps_file file name with related path without file ext.
+			 */
+			public function genMp3():void{
+				if (ib_recording){
+					stop();
+				}
+
+				if (bSaveBtn && (sApp == "" || sFile == "")){
+					Fun.msg("E", "sApp or sFile can not emtpy!");
+					return;
+				}
+				
+				//start converting to mp3 bytearray
+				i_mp3Encoder = new ShineMP3Encoder(i_micRecorder.output);
+				i_mp3Encoder.addEventListener(Event.COMPLETE, genMp3b);				
+				i_mp3Encoder.start();  
+			}
+				
+			private function genMp3b(p_event:Event):void {
+				
+				i_mp3Encoder.removeEventListener(Event.COMPLETE, genMp3b);				
+
+				var ta_mp3:ByteArray = i_mp3Encoder.mp3Data;
+				if (bSaveBtn){
+					//upload to server
+					if (ST.right(sFile, 3).toLowerCase() != "mp3"){
+						sFile += ".mp3"; 
+					}
+					FL.uploadByteArray(sApp, ta_mp3, sFile)					
+				}else if (fAfterSure != null){
+					fAfterSure(ta_mp3);
+				}
+				
+				
+
+				/*
+				if (i_url == null){
+					i_url = new URLRequest();
+					//i_url.url = Fun.sDirApp + "_Upload" + Fun2.csAppExt;
+					i_url.url = Fun.sDirApp + Fun.sService + Fun2.csAppExt;
+					i_url.method = URLRequestMethod.POST;	
+					//i_url.method = URLRequestMethod.GET;	
+				}				
+				i_url.data = t_para;
+				*/
+				
+				//close win
+				closeWin();
+				
+				/*
+				file = new FileVO();
+				var mDate:Date = new Date();
+				var FN:String = String( mDate.getUTCMonth() ) + mDate.getUTCDay() + mDate.getUTCMinutes() + mDate.getUTCMilliseconds();
+				file.FileData = ta_byte;
+				file.FileName = "rec_"+FN + ".mp3";
+				*/
+				
+				//this.markpapersID.uploadStudentFile(userObj.sessionID,file,whatExam);
+				/* 	var se:StopTimeForUpLoadEvent = new StopTimeForUpLoadEvent('stopTime');
+				this.dispatchEvent(se);  */
+				//win=saveAudioWin(PopUpManager.createPopUp(this,saveAudioWin,true));
+				
+				/* 		var e:FileEvent = new FileEvent(file, 'recordUpload');
+				this.dispatchEvent(e); */
+				
+			}
+			
+			private function completeHandler(p_event:Event):void {
+				var tt:String = "tt";
+			}
+			
+			/**
+			 * 傳回 mp3 byte array, 如果不是直接從這個畫面儲存檔案到主機, 則呼叫這個函數, 再由其他程式上傳
+			 */ 
+			/*
+			public function getByteArray():ByteArray {
+				return ia_mp3;
+			}
+			*/
+			
+			private function closeWin():void {
+				//remove event listener
+				i_mic.removeEventListener(SampleDataEvent.SAMPLE_DATA, getMicData);
+				i_micRecorder.removeEventListener(Event.COMPLETE, recordComplete);
+				
+				Fun.closePopup(this);
+			}
+			
+		]]>
+	</fx:Script>
+</s:TitleWindow>

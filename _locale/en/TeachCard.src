@@ -1,0 +1,15 @@
+﻿# list/query fields
+cardNo=Serial Number
+cardName=Name of Teaching Aid
+suitAge=Suitable Age
+suitUnit=Suitable Unit
+situation=Suitable Lesson
+creator=Created by
+createDate=Created on
+reviser=Revised by
+reviseDate=Revised on
+
+# E
+purpose=Purpose
+materials=Material
+useMethod=Method

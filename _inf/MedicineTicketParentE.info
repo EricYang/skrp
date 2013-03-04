@@ -1,0 +1,61 @@
+{
+    "dws":[
+        {
+            "selectTable": "MedicineTicket a INNER JOIN Student b ON a.studentSn = b.sn",   
+            "updateTable": "MedicineTicket",
+            "defaultTable": "a",
+            "items": [
+                {"fid":"sn"}, 
+                {"fid":"academicYear"},
+                {"fid":"semester"},
+                {"fid":"acaName",         "table":"", "colName":"CONCAT(a.academicYear, ' - ', a.semester)"},
+                {"fid":"userType"},
+                {"fid":"userSn"},
+                {"fid":"selfFlag",        "table":"", "colName":"CASE WHEN a.userType =  2 THEN '★' ELSE '' END"},
+                {"fid":"classLeavesSn"},
+                {"fid":"studentSn"},
+                {"fid":"studentName",     "table":"", "colName":"CONCAT(b.cName, ' ', b.eName)"},
+                {"fid":"cDate"},
+                {"fid":"disease01"},
+                {"fid":"disease02"},
+                {"fid":"disease03"},
+                {"fid":"disease04"},
+                {"fid":"disease05"},
+                {"fid":"diseaseCon"},
+                {"fid":"inMed01"},
+                {"fid":"inMed02"},
+                {"fid":"inMed03"},
+                {"fid":"inMed04"},
+                {"fid":"inMed01Con"},
+                {"fid":"inMed02Con"},
+                {"fid":"inMed03Con"},
+                {"fid":"inMed04Con"},
+                {"fid":"exMed"    },
+                {"fid":"exMedCon"},
+                {"fid":"remark01"},
+                {"fid":"remark02"},
+                {"fid":"remark03"},
+                {"fid":"remark01Con"},
+                {"fid":"remark03Con"},
+                {"fid":"eventRec"},
+                {"fid":"readTimeS"},
+                {"fid":"creator"},
+                {"fid":"createDate"},
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+             ]                
+        },
+        {
+            "selectTable": "MedicineRecord [_where] ORDER BY medTime",
+            "updateTable": "MedicineRecord",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"medicineTicketSn"},                
+                {"fid":"medTime"},
+                {"fid":"medTimeCon"},
+                {"fid":"checkSign"}
+            ]                
+        }
+    ]    
+}

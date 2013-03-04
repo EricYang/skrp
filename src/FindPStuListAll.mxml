@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="622" height="550"
+	preinitialize="{iR=Fun.getLang('FindPStuList')}"
+	close="closeWin()">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			import x2.*;
+			
+			[Bindable]
+			private var iR:Object;	
+			
+			[Bindable]
+			private var is_app:String;
+			[Bindable]
+			private var if_selectRow:Function;
+			[Bindable]
+			public var is_dir1:String = Fun.sDirRoot + Fun2.fStudents;
+			
+			public function init(ps_app:String, pf_selectRow:Function):void{
+				is_app = ps_app;
+				if_selectRow = pf_selectRow;
+				
+				var t_data:Object = {
+					data: "FindPStuListAll",
+					defaultImgPath: is_dir1
+				};
+				var ta_row:Array = Fun.readRows(is_app, t_data);
+				qry_1.dataProvider = new ArrayCollection(ta_row);
+			}
+			
+			private function fnClick():void{				
+				if (qry_1.selectedItem == null){
+					Fun.msg("I", "select row first !");
+				}else{
+					if (if_selectRow != null){
+						if_selectRow(qry_1.selectedItem);
+					}
+					Fun.closePopup(this);					
+				}
+			}			
+			private function closeWin():void{
+				Fun.closePopup(this);
+			}
+		]]>
+	</fx:Script>	
+	<mx:Form x="10" y="10">
+		<mx:HBox width="100%" verticalAlign="bottom">
+			<mx:Label text="{iR.sTitle}：" fontWeight="bold"/>
+			<mx:HBox horizontalAlign="right" width="100%">
+				<mx:Button click="fnClick()" label="{iR.select}" width="75" icon="@Embed(source='x2/image/checked.gif')" textAlign="center"/>
+			</mx:HBox>
+		</mx:HBox>
+		<s:DataGrid width="572" color="#000000" height="442" id="qry_1"	click="fnClick()" variableRowHeight="true">
+			<s:columns><s:ArrayList>
+				<s:GridColumn headerText="{iR.acaName}" dataField="acaName" width="80"/>
+				<s:GridColumn headerText="{iR.classInfoName}" dataField="classInfoName"/>
+				<s:GridColumn headerText="{iR.stuNo}" dataField="stuNo" width="80"/>
+				<s:GridColumn width="100" >
+					<s:itemRenderer>
+						<fx:Component><x2:irCenterVH>
+						  	<s:Image source="{data.imageSource}" height="70" buttonMode="true" scaleMode="letterbox" smooth="true" smoothingQuality="high"/>
+						</x2:irCenterVH></fx:Component>
+					</s:itemRenderer>        		         
+				</s:GridColumn>
+				<s:GridColumn headerText="{iR.cName}" dataField="cName" width="80"/>
+				<s:GridColumn headerText="{iR.eName}" dataField="eName" width="80"/>
+			</s:ArrayList></s:columns>
+		</s:DataGrid>			
+	</mx:Form>
+</s:TitleWindow>

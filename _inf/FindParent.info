@@ -1,0 +1,11 @@
+{
+   "list":{
+        "select": "SELECT *",
+        "from": "FROM Parent                 
+                [_where]",
+		"items": [
+			{"fid":"cName", "op":"like"},
+            {"fid":"idNo",  "op":"like"}
+		]
+   }
+}

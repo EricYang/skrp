@@ -1,0 +1,15 @@
+﻿# list/query fields
+academicYear=academic year
+semester=semester
+currentStatus=current term
+creator=created by
+createDate=created on
+reviser=modified by
+reviseDate=last modified
+
+# E
+# message
+message01=academic year, please enter the number.
+message02=semester, please enter the number.
+message03=the file already exist. Please re-enter.
+message04=the file already exist. Please cancel and reset.

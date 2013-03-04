@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="580" height="440" 
+	 
+  	creationComplete="init()"  	 		
+	preinitialize="{iR=Fun.getLang('BookData')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var idw_master:DW;
+			
+			private function init():void{
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					mapping: true,
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					items: [
+						{source:sn, 			dataType:"N",	inputType:"I"}, 
+						{source:bookNo,			dataType:"S"},
+						{source:bookName,		dataType:"S"},
+						{source:publisher,		dataType:"S"},
+						{source:author,			dataType:"S"},
+						{source:cDate,			dataType:"D"}, 
+						{source:price,			dataType:"N"},
+						{source:quantity,		dataType:"N"},
+						{source:isbn,			dataType:"S"},
+						{source:remark,			dataType:"S"},
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"DT",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"DT",	inputType:"R"}
+					]				
+				};			
+			}
+			private function whenSave(p_data:Object):Boolean{								
+				switch (p_data.fun){
+					case "C":
+					case "U":
+						//判斷是否已有相同書籍
+						var t_data:Object = {
+							data: "bookStatus",
+							cuEvent: String(p_data.fun),
+							sn: int(Fun.getItem(sn)),
+							bookNo: Fun.getItem(bookNo),
+							isbn: Fun.getItem(isbn)
+						};				
+						var ia_data:Object = Fun.readRow(is_app, t_data);
+						if (int(ia_data.cs) > 0){
+							Fun.msg("E", iR.message01);
+							return false;
+						}
+						
+						break;
+				}
+
+				return true;
+			}	
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10" y="368" id="edit_1" fWhenSave="whenSave">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>	
+	<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+		<mx:FormItem label="{iR.bookNo} :" required="true">
+			<s:TextInput id="bookNo"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.bookName} :" required="true">
+			<s:TextInput id="bookName" width="394"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.publisher} :" required="true">
+			<s:TextInput id="publisher" width="394"/>			
+		</mx:FormItem>
+		<mx:FormItem label="{iR.author} :" required="true">
+			<s:TextInput id="author" width="394"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.cDate} :" required="true">
+			<mx:DateField id="cDate" formatString="YYYY/MM/DD" yearNavigationEnabled="true"/>						
+		</mx:FormItem>
+		<mx:FormItem label="{iR.price} :" required="true">
+			<mx:HBox>
+				<mx:NumericStepper id="price" maximum="9999999"/>
+				<mx:FormItem label="{iR.quantity}:" required="true">
+					<mx:NumericStepper id="quantity" maximum="9999999"/>
+				</mx:FormItem>
+			</mx:HBox>			
+		</mx:FormItem>
+		<mx:FormItem label="{iR.isbn} :" required="true">
+			<s:TextInput id="isbn" width="394"/>			
+		</mx:FormItem>
+		<mx:FormItem label="{iR.remark} :">
+			<mx:TextArea width="394" height="86" id="remark"/>
+		</mx:FormItem>
+	</mx:Form>
+</s:TitleWindow>

@@ -1,0 +1,27 @@
+{
+    "dws":[
+	    {
+			"selectTable": "MultiFuncItem",
+			"items": [
+				{"fid":"sn"}, 
+				{"fid":"multiSysType"},
+                {"fid":"itemName"},
+                {"fid":"deleFlag"},
+                {"fid":"creator"},
+                {"fid":"createDate"},
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+
+			]								
+	    },
+	    {
+			"selectTable": "MultiFuncItemDetail",
+			"upDW": 0,
+			"items": [
+                {"fid":"sn"},
+	            {"fid":"multiFuncItemSn"},
+                {"fid":"contents"}
+			]				
+	    }
+    ]    
+}

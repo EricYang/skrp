@@ -1,0 +1,31 @@
+﻿# list/query fields
+acaName=Year(Semester)
+classLeavesSn=Class Name
+subject=Subject
+cDate=Date
+creator=Created by
+createDate=Created on
+reviser=Revised by
+reviseDate=Revised on
+
+# E
+Canvas01=Classroom Diary
+Canvas02=Record of Health Issue
+
+activities=Activity
+introspection=Introspection of Activity
+specEvent=Suggestion of Incident Introspection
+funcItemSn=Category of Incident
+cName=Chinese Name
+eName=English Name
+sDescribe=Detail of Condition
+
+# message
+message01=幼兒基本資料
+message02=請先選擇 班別(級)
+
+# Q
+academicYear=Academic Year
+semester=Semester
+classInfoSn=Class
+classLeavesSn=Class Name

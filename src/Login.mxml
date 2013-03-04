@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="667" height="274" 
+	close="exitSys()"
+	creationComplete="init()"
+	keyDown="keyEnter(event)"
+	>
+	<fx:Script source="x2/LoginFun.as"/>	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayList;			
+			import x2.*;
+			import mx.collections.ArrayCollection;
+			
+			private function init():void{				
+				fWhenSubmit = whenSubmit;
+				i_lang = lang;
+				i_labLang = fLang;
+				
+				showLang();
+				
+				loginId.selectedIndex = 0;
+				//Fun.focusField(loginId);		
+			}			
+			private function getStaff():Array{
+				return AR.addEmpty(Fun.sync("", "Login", {act:"staff"}, true) as Array, true);
+			}			
+			private function forgetPwd():void{
+				var t_win:ForgetPwd = new ForgetPwd();				
+				Fun.openPopup(t_win, this);
+			}		
+			private function whenSubmit(p_data:Object):Boolean{
+				oData.schoolCode = Fun.getItem(schoolCode) as String;			
+				return true;
+			}			
+			private function fnHelp():void {				
+				Fun.openFile('http://www.smarten.com.tw/');
+			}
+			private var loginTemp_class:ArrayCollection = new ArrayCollection(
+				[
+					//{data:"AdminSmarten", 	label:"Admin 管理者"},
+					{data:"Supervisor", 		label:"幼兒園長"},				
+					//{data:"James", 		label:"James 園長"},
+					//{data:"Miracle", 		label:"Miracle 園長"},				
+					{data:"Andy", 		label:"Andy 教務"},
+					{data:"Amy", 		label:"Amy 園務"},								
+					//{data:"Joyce", 		label:"Joyce 園長"},
+					{data:"Louis", 		label:"Louis 總務行政"},
+					{data:"Ashley", 	label:"Sky 班老師"},
+					{data:"Peyton", 	label:"香蕉班老師"},
+					//{data:"Alex", 		label:"Alex 家長"},
+					{data:"Winter", 	label:"Winter 家長"}				
+				]);
+		]]>
+	</fx:Script>	
+	
+	<s:BorderContainer x="0" y="0" width="320" height="100%" backgroundImage="@Embed(source='image/loginBgC.png')" borderVisible="false">		
+		<mx:SWFLoader id="swfA" source="@Embed(source='image/harry_run.swf')" width="112" height="79"/>		
+	</s:BorderContainer>
+	
+	<mx:Form verticalScrollPolicy="off" 
+			 horizontalScrollPolicy="off" verticalGap="12" 
+			 backgroundColor="#FFFFFF" alpha="0.8" cornerRadius="5" 
+			 borderStyle="solid" borderColor="#FFFFFF" 
+			 width="330" x="327" y="10">
+		<mx:FormItem id="fLang" label="Language :" required="true">
+			<x2:DDL1 id="lang" width="160" change="showLang(lang)" dataProvider="{ia_lang}"/>
+		</mx:FormItem>
+		
+		<!--
+		<mx:FormItem id="fSchoolCode" label="園所代碼 :" required="true">
+			<mx:TextInput id="schoolCode" width="160" maxChars="20" text="23142092"/>
+		</mx:FormItem>
+		<mx:FormItem id="fLoginId" label="使用者帳號 :" required="true">
+			<mx:TextInput id="loginId" width="160" maxChars="20" text="Supervisor"/>
+		</mx:FormItem>
+		<mx:FormItem id="fUserPwd" label="密碼 :" required="true">			
+			<mx:TextInput id="userPwd" width="160" maxChars="20" displayAsPassword="true" text="SBI4H3"/>
+		</mx:FormItem>
+		-->
+
+		<mx:FormItem id="fSchoolCode" label="園所代碼 :" required="true">
+			<s:TextInput id="schoolCode" width="160" maxChars="20" text="12345678"/>
+			<!--<s:TextInput id="schoolCode" width="160" maxChars="20" text="80122130"/>-->
+		</mx:FormItem>
+		<mx:FormItem id="fLoginId" label="使用者帳號 :" required="true">
+			<x2:DDL1 id="loginId" dataProvider="{loginTemp_class}" width="160"/>
+			<!--
+			<s:TextInput id="loginId" width="160" maxChars="20" text="Supervisor"/>
+			Supervisor
+			-->						
+		</mx:FormItem>
+		<mx:FormItem id="fUserPwd" label="密碼 :" required="true">
+			<s:TextInput id="userPwd" width="160" maxChars="20" displayAsPassword="true" text=""/>
+			<!--SBI4H3-->
+		</mx:FormItem>
+		
+		<!--
+		<mx:FormItem id="labLang">
+			<x2:DDL1 id="lang" width="121" height="25" change="showLang(lang)" dataProvider="{ia_lang}"/>
+		</mx:FormItem>
+		-->
+	</mx:Form>
+	<mx:HBox width="330" horizontalAlign="center" verticalAlign="middle" backgroundColor="#FFFFFF" alpha="0.8" x="327" y="193" height="40" cornerRadius="5" borderStyle="solid" borderColor="#FFFFFF">
+		<s:Button id="cmdOk" width="80" height="27" click="okClick()" icon="@Embed(source='x2/image/checked.png')" buttonMode="true"/>
+		<s:Button id="cmdExit" width="80" height="27" click="exitSys()" icon="@Embed(source='x2/image/close.png')" buttonMode="true"/>
+		<s:Button width="80" height="27" id="cmdForgot" label="忘記密碼" click="forgetPwd()" buttonMode="true"/>
+		<mx:Image scaleContent="true" source="@Embed(source='x2/image/help.gif')" click="fnHelp()" buttonMode="true" toolTip="{iR.help}"/>
+	</mx:HBox>
+	<!--
+	在這裡放一個隱藏的 PopupButton, 系統執行 Fun.openPopup()時, 設定 parent=Fun2.wMain 才不會發生錯誤,
+	詳細的原因不知道為什麼!!
+	<mx:PopUpButton x="309" y="120" label="PopUpButton" width="71" visible="false"/>
+	-->        
+</s:TitleWindow>

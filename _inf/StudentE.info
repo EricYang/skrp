@@ -1,0 +1,82 @@
+{
+    "dws":[
+        {
+            "selectTable": "Student",
+            "items": [
+                {"fid":"sn"}, 
+                {"fid":"stuNo"},
+                {"fid":"cName"},
+                {"fid":"eName"},
+                {"fid":"acaName",       "colName":"''"},
+                {"fid":"studentName",   "colName":"''"},                
+                {"fid":"gender"},
+                {"fid":"birthDate"},
+                {"fid":"idNo"},
+                {"fid":"address"},
+                {"fid":"enrollFlag"},
+                {"fid":"fileName"},
+                {"fid":"deleFlag"},
+                {"fid":"creator"},
+                {"fid":"createDate"},
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+
+            ]                                
+        },
+        {
+            "selectTable": "PSRelation a LEFT OUTER JOIN Parent b ON a.parentSn = b.sn",
+            "updateTable":"PSRelation",
+            "defaultTable":"a",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"studentSn"},
+                {"fid":"parentSn"},
+                {"fid":"relationship"},
+                {"fid":"sePicker"},
+                {"fid":"urConter"},
+                {"fid":"idNo",      "table":"b"},
+                {"fid":"cName",     "table":"b"},                
+                {"fid":"gender",    "table":"b"},
+                {"fid":"conTel",    "table":"b"}
+            ]                
+        },
+        {
+            "selectTable": "StudentHW [_where] ORDER BY cDate",
+            "updateTable": "StudentHW",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"studentSn"},
+                {"fid":"cDate"},
+                {"fid":"stature"},
+                {"fid":"weight"}
+            ]                
+        },
+        {
+            "selectTable": "StudentMT a LEFT OUTER JOIN PublicDept b ON a.publicDeptSn = b.sn [_where] ORDER BY a.urgentFlag",
+            "updateTable":"StudentMT",
+            "defaultTable":"a",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"studentSn"},
+                {"fid":"publicDeptSn"},
+                {"fid":"urgentFlag"},
+                {"fid":"unitName",   "table":"b"},
+                {"fid":"conTel",     "table":"b"},                
+                {"fid":"address",    "table":"b"}
+            ]                
+        },
+        {
+            "selectTable": "StudentDI",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"studentSn"},                
+                {"fid":"funcItemSn"},
+                {"fid":"sDescribe"}
+            ]                
+        }
+    ]    
+}

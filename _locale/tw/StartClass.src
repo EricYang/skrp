@@ -1,0 +1,39 @@
+﻿# list/query fields
+academicYear=學年
+semester=學期
+theClassName=班別名稱
+classLeavesName=班級名稱
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+cmdOpen1=複製開班資料
+cmdOpen2=學生班別升級
+
+
+# E
+Canvas00=基本資料
+classInfoSn2=班別名稱
+classLeavesSn2=班級名稱
+
+Canvas01=帶班老師
+cTitles=教師別
+empNo=員編
+cName=姓名(中)
+eName=姓名(英)
+gender=性別
+
+Canvas02=學生資料
+stuNo=學號
+cName=姓名(中)
+eName=姓名(英)
+gender=性別
+birthDate=生日
+
+# message
+message01=幼兒基本資料
+
+# Q
+classInfoSn=班別
+classLeavesSn=班級

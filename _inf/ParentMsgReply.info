@@ -1,0 +1,25 @@
+{
+    "list":{
+        "select": "SELECT a.*, CONCAT(a.academicYear, ' - ', a.semester) AS acaName, 
+                    CONCAT(b.cName, ' ', b.eName) AS studentName,e.loginid",
+        "from": "FROM ParentMsg a INNER JOIN
+                Student b ON a.studentSn = b.sn INNER JOIN
+                ClassLeaves c ON a.classLeavesSn = c.sn
+                inner join staff d on d.sn=a.staffsn 
+                inner join account e on e.usersn=d.sn and e.usertype=3
+                [_where]",
+        "order": "ORDER BY a.createDate",
+        "items": [
+            {"fid":"csDataTemp",        "table":"a",     "colName":"classLeavesSn",    "op":"in"},
+            {"fid":"academicYear",      "table":"a"},
+            {"fid":"semester",          "table":"a"},
+            {"fid":"classInfoSn",       "table":"c"},
+            {"fid":"classLeavesSn",     "table":"a"},
+            {"fid":"ename",             "table":"d"},
+            {"fid":"cName",             "table":"b",    "op":"like"},
+            {"fid":"eName",             "table":"b",    "op":"like"},
+            {"fid":"reviseDate",        "table":"a",    "op":"between"},
+            {"fid":"subject",           "table":"a",    "op":"like"}
+      ]
+    }
+}

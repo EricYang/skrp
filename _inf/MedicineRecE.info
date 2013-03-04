@@ -1,0 +1,27 @@
+{
+    "dws":[
+	    {
+			"selectTable": "MedicineRec a INNER JOIN Student b ON a.studentSn = b.sn LEFT OUTER JOIN Staff c ON a.staffSn = c.sn",   
+            "updateTable": "MedicineRec",
+            "defaultTable": "a",
+			"items": [
+                {"fid":"sn"}, 
+                {"fid":"academicYear"},
+                {"fid":"semester"},
+                {"fid":"acaName",         "table":"", "colName":"CONCAT(a.academicYear, ' - ', a.semester)"},
+                {"fid":"classLeavesSn"},
+                {"fid":"studentSn"},
+                {"fid":"studentName",     "table":"", "colName":"CONCAT(b.cName, ' ', b.eName)"},
+                {"fid":"cDate"},
+                {"fid":"medTimeH"},
+                {"fid":"medTimeM"},
+                {"fid":"medTime",         "table":"", "colName":"CONCAT(a.medTimeH, ' ', a.medTimeM)"},                
+                {"fid":"inMedType"},
+                {"fid":"staffSn"},
+                {"fid":"staffName",       "table":"", "colName":"CONCAT(c.cName, ' ', c.eName)"},
+                {"fid":"creator"},
+                {"fid":"createDate"}
+             ]				
+	    }
+    ]    
+}

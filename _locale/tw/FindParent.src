@@ -1,0 +1,8 @@
+﻿# list/query fields
+sTitle=搜尋家長
+cName=家長姓名
+idNo=身分證號
+sList=家長列表(請點選)
+select=選取
+gender=性別
+conTel=聯絡電話

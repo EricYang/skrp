@@ -1,0 +1,17 @@
+﻿# list/query fields
+carCode=车辆代号
+route=路线
+carNumber=车号
+driverStaffCName=驾驶人
+driverTel=驾驶人电话
+venStaffCName=随车老师
+vehTeacherTel=随车老师电话
+vehTel=随车电话
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# E
+driverStaffName=驾驶人
+venStaffName=随车老师

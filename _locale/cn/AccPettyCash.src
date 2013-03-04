@@ -1,0 +1,17 @@
+﻿# list/query fields
+serialNos=流水序号
+StaffSn=请款人
+cDate=支出日期
+cAmounts=支出金额
+accIocSn=支出项目
+pExcerpt=摘要
+cDesc=支出说明
+publicDeptSn=厂商名称
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# E
+Emessage01=查无此
+Emessage02= 收入项目编号

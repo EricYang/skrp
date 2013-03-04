@@ -1,0 +1,14 @@
+{
+   "list":{
+        "select": "SELECT sn AS accRequestPaymentSn, serialNo, cDate, pExcerpt, cAmounts, amounts",
+        "from": "FROM AccRequestPayment
+                    WHERE accType = 1 AND cAmounts>amounts
+                    [_where]",
+        "order": "ORDER BY serialNo",
+        "items": [
+                {"fid":"accType"},
+                {"fid":"serialNo", "op":"like"},
+                {"fid":"cDate",    "op":"between"}                
+        ]
+   }
+}

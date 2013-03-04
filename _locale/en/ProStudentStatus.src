@@ -1,0 +1,12 @@
+﻿# list/query fields
+oriStartClassSn=Original Year(Semester) Class
+List1=Class Change to
+nowStartClassSn=New Year(Semester) Class
+cmdOk=OK
+cmdExit=Exit
+
+# message
+message01=Please select the original year (semester) class.
+message02=Please select the new year (semester) class.
+message03=The information of the student already exists in selected year/semester/class.
+message04=Update successfully.  Please log out and re-log in.

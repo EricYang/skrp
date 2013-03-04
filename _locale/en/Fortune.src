@@ -1,0 +1,17 @@
+﻿# list/query fields
+fortuneNo=property number
+fortuneName=property name
+brand=brand
+ts=type specification
+cDate=purchase date
+price=price
+uName=user's name
+place=storage place
+creator=created by
+createDate=created on
+reviser=modified by
+reviseDate=last modified
+
+# E
+kName=keeper's name
+remark=remark

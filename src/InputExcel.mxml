@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="650" height="230" 
+	 
+	close="closeWin()"
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('InputExcel')}"
+	>
+	<fx:Script>
+		<![CDATA[
+
+			import mx.utils.StringUtil;
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			public var fAfterOk:Function;
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["academicYear","semester","usersSn","userCName","userEName","schoolDSn"]});
+			[Bindable]
+			public var ia_inputExcelType:ArrayList = new ArrayList(Fun2.inputExcelTypeDS(is_app, false));
+			[Bindable]			
+			public var ia_classInfoStartConb:ArrayList = new ArrayList(Fun2.classInfoStartConbDS(is_app, false));
+			
+			//接上一個頁面傳過來的值
+			public var inputExcelTypeTemp:int;
+			
+			private function init():void{
+				if (int(inputExcelTypeTemp)){
+					Fun.setItem(inputExcelType, inputExcelTypeTemp);
+					inputExcelType.enabled = false;
+					switch (inputExcelTypeTemp){
+						case 1:							
+							classLeavesSnForm.visible = true;
+							break;
+						case 2:
+						case 3:							
+							classLeavesSnForm.visible = false;
+							break;
+					}
+				}
+			}
+			
+			private var fileNames:String;			
+			private var i_file:FileReference;
+			private function fnUpload():void {				
+				if (Fun.getItem(inputExcelType)!=""){
+					//判斷學生資料匯入
+					if (inputExcelTypeTemp==1 && Fun.getItem(classLeavesSn)==""){
+						Fun.msg("E", iR.message01);
+					}else{
+						i_file = new FileReference();
+						i_file.addEventListener(Event.SELECT, getFile);
+						i_file.browse();
+					}					
+				}else{
+					Fun.msg("E", iR.message02);
+				}
+			}
+			private function getFile(p_event:Event):void {				
+				var fileTypeTmp:String = String(p_event.target.type).toLowerCase();				
+				switch (fileTypeTmp){
+					case ".xls":
+					case ".xlsx":
+						var fileNameTmp:String = StringUtil.trim('InputExcel_' + String(i_session.schoolDSn) + '_' + String(i_session.usersSn) + '_' + String(new Date().getTime()) + fileTypeTmp);
+						
+						var t_file:Object = {};
+						t_file[Fun.csFile] = i_file;
+						t_file[Fun.csFilePath] = Fun2.fTeachers + fileNameTmp;
+						FL.upload(this, is_app, [t_file]);
+											
+						Fun.setItem(tmpFileName, p_event.target.name);
+						Fun.setItem(fileName, fileNameTmp);						
+						
+						break;					
+					default:					
+						Fun.msg("E", iR.message03);
+						break;
+				}
+			}
+			private function openFiles():void {
+				if (Fun.getItem(inputExcelType)!=""){
+					Fun.openFile(Fun.sDirRoot + Fun2.fTeachers + 'InputExcelSample_' + Fun.getItem(inputExcelType) + '.xls');
+				}else{
+					Fun.msg("E", iR.message04);
+				}				
+			}			
+			
+			//學生資料專用
+			private function fnQuery():void{				
+				if (Fun.getItem(classLeavesSn)!=""){
+					//抓取  sn
+					var t_data1:Object = {
+						data: "getStartClassSn",					
+						classLeavesSn: int(Fun.getItem(classLeavesSn))
+					};
+					var ia_data:Object = Fun.readRow(is_app, t_data1);				
+					if (ia_data){
+						Fun.setItem(startClassSn, ia_data.sn);
+					}
+				}else{
+					Fun.setItem(startClassSn, "");				
+				}
+			}
+			
+			//確定匯入
+			private function okClick():void{
+				if (Fun.getItem(fileName)!="" && Fun.getItem(inputExcelType)!=""){
+					//判斷學生資料匯入
+					if (inputExcelTypeTemp==1 && Fun.getItem(classLeavesSn)==""){
+						Fun.msg("E", iR.message05);
+					}else{
+						//執行 excel 資料匯入
+						var m_data:Object = "";
+						m_data = {
+							excelFile: Fun.getItem(fileName),
+							inputExcelType: Fun.getItem(inputExcelType),							
+							startClassSn: Fun.getItem(startClassSn)
+						};
+						var ts_result:String = Fun.sync(is_app, "InputExcel", m_data, false) as String;
+						
+						Fun.msg("I", inputExcelType.selectedItem.label + "："+ ts_result);
+						
+						fAfterOk();
+						closeWin();						
+					}
+				}else{
+					Fun.msg("E", iR.message06);
+				}
+			}
+			
+			//離開
+			private function closeWin():void{
+				Fun.closePopup(this);
+			}
+		]]>
+	</fx:Script>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="startClassSn" visible="false"/>
+	<s:TextInput id="fileName" visible="false"/>
+	<s:Form x="10" y="10">
+		<s:layout> 
+			<s:FormLayout gap="-8"/>
+		</s:layout>
+		<s:FormItem label="{iR.inputExcelType} :" required="true">
+			<mx:HBox>
+				<x2:DDL1 id="inputExcelType" dataProvider="{ia_inputExcelType}"></x2:DDL1>
+				<mx:Label text="{iR.example}  :" color="#0000FF"/>
+				<x2:btnTBar buttonMode="true" label="{iR.openFilesF}" icon="@Embed(source='x2/image/star.gif')" click="openFiles()" toolTip="{iR.openFilesF}"/>
+			</mx:HBox>
+		</s:FormItem>
+		<s:FormItem label="{iR.classLeavesSn} :" required="true" id="classLeavesSnForm">
+			<x2:DDL1 id="classLeavesSn" dataProvider="{ia_classInfoStartConb}" change="fnQuery()"></x2:DDL1>
+		</s:FormItem>
+		<s:FormItem label="{iR.fileUploadLabel}  :" id="fileUploadLabel" required="true">
+			<mx:HBox>			
+				<s:TextInput id="tmpFileName" editable="false" enabled="false" width="285"/>
+				<mx:Button label="{iR.tmpFileName}" click="fnUpload()"/>
+			</mx:HBox>
+		</s:FormItem>
+	</s:Form>
+	<mx:HBox x="10" y="157">
+		<mx:Button click="okClick()" icon="@Embed(source='x2/image/checked.gif')" id="cmdOk" label="{iR.cmdOk}" buttonMode="true"/>
+		<mx:Button click="closeWin()" icon="@Embed(source='x2/image/close.png')" id="cmdExit" label="{iR.cmdExit}" buttonMode="true"/>
+	</mx:HBox>
+</s:TitleWindow>

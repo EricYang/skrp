@@ -1,0 +1,24 @@
+{
+    "list":{
+        "select": "SELECT b.*, 
+                    CASE WHEN b.userType = [ss:userType] AND b.userSn = [ss:usersSn] THEN '★' ELSE '' END AS selfFlag,
+                    CONCAT(b.academicYear, ' - ', b.semester) AS acaName, 
+                    CONCAT(d.cName, ' ', d.eName) AS studentName",
+        "from": "FROM ClassLeaves a 
+                 INNER JOIN BabyExcuse b ON a.sn = b.classLeavesSn 
+                 INNER JOIN PSRelation c ON b.studentSn = c.studentSn 
+                 INNER JOIN Student d ON c.studentSn = d.sn
+                 WHERE (c.parentSn = [parentSn])
+                    [_where]",
+        "order": "ORDER BY b.exDate",
+        "items": [
+            {"fid":"academicYear",      "table":"b"},
+            {"fid":"semester",          "table":"b"},
+            {"fid":"cName",             "table":"d",    "op":"like"},
+            {"fid":"eName",             "table":"d",    "op":"like"},
+            {"fid":"excuse",            "table":"b"},
+            {"fid":"exDate",            "table":"b",    "op":"between"},
+            {"fid":"parentSn",          "isCond":0}
+      ]
+    }
+}

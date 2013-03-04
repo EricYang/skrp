@@ -1,0 +1,26 @@
+{
+    "dws":[
+        {            
+            "selectTable": "BookMana a INNER JOIN
+                    BookData b ON a.bookDataSn = b.sn INNER JOIN
+                    Staff c ON a.staffSn = c.sn",
+            "updateTable": "BookMana",
+            "defaultTable": "a",  
+            "items": [
+                {"fid":"sn"},
+				{"fid":"bookDataSn"},
+				{"fid":"bookNo",        "table":"b", "colName":"bookNo"},
+                {"fid":"bookName",      "table":"b", "colName":"bookName"},
+                {"fid":"staffSn"},
+                {"fid":"staffName",     "table":"", "colName":"CONCAT(c.cName, ' ', c.eName)"},
+                {"fid":"cDate"},
+                {"fid":"rDate"},
+                {"fid":"remark"},
+                {"fid":"creator"},
+                {"fid":"createDate"},           
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+			]
+		}			   
+   ]    
+}

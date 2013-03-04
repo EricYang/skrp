@@ -1,0 +1,11 @@
+{
+    "list":{
+		"select": "SELECT *",
+		"from": "FROM PublicDept [_where]",
+		"order": "ORDER BY infoCategory, unitName",
+		"items": [
+            {"fid":"infoCategory"},
+            {"fid":"unitName",        "op":"like"}
+      ]
+    }
+}

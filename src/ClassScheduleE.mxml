@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="860" height="610" 
+	 
+  	creationComplete="init()" 	
+	preinitialize="{iR=Fun.getLang('ClassSchedule')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindable]
+			private var idw_master:DW;			
+			[Bindable]
+			private var is_app:String = Fun.sApp;			
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["academicYear","semester"]});
+			[Bindable]			
+			public var ia_classInfoStartConb:ArrayList = new ArrayList(Fun2.classInfoStartConbDS(is_app, true));
+			
+			private function init():void{				
+				//dw1: ClassSchedule
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					mapping: true,
+					items: [
+						{source:sn,				dataType:"N",	inputType:"I"}, 
+						{source:academicYear,	dataType:"N",	init:int(i_session.academicYear)}, 
+						{source:semester,		dataType:"N",	init:int(i_session.semester)},
+						{source:acaName,						update:false,	inputType:"R"},
+						{source:classLeavesSn,	dataType:"N"},
+						{source:remark,			dataType:"S"},
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"D",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"D",	inputType:"R"}
+					]				
+				}; 			
+				
+				//dw2: ClassScheduleDetail
+				edit_1.aoDW[1] = new DW2();
+				(edit_1.aoDW[1] as DW2).xTool = tb_classScheduleDetail;
+				edit_1.aoDW[1].oConfig = {					
+					upDW: idw_master,
+					grid: grid_classScheduleDetail,
+					upQKeys: ["sn"],
+					qKeys: ["classScheduleSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"classScheduleSn", dataType:"N", 	inputType:"2"},
+						{fid:"process",			dataType:"S"},
+						{fid:"theMonday",		dataType:"S"},
+						{fid:"theTuesday",		dataType:"S"},
+						{fid:"theWednesday",	dataType:"S"},
+						{fid:"theThursday",		dataType:"S"},
+						{fid:"theFriday",		dataType:"S"}
+					]				
+				};
+			}
+			private function whenSave(p_data:Object):Boolean{
+				if (p_data.fun != "D"){				
+					//為了讓儲存時, 也能同時更新顯示的頁面, 所以要特別給予值
+					Fun.setItem(acaName, String(Fun.getItem(academicYear))+ ' - '+String(Fun.getItem(semester)));					
+				}
+				return true;
+			}
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10.5" y="542" id="edit_1" fWhenSave="whenSave">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="academicYear" visible="false"/>
+	<x2:Num1 id="semester" visible="false"/>
+	<s:TextInput id="acaName" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>	
+	<s:Form x="10" y="1">		
+		<s:layout> 
+			<s:FormLayout gap="-8"/>
+		</s:layout>
+		<s:FormItem label="{iR.classLeavesSn} :" required="true">
+			<x2:DDL1 id="classLeavesSn" dataProvider="{ia_classInfoStartConb}"></x2:DDL1>			
+		</s:FormItem>
+		<s:FormItem label="{iR.remark} :">
+			<mx:TextArea id="remark" width="360"/>
+		</s:FormItem>
+	</s:Form>
+	<x2:TBar2 x="566" y="81" id="tb_classScheduleDetail">
+	</x2:TBar2>
+	<mx:Form x="10" y="107">
+		<x2:DG2 width="800" alpha="0.7"	rowHeight="110"
+					 height="400" id="grid_classScheduleDetail">
+			<x2:columns><s:ArrayList>
+				<s:GridColumn dataField="sn" visible="false"/>
+				<s:GridColumn dataField="classScheduleSn" visible="false"/>
+				<s:GridColumn headerText="" dataField="process" width="80">
+					<s:itemRenderer>
+						<fx:Component><s:GridItemRenderer>
+							<x2:TextArea2/>																	
+						</s:GridItemRenderer></fx:Component>
+					</s:itemRenderer>        		         
+				</s:GridColumn>
+				<s:GridColumn headerText="Monday" dataField="theMonday">
+					<s:itemRenderer>
+						<fx:Component><s:GridItemRenderer>
+							<x2:TextArea2/>																	
+						</s:GridItemRenderer></fx:Component>
+					</s:itemRenderer>        		         
+				</s:GridColumn>
+				<s:GridColumn headerText="Tuesday" dataField="theTuesday">
+					<s:itemRenderer>
+						<fx:Component><s:GridItemRenderer>
+							<x2:TextArea2/>																	
+						</s:GridItemRenderer></fx:Component>
+					</s:itemRenderer>        		         
+				</s:GridColumn>
+				<s:GridColumn headerText="Wednesday" dataField="theWednesday">
+					<s:itemRenderer>
+						<fx:Component><s:GridItemRenderer>
+							<x2:TextArea2/>																	
+						</s:GridItemRenderer></fx:Component>
+					</s:itemRenderer>        		         
+				</s:GridColumn>
+				<s:GridColumn headerText="Thursday" dataField="theThursday">
+					<s:itemRenderer>
+						<fx:Component><s:GridItemRenderer>
+							<x2:TextArea2/>																	
+						</s:GridItemRenderer></fx:Component>
+					</s:itemRenderer>        		         
+				</s:GridColumn>
+				<s:GridColumn headerText="Friday" dataField="theFriday">
+					<s:itemRenderer>
+						<fx:Component><s:GridItemRenderer>
+							<x2:TextArea2/>																	
+						</s:GridItemRenderer></fx:Component>
+					</s:itemRenderer>        		         
+				</s:GridColumn>
+			</s:ArrayList></x2:columns>
+		</x2:DG2>
+	</mx:Form>
+</s:TitleWindow>

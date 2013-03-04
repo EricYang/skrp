@@ -1,0 +1,12 @@
+﻿# list/query fields
+schoolCode=School Code
+schoolName=School Name
+imageName=School Logo
+tmpFileName=瀏覽檔案
+webSiteUrl=School Website
+conTel=School Phone Number
+address=School Address
+
+# message
+message01=查無資料
+message02=檔案類型不符, LOGO 圖檔必須為 (.jpg, .gif, .jpeg, .png) 格式圖檔

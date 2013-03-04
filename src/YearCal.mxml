@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*" 
+	 
+	
+	 
+	width="100%" height="100%" 
+ 	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('YearCal')}"
+ 	>
+	<fx:Script>
+		<![CDATA[		
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;			
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+
+			private function init():void {			
+				list_1.wQuery = new YearCalQ();
+				list_1.wEdit = new YearCalE();			
+				list_1.gList = grid_1;
+				list_1.init();
+				
+				var t_data:Object ={
+					data: "listYearCal"
+				};
+				grid_1.dataProvider = new ArrayCollection(Fun.readRows(is_app, t_data));				
+			}						
+			public function cmdFunData():void{
+				var t_win:InputWeek = new InputWeek();
+				Fun.openPopup(t_win, this);				
+			}
+			private function serialNoLabelFunc(p_row:Object, p_column:GridColumn):String {
+				var index:int = p_column.grid.dataProvider.getItemIndex(p_row);
+				if (index > -1) {
+					return (index + 1).toString();
+				}
+				return "";
+			}	
+			private function catchFun(p_data:Object):Boolean {
+				switch (p_data.fun){
+					case "U":
+						YearCalE(list_1.wEdit).aWeek = String(grid_1.selectedIndex+1);
+						break;
+				}
+				return false;
+			}
+		]]>
+	</fx:Script>
+	<x2:sysBG/>
+	<x2:subFunHead/>
+
+	<x2:comList x="81" y="59" id="list_1" fCatchFun="catchFun">
+	</x2:comList>
+	<mx:Button y="60" right="60" height="25" click="cmdFunData()" icon="@Embed(source='x2/image/update.gif')" id="cmdData" label="週次批次匯入" buttonMode="true"/>
+	<s:DataGrid id="grid_1" x="55" y="87" width="92%" height="80%" alpha="0.7">
+		<s:columns>
+			<s:ArrayList>
+				<s:GridColumn dataField="sn" visible="false"/>
+				<s:GridColumn headerText="Week." dataField="serialNo" labelFunction="serialNoLabelFunc" width="100"/>
+				<s:GridColumn headerText="學年(期)" dataField="acaName" width="80"/>	
+				<s:GridColumn headerText="日期(起)" dataField="sDate"/>
+				<s:GridColumn headerText="日期(迄)" dataField="eDate"/>
+				<s:GridColumn headerText="{iR.creator}" dataField="creator" width="80"/>
+				<s:GridColumn headerText="{iR.createDate}" dataField="createDate" width="130"/>
+				<s:GridColumn headerText="{iR.reviser}" dataField="reviser" width="80"/>
+				<s:GridColumn headerText="{iR.reviseDate}" dataField="reviseDate" width="130"/>
+			</s:ArrayList>
+		</s:columns>
+	</s:DataGrid>
+</s:Application>

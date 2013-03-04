@@ -1,0 +1,30 @@
+﻿# list/query fields
+funcItemSn=Project Name
+eDate=Date
+seTimeHM=Time
+eLoaction=Location
+attendees=Attendee
+budget=Budget
+creator=Created by
+createDate=Created on
+reviser=Revised by
+reviseDate=Revised on
+
+# E
+Canvas01=Content of Project
+Canvas02=Flow
+Canvas03=Note
+
+eGoal=Goal
+numAttendees=Estimated Numbers of Attendees
+budget=Budget
+budgetSource=Source of Budget
+eventType=Type
+eventType01=Indoor
+eventType02=Outdoor
+eventType03=Teaching
+eventType04=Non-Teaching Related
+eventType05=Others
+process=Procedure
+activities=Items 
+cDescribe=Describe

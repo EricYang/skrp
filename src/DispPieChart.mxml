@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="900" height="500"
+	 
+	close="closeWin()"
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('DispPieChart')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			[Bindable]
+			private var iR:Object;
+			import mx.charts.events.ChartItemEvent;
+			import mx.charts.series.items.PieSeriesItem;			
+
+			import mx.effects.easing.*;
+			
+			[Bindalbe]
+			private var is_app:String = Fun.sApp;			
+			[Bindable]
+			public var t_data:ArrayCollection;
+			[Bindable]
+			public var g_row:Array;
+			
+			private function init():void{				
+				t_data = new ArrayCollection(g_row);
+				grid_item.dataProvider = new ArrayCollection(g_row);				
+				
+				var gmCount:int=0;
+				for (var i:int=0; i<t_data.length; i++){
+					gmCount = gmCount + int(t_data[i].data);						
+				}
+				allCount.text = iR.message01 + String(gmCount) + iR.message02;
+			}
+ 
+			private function pieChart_itemClick(evt:ChartItemEvent):void {
+				var item:PieSeriesItem = evt.hitData.chartItem as PieSeriesItem;				
+				var degrees:Number = radiansToDegrees(item.startAngle);
+				var arr:Array = [];
+				
+				arr[item.index] = 0.1;
+				pieSeries.perWedgeExplodeRadius = arr;
+				pieSeries.startAngle -= degrees;
+				
+				t_data.refresh();
+			}
+			
+			private function radiansToDegrees(radians:Number):Number {
+				return radians * (180 / Math.PI);
+			}
+
+			private function dispPieCon(item:Object, field:String, index:Number, percentValue:Number):String {
+				return '◎ ' + String(index+1) + '. ' + item.label + '：' + item.data + iR.message03 + percentValue.toFixed(2) + "%)";
+			}
+			
+			public function dispItemCon():void {
+				var t_row:Object = grid_item.selectedItem;
+				
+				var degrees:Number = radiansToDegrees(t_row.data);				
+				var arr:Array = [];		
+				
+				arr[grid_item.selectedIndex] = 0.1;
+				pieSeries.perWedgeExplodeRadius = arr;				
+				pieSeries.startAngle -= degrees;
+				
+				t_data.refresh();
+			}			
+			
+			private function serialNoLabelFunc(p_row:Object, p_column:GridColumn):String {
+				var index:int = p_column.grid.dataProvider.getItemIndex(p_row);
+				if (index > -1) {
+					return (index + 1).toString();
+				}
+				return "";
+			}
+			
+			private function closeWin():void{
+				Fun.closePopup(this);
+			}
+		]]>
+	</fx:Script>
+	<mx:Form x="0" y="0">
+		<s:DataGrid width="237" alpha="0.7" height="389" id="grid_item"
+					 sortableColumns="false"
+					 click="dispItemCon();"
+					 buttonMode="true"
+					 >
+			<s:columns><s:ArrayList>
+				<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+				<s:GridColumn headerText="{iR.label}" dataField="label"/>
+				<s:GridColumn headerText="{iR.data}" dataField="data" width="80"/>						
+			</s:ArrayList></s:columns>
+		</s:DataGrid>
+	</mx:Form>
+	<mx:PieChart id="myChart" dataProvider="{t_data}" itemClick="pieChart_itemClick(event);" 
+				 buttonMode="true" height="100%" width="70%" paddingRight="5" paddingLeft="5" 
+				 innerRadius="0.3" 
+				 x="268" y="0" fontSize="15"
+				 showDataTips="true" dataTipRenderer="TipSkinPie">
+		<mx:series>
+			<mx:PieSeries id="pieSeries" field="data" nameField="label" labelPosition="inside" labelFunction="dispPieCon">
+				<!-- inside, outside, callout, or insideWithCallout -->
+				<mx:showDataEffect>
+					<mx:SeriesInterpolate duration="1500" easingFunction="{Elastic.easeOut}" />
+				</mx:showDataEffect>
+				<mx:filters>
+					<mx:DropShadowFilter />
+				</mx:filters>
+			</mx:PieSeries>				
+		</mx:series>
+	</mx:PieChart>	
+	
+	<mx:Label x="280" y="10" text="{iR.allCount}" color="#FF0000" id="allCount"/>
+	<mx:Label x="280" y="33" text="{iR.desc}" color="#FF0000" id="descri"/>
+	<mx:Button x="9" y="432" click="closeWin()" icon="@Embed(source='x2/image/close.png')" id="cmdExit" label="{iR.cmdExit}" buttonMode="true"/>
+</s:TitleWindow>

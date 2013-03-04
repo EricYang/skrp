@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="600" height="550"
+  	creationComplete="init()"  	 	
+	preinitialize="{iR=Fun.getLang('FindStu')}"
+	close="closeWin()">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.ArrayList;
+			
+			import x2.*;
+			
+			public var fAfterOk:Function;
+			
+			[Bindable]
+			private var iR:Object;			
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindale]
+			public var ia_data:ArrayCollection;
+			[Bindable]
+			private var ia_child:ArrayCollection;
+			[Bindable]
+			public var ia_ynFlag:ArrayList = new ArrayList(Fun2.ynFlagDS(is_app, false));
+			[Bindable]
+			private var ia_gender:ArrayList = new ArrayList(Fun2.genderDS(is_app, false));			
+			[Bindable]
+			private var ia_classInfoStartConbA:ArrayList = new ArrayList(Fun2.classInfoStartConbADS(is_app, true));
+			
+			private function init():void{
+				qry_1.sApp = is_app;
+				qry_1.sInf = "FindStuA";
+				qry_1.gList = grid_1;
+				qry_1.aoItem = [					
+					{source:classLeavesSn}
+				];
+				qry_1.init();			
+
+				qry_1.visible = false;
+			}			
+			private function ynFlag(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_ynFlag, p_row[p_column.dataField]);
+			}
+			private function gender(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_gender, p_row[p_column.dataField]);
+			}			
+			private function afterSubmit(p_data:Object):void{
+				ia_data = grid_1.dataProvider as ArrayCollection;				
+			}
+
+			private function okClick():void{								
+				var ta_row:ArrayCollection = grid_1.dataProvider as ArrayCollection;
+				var tn_len:int = ta_row.length;
+				
+				//將有選擇的資料存入
+				var transData:Array = [];
+				for (var x:int=tn_len - 1; x>=0; x--){
+					if (int(ta_row[x].checkFlag) == 1){						
+						var s_data:Object = {
+							sn: ta_row[x].sn						
+						};
+						transData.push(s_data);						
+					}
+				}
+				
+				if (transData.length!=0){
+					var m_data:Object = {
+						studentSns: transData
+					};				
+					Fun.sync(is_app, "ProStuEnroll", m_data, false);
+					getData();
+					//grid_1.dataProvider= new ArrayList();
+					
+					Fun.msg("I", "更新完成");
+					
+					//Fun2.aGlobal = transData;
+					//fAfterOk();
+					//Fun.closePopup(this);
+				}else{
+					Fun.msg("I", "請先選擇資料");
+				}
+			}
+			private function fnSelect():void{
+				var i:int=0;
+				if (grid_1.dataProvider.length==0){
+					Fun.msg("E", "請先查詢資料");
+					return;
+				}
+				grid_1.dataProvider= new ArrayList();
+				
+				switch (Fun.getItem(checkAllFlag)){
+					case "0":
+						for (i; i<ia_data.length; i++){
+							
+							var existFlag:int = 0;
+							if (ia_data[i].enrollFlag == 0){
+								existFlag = 1;
+							}
+							if (existFlag == 0){
+								ia_data[i].checkFlag = 1;	
+							}							
+							//ia_data[i].checkFlag = 1;				
+						}
+						grid_1.dataProvider = ia_data;						
+						ia_data.refresh();
+						
+						checkAllFlag.text = "1";
+						checkAllFun.label = "取消全選";						
+						break;
+					case "1":
+						for (i; i<ia_data.length; i++){
+							ia_data[i].checkFlag = 0;					
+						}
+						grid_1.dataProvider = ia_data;
+						
+						ia_data.refresh();
+						
+						checkAllFlag.text = "0";
+						checkAllFun.label = "全選";
+						break;					
+				}
+			}	
+			private function serialNoLabelFunc(p_row:Object, p_column:GridColumn):String {
+				var index:int = p_column.grid.dataProvider.getItemIndex(p_row);
+				if (index > -1) {
+					return (index + 1).toString();
+				}
+				return "";
+			}		
+			private function getData():void{
+				qry_1.btnReadClick();				
+			}	
+			private function closeWin():void{
+				Fun.closePopup(this);
+			}
+		]]>
+	</fx:Script>	
+	<s:Form x="10" y="10" id="classLeavesSnFlag" width="100%">		
+		<s:layout> 
+			<s:FormLayout gap="-5"/>			
+		</s:layout>	
+		<s:Label text="{iR.sTitle}：" fontWeight="bold"/>
+		<s:FormItem label="{iR.classLeavesSn} :" required="true">
+			<x2:DDL1 id="classLeavesSn" dataProvider="{ia_classInfoStartConbA}" change="getData()" width="100%"/>						
+		</s:FormItem>
+	</s:Form>
+	<mx:HRule x="0" y="71" width="100%" id="theLine"/>
+	<s:Form x="10" y="79" id="theForm">
+		<s:HGroup width="100%" verticalAlign="bottom">
+			<s:Label text="{iR.sList}：" fontWeight="bold"/>
+			<x2:BtnSelect id="checkAllFun" click="fnSelect()"/>					
+			<s:TextInput id="checkAllFlag" text="0" visible="false"/>
+			<s:HGroup horizontalAlign="right" width="100%">
+				<x2:btnOk id="cmdOk" click="okClick()"/>				
+			</s:HGroup>
+		</s:HGroup>
+		<s:DataGrid id="grid_1" width="555" alpha="0.7" height="384">
+			<s:columns>
+				<s:ArrayList>
+					<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+					<s:GridColumn headerText="選取" dataField="checkFlag" width="60">
+						<s:itemRenderer><fx:Component><x2:irCenterVH>
+							<x2:Check2 toolTip="{data.enrollFlag==1 ? '':'此筆資料已經存在，不得選取。'}" enabled="{data.enrollFlag==1}" chromeColor="{data.enrollFlag==1 ? 0XFFFFFF:0XB2B6BC}"/>
+						</x2:irCenterVH></fx:Component></s:itemRenderer>
+					</s:GridColumn>
+					<s:GridColumn headerText="在校" dataField="enrollFlag" labelFunction="ynFlag" width="60"/>
+					<s:GridColumn headerText="{iR.stuNo}" dataField="stuNo"/>
+					<s:GridColumn headerText="{iR.cName}" dataField="cName"/>
+					<s:GridColumn headerText="{iR.eName}" dataField="eName"/>
+					<s:GridColumn headerText="{iR.gender}" dataField="gender" labelFunction="gender" width="60"/>
+					<s:GridColumn headerText="{iR.birthDate}" dataField="birthDate"/>
+				</s:ArrayList>
+			</s:columns>
+		</s:DataGrid>	
+	</s:Form>
+	<x2:comQuery id="qry_1" x="501" y="26" height="58" fAfterSubmit="afterSubmit">
+	</x2:comQuery>
+	<x2:Num1 id="sn" visible="false"/>	
+</s:TitleWindow>

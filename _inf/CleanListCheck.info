@@ -1,0 +1,19 @@
+{
+    "list":{
+        "select": "SELECT a.*, CONCAT(a.academicYear, ' - ', a.semester) AS acaName",
+        "from": "FROM CleanList a INNER JOIN
+                ClassLeaves b ON a.classLeavesSn = b.sn
+                [_where]",
+        "order": "ORDER BY a.cDate",
+        "items": [
+            {"fid":"academicYear",      "table":"a"},
+            {"fid":"semester",          "table":"a"},
+            {"fid":"classInfoSn",       "table":"b"},
+            {"fid":"classLeavesSn",     "table":"a"},            
+            {"fid":"cDate",             "table":"a",    "op":"between"}
+      ]
+    },    
+    "progRange": 1,
+    "aFOwner": "a.creator",
+    "aFOwnerType": "L"
+}

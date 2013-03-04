@@ -1,0 +1,9 @@
+{
+    "list":{    
+		"select": "SELECT COUNT(*) AS mCount",
+		"from": "FROM BookData",
+        "order": "",
+        "items": [            
+        ]
+    }
+}

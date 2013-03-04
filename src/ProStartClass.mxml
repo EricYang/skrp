@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="400" height="300" 
+	 
+	close="closeWin()"
+  	creationComplete="init()"  	 		
+	preinitialize="{iR=Fun.getLang('ProStartClass')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["academicYear","semester"]});
+			[Bindable]
+			public var ia_oriAcaSetupList:ArrayList = new ArrayList(Fun2.oriAcaSetupListDS(is_app, false));
+			
+			private function init():void{
+				Fun.setItem(newAcademicYear, int(i_session.academicYear));
+				Fun.setItem(newSemester, int(i_session.semester));
+			}
+			
+			private function okClick():void{				
+				//判斷是否輸入正確
+				if (!int(Fun.getItem(acaSetupSn))){					
+					Fun.msg("E", iR.message01);
+					return;
+				}
+				if (!int(Fun.getItem(newAcademicYear))){					
+					Fun.msg("E", iR.message02);
+					return;
+				}
+				if (!int(Fun.getItem(newSemester))){					
+					Fun.msg("E", iR.message03);
+					return;
+				}						
+				//判斷是否已有相同學年期
+				var t_data1:Object = {
+					data: "startClassS",
+					academicYear: int(Fun.getItem(newAcademicYear)),
+					semester: int(Fun.getItem(newSemester))
+				};						
+				var ia_data:Object = Fun.readRow(is_app, t_data1);
+				if (int(ia_data.cs) > 0){
+					Fun.msg("E", iR.message04);
+					return;
+				}else{
+					//新建並複製資料			
+					var m_data:Object = "";
+					m_data = {
+						acaSetupSn: int(Fun.getItem(acaSetupSn)),
+						newAcademicYear: int(Fun.getItem(newAcademicYear)),
+						newSemester: int(Fun.getItem(newSemester))
+					};
+					Fun.sync(is_app, "StartClassCopy", m_data, true);
+					
+					Fun.msg("E", iR.message05);
+					closeWin();
+				}				
+			}
+			private function closeWin():void{
+				Fun.closePopup(this);
+			}
+		]]>
+	</fx:Script>
+	<x2:Num1 id="sn" visible="false"/>
+	<mx:Form x="10" y="10" horizontalScrollPolicy="off">		
+		<mx:FormItem label="{iR.acaSetupSn} :" required="true">
+			<x2:DDL1 id="acaSetupSn" dataProvider="{ia_oriAcaSetupList}"></x2:DDL1>
+		</mx:FormItem>
+		<mx:Label/>
+		<mx:Label text="{iR.List1} &gt;&gt;" fontWeight="bold" color="#FF0000"/>
+		<mx:Label text="{iR.List2}" fontWeight="bold"/>
+		<mx:FormItem label="{iR.newAcademicYear} :">
+			<s:TextInput id="newAcademicYear" width="82" enabled="false"/>			
+		</mx:FormItem>
+		<mx:FormItem label="{iR.newSemester} :">
+			<s:TextInput id="newSemester" width="82" enabled="false"/>			
+		</mx:FormItem>
+	</mx:Form>
+	<mx:Button x="53" y="233" click="okClick()" icon="@Embed(source='x2/image/checked.gif')" id="cmdOk" label="{iR.cmdOk}" buttonMode="true"/>
+	<mx:Button x="166" y="233" click="closeWin()" icon="@Embed(source='x2/image/close.png')" id="cmdExit" label="{iR.cmdExit}" buttonMode="true"/>
+</s:TitleWindow>

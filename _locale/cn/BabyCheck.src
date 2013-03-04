@@ -1,0 +1,12 @@
+﻿# list/query fields
+cDate=上课日期
+classLeavesSn=班级(别)
+sea​​rchData=查资料
+checkAllFun=全选
+saveData=储存资料
+
+# message
+message01=请先选择 日期
+message02=取消全选
+message03=全选
+message04=点名资料储存完毕

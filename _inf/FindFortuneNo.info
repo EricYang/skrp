@@ -1,0 +1,11 @@
+{
+   "list":{
+        "select": "SELECT *",
+        "from": "FROM Fortune WHERE (staffSnU = [staffSnU]) [_where]",
+		"items": [
+			{"fid":"fortuneNo",    "op":"like"},
+            {"fid":"fortuneName",  "op":"like"},
+            {"fid":"staffSnU",     "isCond":0}
+		]
+   }
+}

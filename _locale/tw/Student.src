@@ -1,0 +1,69 @@
+﻿# list/query fields
+cmdData=學生資料匯入
+deleFlag=刪除
+acaName=學年(期)
+classLeavesSn=班別(級)
+stuNo=學號
+studentName=學生姓名
+gender=性別
+birthDate=出生日期
+idNo=身分證號
+address=住址
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# message
+message07=是否確定刪除這筆資料 ?
+message08=此筆資料已刪除 !
+message09=資料刪除完成。
+
+# E
+Canvas01=基本資料
+cName=姓名(中)
+eName=姓名(英)
+enrollFlag=在校
+uploadFiles=照片上傳
+tmpFileName=瀏覽檔案
+deleFlag=資料刪除
+
+Canvas02=班別(級)
+acaFlag=目前
+academicYear=學年
+semester=學期
+
+Canvas03=身高體重
+cDate=日期
+stature=身高
+weight=體重
+
+Canvas04=經常就診醫療院所
+urgentFlag=順序
+unitName=名稱
+conTel=電話
+
+Canvas05=曾患疾病
+funcItemSn=病症
+sDescribe=備註
+
+Canvas06=伙食過敏情形
+senCon=過敏項目
+avoidFood=禁吃食物
+
+Canvas07=家庭成員
+relationship=關係
+sePicker=主要接送人
+urConter=緊急連絡人
+
+# message
+message01=重複輸入學年(期) 班別(級)，請確認。
+message02=家長資料
+message03=如欲更改此筆資料，請將目前的學年期切換至 
+message04=。
+message05=開班作業
+message06=檔案類型不符, 照片檔案必須為 (.jpg, .gif, .jpeg, .png) 格式圖檔
+
+# Q
+classInfoSn=班別
+classLeavesSn=班級

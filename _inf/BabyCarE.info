@@ -1,0 +1,34 @@
+{
+    "dws":[
+	    {
+			"selectTable": "BabyCar a INNER JOIN 
+                            Student b ON a.studentSn = b.sn",
+            "updateTable": "BabyCar",
+            "defaultTable": "a",
+			"items": [
+                {"fid":"sn"}, 
+                {"fid":"academicYear"},
+                {"fid":"semester"},
+                {"fid":"acaName",         "table":"", "colName":"CONCAT(a.academicYear, ' - ', a.semester)"},
+                {"fid":"babyCarInfoSn"},
+                {"fid":"classLeavesSn"},
+                {"fid":"studentSn"},
+                {"fid":"studentName",     "table":"", "colName":"CONCAT(b.cName, ' ', b.eName)"},                
+                {"fid":"sLoaction"},
+                {"fid":"sTimeH"},
+                {"fid":"sTimeM"},            
+                {"fid":"parentSnS"},
+                {"fid":"parentSnS2",       "table":"a", "colName":"parentSnS"},
+                {"fid":"eLoaction"},
+                {"fid":"eTimeH"},
+                {"fid":"eTimeM"},            
+                {"fid":"parentSnE"},
+                {"fid":"parentSnE2",       "table":"a", "colName":"parentSnE"},
+                {"fid":"creator"},
+                {"fid":"createDate"},           
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+             ]				
+	    }
+    ]    
+}

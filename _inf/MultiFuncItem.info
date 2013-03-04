@@ -1,0 +1,12 @@
+{
+    "list":{
+        "select": "SELECT *",
+        "from":   "FROM MultiFuncItem 
+                    [_where]",
+        "order":  "ORDER BY multiSysType, sn",
+        "items": [
+            {"fid":"multiSysType"},
+            {"fid":"itemName",  "op":"like"}
+      ]
+    }
+}

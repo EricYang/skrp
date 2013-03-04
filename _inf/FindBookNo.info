@@ -1,0 +1,10 @@
+{
+   "list":{
+        "select": "SELECT *",
+        "from": "FROM BookData [_where]",
+		"items": [
+			{"fid":"bookNo",    "op":"like"},
+            {"fid":"bookName",  "op":"like"}
+		]
+   }
+}

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="620" height="350" 
+	 
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('BabyCarInfo')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;	
+			
+			[Bindable]
+			private var iR:Object;
+			private var idw_master:DW;						
+			private var is_app:String = Fun.sApp;
+			
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["academicYear","semester"]});
+			
+			private var i_col1:Object, i_col2:Object, i_col3:Object, i_col4:Object;
+			
+			private function doFindStaff(p_col1:Object, p_col2:Object, p_col3:Object, p_col4:Object):void{				
+				i_col1 = p_col1;
+				i_col2 = p_col2;
+				i_col3 = p_col3;
+				i_col4 = p_col4;
+				Fun2.openStaff(is_app, this, ReturnStaff);
+			}
+			private function ReturnStaff(p_row:Object):void{				
+				Fun.setItem(i_col1,p_row.cName + " " + p_row.eName);
+				idw_master.setItem(i_col2, p_row.sn, true);
+				idw_master.setItem(i_col3, p_row.cName, true);
+				idw_master.setItem(i_col4, p_row.eName, true);
+			}	
+			
+			private function init():void{	
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					mapping: true,
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					items: [						
+						{source:sn,				dataType:"N",	inputType:"I"}, 
+						{source:academicYear,	dataType:"N",	init:int(i_session.academicYear)}, 
+						{source:semester,		dataType:"N",	init:int(i_session.semester)},
+						{source:carCode,		dataType:"S"},
+						{source:route,			dataType:"S"},
+						{source:carNumber,		dataType:"S"},
+						{source:driverStaffSn,	dataType:"N"},
+						{source:driverStaffCName,				update:false},
+						{source:driverStaffEName,				update:false},	
+						{source:venStaffSn,		dataType:"N"},
+						{source:venStaffCName,					update:false},
+						{source:venStaffEName,					update:false},
+						{source:vehTel,			dataType:"S"},
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"DT",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"DT",	inputType:"R"}
+					]				
+				};				
+			}
+			//編輯視窗開啟後顯示該代辦事項交辦人及負責人名字
+			private function afterOpen(p_data:Object):void{			
+				if (p_data.fun == "U" || p_data.fun == "V"){
+					if (p_data.fun == "V") {
+						SchDriverStaff.visible = false; //檢視模式不顯示搜尋按鈕及說明文字
+						SchVenStaff.visible = false; //檢視模式不顯示搜尋按鈕及說明文字
+					}
+					Fun.setItem(driverStaffName, Fun.getItem(driverStaffCName) + " " + Fun.getItem(driverStaffEName));
+					Fun.setItem(venStaffName, Fun.getItem(venStaffCName) + " " + Fun.getItem(venStaffEName));
+				}
+			}	
+			private function whenSave(p_data:Object):Boolean{
+				if (Fun.getItem(driverStaffName)==""){
+					Fun.msg("E", "[" + iR.driverStaffName + "] 不可空白 !");
+					return false;
+				}
+				if (Fun.getItem(venStaffName)==""){
+					Fun.msg("E", "[" + iR.venStaffName + "] 不可空白 !");
+					return false;
+				}
+				return true;
+			}
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10.5" y="278" id="edit_1" fAfterOpen="afterOpen" fWhenSave="whenSave">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="academicYear" visible="false"/>
+	<x2:Num1 id="semester" visible="false"/>
+	<x2:Num1 id="driverStaffSn" visible="false"/>
+	<s:TextInput id="driverStaffCName" visible="false"/>
+	<s:TextInput id="driverStaffEName" visible="false"/>
+	<x2:Num1 id="venStaffSn" visible="false"/>
+	<s:TextInput id="venStaffCName" visible="false"/>
+	<s:TextInput id="venStaffEName" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+	<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+		<mx:FormItem label="{iR.carCode} :" required="true">
+			<s:TextInput id="carCode"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.route} :" required="true">			
+			<mx:TextArea x="123" y="5" id="route" width="397" height="61"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.carNumber} :" required="true">
+			<s:TextInput id="carNumber"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.driverStaffName} :" required="true">
+			<mx:HBox x="70" y="0" width="100%">
+				<s:TextInput id="driverStaffName" editable="false" enabled="false"/>
+				<x2:btnPick id="SchDriverStaff" click="doFindStaff(driverStaffName, driverStaffSn, driverStaffCName, driverStaffEName)"/>
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.venStaffName} :" required="true">
+			<mx:HBox x="70" y="0" width="100%">
+				<s:TextInput id="venStaffName" editable="false" enabled="false"/>
+				<x2:btnPick id="SchVenStaff" click="doFindStaff(venStaffName, venStaffSn, venStaffCName, venStaffEName)"/>				
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.vehTel} :" required="true">
+			<s:TextInput id="vehTel"/>
+		</mx:FormItem>
+	</mx:Form>
+</s:TitleWindow>

@@ -1,0 +1,21 @@
+{
+   "list":{
+        "select": "SELECT b.accMIncomeStuSn, a.serialNo, a.classLeavesSn, CONCAT(f.stuNo, '/', f.cName, ' ', f.eName) AS studentName, CONCAT(a.cYear, ' / ', a.cMonth) AS cYearMonth, SUM(b.amounts) AS amounts",
+        "from": "FROM AccMIncomeStu a INNER JOIN
+                    AccMIncome b ON a.sn = b.accMIncomeStuSn INNER JOIN
+                    AccIoc c ON b.accIocSn = c.sn INNER JOIN
+                    AccTitle d ON c.accTitleSn = d.sn INNER JOIN
+                    AccMain e ON d.accMainSn = e.sn INNER JOIN
+                    Student f ON a.studentSn = f.sn
+                    WHERE a.paidFlag = 0
+                    [_where]",
+        "order": "GROUP BY  b.accMIncomeStuSn
+                    ORDER BY  a.classLeavesSn, a.serialNo",
+        "items": [
+                {"fid":"serialNo",          "table":"a",    "op":"like"},
+                {"fid":"classLeavesSn",     "table":"a"},
+                {"fid":"cYear",             "table":"a"},
+                {"fid":"cMonth",            "table":"a"}
+        ]
+   }
+}

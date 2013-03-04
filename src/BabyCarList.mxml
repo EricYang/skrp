@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*" 
+	 
+	
+	 
+	width="100%" height="100%"
+	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('BabyCarList')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.ArrayList;
+			
+			import x2.*;
+			
+			[Bindable]
+			private var iR:Object;
+			
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			public var ia_babyCarInfo:ArrayList = new ArrayList(Fun2.babyCarInfoDS(is_app, false));
+			[Bindable]
+			private var ia_classInfoName:ArrayList = new ArrayList(Fun2.classInfoNameDS(is_app, false));
+			[Bindale]
+			//private var ia_data:Array = [];
+			private var ia_data:ArrayCollection;
+			[Bindale]
+			private var ia_gender:ArrayList = new ArrayList(Fun2.genderDS(is_app, false));
+			
+			private function init():void {			
+				CBabyCarInfo.visible = false;
+			}			
+			private function fnQuery():void{
+				var t_data:Object = {
+					data: "BabyCarList",					
+					babyCarInfoSn: int(Fun.getItem(babyCarInfoSn))					
+				};				
+				
+				//ia_data = Fun.readRows(is_app, t_data);
+				ia_data = new ArrayCollection(Fun.readRows(is_app, t_data));
+				if (ia_data){
+					list1.dataProvider = ia_data;					
+				}else{					
+					Fun.msg("I", iR.message01);
+				}
+				
+				if (int(Fun.getItem(babyCarInfoSn))){
+					CBabyCarInfo.visible = true;
+				}else{
+					CBabyCarInfo.visible = false;
+				}
+			}
+			
+			private function classInfoName(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_classInfoName, p_row[p_column.dataField]);
+			}
+			private function gender(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_gender, p_row[p_column.dataField]);
+			}			
+			
+			private function fnQueryCT():void{
+				var t_win:BabyCarInfoE = new BabyCarInfoE();					
+				var t_data:Object = {
+					win: t_win,
+					fun: "V",
+					row: {sn:Fun.getItem(babyCarInfoSn)}
+				};
+				Fun.openPopup(t_win, this);				
+				var t_edit:comEdit = t_win.edit_1; 
+				t_edit.sApp = is_app;
+				t_edit.sInf = "BabyCarInfoE";
+				t_edit.sTitle = iR.message02;					
+				t_edit.init(t_data);
+			}
+		]]>
+	</fx:Script>
+	<x2:sysBG/>
+	<x2:subFunHead/>
+	
+	<s:HGroup x="81" y="59" height="26" verticalAlign="middle">
+		<s:FormItem label="{iR.babyCarInfoSn}:" required="true">
+			<x2:DDL1 id="babyCarInfoSn" dataProvider="{ia_babyCarInfo}" change="fnQuery()" width="250"></x2:DDL1>			
+		</s:FormItem>
+		<mx:Label text="{iR.CBabyCarInfo}" id="CBabyCarInfo" click="fnQueryCT()" useHandCursor="true" mouseChildren="false" buttonMode="true" textDecoration="underline" color="#0000FF"/>
+	</s:HGroup>
+
+	<s:DataGrid id="list1" x="55" y="87" width="92%" height="80%"
+				 alpha="0.7"		
+				 >
+		<s:columns><s:ArrayList>
+			<s:GridColumn headerText="{iR.carCode}" dataField="carCode" width="50"/>
+			<s:GridColumn headerText="{iR.classLeavesSn}" dataField="classLeavesSn" width="150" labelFunction="classInfoName"/>			
+			<s:GridColumn headerText="{iR.studentName}" dataField="studentName" width="150"/>
+			<s:GridColumn headerText="{iR.gender}" dataField="gender" width="50" labelFunction="gender"/>
+			<s:GridColumn headerText="{iR.sLoaction}" dataField="sLoaction" width="100"/>
+			<s:GridColumn headerText="{iR.sTimeHM}" dataField="sTimeHM" width="50"/>
+			<s:GridColumn headerText="{iR.parentSName}" dataField="parentSName" width="100"/>
+			<s:GridColumn headerText="{iR.parentSTel}" dataField="parentSTel" width="100"/>
+			<s:GridColumn headerText="{iR.eLoaction}" dataField="eLoaction" width="100"/>
+			<s:GridColumn headerText="{iR.eTimeHM}" dataField="eTimeHM" width="50"/>
+			<s:GridColumn headerText="{iR.parentEName}" dataField="parentEName" width="100"/>
+			<s:GridColumn headerText="{iR.parentETel}" dataField="parentETel" width="100"/>
+			<s:GridColumn headerText="{iR.remark}" dataField="remark"/>
+		</s:ArrayList></s:columns>
+	</s:DataGrid>
+</s:Application>

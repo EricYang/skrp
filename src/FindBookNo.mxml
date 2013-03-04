@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="478" height="480" 
+	 
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('FindBookNo')}"
+	close="closeWin()">
+	
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			public var fAfterOk:Function;
+			
+			[Bindable]
+			private var iR:Object;
+			private var is_app:String = Fun.sApp;
+
+			private function init():void{
+				qry_1.sApp = is_app;
+				qry_1.sInf = "FindBookNo";
+				qry_1.gList = grid_1;
+				qry_1.aoItem = [
+					{source:bookNo},
+					{source:bookName}
+				];
+				qry_1.init();
+			}
+			
+			private function closeWin():void{
+				Fun.closePopup(this);
+			}
+			
+		]]>
+	</fx:Script>	
+	<mx:Form x="10" y="10">
+		<mx:Label text="{iR.searchBook}：" fontWeight="bold"/>
+		<mx:FormItem label="{iR.bookNo} :">
+			<s:TextInput id="bookNo"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.bookName} :">
+			<s:TextInput id="bookName"/>
+		</mx:FormItem>
+	</mx:Form>
+	<x2:comQuery id="qry_1" x="368" y="8" height="58">
+	</x2:comQuery>
+	<mx:Form x="10.5" y="141">
+		<mx:HBox width="100%" verticalAlign="bottom">
+			<mx:Label text="{iR.bookList}：" fontWeight="bold"/>
+			<mx:HBox horizontalAlign="right" width="100%">
+				<mx:Button click="qry_1.selectRow()" label="{iR.select}" width="75" icon="@Embed(source='x2/image/checked.gif')" />
+			</mx:HBox>
+		</mx:HBox>
+		<s:DataGrid id="grid_1" width="418"
+					 					 
+					 alpha="0.7"		
+					 					 
+					 height="230"
+					 click="qry_1.selectRow()"
+					 >
+			<s:columns><s:ArrayList>
+				<s:GridColumn headerText="{iR.bookNo}" dataField="bookNo"/>
+				<s:GridColumn headerText="{iR.bookName}" dataField="bookName"/>
+			</s:ArrayList></s:columns>
+		</s:DataGrid>			
+	</mx:Form>
+	<mx:HRule x="28" y="136" width="415"/>
+</s:TitleWindow>

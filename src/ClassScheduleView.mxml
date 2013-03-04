@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*" 
+	width="100%" height="100%" 
+ 	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('ClassScheduleView')}"
+ 	>
+	<fx:Script>
+		<![CDATA[			
+			import mx.collections.*;
+			import mx.collections.ArrayCollection;
+			import mx.collections.ArrayList;
+			
+			import x2.*;
+				
+			[Bindable]
+			private var iR:Object;			
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["usersSn","academicYear","semester","schoolDSn","fileName"]});
+			[Bindable]			
+			public var ia_classInfoStartConb:ArrayList = new ArrayList(Fun2.classInfoStartConbDS(is_app, true));
+			[Bindable]
+			private var ia_child:ArrayList;
+			
+			private function init():void {
+				//<mx:Image width="300" id="imageName" scaleContent="true" left="628" smoothBitmapContent="true" y="0" alpha="0.4"/>				
+			    //imageName.source = Fun.sDirRoot + Fun2.fImages + String(i_session.fileName);
+				CTeacher.visible = false;
+				seeMore.visible = false;			
+			}		
+			
+			private function fnQuery():void{				
+				if (int(Fun.getItem(classLeavesSn))){
+					var t_data:Object = {
+						data: "ClassScheduleView",					
+						classInfoSn: int(Fun.getItem(classLeavesSn))						
+					};					
+					ia_child = new ArrayList(Fun.readRows(is_app, t_data));
+					if (ia_child.length > 0){
+						remark.text = ia_child.source[0].remark;
+						seeMore.visible = true;
+						grid_1.dataProvider = ia_child;
+					}else{						
+						remark.text = iR.message01 + " " + classLeavesSn.selectedItem.label + " " + iR.message02;
+						seeMore.visible = false;
+						grid_1.dataProvider = new ArrayList();
+					}
+					CTeacher.visible = true;
+				}else{
+					grid_1.dataProvider = new ArrayList();
+					CTeacher.visible = false;
+				}
+			}
+			
+			public function cmdFunData():void{				
+				var t_win:ShowMessage = new ShowMessage();
+				t_win.tmpString = remark.text;
+				Fun.openPopup(t_win, this);
+			}
+			
+			private function fnQueryCT():void{
+				//判斷是否已有相同學年期
+				var t_data1:Object = {
+					data: "getStartClassSn",					
+					classLeavesSn: int(Fun.getItem(classLeavesSn))
+				};
+				var ia_data:Object = Fun.readRow(is_app, t_data1);				
+				if (ia_data){
+					
+					var t_data:Object;
+					var t_edit:comEdit;
+					switch (ia_data.classType){
+						case "0":
+							var t_win:StartClassE = new StartClassE();
+							t_win.canvasLabel2Temp = 2; //1 開啟, 2 關閉
+							t_data = {
+								win: t_win,
+								fun: "V",
+								row: {sn:ia_data.sn}
+							};
+							Fun.openPopup(t_win, this);				
+							t_edit = t_win.edit_1; 
+							t_edit.sApp = is_app;
+							t_edit.sInf = "StartClassE";
+							t_edit.sTitle = iR.message03;							
+							t_edit.init(t_data);							
+							t_win.tb_ClassTeacher.visible = false;
+							break;
+						case "1":
+							var t_wins:SkillClassE = new SkillClassE();							
+							t_data = {
+								win: t_wins,
+								fun: "V",
+								row: {sn:ia_data.sn}
+							};
+							Fun.openPopup(t_wins, this);				
+							t_edit = t_wins.edit_1; 
+							t_edit.sApp = is_app;
+							t_edit.sInf = "SkillClassE";
+							t_edit.sTitle = iR.message03;					
+							t_edit.init(t_data);
+							t_wins.fTuition.visible = false;
+							t_wins.fClassH.visible = false;							
+							t_wins.tb_ClassTeacher.visible = false;
+							t_wins.tns.removeChild(t_wins.canvasLabel3);							
+							break;
+					}					
+				}			
+			}
+		]]>
+	</fx:Script>
+	<x2:sysBG/>
+	<x2:subFunHead/>
+	
+	<mx:HBox x="81" y="43" width="100%" verticalAlign="middle">		
+		<s:FormItem label="{iR.classLeavesSn} :">
+			<x2:DDL1 id="classLeavesSn" dataProvider="{ia_classInfoStartConb}" change="fnQuery()" width="250"></x2:DDL1>
+		</s:FormItem>
+		<mx:Label text="{iR.CTeacher}" id="CTeacher" click="fnQueryCT()" useHandCursor="true" mouseChildren="false" buttonMode="true" textDecoration="underline" color="#0000FF"/>
+		<mx:Label id="remark" color="#FF0000" fontWeight="bold"/>
+		<mx:Button id="seeMore" height="25" click="cmdFunData()" icon="@Embed(source='x2/image/view.png')" label="... See More" buttonMode="true" color="#0000FF"/>
+	</mx:HBox>
+	<s:DataGrid id="grid_1" x="55" y="87" width="92%" height="80%" alpha="0.7" variableRowHeight="true">
+		<s:columns>
+			<s:ArrayList>
+				<s:GridColumn headerText="" dataField="process" width="100"/>
+				<s:GridColumn headerText="Monday" dataField="theMonday"/>
+				<s:GridColumn headerText="Tuesday" dataField="theTuesday"/>
+				<s:GridColumn headerText="Wednesday" dataField="theWednesday"/>
+				<s:GridColumn headerText="Thursday" dataField="theThursday"/>
+				<s:GridColumn headerText="Friday" dataField="theFriday"/>
+			</s:ArrayList>
+		</s:columns>
+	</s:DataGrid>
+</s:Application>

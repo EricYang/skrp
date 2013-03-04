@@ -1,0 +1,47 @@
+{
+    "dws":[
+	    {
+			"selectTable": "FilesMana",   
+			"items": [
+                {"fid":"sn"}, 
+                {"fid":"funcItemSn"},
+                {"fid":"filesAlias"},
+                {"fid":"description"},
+                {"fid":"fileName"},
+                {"fid":"deleFlag"},
+                {"fid":"creator"},
+                {"fid":"createDate"},
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+            ]				
+	    },
+        {
+            "selectTable": "FilesRole a INNER JOIN Role b ON a.roleSn = b.sn [_where] ORDER BY b.roleName",
+            "updateTable": "FilesRole",
+            "defaultTable":"a",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"filesManaSn"},
+                {"fid":"roleSn"},
+                {"fid":"roleName",    "table":"b"}
+            ]                
+        },
+        {
+            "selectTable": "FilesUsed a INNER JOIN vw_users b ON a.userSn = b.sn AND a.userType = b.userType [_where] ORDER BY a.dDate DESC",
+            "updateTable": "FilesUsed",
+            "defaultTable":"a",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"filesManaSn"},
+                {"fid":"userType"},
+                {"fid":"userSn"},
+                {"fid":"dDate"},
+                {"fid":"userNo",    "table":"b"},
+                {"fid":"userName",  "table":"b"},
+                {"fid":"gender",    "table":"b"}
+            ]                
+        }
+    ]    
+}

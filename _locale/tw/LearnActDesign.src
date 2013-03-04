@@ -1,0 +1,18 @@
+﻿# list/query fields
+actScope=活動領域
+unitName=單元名稱
+suitAge=適用年齡
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# E
+cDescribe=說明
+textFilesName=開啟學習檔案
+tmpFileNameUpload=學習檔案上傳
+tmpFileName=瀏覽檔案
+
+# message
+message01=活動領域尚未填寫
+message02=檔案類型不符, 檔案必須為 (.pdf, .xls, .xlsx, .doc, .docx, .ppt, .jpg, .gif, .jpeg, .png) 格式

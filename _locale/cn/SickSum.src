@@ -1,0 +1,24 @@
+﻿# list/query fields
+itemName=异常种类
+M1=一月
+M2=二月
+M3=三月
+M4=四月
+M5=五月
+M6=六月
+M7=七月
+M8=八月
+M9=九月
+M10=十月
+M11=十一月
+M12=十二月
+mCount=合计
+
+# Q
+academicYear=学年
+semester=学期
+
+# message
+message01=合计
+message02=[学年]不可空白！
+message03=此条件下无任何资料！

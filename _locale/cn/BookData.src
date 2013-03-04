@@ -1,0 +1,19 @@
+﻿# list/query fields
+bookNo=书籍编号
+bookName=书籍名称
+cDate=购买日期
+price=价格
+isbn=ISBN
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# E
+publisher=出版社
+author=作者
+quantity=数量
+remark=备注
+
+# message
+message01=该书籍编号或ISBN 已存在，请重新填写。

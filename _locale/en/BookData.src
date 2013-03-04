@@ -1,0 +1,19 @@
+﻿# list/query fields
+bookNo=book number
+bookName=book name
+cDate=purchase date
+price=purchase price
+isbn=ISBN=ISBN
+creator=created by
+createDate=created on
+reviser=modified by
+reviseDate=last modified
+
+# E
+publisher=publisher
+author=author
+quantity=quantity
+remark=remark
+
+# message
+message01==the book number or ISBN already exists.

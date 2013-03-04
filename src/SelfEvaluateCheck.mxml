@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*" 
+	 
+	
+	 
+	width="100%" height="100%" 
+ 	creationComplete="init()"	
+	preinitialize="{iR=Fun.getLang('SelfEvaluateCheck')}"
+ 	>
+	<fx:Script>
+		<![CDATA[		
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			import mx.utils.StringUtil;
+			[Bindable]
+			private var iR:Object;
+			[Bindalbe]
+			private var is_app:String = Fun.sApp;			
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["usersSn","schoolDSn"]});
+			
+			private function init():void {
+				list_1.nAppRange = 1; //0 不分  1 個人	2 部門
+				list_1.asFOwner = ["creator"];
+				
+				list_1.wQuery = new SelfEvaluateCheckQ();
+				list_1.wEdit = new SelfEvaluateCheckE();			
+				list_1.gList = grid_1;
+				list_1.init();
+				
+				var t_data:Object ={
+					data: "listSelfEvaluateCheck"
+				};
+				grid_1.dataProvider = new ArrayCollection(Fun.readRows(is_app, t_data));	
+			}
+			
+			private function openPdfFiles():void {				
+				var t_row:Object = grid_1.selectedItem;
+				if (t_row==null){
+					Fun.msg("I", iR.message01);					
+				}else{
+					//執行 PDF 資料匯出
+					var fileNameTmp:String = StringUtil.trim('SelfEvaluateCheck_' + String(i_session.schoolDSn) + '_' + String(i_session.usersSn) + '_' + String(new Date().getTime()) + '.pdf');
+					var m_data:Object = {
+						selfEvaluateCheckSn: int(t_row.sn),
+						fileNameTmp: fileNameTmp,
+						defaultPdfPath: "../" + Fun2.fPdf
+					};
+					var ts_result:String = Fun.sync(is_app, "SelfEvaluate", m_data, false) as String;
+					
+					switch (ts_result){
+						case "0":
+							Fun.msg("E", iR.message02);
+							break;
+						case "1":
+							Fun.openFile(Fun.sDirRoot + Fun2.fPdf + fileNameTmp);
+							break;
+					}				
+				}
+			}
+		]]>
+	</fx:Script>
+	<x2:sysBG/>
+	<x2:subFunHead/>
+	<s:HGroup x="81" y="59">
+		<x2:comList id="list_1">
+		</x2:comList>
+		<x2:BtnPdf id="outputPdf" click="openPdfFiles()"/>		
+	</s:HGroup>
+	<!--
+	<x2:comList x="81" y="59" id="list_1">
+	</x2:comList>
+	<x2:BtnPdf x="859" y="60" id="outputPdf" click="openPdfFiles()"/>
+	-->
+	<s:DataGrid id="grid_1" x="55" y="87" width="92%" height="80%" alpha="0.7">
+		<s:columns>
+			<s:ArrayList>
+				<s:GridColumn dataField="sn" visible="false"/>
+				<s:GridColumn headerText="{iR.acaName}" dataField="acaName" width="80"/>						
+				<s:GridColumn headerText="{iR.staffName}" dataField="staffName"/>
+				<s:GridColumn headerText="{iR.cDate}" dataField="cDate" width="85"/>
+				<s:GridColumn headerText="{iR.creator}" dataField="creator" width="80"/>
+				<s:GridColumn headerText="{iR.createDate}" dataField="createDate" width="130"/>
+				<s:GridColumn headerText="{iR.reviser}" dataField="reviser" width="80"/>
+				<s:GridColumn headerText="{iR.reviseDate}" dataField="reviseDate" width="130"/>
+			</s:ArrayList>
+		</s:columns>
+	</s:DataGrid>
+</s:Application>

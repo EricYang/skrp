@@ -1,0 +1,7 @@
+﻿# list/query fields
+teacherList=teacher list (please select)
+select=select
+cTitles=job title
+cName=Chinese name
+eName=English name
+gender=gender

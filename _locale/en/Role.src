@@ -1,0 +1,24 @@
+﻿# list/query fields
+roleName=Role Name
+description=Description
+creator=Created by
+createDate=Created on
+reviser=Revised by
+reviseDate=Revised on
+
+# E
+Canvas01=基本資料
+Canvas02=Role Setting
+sysCodeName=Program Name
+insertFunc=Insert
+updateFunc=Edit
+deleteFunc=Delete
+searchFunc=Search
+viewFunc=View
+reportFunc=File
+exportFunc=Export
+Canvas03=角色人員
+userType=角色
+userNo=編號
+userName=姓名
+gender=性別

@@ -1,0 +1,39 @@
+{
+    "dws":[
+	    {
+		"selectTable": "AccMonthPaidDT",
+		"items": [
+                    {"fid":"sn"},
+                    {"fid":"serialNo"},
+                    {"fid":"cDate"},
+                    {"fid":"creator"},
+                    {"fid":"createDate"},
+                    {"fid":"reviser"},
+                    {"fid":"reviseDate"}
+		]								
+	    },
+	    {
+		"selectTable": "AccMonthPaid a INNER JOIN
+                                AccMIncomeStu b ON a.accMIncomeStuSn = b.sn INNER JOIN
+                                Student c ON b.studentSn = c.sn
+                                [_where] ORDER BY b.serialNo",
+                "updateTable": "AccMonthPaid",
+                "defaultTable": "a",
+		"upDW": 0,
+		"items": [
+                    {"fid":"sn"},
+	            {"fid":"accMonthPaidDTSn"},
+                    {"fid":"accMIncomeStuSn"},
+                    {"fid":"serialNo",          "table":"b"},
+                    {"fid":"classLeavesSn",     "table":"b"},
+                    {"fid":"studentName",       "table":"", "colName":"CONCAT(c.stuNo, ' / ', c.cName, ' ', c.eName)"},
+                    {"fid":"cYearMonth",        "table":"", "colName":"CONCAT(b.cYear, ' / ', b.cMonth)"},
+                    {"fid":"amounts"},
+                    {"fid":"creator"},
+                    {"fid":"createDate"},
+                    {"fid":"reviser"},
+                    {"fid":"reviseDate"}
+		]				
+	    }
+    ]    
+}

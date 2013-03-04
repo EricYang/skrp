@@ -1,0 +1,9 @@
+﻿# list/query fields
+sTitle=please select an item grade(classification)
+classLeavesSn=class and grade
+sList=student list (please select from the list)
+select=select
+stuNo=student ID number
+birthDate=date of birth
+cName=Chinese name
+eName=English name

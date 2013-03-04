@@ -1,0 +1,34 @@
+//***********************************************************************************************************************
+//      <x2:DDL1 id="excuse" dataProvider="{ia_excuse}">
+//***********************************************************************************************************************
+	public static function excuseDS(ps_app:String, pb_addEmpty:Boolean=true):Array{			
+		return Fun.codeDS(ps_app, "excuse", pb_addEmpty);
+	}
+//***********************************************************************************************************************
+	public static function codeDS(ps_app:String, ps_type:String, pb_addEmpty:Boolean=false, ps_notIn:String=""):Array {			
+		var t_data:Object = {
+			data: "CodeTable",
+			type: ps_type
+		}
+		if (ps_notIn != ""){
+			t_data.notIn = ps_notIn;
+		}
+		return Fun.comboDS2(ps_app, t_data, pb_addEmpty);
+	}
+//***********************************************************************************************************************
+	select codeId as data, codeDesc as label from _Code_tw where typeId='excuse' and rowStatus='A'  order by orderNo, codeId;
+//***********************************************************************************************************************
+SELECT a.*, CONCAT(a.academicYear, ' - ', a.semester) AS acaName, 
+            CONCAT(b.cName, ' ', b.eName) AS studentName
+FROM BabyExcuse a 
+INNER JOIN student b ON a.studentSn = b.sn 
+                        AND a.academicYear = $_SESSION[self::csAcademicYear]
+                        AND a.semester = $_SESSION[self::csSemester]
+                        AND a.exDate>=CURDATE() 
+INNER JOIN ClassLeaves c ON a.classLeavesSn = c.sn
+WHERE a.classLeavesSn IN (".$p_data["csDataTemp"].")
+ORDER BY a.exDate;
+
+[["csDataTemp","S","1, 13, 14, 7, 8, 15, 9, 10, 0"],["academicYear","N","900"],["semester","N","1"]]
+inf:BabyExcuse
+list:list

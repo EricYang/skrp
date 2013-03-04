@@ -1,0 +1,50 @@
+{
+    "dws":[
+	    {
+			"selectTable": "Role",
+			"items": [
+				{"fid":"sn"}, 
+				{"fid":"roleName"}, 
+                {"fid":"description"}, 
+				{"fid":"creator"},
+                {"fid":"createDate"},
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+			]								
+	    },
+	    {
+			"selectTable": "RoleAca rp inner join Program p on rp.programSn=p.sn AND p.deleFlag = 0 [_where] order by p.sysCode",
+			"updateTable": "RoleAca",
+			"defaultTable": "rp",
+			"upDW": 0,
+			"items": [
+                {"fid":"sn"},
+	            {"fid":"roleSn"},
+                {"fid":"programSn"},
+                {"fid":"sysCodeName",     "table":"", "colName":"CONCAT(p.sysCode, ' ', p.sysName)"},
+	            {"fid":"insertFunc"},
+                {"fid":"updateFunc"},
+                {"fid":"deleteFunc"},
+                {"fid":"searchFunc"},
+                {"fid":"viewFunc"},
+                {"fid":"reportFunc"},
+                {"fid":"exportFunc"}
+			]				
+	    },
+        {
+            "selectTable": "RoleUser a INNER JOIN vw_users b ON a.userSn = b.sn AND a.userType = b.userType [_where] ORDER BY b.userType, b.userName",
+            "updateTable": "RoleUser",
+            "defaultTable":"a",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"roleSn"},
+                {"fid":"userType"},
+                {"fid":"userSn"},
+                {"fid":"userNo",    "table":"b"},
+                {"fid":"userName",  "table":"b"},
+                {"fid":"gender",    "table":"b"}
+            ]                
+        }
+    ]    
+}

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="500" height="250"
+	close="closeWin()"
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('AccReport')}"
+	title="{iR.reportTitle202}"
+	>
+	<fx:Script>
+		<![CDATA[
+
+			import mx.collections.ArrayCollection;
+			import mx.collections.ArrayList;
+			import mx.utils.StringUtil;
+			
+			import x2.*;
+			
+			public var fAfterOk:Function;
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["academicYear","semester", "usersSn","schoolDSn"]});
+			[Bindable]			
+			public var ia_classInfoStartConb:ArrayList = new ArrayList(Fun2.classInfoStartConbDS(is_app, false));
+			
+			private function init():void{
+				Fun.setItem(academicYear, int(i_session.academicYear));
+				Fun.setItem(semester, int(i_session.semester));
+				
+				var t_date:Date = new Date();
+				Fun.setItem(cYearA, t_date.fullYear);
+				Fun.setItem(cMonthA, t_date.month + 1);
+				Fun.setItem(cYearB, t_date.fullYear);
+				Fun.setItem(cMonthB, t_date.month + 2);
+			}
+			private function okClick():void{				
+				//判斷是否輸入正確
+				if (int(Fun.getItem(classLeavesSn))==0) {
+					Fun.msg("E", iR.message05);
+					return;					
+				}
+				if (Fun.isFieldEmpty(cYearA) || Fun.isFieldEmpty(cMonthA)) {
+					Fun.msg("E", iR.message06);
+					return;					
+				}
+				if (Fun.isFieldEmpty(cYearB) || Fun.isFieldEmpty(cMonthB)) {
+					Fun.msg("E", iR.message07);
+					return;					
+				}
+				
+				if (Fun.getItem(cYearA) != null && (int(Fun.getItem(cYearA))<1900 || int(Fun.getItem(cYearA)) > 3000)){					
+					Fun.msg("E", iR.message02);
+					Fun.focusField(cYearA);
+					return;
+				}
+				if (Fun.getItem(cMonthA) != null && (int(Fun.getItem(cMonthA))<1 || int(Fun.getItem(cMonthA)) > 12)){
+					Fun.msg("E", iR.message03);
+					Fun.focusField(cMonthA);
+					return;
+				}
+				
+				if (Fun.getItem(cYearB) != null && (int(Fun.getItem(cYearB))<1900 || int(Fun.getItem(cYearB)) > 3000)){					
+					Fun.msg("E", iR.message02);
+					Fun.focusField(cYearB);
+					return;
+				}
+				if (Fun.getItem(cMonthB) != null && (int(Fun.getItem(cMonthB))<1 || int(Fun.getItem(cMonthB)) > 12)){
+					Fun.msg("E", iR.message03);
+					Fun.focusField(cMonthB);
+					return;
+				}			
+				
+				//新建並複製資料			
+				var m_data:Object = {
+					classLeavesSn: int(Fun.getItem(classLeavesSn)),
+					cYearA: Fun.getItem(cYearA),
+					cMonthA: Fun.getItem(cMonthA),
+					cYearB: Fun.getItem(cYearB),
+					cMonthB: Fun.getItem(cMonthB)
+				};
+				var ts_result:int = Fun.sync(is_app, "AccMonthIncomeCopy", m_data, true) as int;
+				switch (ts_result){
+					case -1:
+						Fun.msg("I", iR.result01);
+						break;					
+					case 0:
+						Fun.msg("I", iR.result02);
+						break;
+					default:
+						Fun.msg("I", iR.result03+" "+String(ts_result)+" "+iR.result04);
+						break;
+				}
+			}
+			//離開
+			private function closeWin():void{
+				Fun.closePopup(this);
+			}
+		]]>
+	</fx:Script>
+	<s:Form x="10" y="10" width="100%">
+		<s:layout> 
+			<s:FormLayout gap="-8"/>
+		</s:layout>
+		<s:FormItem label="{iR.yearFor}">
+			<mx:HBox width="100%">
+				<mx:Label id="academicYear"/>
+				<mx:Label text=" ("/>
+				<mx:Label id="semester"/>
+				<mx:Label text=")"/>
+			</mx:HBox>
+		</s:FormItem>
+		<s:FormItem label="{iR.classFor}" required="true">
+			<x2:DDL1 id="classLeavesSn" dataProvider="{ia_classInfoStartConb}"></x2:DDL1>
+		</s:FormItem>
+		<s:FormItem label="{iR.formYearToMonth}" required="true">
+			<s:HGroup>
+				<x2:Num1 id="cYearA"/>				
+				<mx:Label text=" /"/>
+				<x2:Num1 id="cMonthA"/>
+			</s:HGroup>
+		</s:FormItem>
+		<s:FormItem label="{iR.copyFormYearToMonth}" required="true">
+			<s:HGroup>
+				<x2:Num1 id="cYearB"/>				
+				<mx:Label text=" /"/>
+				<x2:Num1 id="cMonthB"/>
+			</s:HGroup>
+		</s:FormItem>
+	</s:Form>
+	<mx:HBox x="10" y="186">
+		<mx:Button click="okClick()" icon="@Embed(source='x2/image/checked.gif')" id="cmdOk" label="{Fun.R.ok}" buttonMode="true"/>		
+		<mx:Button height="26" click="closeWin()" icon="@Embed(source='x2/image/close.png')" id="cmdExit" label="{Fun.R.exit}" buttonMode="true"/>
+	</mx:HBox>
+</s:TitleWindow>

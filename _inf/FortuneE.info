@@ -1,0 +1,30 @@
+{
+    "dws":[
+        {            
+            "selectTable": "Fortune a LEFT OUTER JOIN
+                    Staff b ON a.staffSnU = b.sn LEFT OUTER JOIN
+                    Staff c ON a.staffSnK = c.sn",                
+            "updateTable": "Fortune",
+            "defaultTable": "a",  
+            "items": [
+                {"fid":"sn"},
+				{"fid":"fortuneNo"},
+                {"fid":"fortuneName"},
+                {"fid":"brand"},
+                {"fid":"ts"},
+                {"fid":"cDate"},
+                {"fid":"price"},
+                {"fid":"staffSnU"},
+                {"fid":"uName",     "table":"",     "colName":"CONCAT(b.cName, ' ', b.eName)"},
+                {"fid":"place"},
+                {"fid":"staffSnK"},
+                {"fid":"kName",     "table":"",     "colName":"CONCAT(c.cName, ' ', c.eName)"},
+                {"fid":"remark"},
+                {"fid":"creator"},
+                {"fid":"createDate"},           
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+			]
+		}			   
+   ]    
+}

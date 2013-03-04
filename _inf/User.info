@@ -1,0 +1,12 @@
+{
+    "list":{
+		"select": "select userId, userName, roleId",
+		"from": "from User [_where]",
+		"order": "order by userId",
+		"items": [
+			{"fid":"userId",     "op":"like"},
+			{"fid":"userName",   "op":"like"},
+            {"fid":"roleId"}
+		]
+    }
+}

@@ -1,0 +1,16 @@
+﻿# list/query fields
+cDate=Date
+classInfoName=Class
+M1=Expected Attendence
+M2=Actual Attendence
+M3=Absentee List
+M4=Sick Leave
+M5=Leave of Absence
+M6=Other
+
+# Q
+classLeavesSn=班別(級)
+# message
+message01=合計
+message02=[日期]不可空白！
+message03=此條件下無任何資料！

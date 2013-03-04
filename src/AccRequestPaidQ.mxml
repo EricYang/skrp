@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	width="500" height="190" xmlns:x2="x2.*" 
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('AccRequestPaid')}"
+ 	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;	
+			[Bindable]
+			private var iR:Object;	
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+
+			private function init():void{
+				qry_1.aoItem = [
+					{source:serialNo,		dataType:"S"},
+					{source:cDate,			dataType:"D",	relat:cDate2},
+					{source:cDate2,			dataType:"D"}
+				];
+			}		
+		]]>
+	</fx:Script>
+	<s:Form x="10" y="10">
+		<s:layout> 
+			<s:FormLayout gap="-8"/>
+		</s:layout>
+		<s:FormItem label="{iR.serialNos} :">
+			<s:TextInput id="serialNo" width="100%"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.cDate} :">			
+			<s:HGroup width="100%">
+				<x2:Date1 formatString="YYYY/MM/DD" id="cDate" yearNavigationEnabled="true"/>
+				<s:Label text=" - "/>
+				<x2:Date1 formatString="YYYY/MM/DD" id="cDate2" yearNavigationEnabled="true"/>
+			</s:HGroup>			
+		</s:FormItem>
+	</s:Form>
+	<x2:comQuery x="412" y="10" id="qry_1">
+	</x2:comQuery>
+</s:TitleWindow>

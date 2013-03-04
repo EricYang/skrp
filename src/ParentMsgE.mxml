@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="600" height="440" 	 
+  	creationComplete="init()"  	 
+	preinitialize="{iR=Fun.getLang('ParentMsg')}"
+	>
+	<fx:Script>
+		<![CDATA[			
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			
+			private var is_app:String = Fun.sApp;
+			private var idw_master:DW;
+			
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["usersSn","academicYear","semester"]});
+			
+			private function doFindPStuList():void{
+				Fun2.openPStuList(is_app, this, ReturnPStuList);
+			}			
+			private function ReturnPStuList(p_row:Object):void{				
+				Fun.setItem(studentName, p_row.cName + " " + p_row.eName);
+				idw_master.setItem(studentSn, p_row.sn, true);
+				idw_master.setItem(classLeavesSn, p_row.classLeavesSn, true);				
+			}
+			
+			private function init():void{
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {					
+					mapping: true,
+					autos: ["","createDate","",""],					
+					keys: ["sn"],
+					items: [
+						{source:sn,				dataType:"N",	inputType:"I"},
+						{source:academicYear,	dataType:"N",	init:int(i_session.academicYear)}, 
+						{source:semester,		dataType:"N",	init:int(i_session.semester)},
+						{source:acaName,						update:false,	inputType:"R"},
+						{source:classLeavesSn,	dataType:"N"},
+						{source:parentSn,		dataType:"N",	init:int(i_session.usersSn)},						
+						{source:studentSn,		dataType:"N"},						
+						{source:studentName,					update:false,	inputType:"R",	required:true},
+						{source:subject,		dataType:"S"},
+						{source:leaveCon,		dataType:"S"},
+						{source:staffSn,						update:false,	inputType:"R"},
+						{source:staffName,						update:false,	inputType:"R"},
+						{source:replyCon,						update:false,	inputType:"R"},
+						{source:createDate,		dataType:"DT",					inputType:"R"},
+						{source:reviseDate,						update:false,	inputType:"R"}
+					]				
+				}; 
+			}
+				
+			private function afterOpen(p_data:Object):void{
+				switch (p_data.fun){					
+					case "U":
+					case "V":
+						SchStu.visible = false;						
+						break;					
+					case "C":
+						SchStu.visible = true;
+						break;
+				}
+
+				edit_1.btnSave.label = iR.message01;
+			}
+			private function whenSave(p_data:Object):Boolean{
+				/*
+				if (Fun.getItem(studentName)==""){
+					Fun.msg("E", "[" + iR.studentName + "] 不可空白 !");
+					return false;
+				}
+				*/
+				if (p_data.fun != "D"){
+					Fun.setItem(acaName, String(Fun.getItem(academicYear))+ ' - '+String(Fun.getItem(semester)));
+				}
+				return true;
+			}
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10" y="368" id="edit_1" fAfterOpen="afterOpen" fWhenSave="whenSave">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="academicYear" visible="false"/>
+	<x2:Num1 id="semester" visible="false"/>
+	<s:TextInput id="acaName" visible="false"/>
+	<x2:Num1 id="classLeavesSn" visible="false"/>
+	<x2:Num1 id="studentSn" visible="false"/>
+	<x2:Num1 id="parentSn" visible="false"/>	
+	<x2:Num1 id="staffSn" visible="false"/>	
+	<s:TextInput id="createDate" visible="false"/>
+	<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+		<mx:FormItem label="{iR.studentName} :" required="true">
+			<mx:HBox x="72" y="1" width="100%">
+				<s:TextInput id="studentName" editable="false"/>
+				<x2:btnPick id="SchStu" click="doFindPStuList()"/>				
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.subject} :" required="true">
+			<s:TextInput id="subject" width="394"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.leaveCon} :" required="true">
+			<mx:TextArea width="394" height="86" id="leaveCon"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.reviseDate} :">			
+			<s:TextInput id="reviseDate" enabled="false"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.staffName} :">
+			<s:TextInput id="staffName" enabled="false"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.replyCon} :">			
+			<mx:TextArea width="394" height="86" id="replyCon" enabled="false"/>
+		</mx:FormItem>
+	</mx:Form>
+</s:TitleWindow>

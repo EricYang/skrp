@@ -1,0 +1,90 @@
+# command button
+create=create
+read=search
+update=edit
+delete2=delete
+view=view
+report=report
+print=print
+export=export
+help=help
+clear=clear
+previous=previous
+next=next
+complete=complete
+save=save
+save2=save and continue
+exit=exit
+ok=confirm
+cancel=cancel
+close=close
+updCombo==update combobox
+addRow=insert row
+deleteRow=delete row
+toMain=return to the title page
+
+# button or image tip
+tipCreate=create a new data
+tipRead=open search tab
+tipUpdate=edit current data
+tipDelete=delete current data
+tipView=open the file as read-only
+tipReport=Report
+tipPrint=print data report
+tipExport=export data as excel
+tipHelp=open online tips
+tipSave=save and exit
+tipSave2=save and continue
+tipExit=exit 
+tipPre=previous
+tipNext=next
+tipImageRead=open search tab
+tipImageCreate=create new data
+tipNewRow=new data
+tipUpdated=date modified
+tipAddRow==create new data
+tipDeleteRow=remove data
+tipRunRead=search
+tipClear==clear the data on the screen
+tipOpenFile=open file
+tipDeleteFile=delete file
+
+# message
+information=information
+error=error
+question=question
+sureExit=Are you sure you want to exit?
+sureDelete=Are you sure you want to delete the data?
+reSave==Please save the data again.
+jobOk=file complete
+noQuote=no brackets allowed
+inputWrong=input error
+between=input error!number can't be more than two digits
+notEmpty=do not leave it blank
+sysError=system error. Please contact the system manager.
+noChange=no data changed
+selectRow=please select a row
+noRight==unauthorized, access denied
+qItemsEmpty=the item can't be left blank
+findRow=data found
+noRow=no data found
+yes=yes
+notUpload=unable to open the file. The file is not yet uploaded.
+
+# fields
+creator==created by
+created=created on
+reviser=modified by
+revised=last modified
+
+# others
+dataList==data list
+
+# calendar
+day0=Sun.
+day1=Mon.
+day2=Tues.
+day3=Wed.
+day4=Thur.
+day5=Fri.
+day6=Sat.

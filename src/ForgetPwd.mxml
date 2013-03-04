@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="500" height="275" 
+	 
+	close="closeWin()"
+  	creationComplete="init()"
+	title="{iR.ftitle}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindable]
+			private var checkCode:String;
+			
+			private function init():void{
+				iR = Fun.getLang("_Login");
+				fSchoolCode.label = iR.schoolCode;
+				fLoginId.label = iR.loginId;
+				fEmail.label = iR.email;
+				fCheckCode.label = iR.checkCode;
+				
+				this.checkCode = this.createCode();
+			}
+			//產生驗證碼
+			private function createCode():String{
+				var code:String = "";
+				for(var i:int=0;i<4;i++){
+					code += (int)(Math.random()*10);
+				}
+				return code;
+			}
+			private function sendData():void{
+				//check
+				var ts_schoolCode:String = Fun.getItem(schoolCode) as String;
+				var ts_loginId:String = Fun.getItem(loginId) as String;
+				var ts_email:String = Fun.getItem(email) as String;
+				
+				if (Fun.isEmpty(ts_schoolCode)){
+					Fun.msg("E", iR.message01);
+					return;
+				}else if (Fun.isEmpty(ts_loginId)){
+					Fun.msg("E", iR.message02);
+					return;
+				}else if (Fun.isEmpty(ts_email)){
+					Fun.msg("E", iR.message03);
+					return;
+				}else if (!Fun.checkEmail(ts_email)){
+					Fun.msg("E", iR.message04);
+					return;					
+				}else if(this.loginCode.text != this.checkCode){
+					Fun.msg("E", iR.message05);
+					return;
+				}
+				
+				//send to server and show result
+				var t_data:Object = {
+					fun: "ForgetPwd",
+					schoolCode: ts_schoolCode,
+					loginId: ts_loginId,
+					email: ts_email
+				};
+				var ts_status:String = Fun.service2(t_data);
+				
+				switch (ts_status){
+					case "1":
+						Fun.msg("I", iR.message06);
+						closeWin();
+						break;
+					case "0":
+						Fun.msg("I", iR.message07);					
+						break;
+					case "-1":
+						Fun.msg("E", iR.message08);					
+						break;
+				}				
+			}
+			
+			private function closeWin():void{
+				Fun.closePopup(this);
+			}			
+		]]>
+	</fx:Script>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="startClassSn" visible="false"/>
+	<s:TextInput id="fileName" visible="false"/>
+	<mx:Form verticalScrollPolicy="off" 
+			 horizontalScrollPolicy="off" verticalGap="12" 
+			 backgroundColor="#FFFFFF" alpha="0.8" cornerRadius="5" 
+			 borderStyle="solid" borderColor="#FFFFFF"  
+			  x="10" y="10" width="470">
+		<mx:FormItem id="fSchoolCode" label="園所代碼 :" required="true">			
+			<s:TextInput id="schoolCode" width="160" maxChars="30"/>
+		</mx:FormItem>
+		<mx:FormItem id="fLoginId" label="使用者帳號 :" required="true">						
+			<s:TextInput id="loginId" width="160" maxChars="30"/>		
+		</mx:FormItem>
+		<mx:FormItem id="fEmail" label="電子信箱 :" required="true">						
+			<s:TextInput id="email" width="320" maxChars="60"/>		
+		</mx:FormItem>
+		<mx:FormItem id="fCheckCode" label="驗證碼 :" required="true">
+			<mx:HBox>
+				<mx:Label text="{this.checkCode}"/>
+				<s:TextInput id="loginCode" maxChars="4" restrict="0-9"/>				
+			</mx:HBox>
+		</mx:FormItem>
+	</mx:Form>
+	<mx:HBox width="470" horizontalAlign="center" verticalAlign="middle" backgroundColor="#FFFFFF" alpha="0.8" x="10" y="192" height="40" cornerRadius="5" borderStyle="solid" borderColor="#FFFFFF"  >
+		<mx:Button click="sendData()" icon="@Embed(source='x2/image/checked.gif')" id="cmdOk" label="OK" buttonMode="true"/>
+		<mx:Button click="closeWin()" icon="@Embed(source='x2/image/close.png')" id="cmdExit" label="Exit" buttonMode="true"/>
+	</mx:HBox>
+</s:TitleWindow>

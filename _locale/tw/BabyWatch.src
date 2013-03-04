@@ -1,0 +1,24 @@
+﻿# list/query fields
+acaName=學年(期)
+classLeavesSn=班別(級)
+studentName=學生姓名
+funcItemSn=主題
+cDate=日期
+watchTime=時間
+behavior=幼兒行為
+creator=建檔人員
+createDate=建檔日期
+
+# E
+timeHM=時間
+assay=分析
+advice=老師的建議
+observeRef=觀察心得
+
+# Q
+academicYear=學年
+semester=學期
+classInfoSn=班別
+classLeavesSn=班級
+cName=中文姓名
+eName=英文名

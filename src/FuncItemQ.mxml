@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	width="500" height="176" xmlns:x2="x2.*" 
+	
+	creationComplete="init()"	
+	preinitialize="{iR=Fun.getLang('FuncItem')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;	
+
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var ia_sysType:ArrayList = new ArrayList(Fun2.sysTypeDS(is_app, false));
+			
+			private function init():void{
+				qry_1.aoItem = [
+					{source:sysType},
+					{source:itemName}
+				];					
+			}			
+		]]>
+	</fx:Script>
+	<x2:comQuery x="407" y="10" id="qry_1">
+	</x2:comQuery>
+	<s:Form x="10" y="10" width="389">
+		<s:layout> 
+			<s:FormLayout gap="-8"/>
+		</s:layout>
+		<s:FormItem label="{iR.sysType} :">
+			<x2:DDL1 id="sysType" dataProvider="{ia_sysType}"></x2:DDL1>
+		</s:FormItem>
+		<s:FormItem label="{iR.itemName} :">
+			<s:TextInput id="itemName" width="100%"/>													
+		</s:FormItem>
+	</s:Form>
+</s:TitleWindow>

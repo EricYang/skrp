@@ -1,0 +1,31 @@
+{
+    "dws":[
+	    {
+			"selectTable": "AccTitle",
+			"items": [
+				{"fid":"sn"}, 
+                {"fid":"academicYear"},
+                {"fid":"semester"},
+                {"fid":"acaName",         "table":"", "colName":"CONCAT(academicYear, ' - ', semester)"},
+				{"fid":"accClass"},
+                {"fid":"creator"},
+                {"fid":"createDate"},
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+
+			]								
+	    },
+	    {
+			"selectTable": "AccTitleDetail [_where] ORDER BY sn",
+            "updateTable": "AccTitleDetail",
+			"upDW": 0,
+			"items": [
+                {"fid":"sn"},
+	            {"fid":"accTitleSn"},
+                {"fid":"accountCode"},
+	            {"fid":"accountName"},
+                {"fid":"fees"}
+			]				
+	    }
+    ]    
+}

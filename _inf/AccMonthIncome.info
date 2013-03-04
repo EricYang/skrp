@@ -1,0 +1,21 @@
+{
+    "list":{    
+        "select": "SELECT a.*, 
+                    CONCAT(b.cName, ' ', b.eName) AS studentName, 
+                    CONCAT(a.cYear, ' / ', a.cMonth) AS cYearMonth",
+        "from": "FROM AccMIncomeStu a INNER JOIN
+                    Student b ON a.studentSn = b.sn INNER JOIN
+                    ClassLeaves c ON a.classLeavesSn = c.sn
+                    [_where]",
+        "order": "ORDER BY  a.classLeavesSn, b.stuNo",
+        "items": [                        
+            {"fid":"serialNo",          "table":"a"},
+            {"fid":"classInfoSn",       "table":"c"},
+            {"fid":"classLeavesSn",     "table":"a"},
+            {"fid":"cName",             "table":"b",    "op":"like"},
+            {"fid":"eName",             "table":"b",    "op":"like"},
+            {"fid":"cYear",             "table":"a"},
+            {"fid":"cMonth",            "table":"a"}
+        ]
+    }
+}

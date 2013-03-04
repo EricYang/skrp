@@ -1,0 +1,21 @@
+﻿# list/query fields
+deleFlag=刪除
+academicYear=學年度
+semester=學期
+currentStatus=設定為目前學年期
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# message
+message05=是否確定刪除這筆資料 ?
+message06=此筆資料已刪除 !
+message07=資料刪除完成。
+
+# E
+# message
+message01=學年度，請輸入數值。
+message02=學期，請輸入數值。
+message03=該 學年(期) 已存在，請重新設定。
+message04=目前 學年(期) 已經設定，請先取消後再行設定。

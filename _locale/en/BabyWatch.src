@@ -1,0 +1,24 @@
+﻿# list/query fields
+acaName=academic year(term)
+classLeavesSn=grade and classfication
+studentName=student name
+funcItemSn=theme
+cDate=date
+watchTime=time
+behavior=child behavior/ performance
+creator=created by
+createDate=created on
+
+# E
+timeHM=time
+assay=assessment
+advice=teacher's advice
+observeRef=observation summary
+
+# Q
+academicYear=academic year
+semester=semester
+classInfoSn=grade
+classLeavesSn=class type
+cName=Chinese name
+eName=English name

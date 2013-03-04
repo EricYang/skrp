@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="595" height="478" 
+	 
+  	creationComplete="init()"  	 
+	preinitialize="{iR=Fun.getLang('EContactBook')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			private var is_app:String = Fun.sApp;
+			private var idw_master:DW;
+			
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["academicYear","semester"]});
+			[Bindable]
+			private var ia_dinesStatus:ArrayList = new ArrayList(Fun2.dinesStatusDS(is_app, true));
+			[Bindable]
+			private var ia_learnStatus:ArrayList = new ArrayList(Fun2.learnStatusDS(is_app, true));
+			[Bindable]
+			private var ia_sleepStatus:ArrayList = new ArrayList(Fun2.sleepStatusDS(is_app, true));
+			[Bindable]
+			private var ia_toiletStatusA:ArrayList = new ArrayList(Fun2.toiletStatusADS(is_app, true));
+			[Bindable]
+			private var ia_toiletStatusB:ArrayList = new ArrayList(Fun2.toiletStatusBDS(is_app, true));
+			
+			private function doFindStu():void{
+				Fun2.openStudent(is_app, this, ReturnStu, false);
+			}
+			
+			private function ReturnStu(p_row:Object):void{				
+				Fun.setItem(studentName, p_row.cName + " " + p_row.eName);
+				idw_master.setItem(studentSn, p_row.sn, true);
+				idw_master.setItem(classLeavesSn, p_row.classLeavesSn, true);
+			}
+			
+			private function init():void{
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					mapping: true,
+					autos: ["creator","createDate"],
+					keys: ["sn"],
+					items: [
+						{source:sn, 			dataType:"N",	inputType:"I"}, 
+						{source:academicYear,	dataType:"N",	init:int(i_session.academicYear)}, 
+						{source:semester,		dataType:"N",	init:int(i_session.semester)},
+						{source:acaName,						update:false,	inputType:"R"},
+						{source:classLeavesSn,	dataType:"N"},
+						{source:studentSn,		dataType:"N"},
+						{source:studentName,					update:false,	inputType:"R",	required:true},
+						{source:cDate,			dataType:"D"},
+						{source:dinesStatus,	dataType:"S"},
+						{source:learnStatus,	dataType:"S"},
+						{source:sleepStatus,	dataType:"S"},
+						{source:toiletStatusA,	dataType:"S"},						
+						{source:toiletStatusB,	dataType:"S"},
+						{source:tomoCarry,		dataType:"S"},
+						{source:teacherUrge,	dataType:"S"},
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"DT",	inputType:"R"}					
+					]				
+				};
+			}
+			
+			private function afterOpen(p_data:Object):void{
+				if (p_data.fun == "U" || p_data.fun == "V"){					
+					if (p_data.fun == "V") {
+						SchStu.visible = false; //檢視模是不顯示搜尋按鈕
+					}
+				}
+			}
+			private function whenSave(p_data:Object):Boolean{
+				if (p_data.fun != "D"){
+					Fun.setItem(acaName, String(Fun.getItem(academicYear))+ ' - '+String(Fun.getItem(semester)));
+				}
+				return true;
+			}
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10" y="405" id="edit_1" fAfterOpen="afterOpen" fWhenSave="whenSave">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="academicYear" visible="false"/>
+	<x2:Num1 id="semester" visible="false"/>
+	<s:TextInput id="acaName" visible="false"/>
+	<x2:Num1 id="classLeavesSn" visible="false"/>
+	<x2:Num1 id="studentSn" visible="false"/>	
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>	
+	<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+		<mx:FormItem label="{iR.studentName} :" required="true">
+			<mx:HBox x="72" y="1" width="100%">
+				<s:TextInput id="studentName" editable="false"/>
+				<x2:btnPick id="SchStu" click="doFindStu()"/>				
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.cDate} :" required="true">
+			<mx:DateField formatString="YYYY/MM/DD" id="cDate" yearNavigationEnabled="true"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.dinesStatus} :">
+			<x2:DDL1 id="dinesStatus" dataProvider="{ia_dinesStatus}"></x2:DDL1>		
+		</mx:FormItem>
+		<mx:FormItem label="{iR.learnStatus} :">
+			<x2:DDL1 id="learnStatus" dataProvider="{ia_learnStatus}"></x2:DDL1>			
+		</mx:FormItem>
+		<mx:FormItem label="{iR.sleepStatus} :">
+			<x2:DDL1 id="sleepStatus" dataProvider="{ia_sleepStatus}"></x2:DDL1>			
+		</mx:FormItem>		
+		<mx:Label text="{iR.toiletStatus} :" fontWeight="bold"/>
+		<mx:FormItem label="{iR.toiletStatusA} :">
+			<x2:DDL1 id="toiletStatusA" dataProvider="{ia_toiletStatusA}"></x2:DDL1>			
+		</mx:FormItem>
+		<mx:FormItem label="{iR.toiletStatusB} :">
+			<x2:DDL1 id="toiletStatusB" dataProvider="{ia_toiletStatusB}"></x2:DDL1>			
+		</mx:FormItem>
+		<mx:FormItem label="{iR.tomoCarry} :">
+			<mx:TextArea width="400" id="tomoCarry"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.teacherUrge} :">
+			<mx:TextArea width="400" id="teacherUrge"/>
+		</mx:FormItem>
+	</mx:Form>
+</s:TitleWindow>

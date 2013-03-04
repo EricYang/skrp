@@ -1,0 +1,39 @@
+﻿# list/query fields
+docNoa=File Number
+docNob=Edition
+cDate=Due Date
+subject=Title
+staffSnA=Person in Charge
+staffSnB=Co-organiser
+staffSnC=organiser
+proFlag=Status
+creator=created by
+createDate=created on
+reviser=modified by
+reviseDate=last modified
+
+# E
+Canvas01=交辦事項
+traceCase=追蹤此案件
+contents=content
+sncDate=Date
+proDate=Date
+proDescribe=說明
+
+Canvas02=Reply
+rDate=Reply Date
+rContents=Reply content
+proFlagReply=Status
+proDateReply=Date
+
+Canvas03=History Record
+
+# message
+message01=確定追蹤此案件？
+message02=取號錯誤！請重新點選。
+message03=待辦事項歷史資料
+message04=The person in charge cannot be youself.
+message05=協辦人不得為自己
+message06=負責人 與 協辦人不得為同一人
+
+# Q

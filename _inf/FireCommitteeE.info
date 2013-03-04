@@ -1,0 +1,53 @@
+{
+    "dws":[
+	    {
+			"selectTable": "FireCommittee",
+			"items": [
+				{"fid":"sn"}, 
+                {"fid":"academicYear"},
+                {"fid":"semester"},                
+                {"fid":"acaName",         "table":"", "colName":"''"},
+                {"fid":"cDate"},
+                {"fid":"remark"},
+                {"fid":"creator"},
+                {"fid":"createDate"},
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+
+			]								
+	    },
+	    {
+			"selectTable": "FireCommitteeAC a LEFT OUTER JOIN Staff b ON a.staffSn = b.sn",
+            "updateTable": "FireCommitteeAC",
+            "defaultTable":"a",
+			"upDW": 0,
+			"items": [
+                {"fid":"sn"},
+	            {"fid":"fireCommitteeSn"},                
+                {"fid":"staffSn"},
+                {"fid":"fireTitles"},
+                {"fid":"titlesSn",   "table":"b"},
+                {"fid":"cName",      "table":"b"},
+                {"fid":"remark"}
+			]				
+	    },
+        {
+            "selectTable": "FireCommitteePV a 
+                            LEFT OUTER JOIN Staff b ON a.staffSnA = b.sn INNER JOIN Titles c ON b.titlesSn = c.sn 
+                            LEFT OUTER JOIN Staff d ON a.staffSnB = d.sn INNER JOIN Titles e ON d.titlesSn = e.sn",
+            "updateTable": "FireCommitteePV",
+            "defaultTable":"a",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"fireCommitteeSn"},
+                {"fid":"fireTitles"},
+                {"fid":"staffSnA"},
+                {"fid":"place"},
+                {"fid":"staffSnB"},
+                {"fid":"pfPerson",         "table":"", "colName":"CONCAT(c.titlesName, ' ', b.cName)"},
+                {"fid":"fsPerson",         "table":"", "colName":"CONCAT(e.titlesName, ' ', d.cName)"}
+            ]                
+        }
+    ]    
+}

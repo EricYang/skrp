@@ -1,0 +1,19 @@
+﻿# list/query fields
+label=Item
+data=Quantity
+allCount=※ Total Percentage
+desc=◎ Quantity ( 百分比 % )
+cmdExit=Exit
+
+# message
+message01=※ Total Percentage：
+message02= 筆。
+message03= 筆  (
+
+# E
+
+# message
+
+# Q
+
+# message

@@ -1,0 +1,17 @@
+﻿# list/query fields
+fortuneNo=財產編號
+fortuneName=財產名稱
+brand=廠牌
+ts=型號規格
+cDate=購買日期
+price=價格
+uName=使用人
+place=存放地點
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# E
+kName=保管人
+remark=備註

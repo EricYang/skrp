@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="695" height="430" 
+	 
+  	creationComplete="init()"  	 	
+	preinitialize="{iR=Fun.getLang('TimeTable')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;	
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindalbe]
+			private var idw_master:DW;				
+			[Bindalbe]
+			private var idw_TimeTableCD:DW2;
+			[Bindalbe]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var ia_jobs:ArrayList = new ArrayList(Fun2.jobsDS(is_app, true));
+			
+			private var i_col1:Object, i_col2:Object;			
+			private function doFindStaff(p_col1:Object, p_col2:Object):void{				
+				i_col1 = p_col1;
+				i_col2 = p_col2;
+				Fun2.openStaff(is_app, this, ReturnStaff);
+			}
+			private function ReturnStaff(p_row:Object):void{				
+				Fun.setItem(i_col1,p_row.cName + " " + p_row.eName);
+				idw_master.setItem(i_col2, p_row.sn, true);
+			}
+			private function init():void{	
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					mapping: true,
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					items: [						
+						{source:sn,				dataType:"N",	inputType:"I"},
+						{source:staffSn,		dataType:"N"},
+						{source:staffName,						update:false,	inputType:"R",	required:true},
+						{source:sTimeH,			dataType:"N"},
+						{source:sTimeM,			dataType:"N"},
+						{source:eTimeH,			dataType:"N"},
+						{source:eTimeM,			dataType:"N"},
+						{source:seTimeHM,						update:false,	inputType:"R"},
+						{source:jobs,			dataType:"S"},
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"DT",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"DT",	inputType:"R"}
+					]				
+				};				
+				
+				//dw3: TimeTableCD
+				edit_1.aoDW[1] = new DW2();
+				idw_TimeTableCD = edit_1.aoDW[1]; 
+				idw_TimeTableCD.xTool = tb_TimeTableCD;
+				idw_TimeTableCD.oConfig = {			
+					upDW: idw_master,
+					grid: grid_TimeTableCD,
+					upQKeys: ["sn"],
+					qKeys: ["timeTableSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"timeTableSn",		dataType:"N", 	inputType:"2"},
+						{fid:"cDate",			dataType:"D"}
+					]				
+				};
+			}
+				
+			//編輯視窗開啟後顯示該代辦事項交辦人及負責人名字
+			private function afterOpen(p_data:Object):void{			
+				if (p_data.fun == "U" || p_data.fun == "V"){
+					if (p_data.fun == "V") {						
+						SchStaff.visible = false; //檢視模式不顯示搜尋按鈕及說明文字
+					}									
+				}
+			}
+			private function whenSave(p_data:Object):Boolean{
+				if (p_data.fun != "D"){					
+					//Fun.setItem(seDate, Fun.getItem(sDate)+ ' — '+Fun.getItem(eDate));
+					Fun.setItem(seTimeHM, Fun.getItem(sTimeH)+ '：'+Fun.getItem(sTimeM)+ ' — ' +Fun.getItem(eTimeH)+ '：'+Fun.getItem(eTimeM));
+				}
+				return true;
+			}
+			private function serialNoLabelFunc(p_row:Object, p_column:GridColumn):String {
+				var index:int = p_column.grid.dataProvider.getItemIndex(p_row);
+				if (index > -1) {
+					return (index + 1).toString();
+				}
+				return "";
+			}
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10" y="359" id="edit_1" fAfterOpen="afterOpen" fWhenSave="whenSave">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="staffSn" visible="false"/>	
+	<s:TextInput id="seTimeHM" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+	<mx:Form x="10" y="10" verticalScrollPolicy="off" 
+			 horizontalScrollPolicy="off" verticalGap="12" 
+			 backgroundColor="#FFFFFF" alpha="0.8" cornerRadius="5" 
+			 borderStyle="solid" borderColor="#FFFFFF"  
+			  height="341">
+		<mx:FormItem label="{iR.staffName} :" required="true">
+			<mx:HBox x="72" y="1" width="100%">
+				<s:TextInput id="staffName" click="doFindStaff(staffName, staffSn)"/>
+				<x2:btnPick id="SchStaff" click="doFindStaff(staffName, staffSn)"/>				
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="時間(起) :" required="true">
+			<mx:HBox x="92" y="2" width="100%">
+				<mx:NumericStepper maximum="24" id="sTimeH"/>
+				<mx:Label text="："/>
+				<mx:NumericStepper maximum="59" id="sTimeM"/>
+			</mx:HBox>
+		</mx:FormItem>		
+		<mx:FormItem label="時間(迄) :" required="true">
+			<mx:HBox x="92" y="2" width="100%">				
+				<mx:NumericStepper maximum="24" id="eTimeH"/>
+				<mx:Label text="："/>
+				<mx:NumericStepper maximum="59" id="eTimeM"/>
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.jobs} :" required="true">
+			<!--請參考 _code_tw 的 jobs -->
+			<x2:DDL1 id="jobs" dataProvider="{ia_jobs}"></x2:DDL1>			
+		</mx:FormItem>
+	</mx:Form>
+	
+	<mx:Form verticalScrollPolicy="off" 
+			 horizontalScrollPolicy="off" verticalGap="12" 
+			 backgroundColor="#FFFFFF" alpha="0.8" cornerRadius="5" 
+			 borderStyle="solid" borderColor="#FFFFFF"  
+			  x="383" y="10">
+		<x2:TBar2 x="412" y="10" id="tb_TimeTableCD">
+		</x2:TBar2>
+		<x2:DG2 width="257"
+				 
+				 
+				 alpha="0.7"		
+				 		 
+				 
+				 
+				 height="269" id="grid_TimeTableCD">
+			<x2:columns><s:ArrayList>
+				<s:GridColumn dataField="sn" visible="false"/>						
+				<s:GridColumn dataField="timeTableSn" visible="false"/>
+				<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+				<s:GridColumn headerText="日期" dataField="cDate">
+					<s:itemRenderer>
+						<fx:Component><s:GridItemRenderer>
+							<x2:Date2 id="cDate"/>																																			
+						</s:GridItemRenderer></fx:Component>
+					</s:itemRenderer>        		         
+				</s:GridColumn>
+			</s:ArrayList></x2:columns>
+		</x2:DG2>
+	</mx:Form>
+</s:TitleWindow>

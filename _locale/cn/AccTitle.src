@@ -1,0 +1,11 @@
+﻿# list/query fields
+accClass=会计类别
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# E
+accountCode=科目代码
+accountName=科目名称
+fees=费用

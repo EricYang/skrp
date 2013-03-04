@@ -1,0 +1,35 @@
+{
+    "dws":[
+        {            
+            "selectTable": "SafeControlCheck a INNER JOIN Staff b ON a.staffSn = b.sn",
+            "updateTable": "SafeControlCheck",
+            "defaultTable": "a",
+            "items": [
+                {"fid":"sn"},
+                {"fid":"academicYear"},
+                {"fid":"semester"},
+                {"fid":"acaName",         "table":"", "colName":"CONCAT(a.academicYear, ' - ', a.semester)"},                
+                {"fid":"staffSn"},
+                {"fid":"staffName",       "table":"", "colName":"CONCAT(b.cName, ' ', b.eName)"},
+                {"fid":"cDate"},                
+                {"fid":"creator"},
+                {"fid":"createDate"},           
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+            ]
+        },
+        {
+            "selectTable": "SafeControlCheckDetail [_where] ORDER BY sn",
+            "updateTable": "SafeControlCheckDetail",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"safeControlCheckSn"},                
+                {"fid":"multiFuncItemDetailSn"},
+                {"fid":"itemName",      "table":"",    "colName":"''"},
+                {"fid":"contents",      "table":"",    "colName":"''"},                
+                {"fid":"checkSign"}
+            ]                
+        }
+   ]    
+}

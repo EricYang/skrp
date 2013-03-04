@@ -1,0 +1,39 @@
+﻿# list/query fields
+acaName=学年(期)
+staffName=自评者
+cDate=日期
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# message
+message01=请先选取一笔资料。
+message02=汇出 PDF 失败！查无资料，请重新点选。
+
+# E
+Canvas01=基本资料
+staffName=自评者
+cDate=日期
+Canvas02=基础评鉴
+itemName=评鉴项目
+contents=评鉴内容
+desc=说明
+score=评分
+remark=备注
+Canvas03=行政组织与经营管理
+Canvas04=教保活动
+Canvas05=卫生保健与环境安全
+Canvas06=机构特色
+
+# message
+message03=※ 评鉴项目共计：
+message04= 项。
+message05=评鉴自评项目
+
+# Q
+academicYear=学年
+semester=学期
+cDate=日期
+
+# message

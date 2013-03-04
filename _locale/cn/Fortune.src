@@ -1,0 +1,17 @@
+﻿# list/query fields
+fortuneNo=财产编号
+fortuneName=财产名称
+brand=厂牌
+ts=型号规格
+cDate=购买日期
+price=价格
+uName=使用人
+place=存放地点
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# E
+kName=保管人
+remark=备注

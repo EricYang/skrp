@@ -1,0 +1,28 @@
+{
+    "dws":[
+	    {
+			"selectTable": "ClassInfo",
+			"items": [
+				{"fid":"sn"}, 
+				{"fid":"theClassCode"}, 
+                {"fid":"theClassName"},
+                {"fid":"classType"},
+                {"fid":"creator"},
+                {"fid":"createDate"},
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+
+			]								
+	    },
+	    {
+			"selectTable": "ClassLeaves",
+			"upDW": 0,
+			"items": [
+                {"fid":"sn"},
+	            {"fid":"classInfoSn"},
+                {"fid":"classLeavesCode"},
+	            {"fid":"classLeavesName"}
+			]				
+	    }
+    ]    
+}

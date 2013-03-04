@@ -1,0 +1,68 @@
+; 127.0.0.1; 10:11:45; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:12:28; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 10:12:28; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341367948)
+Supervisor; 127.0.0.1; 10:12:28; Login; Supervisor
+Supervisor; 127.0.0.1; 10:12:29; _Main(getMain)
+Supervisor; 127.0.0.1; 10:12:30; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:12:32; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:12:38; _Service2(GetLang)
+Winter; 127.0.0.1; 10:12:48; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 10:12:48; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1341367968)
+Winter; 127.0.0.1; 10:12:48; Login; Winter
+Winter; 127.0.0.1; 10:12:49; _Main(getMain)
+Winter; 127.0.0.1; 10:12:50; _Service2(GetLang)
+Winter; 127.0.0.1; 10:12:52; _Service2(GetLang)
+Winter; 127.0.0.1; 10:12:58; _Service2(GetLang)
+Winter; 127.0.0.1; 10:13:06; _Service2(GetLang)
+; 127.0.0.1; 10:23:37; _Service2(GetLang)
+Winter; 127.0.0.1; 10:23:43; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 10:23:43; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1341368623)
+Winter; 127.0.0.1; 10:23:43; Login; Winter
+Winter; 127.0.0.1; 10:23:44; _Main(getMain)
+Winter; 127.0.0.1; 10:23:45; _Service2(GetLang)
+Winter; 127.0.0.1; 10:23:47; _Service2(GetLang)
+Winter; 127.0.0.1; 10:23:53; _Service2(GetLang)
+Winter; 127.0.0.1; 10:24:01; _Service2(GetLang)
+Winter; 127.0.0.1; 10:24:40; _Service2(GetLang)
+; 127.0.0.1; 10:25:26; _Service2(GetLang)
+; 127.0.0.1; 10:26:25; _Service2(GetLang)
+Winter; 127.0.0.1; 10:26:29; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 10:26:29; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1341368789)
+Winter; 127.0.0.1; 10:26:29; Login; Winter
+Winter; 127.0.0.1; 10:26:30; _Main(getMain)
+Winter; 127.0.0.1; 10:26:31; _Service2(GetLang)
+Winter; 127.0.0.1; 10:26:33; _Service2(GetLang)
+Winter; 127.0.0.1; 10:26:39; _Service2(GetLang)
+Winter; 127.0.0.1; 10:27:13; _Service2(GetLang)
+; 127.0.0.1; 10:29:29; _Service2(GetLang)
+Winter; 127.0.0.1; 10:30:58; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 10:30:58; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1341369058)
+Winter; 127.0.0.1; 10:30:58; Login; Winter
+Winter; 127.0.0.1; 10:30:59; _Main(getMain)
+Winter; 127.0.0.1; 10:31:00; _Service2(GetLang)
+Winter; 127.0.0.1; 10:31:02; _Service2(GetLang)
+Winter; 127.0.0.1; 10:31:08; _Service2(GetLang)
+Winter; 127.0.0.1; 10:31:16; _Service2(GetLang)
+Winter; 127.0.0.1; 10:31:32; _Service2(GetLang)
+Winter; 127.0.0.1; 10:32:02; _Service2(GetLang)
+Winter; 127.0.0.1; 10:32:18; _Service2(GetLang)
+Winter; 127.0.0.1; 10:32:26; _Service2(GetLang)
+Winter; 127.0.0.1; 10:32:46; _Service2(GetLang)
+; 127.0.0.1; 10:33:35; _Service2(GetLang)
+Winter; 127.0.0.1; 10:35:43; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 10:35:43; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1341369343)
+Winter; 127.0.0.1; 10:35:43; Login; Winter
+Winter; 127.0.0.1; 10:35:44; _Main(getMain)
+Winter; 127.0.0.1; 10:35:46; _Service2(GetLang)
+Winter; 127.0.0.1; 10:35:48; _Service2(GetLang)
+Winter; 127.0.0.1; 10:35:54; _Service2(GetLang)
+Winter; 127.0.0.1; 10:36:02; _Service2(GetLang)
+; 127.0.0.1; 10:37:57; _Service2(GetLang)
+Winter; 127.0.0.1; 10:38:19; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 10:38:19; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1341369499)
+Winter; 127.0.0.1; 10:38:19; Login; Winter
+Winter; 127.0.0.1; 10:38:20; _Main(getMain)
+Winter; 127.0.0.1; 10:38:21; _Service2(GetLang)
+Winter; 127.0.0.1; 10:38:23; _Service2(GetLang)
+Winter; 127.0.0.1; 10:38:29; _Service2(GetLang)
+Winter; 127.0.0.1; 10:38:42; _Service2(GetLang)

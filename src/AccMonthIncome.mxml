@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*" 
+	width="100%" height="100%" 
+ 	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('AccMonthIncome')}"
+ 	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			import mx.formatters.DateFormatter;
+			import mx.utils.StringUtil;
+			
+			[Bindable]
+			private var iR:Object;	
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]			
+			private var ia_classInfoName:ArrayList = new ArrayList(Fun2.classInfoNameDS(is_app, false));		
+			[Bindable]			
+			private var ia_sumOfMoney:ArrayList = new ArrayList(Fun2.sumOfMoneyDS(is_app, false));	
+			[Bindable]
+			private var ia_ynFlag:ArrayList = new ArrayList(Fun2.ynFlagDS(is_app, false));
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["usersSn","schoolDSn"]});
+			
+			private function init():void {			
+				list_1.wQuery = new AccMonthIncomeQ();
+				list_1.wEdit = new AccMonthIncomeE();			
+				(list_1.wEdit as AccMonthIncomeE).fAfterSave = afterSave;
+				list_1.gList = grid_1;
+				list_1.init();			
+			}
+			private function classInfoName(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_classInfoName, p_row[p_column.dataField]);
+			}
+			private function sumOfMoney(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_sumOfMoney, p_row[p_column.dataField]);
+			}
+			private function afterSave(p_data:Object):void {
+				ia_sumOfMoney = new ArrayList(Fun2.sumOfMoneyDS(is_app, false));
+				Fun.refreshGrid(grid_1);
+			}
+			private function ynFlag(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_ynFlag, p_row[p_column.dataField]);
+			}
+			private function catchFun(p_data:Object):Boolean {
+				var t_row:Object = grid_1.selectedItem;
+				if (t_row){
+					switch (t_row.paidFlag){
+						case "1":
+							switch (p_data.fun){
+								case "U":
+									list_1.btnClick("V");
+									return true;
+									break;
+								case "D":
+									Fun.msg("E", "此筆已繳費, 不得刪除");
+									return true;
+									break;
+							}
+							break;
+					}
+				}				
+				return false;				
+			}			
+			private function openPdfFiles():void {				
+				var t_row:Object = grid_1.selectedItem;
+				if (t_row==null){
+					Fun.msg("I", "請先選取一筆資料。");					
+				}else{
+					if (t_row.paidFlag!="1"){
+						//執行 PDF 資料匯出
+						var fileNameTmp:String = StringUtil.trim('AccMonthIncome_' + String(i_session.schoolDSn) + '_' + String(i_session.usersSn) + '_' + String(new Date().getTime()) + '.pdf');
+						var m_data:Object = {
+							sn: int(t_row.sn),
+							fileNameTmp: fileNameTmp,
+							defaultPdfPath: "../" + Fun2.fPdf
+						};
+						var ts_result:String = Fun.sync(is_app, "AccMonthIncome", m_data, false) as String;
+						
+						switch (ts_result){
+							case "0":
+								Fun.msg("E", "查無資料");
+								break;
+							case "1":
+								Fun.openFile(Fun.sDirRoot + Fun2.fPdf + fileNameTmp);
+								break;
+						}						
+					}else{
+						Fun.msg("E", "此筆已繳費");
+					}
+				}
+			}
+			public function AR202():void{				
+				var t_win:AccReport202 = new AccReport202();
+				Fun.openPopup(t_win, this);
+			}
+		]]>
+	</fx:Script>
+	<x2:sysBG/>
+	<x2:subFunHead/>
+	
+	<s:HGroup x="81" y="59">
+		<x2:comList id="list_1" fCatchFun="catchFun">
+		</x2:comList>
+		<x2:BtnPdf id="outputPdf" click="openPdfFiles()"/>
+		<mx:Button click="AR202()" icon="@Embed(source='x2/image/update.gif')" height="26" label="月份收費資料Copy作業" buttonMode="true"/>
+	</s:HGroup>
+	<s:DataGrid id="grid_1" x="55" y="87" width="92%" height="80%" alpha="0.7">
+		<s:columns>
+			<s:ArrayList>
+				<s:GridColumn dataField="sn" visible="false"/>
+				<s:GridColumn headerText="已繳費" dataField="paidFlag" labelFunction="ynFlag" width="60"/>
+				<s:GridColumn headerText="{iR.serialNos}" dataField="serialNo" width="120"/>
+				<s:GridColumn headerText="{iR.classLeavesSn}" dataField="classLeavesSn" labelFunction="classInfoName"/>			
+				<s:GridColumn headerText="{iR.studentName}" dataField="studentName" width="200"/>
+				<s:GridColumn headerText="{iR.cYearMonth}" dataField="cYearMonth" width="100"/>
+				<s:GridColumn headerText="{iR.sumOfMoney}" dataField="sn" width="50" labelFunction="sumOfMoney"/>
+				<s:GridColumn headerText="{iR.creator}" dataField="creator" width="80"/>
+				<s:GridColumn headerText="{iR.createDate}" dataField="createDate" width="130"/>
+				<s:GridColumn headerText="{iR.reviser}" dataField="reviser" width="80"/>
+				<s:GridColumn headerText="{iR.reviseDate}" dataField="reviseDate" width="130"/>
+			</s:ArrayList>
+		</s:columns>
+	</s:DataGrid>
+</s:Application>

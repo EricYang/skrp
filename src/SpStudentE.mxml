@@ -1,0 +1,922 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="890" height="600" 
+	 
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('SpStudent')}"
+	>
+	<fx:Script>
+		<![CDATA[
+
+			
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			[Bindable]
+			private var iR:Object;
+			[Bindalbe]
+			private var idw_master:DW;
+			[Bindalbe]
+			private var idw_SpStudentAT:DW2, idw_SpStudentEC:DW2, idw_SpStudentDI:DW2;
+			[Bindalbe]
+			private var idw_SpStudentBH:DW2, idw_SpStudentES:DW2, idw_SpStudentLS:DW2, idw_SpStudentBA:DW2;
+			[Bindalbe]
+			private var is_app:String = Fun.sApp;			
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["academicYear","semester","usersSn","userCName","userEName"]});
+			[Bindable]
+			public var ia_diagnosis:ArrayList = new ArrayList(Fun2.diagnosisDS(is_app, true));
+			[Bindable]
+			public var ia_cbStatus:ArrayList = new ArrayList(Fun2.cbStatusDS(is_app, true));
+			[Bindable]			
+			public var ia_mhBody:ArrayList = new ArrayList(Fun2.mhBodyDS(is_app, true));
+			[Bindable]
+			public var ia_ynFlag:ArrayList = new ArrayList(Fun2.ynFlagDS(is_app, true));
+			[Bindable]
+			public var ia_sp51:ArrayList = new ArrayList(Fun2.sp51DS(is_app, true));
+			[Bindable]
+			public var ia_sp52:ArrayList = new ArrayList(Fun2.sp52DS(is_app, true));
+			[Bindable]
+			public var ia_sp53:ArrayList = new ArrayList(Fun2.sp53DS(is_app, true));
+			[Bindable]
+			public var ia_sp06:ArrayList = new ArrayList(Fun2.sp06DS(is_app, true));
+			[Bindable]
+			public var ia_sp07:ArrayList = new ArrayList(Fun2.sp07DS(is_app, true));
+			[Bindable]
+			public var ia_sp08:ArrayList = new ArrayList(Fun2.sp08DS(is_app, true));
+			[Bindable]
+			public var ia_sp09:ArrayList = new ArrayList(Fun2.sp09DS(is_app, true));
+			[Bindable]
+			public var ia_sp10:ArrayList = new ArrayList(Fun2.sp10DS(is_app, true));
+			[Bindable]
+			public var ia_sp11:ArrayList = new ArrayList(Fun2.sp11DS(is_app, true));
+			
+			private function init():void{				
+				//dw1: SpStudent
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					mapping: true,
+					items: [
+						{source:sn, 				dataType:"N",	inputType:"I"},
+						{source:academicYear,		dataType:"N",	init:int(i_session.academicYear)}, 
+						{source:semester,			dataType:"N",	init:int(i_session.semester)},
+						{source:acaName,							update:false,	inputType:"R"},
+						{source:classLeavesSn,		dataType:"N"},
+						{source:studentSn,			dataType:"N"},
+						{source:studentName,						update:false,	inputType:"R",	required:true},
+						{source:cDate,				dataType:"D"},
+						{source:diagnosis,			dataType:"N"},
+						{source:remark,				dataType:"S"},
+						{source:cbFetus,			dataType:"N"},
+						{source:cbWeek,				dataType:"N"},
+						{source:cbWeight,			dataType:"N"},
+						{source:cbStatus,			dataType:"N"},
+						{source:mhBody,				dataType:"N"},
+						{source:mhBodyCon,			dataType:"S"},
+						{source:mhHosp,				dataType:"N"},
+						{source:mhHospCon,			dataType:"S"},
+						{source:sp51,				dataType:"N"},
+						{source:sp52,				dataType:"N"},
+						{source:sp53,				dataType:"N"},
+						{source:sp06,				dataType:"N"},
+						{source:sp07,				dataType:"N"},
+						{source:sp08,				dataType:"N"},
+						{source:sp09,				dataType:"N"},
+						{source:sp10,				dataType:"N"},
+						{source:sp11,				dataType:"N"},
+						{source:assistTool,			dataType:"N"},
+						{source:familyExpect,		dataType:"S"},
+						{source:creator,			dataType:"S",	inputType:"R"}, 
+						{source:createDate,			dataType:"DT",	inputType:"R"}, 
+						{source:reviser,			dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,			dataType:"DT",	inputType:"R"}
+					]				
+				}; 			
+				
+				//dw1: SpStudentAT
+				edit_1.aoDW[1] = new DW2();
+				idw_SpStudentAT = edit_1.aoDW[1]; 
+				idw_SpStudentAT.xTool = tb_SpStudentAT;
+				idw_SpStudentAT.oConfig = {			
+					upDW: idw_master,
+					grid: grid_SpStudentAT,
+					upQKeys: ["sn"],
+					qKeys: ["spStudentSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"spStudentSn", 	dataType:"N", 	inputType:"2"},
+						{fid:"publicDeptSn",	dataType:"N"},
+						{fid:"unitName",		update:false},
+						{fid:"department",		dataType:"S"},
+						{fid:"cDate",			dataType:"D"}
+					]				
+				};
+				
+				//dw2: SpStudentEC
+				edit_1.aoDW[2] = new DW2();
+				idw_SpStudentEC = edit_1.aoDW[2]; 
+				idw_SpStudentEC.xTool = tb_SpStudentEC;
+				idw_SpStudentEC.oConfig = {			
+					upDW: idw_master,
+					grid: grid_SpStudentEC,
+					upQKeys: ["sn"],
+					qKeys: ["spStudentSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"spStudentSn", 	dataType:"N", 	inputType:"2"},
+						{fid:"publicDeptSn",	dataType:"N"},
+						{fid:"sDate",			dataType:"D"},
+						{fid:"eDate",			dataType:"D"},
+						{fid:"unitName",		update:false},
+						{fid:"remedyType",		dataType:"S"}
+						
+					]				
+				};
+				
+				//dw3: SpStudentDI
+				edit_1.aoDW[3] = new DW2();				
+				idw_SpStudentDI = edit_1.aoDW[3]; 
+				idw_SpStudentDI.xTool = tb_SpStudentDI;
+				idw_SpStudentDI.oConfig = {					
+					grid: grid_SpStudentDI,
+					upEditDW: idw_master,
+					upEKeys: ["sn"],
+					eKeys: ["spStudentSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 					dataType:"N", 	inputType:"I"},
+						{fid:"spStudentSn", 		dataType:"N", 	inputType:"2"},
+						{fid:"codeId",				dataType:"N"},
+						{fid:"codeDesc",			update:false,	inputType:"R"},
+						{fid:"checkSign",			dataType:"N"}
+					]				
+				};
+				
+				//dw4: SpStudentBH
+				edit_1.aoDW[4] = new DW2();				
+				idw_SpStudentBH = edit_1.aoDW[4]; 
+				idw_SpStudentBH.xTool = tb_SpStudentBH;
+				idw_SpStudentBH.oConfig = {					
+					grid: grid_SpStudentBH,
+					upEditDW: idw_master,
+					upEKeys: ["sn"],
+					eKeys: ["spStudentSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 					dataType:"N", 	inputType:"I"},
+						{fid:"spStudentSn", 		dataType:"N", 	inputType:"2"},
+						{fid:"codeId",				dataType:"N"},
+						{fid:"checkSign",			dataType:"N"},
+						{fid:"codeDesc",			update:false,	inputType:"R"},
+						{fid:"remark",				dataType:"S"}
+						
+					]				
+				};
+				
+				//dw5: SpStudentES
+				edit_1.aoDW[5] = new DW2();				
+				idw_SpStudentES = edit_1.aoDW[5]; 
+				idw_SpStudentES.xTool = tb_SpStudentES;
+				idw_SpStudentES.oConfig = {					
+					grid: grid_SpStudentES,
+					upEditDW: idw_master,
+					upEKeys: ["sn"],
+					eKeys: ["spStudentSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 					dataType:"N", 	inputType:"I"},
+						{fid:"spStudentSn", 		dataType:"N", 	inputType:"2"},
+						{fid:"codeId",				dataType:"N"},
+						{fid:"checkSign",			dataType:"N"},
+						{fid:"codeDesc",			update:false,	inputType:"R"},
+						{fid:"remark",				dataType:"S"}
+						
+					]				
+				};
+				
+				//dw6: SpStudentLS
+				edit_1.aoDW[6] = new DW2();				
+				idw_SpStudentLS = edit_1.aoDW[6]; 
+				idw_SpStudentLS.xTool = tb_SpStudentLS;
+				idw_SpStudentLS.oConfig = {					
+					grid: grid_SpStudentLS,
+					upEditDW: idw_master,
+					upEKeys: ["sn"],
+					eKeys: ["spStudentSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 					dataType:"N", 	inputType:"I"},
+						{fid:"spStudentSn", 		dataType:"N", 	inputType:"2"},
+						{fid:"codeId",				dataType:"N"},
+						{fid:"checkSign",			dataType:"N"},
+						{fid:"codeDesc",			update:false,	inputType:"R"},
+						{fid:"remark",				dataType:"S"}
+						
+					]				
+				};
+				
+				//dw7: SpStudentBA
+				edit_1.aoDW[7] = new DW2();				
+				idw_SpStudentBA = edit_1.aoDW[7]; 
+				idw_SpStudentBA.xTool = tb_SpStudentBA;
+				idw_SpStudentBA.oConfig = {					
+					grid: grid_SpStudentBA,
+					upEditDW: idw_master,
+					upEKeys: ["sn"],
+					eKeys: ["spStudentSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 					dataType:"N", 	inputType:"I"},
+						{fid:"spStudentSn", 		dataType:"N", 	inputType:"2"},
+						{fid:"codeId",				dataType:"N"},
+						{fid:"checkSign",			dataType:"N"},
+						{fid:"codeDesc",			update:false,	inputType:"R"},
+						{fid:"remark",				dataType:"S"}
+						
+					]				
+				};
+			}
+			
+			private function doFindStu():void{
+				Fun2.openStudent(is_app, this, ReturnStu, false);
+			}
+			
+			private function ReturnStu(p_row:Object):void{				
+				Fun.setItem(studentName, p_row.cName + " " + p_row.eName);
+				idw_master.setItem(studentSn, p_row.sn, true);
+				idw_master.setItem(classLeavesSn, p_row.classLeavesSn, true);
+				CTeacher.visible = true;				
+			}
+			
+			private function whenSave(p_data:Object):Boolean{
+				if (p_data.fun != "D"){
+					Fun.setItem(acaName, String(Fun.getItem(academicYear))+ ' - '+String(Fun.getItem(semester)));					
+					switch (p_data.fun){
+						case "C":
+						case "U":
+							var i:int;
+							//疾病史
+							var ta_rowDI:Array = ArrayCollection(grid_SpStudentDI.dataProvider).source;
+							for (i=ta_rowDI.length - 1; i>=0; i--){								
+								if (String(ta_rowDI[i].checkSign) == ""){
+									idw_SpStudentDI.deleteRow(i, false);									
+								}						
+							}							
+							//肢體障礙
+							var ta_rowBH:Array = ArrayCollection(grid_SpStudentBH.dataProvider).source;
+							for (i=ta_rowBH.length - 1; i>=0; i--){								
+								if (String(ta_rowBH[i].checkSign) == ""){
+									idw_SpStudentBH.deleteRow(i, false);									
+								}						
+							}
+							//視覺狀況
+							var ta_rowES:Array = ArrayCollection(grid_SpStudentES.dataProvider).source;
+							for (i=ta_rowES.length - 1; i>=0; i--){								
+								if (String(ta_rowES[i].checkSign) == ""){
+									idw_SpStudentES.deleteRow(i, false);									
+								}						
+							}							
+							//聽覺狀況
+							var ta_rowLS:Array = ArrayCollection(grid_SpStudentLS.dataProvider).source;
+							for (i=ta_rowLS.length - 1; i>=0; i--){								
+								if (String(ta_rowLS[i].checkSign) == ""){
+									idw_SpStudentLS.deleteRow(i, false);									
+								}						
+							}
+							//身體動作
+							var ta_rowBA:Array = ArrayCollection(grid_SpStudentBA.dataProvider).source;
+							for (i=ta_rowBA.length - 1; i>=0; i--){								
+								if (String(ta_rowBA[i].checkSign) == ""){
+									idw_SpStudentBA.deleteRow(i, false);									
+								}						
+							}
+							break;
+						case "V":						
+							break;
+					}										
+				}
+				return true;
+			}
+			
+			private function afterOpen(p_data:Object):void{				
+				
+				var theCheckItemNum:String;
+				CTeacher.visible = false;				
+				switch (p_data.fun){
+					case "C":
+						var i:int;
+						//疾病史
+						var t_dataDI:Object ={
+							data: "SpStudentDI",
+							cuEvent: String(p_data.fun)
+						};						
+						var ta_dataDI:Array = Fun.readRows(is_app, t_dataDI);
+						if (ta_dataDI){							
+							for (i=0; i<ta_dataDI.length; i++){								
+								idw_SpStudentDI.addRow(ta_dataDI[i]);								
+							}
+						}
+						//肢體障礙
+						var t_dataBH:Object ={
+							data: "SpStudentStatus",
+							statusItem: "SpStudentBH",
+							cuEvent: String(p_data.fun)
+						};						
+						var ta_dataBH:Array = Fun.readRows(is_app, t_dataBH);
+						if (ta_dataBH){							
+							for (i=0; i<ta_dataBH.length; i++){								
+								idw_SpStudentBH.addRow(ta_dataBH[i]);								
+							}
+						}
+						//視覺狀況
+						var t_dataES:Object ={
+							data: "SpStudentStatus",
+							statusItem: "SpStudentES",
+							cuEvent: String(p_data.fun)
+						};						
+						var ta_dataES:Array = Fun.readRows(is_app, t_dataES);
+						if (ta_dataES){							
+							for (i=0; i<ta_dataES.length; i++){								
+								idw_SpStudentES.addRow(ta_dataES[i]);								
+							}
+						}
+						//聽覺狀況
+						var t_dataLS:Object ={
+							data: "SpStudentStatus",
+							statusItem: "SpStudentLS",
+							cuEvent: String(p_data.fun)
+						};						
+						var ta_dataLS:Array = Fun.readRows(is_app, t_dataLS);
+						if (ta_dataLS){							
+							for (i=0; i<ta_dataLS.length; i++){								
+								idw_SpStudentLS.addRow(ta_dataLS[i]);								
+							}
+						}
+						//身體動作
+						var t_dataBA:Object ={
+							data: "SpStudentStatus",
+							statusItem: "SpStudentBA",
+							cuEvent: String(p_data.fun)
+						};						
+						var ta_dataBA:Array = Fun.readRows(is_app, t_dataBA);
+						if (ta_dataBA){							
+							for (i=0; i<ta_dataBA.length; i++){								
+								idw_SpStudentBA.addRow(ta_dataBA[i]);								
+							}
+						}
+						break;
+					case "V":
+					case "U":
+						var j:int;
+						//疾病史
+						var u_dataDI:Object ={
+							data: "SpStudentDI",
+							cuEvent: String(p_data.fun),
+							sn: int(Fun.getItem(sn))
+						};						
+						var ua_dataDI:Array = Fun.readRows(is_app, u_dataDI);
+						if (ua_dataDI){
+							for (j=0; j<ua_dataDI.length; j++){
+								idw_SpStudentDI.addRow(ua_dataDI[j]);
+								if (String(ua_dataDI[j].checkSign) != ""){
+									idw_SpStudentDI.setDirtyRow("U", j, ua_dataDI[j]);									
+								}							
+							}
+						}
+						//肢體障礙
+						var u_dataBH:Object ={
+							data: "SpStudentStatus",
+							statusItem: "SpStudentBH",
+							cuEvent: String(p_data.fun),
+							sn: int(Fun.getItem(sn))
+						};						
+						var ua_dataBH:Array = Fun.readRows(is_app, u_dataBH);
+						if (ua_dataBH){
+							for (j=0; j<ua_dataBH.length; j++){
+								idw_SpStudentBH.addRow(ua_dataBH[j]);
+								if (String(ua_dataBH[j].checkSign) != ""){
+									idw_SpStudentBH.setDirtyRow("U", j, ua_dataBH[j]);									
+								}							
+							}
+						}
+						//視覺狀況
+						var u_dataES:Object ={
+							data: "SpStudentStatus",
+							statusItem: "SpStudentES",
+							cuEvent: String(p_data.fun),
+							sn: int(Fun.getItem(sn))
+						};						
+						var ua_dataES:Array = Fun.readRows(is_app, u_dataES);
+						if (ua_dataES){
+							for (j=0; j<ua_dataES.length; j++){
+								idw_SpStudentES.addRow(ua_dataES[j]);
+								if (String(ua_dataES[j].checkSign) != ""){
+									idw_SpStudentES.setDirtyRow("U", j, ua_dataES[j]);									
+								}							
+							}
+						}
+						//聽覺狀況
+						var u_dataLS:Object ={
+							data: "SpStudentStatus",
+							statusItem: "SpStudentLS",
+							cuEvent: String(p_data.fun),
+							sn: int(Fun.getItem(sn))
+						};						
+						var ua_dataLS:Array = Fun.readRows(is_app, u_dataLS);
+						if (ua_dataLS){
+							for (j=0; j<ua_dataLS.length; j++){
+								idw_SpStudentLS.addRow(ua_dataLS[j]);
+								if (String(ua_dataLS[j].checkSign) != ""){
+									idw_SpStudentLS.setDirtyRow("U", j, ua_dataLS[j]);									
+								}							
+							}
+						}
+						//身體動作
+						var u_dataBA:Object ={
+							data: "SpStudentStatus",
+							statusItem: "SpStudentBA",
+							cuEvent: String(p_data.fun),
+							sn: int(Fun.getItem(sn))
+						};						
+						var ua_dataBA:Array = Fun.readRows(is_app, u_dataBA);
+						if (ua_dataBA){
+							for (j=0; j<ua_dataBA.length; j++){
+								idw_SpStudentBA.addRow(ua_dataBA[j]);
+								if (String(ua_dataBA[j].checkSign) != ""){
+									idw_SpStudentBA.setDirtyRow("U", j, ua_dataBA[j]);									
+								}							
+							}
+						}
+						CTeacher.visible = true;
+						break;
+				}
+			}
+			
+			//鑑定
+			public function fnClickPublicDeptAT(pn_sn:int):void{
+				var t_win:FindPublicDept = new FindPublicDept();
+				t_win.infoCategoryValue = 1;
+				Fun.openPopup(t_win, this);				
+				
+				t_win.qry_1.fSelectRow = fSelectRowPDAT;
+				t_win.qry_1.bCloseAfterQuery = false;
+				t_win.fAfterOk = fSelectRowPDAT;
+			}
+			
+			private function fSelectRowPDAT(p_row:Object):void{
+				var tn_row:int = grid_SpStudentAT.selectedIndex;
+				
+				var t_row:Object = grid_SpStudentAT.selectedItem;				
+				t_row.unitName = p_row.unitName;				
+				
+				idw_SpStudentAT.setItemByFid("publicDeptSn", p_row.sn, true, tn_row);
+				Fun.refreshGrid(grid_SpStudentAT, tn_row);
+			}
+			
+			//早療
+			public function fnClickPublicDeptEC(pn_sn:int):void{
+				var t_win:FindPublicDept = new FindPublicDept();
+				t_win.infoCategoryValue = 1;
+				Fun.openPopup(t_win, this);			
+				
+				t_win.qry_1.fSelectRow = fSelectRowPDEC;
+				t_win.qry_1.bCloseAfterQuery = false;
+				t_win.fAfterOk = fSelectRowPDEC;
+			}
+			
+			private function fSelectRowPDEC(p_row:Object):void{
+				var tn_row:int = grid_SpStudentEC.selectedIndex;
+				
+				var t_row:Object = grid_SpStudentEC.selectedItem;				
+				t_row.unitName = p_row.unitName;				
+				
+				idw_SpStudentEC.setItemByFid("publicDeptSn", p_row.sn, true, tn_row);
+				Fun.refreshGrid(grid_SpStudentEC, tn_row);
+			}
+			private function fnQueryCT():void{
+				//判斷是否已有相同學年期
+				var t_data1:Object = {
+					data: "getStartClassSn",					
+					classLeavesSn: int(Fun.getItem(classLeavesSn))
+				};
+				var ia_data:Object = Fun.readRow(is_app, t_data1);				
+				if (ia_data){					
+					var t_win:StartClassE = new StartClassE();		
+					t_win.canvasLabel2Temp = 2; //1 開啟, 2 關閉
+					var t_data:Object = {
+						win: t_win,
+						fun: "V",
+						row: {sn:ia_data.sn}
+					};
+					Fun.openPopup(t_win, this);				
+					var t_edit:comEdit = t_win.edit_1; 
+					t_edit.sApp = is_app;
+					t_edit.sInf = "StartClassE";
+					t_edit.sTitle = iR.message01;					
+					t_edit.init(t_data);
+					t_win.tb_ClassTeacher.visible = false;					
+				}			
+			}
+			private function serialNoLabelFunc(p_row:Object, p_column:GridColumn):String {
+				var index:int = p_column.grid.dataProvider.getItemIndex(p_row);
+				if (index > -1) {
+					return (index + 1).toString();
+				}
+				return "";
+			}
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10" y="531" id="edit_1" fWhenSave="whenSave" fAfterOpen="afterOpen">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>	
+	<x2:Num1 id="academicYear" visible="false"/>
+	<x2:Num1 id="semester" visible="false"/>
+	<s:TextInput id="acaName" visible="false"/>
+	<x2:Num1 id="classLeavesSn" visible="false"/>
+	<x2:Num1 id="studentSn" visible="false"/>		
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+
+	<mx:TabNavigator x="10" y="10" width="864" height="514" id="tns">
+		<mx:Canvas label="{iR.Canvas01}">
+			<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+				<mx:FormItem label="{iR.studentName} :" required="true">
+					<mx:HBox x="72" y="1" width="100%">
+						<s:TextInput id="studentName" editable="false"/>						
+						<x2:btnPick id="SchStu" click="doFindStu()"/>
+						<mx:Label id="CTeacher" text="{iR.CTeacher}" click="fnQueryCT()" useHandCursor="true" mouseChildren="false" buttonMode="true" textDecoration="underline" color="#0000FF"/>
+					</mx:HBox>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.cDate} :" required="true">
+					<mx:DateField id="cDate" formatString="YYYY/MM/DD" yearNavigationEnabled="true"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.diagnosis} :" required="true">
+					<mx:HBox>
+						<x2:DDL1 id="diagnosis" dataProvider="{ia_diagnosis}"></x2:DDL1>						
+						<mx:FormItem label="{iR.remark} :">			
+							<s:TextInput id="remark"/>
+						</mx:FormItem>
+					</mx:HBox>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.bornSitu} :" required="true">
+					<mx:HBox width="100%">
+						<mx:Label text="{iR.cbFetus01} "/>
+						<mx:NumericStepper maximum="99" id="cbFetus"/>						
+						<mx:Label text="{iR.cbFetus02}"/>
+					</mx:HBox>
+					<mx:HBox width="100%">
+						<mx:Label text="{iR.cbWeek01} "/>
+						<mx:NumericStepper maximum="99" id="cbWeek"/>
+						<mx:Label text="{iR.cbWeek02}"/>
+					</mx:HBox>
+					<mx:HBox width="100%">
+						<mx:Label text="{iR.cbWeight01} "/>
+						<mx:NumericStepper maximum="9999" id="cbWeight"/>						
+						<mx:Label text="{iR.cbWeight02}"/>						
+					</mx:HBox>
+					<mx:HBox width="100%">
+						<mx:Label text="{iR.cbStatus}： "/>
+						<x2:DDL1 id="cbStatus" dataProvider="{ia_cbStatus}"></x2:DDL1>						
+					</mx:HBox>
+				</mx:FormItem>				
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas02}">
+			<x2:TBar2 x="567" y="4" id="tb_SpStudentAT">
+			</x2:TBar2>
+			<mx:Form x="10" y="29">
+				<x2:DG2 width="800"
+						 
+						 
+						 alpha="0.7"		
+						 		 
+						 
+						 
+						 height="160" id="grid_SpStudentAT">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>						
+						<s:GridColumn dataField="spStudentSn" visible="false"/>
+						<s:GridColumn dataField="publicDeptSn" visible="false"/>
+						<s:GridColumn headerText="{iR.unitName}" dataField="unitName"/>
+						<s:GridColumn width="40">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:btnPick click="outerDocument.fnClickPublicDeptAT(data.sn)"/>									
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.department}" dataField="department" width="200">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:Text2/>						
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.cDate2}" dataField="cDate" width="120">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:Date2 id="cDate"/>						
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>			
+			<x2:TBar2 x="567" y="241" id="tb_SpStudentEC">
+			</x2:TBar2>
+			<mx:Form x="10" y="266">
+				<x2:DG2 width="800"
+						 
+						 
+						 alpha="0.7"		
+						 		 
+						 
+						 
+						 height="160" id="grid_SpStudentEC">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>						
+						<s:GridColumn dataField="spStudentSn" visible="false"/>
+						<s:GridColumn dataField="publicDeptSn" visible="false"/>
+						<s:GridColumn headerText="{iR.sDate}" dataField="sDate" width="120">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:Date2 id="sDate"/>																																			
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.eDate}" dataField="eDate" width="120">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:Date2 id="eDate"/>																																			
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.unitName}" dataField="unitName"/>
+						<s:GridColumn width="40">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:btnPick click="outerDocument.fnClickPublicDeptEC(data.sn)"/>									
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.remedyType}" dataField="remedyType" width="200">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:Text2/>						
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas3}">
+			<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+				<mx:FormItem label="{iR.mhBody} :" required="true">
+					<mx:HBox>
+						<x2:DDL1 id="mhBody" dataProvider="{ia_mhBody}"></x2:DDL1>
+						<mx:FormItem label="{iR.mhBodyCon} :">			
+							<s:TextInput id="mhBodyCon"/>
+						</mx:FormItem>
+					</mx:HBox>				
+				</mx:FormItem>
+				<mx:FormItem label="{iR.mhHosp} :" required="true">
+					<mx:HBox>
+						<x2:DDL1 id="mhHosp" dataProvider="{ia_ynFlag}"></x2:DDL1>
+						<mx:FormItem label="{iR.mhHospCon} :">			
+							<s:TextInput id="mhHospCon"/>
+						</mx:FormItem>
+					</mx:HBox>				
+				</mx:FormItem>
+				<x2:TBar2 id="tb_SpStudentDI" visible="false">
+				</x2:TBar2>
+				<x2:DG2 width="484"
+						 
+						 
+						 alpha="0.7"		
+						 		 
+						 
+						 
+						 height="324" id="grid_SpStudentDI">
+					<x2:columns><s:ArrayList>				
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="spStudentSn" visible="false"/>
+						<s:GridColumn dataField="codeId" visible="false"/>
+						<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+						<s:GridColumn headerText="{iR.DIcodeDesc}" dataField="codeDesc"/>
+						<s:GridColumn headerText="{iR.checkSign}" dataField="checkSign" width="60">
+							<s:itemRenderer>
+								<fx:Component><x2:irCenterVH>
+									<x2:Check2 />
+								</x2:irCenterVH></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>						
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas04}">
+			<mx:Form x="10" y="16" horizontalScrollPolicy="off">
+				<mx:HBox>
+					<mx:Label text="{iR.BH} :"/>
+					<x2:TBar2 id="tb_SpStudentBH" visible="false">
+					</x2:TBar2>
+				</mx:HBox>
+				<x2:DG2 width="351"
+						 
+						 
+						 alpha="0.7"		
+						 		 
+						 
+						 
+						 height="150" id="grid_SpStudentBH">
+					<x2:columns><s:ArrayList>					
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="spStudentSn" visible="false"/>
+						<s:GridColumn dataField="codeId" visible="false"/>
+						<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+						<s:GridColumn headerText="{iR.checkSign}" dataField="checkSign" width="60">
+							<s:itemRenderer>
+								<fx:Component><x2:irCenterVH>
+									<x2:Check2 />
+								</x2:irCenterVH></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.BHcodeDesc}" dataField="codeDesc"/>
+						<s:GridColumn headerText="{iR.remark}" dataField="remark">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:Text2/>						
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>			
+			</mx:Form>
+			<mx:Form x="428" y="16" horizontalScrollPolicy="off">
+				<mx:HBox>
+					<mx:Label text="{iR.ES} :"/>
+					<x2:TBar2 id="tb_SpStudentES" visible="false">
+					</x2:TBar2>
+				</mx:HBox>
+				<x2:DG2 width="351"
+						 
+						 
+						 alpha="0.7"		
+						 		 
+						 
+						 
+						 height="150" id="grid_SpStudentES">
+					<x2:columns><s:ArrayList>				
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="spStudentSn" visible="false"/>
+						<s:GridColumn dataField="codeId" visible="false"/>
+						<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+						<s:GridColumn headerText="{iR.checkSign}" dataField="checkSign" width="60">
+							<s:itemRenderer>
+								<fx:Component><x2:irCenterVH>
+									<x2:Check2 />
+								</x2:irCenterVH></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.EScodeDesc}" dataField="codeDesc"/>
+						<s:GridColumn headerText="{iR.remark}" dataField="remark">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:Text2/>						
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>			
+			</mx:Form>			
+			<mx:Form x="10" y="246" horizontalScrollPolicy="off">
+				<mx:HBox>
+					<mx:Label text="{iR.LS} :"/>
+					<x2:TBar2 id="tb_SpStudentLS" visible="false">
+					</x2:TBar2>
+				</mx:HBox>
+				<x2:DG2 width="351"
+						 
+						 
+						 alpha="0.7"		
+						 		 
+						 
+						 
+						 height="150" id="grid_SpStudentLS">
+					<x2:columns><s:ArrayList>				
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="spStudentSn" visible="false"/>
+						<s:GridColumn dataField="codeId" visible="false"/>
+						<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+						<s:GridColumn headerText="{iR.checkSign}" dataField="checkSign" width="60">
+							<s:itemRenderer>
+								<fx:Component><x2:irCenterVH>
+									<x2:Check2 />
+								</x2:irCenterVH></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.LScodeDesc}" dataField="codeDesc"/>
+						<s:GridColumn headerText="{iR.remark}" dataField="remark">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:Text2/>						
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>			
+			</mx:Form>
+			<mx:Form x="428" y="246" horizontalScrollPolicy="off">
+				<mx:HBox>
+					<mx:Label text="{iR.BA} :"/>
+					<x2:TBar2 id="tb_SpStudentBA" visible="false">
+					</x2:TBar2>
+				</mx:HBox>
+				<x2:DG2 width="351"
+						 
+						 
+						 alpha="0.7"		
+						 		 
+						 
+						 
+						 height="150" id="grid_SpStudentBA">
+					<x2:columns><s:ArrayList>	
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="spStudentSn" visible="false"/>
+						<s:GridColumn dataField="codeId" visible="false"/>
+						<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+						<s:GridColumn headerText="{iR.checkSign}" dataField="checkSign" width="60">
+							<s:itemRenderer>
+								<fx:Component><x2:irCenterVH>
+									<x2:Check2 />
+								</x2:irCenterVH></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.BAcodeDesc}" dataField="codeDesc"/>
+						<s:GridColumn headerText="{iR.remark}" dataField="remark">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:Text2/>						
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>			
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas05}">
+			<s:Form x="10" y="10">				
+				<s:layout> 
+					<s:FormLayout gap="-8"/>
+				</s:layout>
+				<s:FormItem label="{iR.sp5} :">
+					<s:FormItem label="{iR.sp51} :" required="true">
+						<x2:DDL1 id="sp51" dataProvider="{ia_sp51}"></x2:DDL1>				
+					</s:FormItem>
+					<s:FormItem label="{iR.sp52} :" required="true">
+						<x2:DDL1 id="sp52" dataProvider="{ia_sp52}"></x2:DDL1>				
+					</s:FormItem>
+					<s:FormItem label="{iR.sp53} :" required="true">
+						<x2:DDL1 id="sp53" dataProvider="{ia_sp53}"></x2:DDL1>				
+					</s:FormItem>					
+				</s:FormItem>
+				<s:FormItem label="{iR.sp06} :">
+					<x2:DDL1 id="sp06" dataProvider="{ia_sp06}"></x2:DDL1>					
+				</s:FormItem>
+				<s:FormItem label="{iR.sp07} :">
+					<x2:DDL1 id="sp07" dataProvider="{ia_sp07}"></x2:DDL1>					
+				</s:FormItem>
+				<s:FormItem label="{iR.sp08} :">
+					<x2:DDL1 id="sp08" dataProvider="{ia_sp08}"></x2:DDL1>					
+				</s:FormItem>
+				<s:FormItem label="{iR.sp09} :">
+					<x2:DDL1 id="sp09" dataProvider="{ia_sp09}"></x2:DDL1>					
+				</s:FormItem>
+				<s:FormItem label="{iR.sp10} :">
+					<x2:DDL1 id="sp10" dataProvider="{ia_sp10}"></x2:DDL1>					
+				</s:FormItem>
+				<s:FormItem label="{iR.sp11} :">
+					<x2:DDL1 id="sp11" dataProvider="{ia_sp11}"></x2:DDL1>					
+				</s:FormItem>
+				<s:FormItem label="{iR.assistTool} :">
+					<s:TextInput id="assistTool" width="248"/>					
+				</s:FormItem>				
+			</s:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas06}">
+			<mx:Form x="10" y="10">
+				<mx:TextArea width="812" height="422" id="familyExpect"/>
+			</mx:Form>	
+		</mx:Canvas>
+	</mx:TabNavigator>	
+</s:TitleWindow>

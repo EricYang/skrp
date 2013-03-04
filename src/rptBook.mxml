@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*" 
+	 
+	
+	 
+	width="100%" height="100%"
+	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('rptBook')}"
+	>
+	<fx:Script>
+		<![CDATA[			
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			
+			private function init():void {
+				list_1.wQuery = new rptBookQ();							
+				list_1.gList = grid_1;
+				list_1.init();
+				
+				list_1.btnCreate.visible = false;				
+				list_1.btnUpdate.visible = false;
+				list_1.btnDelete.visible = false;
+				list_1.btnView.visible = false;
+				list_1.btnPrint.visible = false;
+				list_1.btnExport.visible = false;
+				
+				list_1.btnCreate.width = 0;
+				list_1.btnUpdate.width = 0;
+				list_1.btnDelete.width = 0;
+				list_1.btnView.width = 0;
+				list_1.btnPrint.width = 0;
+				list_1.btnExport.width = 0;
+			}
+			private function catchFun(p_data:Object):Boolean {				
+				if (p_data.fun == "U"){
+					return true;
+				}else{
+					return false;
+				}
+			}		
+		]]>
+	</fx:Script>
+	<x2:sysBG/>
+	<x2:subFunHead/>
+
+	<x2:comList x="81" y="59" id="list_1" fCatchFun="catchFun">
+	</x2:comList>
+	<s:DataGrid id="grid_1" x="55" y="87" width="92%" height="80%" alpha="0.7">
+		<s:columns>
+			<s:ArrayList>
+				<s:GridColumn headerText="{iR.mCount}" dataField="mCount" width="100"/>
+				<s:GridColumn/>
+			</s:ArrayList>
+		</s:columns>
+	</s:DataGrid>
+</s:Application>

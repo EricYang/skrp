@@ -1,0 +1,16 @@
+﻿# list/query fields
+cardNo=教具編號
+cardName=教具名稱
+staffName=借出人員
+cDate=借出日期
+rDate=歸還日期
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# E
+remark=備註
+
+# message
+message01=歸還日期 不可以早於 借出日期

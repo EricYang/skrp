@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	width="470" height="182" xmlns:x2="x2.*" 
+	
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('BookMana')}"
+ 	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;		
+			
+			[Bindable]
+			private var iR:Object;
+			private var idw_master:DW;
+			private var is_app:String = Fun.sApp;
+			
+			private var i_col1:Object, i_col2:Object;
+			
+			private function doFindStaff(p_col1:Object, p_col2:Object):void{				
+				i_col1 = p_col1;
+				i_col2 = p_col2;
+				Fun2.openStaff(is_app, this, ReturnStaff);
+			}
+			private function ReturnStaff(p_row:Object):void{				
+				Fun.setItem(i_col1, p_row.cName + " " + p_row.eName);
+				Fun.setItem(i_col2, p_row.sn);				
+			}
+			
+			private function doFindBookNo():void{
+				Fun2.openBookNo(is_app, this, ReturnBookNo);				
+			}
+			private function ReturnBookNo(p_row:Object):void{				
+				Fun.setItem(bookNo, p_row.bookNo);
+				Fun.setItem(bookDataSn, p_row.sn);				
+			}
+			private function init():void{
+				qry_1.aoItem = [
+					{source:bookDataSn},
+					{source:bookName},
+					{source:staffSn}
+				];					
+			}			
+		]]>
+	</fx:Script>
+	<x2:comQuery x="380" y="9" id="qry_1">
+	</x2:comQuery>
+	<x2:Num1 id="bookDataSn" visible="false"/>
+	<x2:Num1 id="staffSn" visible="false"/>
+	<mx:Form x="6" y="9" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+		<mx:FormItem label="{iR.bookNo} :">
+			<mx:HBox width="100%">
+				<s:TextInput id="bookNo" editable="false" enabled="false" click="doFindBookNo()"/>
+				<x2:btnPick id="SchBookNo" click="doFindBookNo()"/>				
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.bookName} :">
+			<s:TextInput id="bookName"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.staffName} :">
+			<mx:HBox x="72" y="1" width="100%">
+				<s:TextInput id="staffName" editable="false" enabled="false" click="doFindStaff(staffName, staffSn)"/>
+				<x2:btnPick id="SchStaff" click="doFindStaff(staffName, staffSn)"/>				
+			</mx:HBox>
+		</mx:FormItem>
+	</mx:Form>
+</s:TitleWindow>

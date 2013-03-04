@@ -1,0 +1,14 @@
+{
+    "list":{
+		"select": "SELECT *, CONCAT(sDate, ' — ', eDate) AS seDate",
+		"from": "FROM Board [_where]",
+		"order": "ORDER BY sDate, eDate DESC",
+		"items": [
+            {"fid":"subject",   "op":"like"},
+            {"fid":"contents",  "op":"like"}    
+      ]
+    },    
+    "progRange": 1,
+    "aFOwner": "creator",
+    "aFOwnerType": "L"
+}

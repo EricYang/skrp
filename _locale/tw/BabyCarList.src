@@ -1,0 +1,20 @@
+﻿# list/query fields
+babyCarInfoSn=車輛代號 \ 老師 \ 電話
+CBabyCarInfo=交通車路線資訊
+carCode=車輛代號
+classLeavesSn=班別(級)
+studentName=學生姓名
+gender=性別
+sLoaction=上學乘坐地點
+sTimeHM=預估時間
+parentSName=聯絡人
+parentSTel=聯絡電話
+eLoaction=放學送達地點
+eTimeHM=預估時間
+parentEName=聯絡人
+parentETel=聯絡電話
+remark=備註
+
+# message
+message01=查無資料
+message02=交通車路線資訊

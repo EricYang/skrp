@@ -1,0 +1,12 @@
+{
+   "list":{
+        "select": "SELECT *, 0 AS checkFlag",
+        "from": "FROM Staff
+                WHERE dutyFlag = 1 AND deleFlag = 0
+                [_where]",
+		"items": [
+			{"fid":"deptSn"},
+            {"fid":"cName",    "op":"like"}
+		]
+   }
+}

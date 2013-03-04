@@ -1,0 +1,326 @@
+package x2{
+	
+	//import flow.*;
+	
+	import mx.collections.*;
+	//import mx.controls.dataGridClasses.DataGridColumn;
+	import com.Rijndael;
+	//import com.json.*;
+
+
+	//declare global variables
+   	public class Fun2{
+		//public for system
+		public static const cbAutoUserId:Boolean = true;	//使用userId做為DW的 自動欄位(autos[]), false:使用loginId
+		public static const csAppExt:String = ".ashx";		//has '.'
+		public static const csLabelForEmpty:String = "--全部--";
+		public static const cnFileSize:int = 3000000;		//上傳檔案上限為 3MB
+		//
+		public static const cnEncryptType:int = 2;			//資料加密, 0(無),1(靜態key),2(動態 key) 
+		public static const csBaseKey:String = "tqmtmkshjrrmgwghvifvfyiu";
+		public static const cnKeySize:int = 256;    
+		//
+		//public static var wMain:Main;				//main application object.
+		//public static var wMain:Object;				//main application object.
+		public static var sLang:String = "tw";		//使用者選用的語系
+		public static var oGlobal:Object = {};		//for 傳遞參數
+		public static var sDebugPara:String = "";	//debug parameter
+		public static var nMaxApp:int = 10;
+		/*
+		public static const cbAutoUserId:Boolean = true;	//使用userId做為DW的 自動欄位(autos[]), false:使用loginId
+		public static const csAppExt:String = ".ashx";		//has '.'
+	    public static const csKey:String = "tqmtmkshjrrmgwghvifvfyiu";    
+	    public static const cnKeySize:int = 256;    
+		public static const csLabelForEmpty:String = "";
+		//
+		public static var wMain:Main;					//main application object.
+		public static var gObject:Object = {};					//for pass from object to another object
+		public static var sLang:String = "tw";		//使用者選用的語系
+		*/
+		//public static const csLoginTitle:String = "登入系統";
+		//public static var appPwd:String = "";				//password for connect ap1, will get from server.
+		//public static var loginTitle:String = "登入系統";							
+	    //public static var aesKey:String = "wirmytirevfnkhbndwlgtchmlifmrwrmher";	//company and road
+	        
+		//public static var staffType:String = "I";			//staff type, I/O		
+		
+		
+	    //date formatter for single row dw, bindable for DateField1
+	    //[Bindable]
+	    //public static var dateFormat:String = "YYYY/MM/DD";
+	    
+		//必須實作此函數
+		public static function init():void{			
+		}
+		
+		public static function encrypt(p_data:Object):String {
+			
+			if (true){
+				var t_aes:Rijndael = new Rijndael(Fun.aKeyByte);
+				//return t_aes.encrypt(JSON.encode(p_data));
+				return t_aes.encrypt(JSON.stringify(p_data));
+			}else{
+				return JSON.encode(p_data);				
+			}
+		} 	
+		
+
+		//=== for combobox and dataGrid labelFunction begin ===
+		/*
+		public static function funRangeDS(pb_add:Boolean=true):Array{			
+		 	var ta_1:Array = [
+				{data:0, label:""},
+				{data:1, label:"個人"},
+				{data:5, label:"全部"}
+			];
+			return Fun.arrayAddEmpty(ta_1, pb_add);
+		}
+		*/
+		
+		public static function chgTypeDS(ps_app:String, pb_addEmpty:Boolean=true):Array{			
+			return Fun.codeDS(ps_app, "chgType", pb_addEmpty);
+		}
+		
+		/*
+		public static function chgTypeName(p_row:Object, p_column:DataGridColumn):String {
+			return Fun.arrayLabel(Fun2.chgTypeDS(), p_row[p_column.dataField]);
+		}
+		*/
+
+		public static function yesEmptyDS(ps_app:String, pb_addEmpty:Boolean=true):Array{			
+			return Fun.codeDS(ps_app, "yesEmpty", pb_addEmpty);
+		}
+
+
+		public static function editTypeDS(pb_add:Boolean=true):Array{			
+		 	var ta_1:Array = [
+				{data:"T", 	label:"Text"},
+				{data:"N",	label:"Numeric"},
+				{data:"Com",label:"Combo"},
+				{data:"D", 	label:"Date"},
+				{data:"Chk",label:"Check"},
+				{data:"R", 	label:"Radio"},
+				{data:"TA",	label:"TextArea"}
+			];
+			return Fun.arrayAddEmpty(ta_1, pb_add);
+		}
+
+		
+		public static function inputTypeDS(pb_add:Boolean=true):Array{			
+			var ta_1:Array = [
+				{data:"I", 	label:"Identity"},
+				{data:"2", 	label:"Identity2"},
+				{data:"C",	label:"Create"},
+				{data:"U",	label:"Update"},
+				{data:"R", 	label:"Readonly"}
+				//{data:"H", 	label:"Hide"}
+			];
+			return Fun.arrayAddEmpty(ta_1, pb_add);
+		}
+		
+
+		public static function dbDS(ps_app:String, pb_addEmpty:Boolean=true):Array{			
+			return Fun.comboBoxDS(ps_app, "DB", pb_addEmpty);
+		}
+		
+		public static function rowStatusDS(ps_app:String, pb_addEmpty:Boolean=true):Array{			
+			return Fun.codeDS(ps_app, "rowStatus", pb_addEmpty);
+		}
+		
+		//角色
+		public static function roleDS(ps_app:String, pb_addEmpty:Boolean=true, pb_editWin:Boolean=true):Array{
+			var ta_1:Array = Fun.comboBoxDS(ps_app, "role");
+			return Fun.arrayAddEmpty(ta_1, pb_addEmpty, pb_editWin);
+		}
+		
+		//程式
+		public static function progDS(ps_app:String, pb_addEmpty:Boolean=true, pb_editWin:Boolean=true):Array{
+			var ta_1:Array = Fun.comboBoxDS(ps_app, "Program");
+			return Fun.arrayAddEmpty(ta_1, pb_addEmpty, pb_editWin);
+		}
+		
+		//用戶
+		public static function userDS(ps_app:String, pb_addEmpty:Boolean=true):Array{
+			return Fun.comboBoxDS(ps_app, "user", pb_addEmpty);
+		}
+		
+		public static function dbTypeDS(ps_app:String, pb_addEmpty:Boolean=true):Array{			
+			return Fun.codeDS(ps_app, "dbType", pb_addEmpty);
+		}
+		
+		public static function funRangeDS(ps_app:String):Array{			
+			return Fun.codeDS(ps_app, "funRange", false);
+		}
+		
+		
+		public static function rangeTypeDS(ps_app:String):Array{		
+			return Fun.codeDS(ps_app, "rangeType", false);
+		}
+		
+		public static function progTypeDS(ps_app:String, pb_addEmpty:Boolean=true):Array{		
+			return Fun.codeDS(ps_app, "progType", pb_addEmpty);
+		}
+		
+		//功能表群組
+		public static function progGroupDS(ps_app:String, pb_addEmpty:Boolean=true):Array{		
+			return Fun.codeDS(ps_app, "progGroup", pb_addEmpty);
+		}
+		
+		public static function sexDS(ps_app:String, pb_add:Boolean=true, pb_tw:Boolean=true):Array{						
+			var ta_1:Array = (pb_tw) ?
+				[
+					{data:"F", label:"女"},
+					{data:"M", label:"男"}
+				]:
+				[
+					{data:"F", label:"Female"},
+					{data:"M", label:"Male"}
+				];
+			return Fun.arrayAddEmpty(ta_1, pb_add);
+		}		
+		
+		
+		//check
+		public static function checkUser(ps_app:String, ps_userId:String, pf_callback:Function):String{
+			var t_data:Object = {
+				data: "User",
+				userId: ps_userId
+			};
+			var ta_row:Array = Fun.readRows(ps_app, t_data);
+			if (ta_row == null){
+				return  "用戶資料不存在 !";				
+			}else{
+				pf_callback(ta_row[0]);
+				return "";
+			}
+		}
+
+		
+		//open patent query window
+		public static function winFindUser(ps_app:String, p_win:Object, pw_user:FindUser, p_data:Object, pf_callback:Function):void{
+			if (pw_user == null){
+				pw_user = new FindUser();
+			}
+			
+			Fun.openPopup(pw_user, p_win);
+			
+			pw_user.qry_1.sApp = ps_app;
+			pw_user.qry_1.fSelectRow = pf_callback;
+			pw_user.qry_1.init();
+			
+			if (p_data.hasOwnProperty("userId")){
+				Fun.setItem(pw_user.userId, p_data.userId);
+			} 
+		}		
+		
+		/*
+		public static function rowStatusName(p_row:Object, p_column:DataGridColumn):String {
+			return Fun.arrayLabel(Fun2.rowStatusDS(), p_row[p_column.dataField]);
+		}
+		*/
+		
+		//for workflow
+		//時間單位
+		public static function timeUnitDS(ps_app:String, pb_addEmtpy:Boolean=false):Array {
+			return Fun.codeDS(ps_app, "timeUnit", pb_addEmtpy);
+		}
+		
+		//
+		public static function overActDS(ps_app:String, pb_addEmtpy:Boolean=false):Array {
+			return Fun.codeDS(ps_app, "overAct", pb_addEmtpy);
+		}
+		
+		//singer type
+		public static function signerTypeDS(ps_app:String, pb_addEmtpy:Boolean=false):Array {
+			return Fun.codeDS(ps_app, "signerType", pb_addEmtpy);
+		}
+
+		//line passType
+		public static function passTypeDS(ps_app:String, pb_addEmtpy:Boolean=false):Array {
+			return Fun.codeDS(ps_app, "passType", pb_addEmtpy);
+		}
+		
+		//process type
+		public static function procTypeDS(ps_app:String, pb_addEmtpy:Boolean=false):Array {
+			return Fun.codeDS(ps_app, "procType", pb_addEmtpy);
+		}
+		
+		//=== for combobox and dataGrid labelFunction end ===
+  					
+  		
+  		//=== get related field name begin ===
+  		/**
+  		 * get related field name
+  		 * @param {string} ps_type return type.
+  		 * @param {object} p_data data with query field value.
+  		 * @param {boolean} pb_emptyMsg show msg if not found.
+  		 * @return {string} name string.
+  		 */ 
+  		//public static function getName(ps_type:String, p_data:Object):String {
+  		//public static function getRelatName(ps_type:String, p_data:Object, pb_emptyMsg:Boolean=true):String {
+  		public static function getRelatInfo(ps_app:String, ps_type:String, p_data:Object, pb_emptyMsg:Boolean=true):Object {
+  			switch (ps_type){
+  				case "Staff":
+					/*
+  					var t_data:Object = staffInfo(ps_app, p_data);
+  					if (t_data == null && pb_emptyMsg){
+						Fun.msg("E","用戶資料不存在 !");				 					
+  					}
+  					return t_data;
+					*/
+					return null;
+  				default:
+  					Fun.msg("E","Fun2.getRelatInfo().ps_type = '" + ps_type + "' is wrong !");
+  					return null;
+  			}  			
+  		}   		
+  		
+  		
+		/**
+		 * check member exists or not
+  		 * @param {string} ps_type member type.
+  		 * @param {string} ps_id member Id.
+  		 * @return {String} member name or null(not found).
+		 */ 
+		/*
+		public static function staffInfo(ps_app:String, p_data:Object):Object {
+		    //var ts_sql:String = "select memberId from Member where memberType='"+ps_type+"' and memberId='"+ps_id+"'";
+		    var t_data:Object = {
+		    	data: "Staff",
+		    	type: "Info",
+		    	staffId: p_data.staffId 
+		    };
+		    
+		    //var ts_sql:String = JSON.encode(t_data);
+		    var ta_row:Object = Fun.readRows(ps_app, t_data);
+		    if (Fun.catchResult(ta_row, false, true)){
+		    	return null;
+		    }else if (ta_row == null){
+		    	return null;
+		    }else{
+		    	return ta_row[0];
+		    }
+		}
+		*/
+  		//=== get related field name end ===
+
+
+		/**
+		 * return query field info.
+		 * called by:
+		 *   (1).DW.queryField()
+  		 * @param {string} ps_type query type id.
+  		 * //@param {object} p_data data with query field value, has below elements :
+  		 *   //upWin: parent window.
+  		 *   dw: dw no of this field.
+  		 *   toFields: field array to return, ex:[memberType,memberId,memberName].
+		 */   		
+		public static function getQueryField(ps_type:String):Object {
+  			switch (ps_type){
+  				default:
+  					return null;
+  			}  			
+		}
+				
+   	}//class
+}

@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="828" height="470" 
+	 
+  	creationComplete="init()"  	 		
+	preinitialize="{iR=Fun.getLang('Parent')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.ArrayList;
+			
+			import x2.*;			
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindable]
+			private var idw_master:DW, idw_account:DW;
+			[Bindable]
+			private var idw_parent:DW2, idw_RoleUser:DW2;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			
+			[Bindalbe]
+			public var bShowColumn:Boolean = true;			
+			[Bindable]
+			private var ia_gender:ArrayList = new ArrayList(Fun2.genderDS(is_app, true));
+			[Bindable]
+			public var ia_role:ArrayList = new ArrayList(Fun2.roleDS(is_app, true));
+			[Bindable]
+			public var ia_deleFlag:ArrayList = new ArrayList(Fun2.deleFlagDS(is_app, true));
+			[Bindable]
+			private var ia_ynFlag:ArrayList = new ArrayList(Fun2.ynFlagDS(is_app, true));
+			
+			private function init():void{				
+				//dw1: Parent
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					mapping: true,
+					items: [
+						{source:sn,				dataType:"N",	inputType:"I"},						
+						{source:cName,			dataType:"S"},												
+						{source:gender,			dataType:"S"},
+						{source:birthDate,		dataType:"D"},
+						{source:idNo,			dataType:"S"},
+						{source:conTel,			dataType:"S"},
+						{source:address,		dataType:"S"},
+						{source:eMail,			dataType:"S"},
+						{source:eduExtent,		dataType:"S"},
+						{source:company,		dataType:"S"},
+						{source:deleFlag,		dataType:"N"},
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"D",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"D",	inputType:"R"}
+					]				
+				}; 			
+				
+				//dw2: PSrelation
+				edit_1.aoDW[1] = new DW2();				
+				idw_parent = edit_1.aoDW[1]; 
+				idw_parent.xTool = tb_parent;
+				idw_parent.oConfig = {	
+					upDW: idw_master,
+					grid: grid_parent,
+					upQKeys: ["sn"],
+					qKeys: ["parentSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"studentSn", 		dataType:"N"},
+						{fid:"parentSn",		dataType:"N", 	inputType:"2"},
+						{fid:"relationship",	dataType:"S"},
+						{fid:"stuNo",			update:false},
+						{fid:"cName",			update:false},
+						{fid:"eName",			update:false},
+						{fid:"gender",			update:false},
+						{fid:"birthDate",		update:false,		dataType:"D"}
+					]				
+				};
+				
+				//dw3: Account
+				edit_1.aoDW[2] = new DW();
+				idw_account = edit_1.aoDW[2];
+				edit_1.aoDW[2].oConfig = {
+					autos: ["acreator","acreateDate","areviser","areviseDate"],					
+					upDW: idw_master,					
+					upQKeys: ["sn"],
+					qKeys: ["userSn"],
+					keys: ["asn"],
+					items: [
+						{source:asn, 		dataType:"N",	inputType:"I"},						
+						{source:userType,	dataType:"N",	init:2},
+						{source:userSn,		dataType:"N", 	inputType:"2"},
+						//{source:roleSn,		dataType:"N"},						
+						{source:loginId,	dataType:"S"},
+						{source:loginPw,	dataType:"S"},						
+						{source:adeleFlag,	dataType:"N"},
+						{source:acreator,	dataType:"S",	inputType:"R"}, 
+						{source:acreateDate,dataType:"DT",	inputType:"R"}, 
+						{source:areviser,	dataType:"S",	inputType:"R"}, 
+						{source:areviseDate,dataType:"DT",	inputType:"R"}
+					]				
+				};		
+				
+				//dw4: RoleUser
+				edit_1.aoDW[3] = new DW2();
+				idw_RoleUser = edit_1.aoDW[3]; 
+				idw_RoleUser.xTool = tb_RoleUser;
+				idw_RoleUser.oConfig = {			
+					upDW: idw_master,
+					grid: grid_RoleUser,
+					upQKeys: ["sn"],
+					qKeys: ["userSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 			dataType:"N", 	inputType:"I"},
+						{fid:"userSn", 		dataType:"N", 	inputType:"2"},
+						{fid:"roleSn", 		dataType:"N"},
+						{fid:"userType", 	dataType:"N"},
+						{fid:"roleName",	update:false,	required:true}
+					]					
+				};
+			}
+			private function whenSave(p_data:Object):Boolean{
+				if (p_data.fun != "D"){
+					
+					if (!Fun.checkEmail(Fun.getItem(eMail) as String)){
+						Fun.msg("E", iR.message00);
+						return false;
+					}
+					
+					if (Fun.getItem(adeleFlag)== 0 && (grid_RoleUser.dataProvider as ArrayCollection).source.length==0){
+						Fun.msg("E", "尚未設定讀取系統角色權限");
+						return false;
+					}
+					
+					//判斷是否已有相同登入帳號
+					var t_data1:Object = {
+						data: "AccountFlag",
+						cuEvent: String(p_data.fun),
+						sn: int(Fun.getItem(asn)),
+						loginId: Fun.getItem(loginId)
+					};
+					
+					var ia_data:Object = Fun.readRow(is_app, t_data1);
+					if (int(ia_data.cs) > 0){
+						Fun.msg("E", iR.message01);
+						return false;
+					}
+					
+					if (Fun.getItem(loginPw)!=Fun.getItem(loginPw2)){
+						Fun.msg("E", iR.message02);
+						focusManager.setFocus(loginPw2);					
+						return false;
+					}else{
+						if (Fun.getItem(loginPw)!=Fun.getItem(loginPw3)){
+							var t_md5:MD5 = new MD5();
+							var ts_code:String = t_md5.encrypt(String(Fun.getItem(loginPw)));
+							t_md5 = null;					
+							
+							idw_account.setItem(loginPw, ts_code, true);
+						}							
+					}
+					
+					//如果 staff 刪除了, 帳號也跟著刪除
+					if (Fun.getItem(deleFlag)==1){
+						idw_account.setItem(adeleFlag, 1, true);					
+					}
+				}
+				return true;
+			}	
+			
+			private function afterOpen(p_data:Object):void{
+				switch (p_data.fun){
+				case "C":
+					loginPw2Form.visible = true;
+					bShowColumn = true;
+					Fun.setItem(loginPw, '');
+					Fun.setItem(loginPw2, '');
+					Fun.setItem(loginPw3, '');
+					break;
+				case "U":
+					loginPw2Form.visible = true;
+					bShowColumn = true;
+					Fun.setItem(loginPw2, Fun.getItem(loginPw));
+					Fun.setItem(loginPw3, Fun.getItem(loginPw));
+					break;
+				case "V":
+					loginPw2Form.visible = false;
+					bShowColumn = false;				
+					break;
+				}
+			}
+			
+			public function fnStuClick(pn_StuSn:int):void{
+				if (int(pn_StuSn)){
+					var t_win:StudentE = new StudentE();
+					var t_data:Object = {
+						win: t_win,
+						fun: "V",
+						row: {sn:pn_StuSn}
+					};
+					Fun.openPopup(t_win, this);				
+					var t_edit:comEdit = t_win.edit_1; 
+					t_edit.sApp = is_app;
+					t_edit.sInf = "StudentE";
+					t_edit.sTitle = iR.message03;				
+					t_edit.init(t_data);					
+				}				
+			}
+			
+			public function fnClick(pn_sn:int):void{				
+				if (bShowColumn){
+					var t_win:FindStu = new FindStu();
+					Fun.openPopup(t_win, this);
+					
+					t_win.qry_1.fSelectRow = fSelectRow;					
+					t_win.qry_1.bCloseAfterQuery = false;
+					t_win.fAfterOk = fSelectRow;
+				}
+			}
+			
+			private function fSelectRow(p_row:Object):void{
+				var tn_row:int = grid_parent.selectedIndex;
+				
+				var t_row:Object = grid_parent.selectedItem;				
+				t_row.stuNo = p_row.stuNo;
+				t_row.cName = p_row.cName;
+				t_row.eName = p_row.eName;
+				t_row.gender = p_row.gender;
+				t_row.birthDate = p_row.birthDate;
+				
+				idw_parent.setItemByFid("studentSn", p_row.sn, true, tn_row);
+				Fun.refreshGrid(grid_parent, tn_row);
+			}
+			private function genderStudent(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_gender, p_row[p_column.dataField]);
+			}
+			
+			//角色
+			public function fnClickRole(pn_sn:int):void{
+				var t_win:FindRole = new FindRole();
+				Fun.openPopup(t_win, this);				
+				
+				t_win.qry_1.fSelectRow = fSelectRowRole;
+				t_win.qry_1.bCloseAfterQuery = false;
+				t_win.fAfterOk = fSelectRowRole;
+			}			
+			private function fSelectRowRole(p_row:Object):void{
+				var tn_row:int = grid_RoleUser.selectedIndex;
+				
+				var t_row:Object = grid_RoleUser.selectedItem;
+				
+				t_row.roleName = p_row.roleName;
+				
+				idw_RoleUser.setItemByFid("roleSn", p_row.sn, true, tn_row);
+				idw_RoleUser.setItemByFid("userType", 2, true, tn_row);
+				
+				Fun.refreshGrid(grid_RoleUser, tn_row);
+			}
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10" y="397" id="edit_1" fWhenSave="whenSave" fAfterOpen="afterOpen">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>	
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+	<mx:TabNavigator x="10" y="10" width="800" height="377" id="tnsa">
+		<mx:Canvas label="{iR.Canvas01}" width="100%" height="100%" id="canvasLabel1">
+			<mx:Form x="10" y="10">
+				<mx:FormItem label="{iR.cName} :" required="true">
+					<s:TextInput id="cName"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.gender} :" required="true">
+					<x2:DDL1 id="gender" dataProvider="{ia_gender}"></x2:DDL1>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.birthDate} :" required="true">
+					<mx:DateField formatString="YYYY/MM/DD" id="birthDate" yearNavigationEnabled="true"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.idNo} :">
+					<s:TextInput id="idNo"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.conTel} :" required="true">
+					<s:TextInput id="conTel"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.address} :" required="true">
+					<s:TextInput width="292" id="address"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.eMail} :" required="true">
+					<s:TextInput width="292" id="eMail"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.eduExtent} :">
+					<s:TextInput width="292" id="eduExtent"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.company} :">
+					<s:TextInput width="292" id="company"/>
+				</mx:FormItem>
+			</mx:Form>
+			<mx:Form x="463" y="10">
+				<mx:FormItem label="{iR.deleFlag} :">
+					<x2:DDL1 id="deleFlag" dataProvider="{ia_ynFlag}"></x2:DDL1>			
+				</mx:FormItem>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas02}" width="100%" height="100%" id="canvasLabel2">
+			<mx:Form x="10" y="29" width="100%" height="292">
+				<x2:DG2 width="750"
+							 
+							 
+							 alpha="0.7"		
+							 		 
+							 
+							 
+							 height="249" id="grid_parent">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="parentSn" visible="false"/>
+						<s:GridColumn dataField="studentSn" visible="false"/>
+						<s:GridColumn headerText="{iR.relationship}" dataField="relationship" width="100">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:Text2/>						
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.stuNo}" dataField="stuNo"/>
+						<s:GridColumn width="20">
+							<s:itemRenderer><fx:Component><x2:irCenterVH>
+								<s:Image source="@Embed(source='x2/image/view.png')" scaleMode="letterbox" smooth="true" smoothingQuality="high" buttonMode="true" toolTip="View ..." click="outerDocument.fnStuClick(data.studentSn)"/>
+							</x2:irCenterVH></fx:Component></s:itemRenderer>											
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.cName}" dataField="cName"/>
+						<!-- 卡
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<mx:Label useHandCursor="true" mouseChildren="false" buttonMode="true" textDecoration="underline" color="#0000FF" click="outerDocument.fnStuClick(data.studentSn)"/>															
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						-->
+						<s:GridColumn headerText="{iR.eName}" dataField="eName"/>
+						<s:GridColumn headerText="{iR.gender}" dataField="gender" labelFunction="genderStudent"/>
+						<s:GridColumn headerText="{iR.birthDate}" dataField="birthDate"/>
+						<s:GridColumn width="40">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:btnPick click="outerDocument.fnClick(data.sn)" buttonMode="true"/>									
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>
+			<x2:TBar2 x="517" y="4" id="tb_parent">
+			</x2:TBar2>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas03}" width="100%" height="100%" id="canvasLabel3">
+			<x2:Num1 id="asn" visible="false"/>
+			<x2:Num1 id="userType" visible="false"/>
+			<x2:Num1 id="userSn" visible="false"/>
+			<s:TextInput id="loginPw3" visible="false"/>
+			<s:TextInput id="acreator" visible="false"/>
+			<s:TextInput id="acreateDate" visible="false"/>
+			<s:TextInput id="areviser" visible="false"/>
+			<s:TextInput id="areviseDate" visible="false"/>
+			<s:Form x="10" y="10" width="450">
+				<s:layout> 
+					<s:FormLayout gap="-5"/>			
+				</s:layout>	
+				<s:FormItem label="{iR.adeleFlag} :" required="true">
+					<x2:DDL1 id="adeleFlag" dataProvider="{ia_deleFlag}"></x2:DDL1>
+				</s:FormItem>
+				<s:FormItem label="{iR.loginId} :" required="true">
+					<s:TextInput id="loginId" width="100%"/>
+				</s:FormItem>
+				<s:FormItem label="{iR.loginPw} :" required="true">
+					<s:TextInput id="loginPw" maxChars="20" displayAsPassword="true" width="100%"/>
+				</s:FormItem>				
+				<s:FormItem label="{iR.loginPw2} :" required="true" id="loginPw2Form">
+					<s:TextInput id="loginPw2" maxChars="20" displayAsPassword="true" width="100%"/>
+				</s:FormItem>
+				<!--
+				<s:FormItem label="{iR.roleSn} :" required="true">
+					<x2:DDL1 id="roleSn" dataProvider="{ia_role}"></x2:DDL1>
+				</s:FormItem>
+				-->
+			</s:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas04}">			
+			<x2:TBar2 x="167" y="4" id="tb_RoleUser">
+			</x2:TBar2>
+			<mx:Form x="10" y="29">
+				<x2:DG2 width="400"
+						 
+						 
+						 alpha="0.7"		
+						 		 
+						 
+						 
+						 height="249" x="10.5" y="144" id="grid_RoleUser">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="roleSn" visible="false"/>
+						<s:GridColumn dataField="userType" visible="false"/>
+						<s:GridColumn dataField="userSn" visible="false"/>
+						<s:GridColumn headerText="{iR.roleName}" dataField="roleName"/>						
+						<s:GridColumn width="40">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:btnPick click="outerDocument.fnClickRole(data.sn)"/>									
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>
+		</mx:Canvas>
+	</mx:TabNavigator>
+</s:TitleWindow>

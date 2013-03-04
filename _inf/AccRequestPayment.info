@@ -1,0 +1,15 @@
+{
+    "list":{
+        "select": "SELECT a.*, CONCAT(b.cName, ' ', b.eName) AS staffName",
+        "from": "FROM AccRequestPayment a INNER JOIN
+                Staff b ON a.staffSn = b.sn AND a.accType = 1
+                [_where]",
+        "order": "ORDER BY a.cDate",
+        "items": [
+            {"fid":"serialNo",          "table":"a"},
+            {"fid":"staffSn",           "table":"a"},
+            {"fid":"cDate",             "table":"a",    "op":"between"},
+            {"fid":"accIocSn",          "table":"a"}
+      ]
+    }
+}

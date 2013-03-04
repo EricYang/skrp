@@ -1,0 +1,124 @@
+
+package{
+	//import com.dannypatterson.remoting.ServiceProxy;
+	import flash.net.NetConnection;   
+	//import flash.net.ObjectEncoding;  
+	//import flash.net.Responder; 
+	//import flash.events.NetStatusEvent;  
+	//import com.dannypatterson.remoting.ServiceProxy;
+	//import com.dannypatterson.remoting.FaultEvent;
+	//import com.dannypatterson.remoting.ResultEvent;
+	
+
+
+	public class Log{
+		
+		//===== programmer set begin !! ========
+		//先設定系統代號 !!
+		private static var is_sysId:String = "1";
+		
+		//設定記錄的起迄日期
+		private static var is_start:String = "2010/11/1";
+		private static var is_end:String = "2010/11/30";
+		//===== programmer set end !! ========
+		
+		
+		private static var in_writeLog:int = 0;		//0(未設定), 1(Yes), -1(No)
+		//private static var i_proxy:ServiceProxy;
+		private static var i_proxy:NetConnection;
+		
+		
+		//記錄使用者的操作動作 
+		public static function logAct(ps_form:String, ps_act:String):void{
+			
+			//check date limit first
+			if (in_writeLog == 0){
+				var t_start:Number = new Date(Date.parse(is_start)).getTime();
+				var t_end:Number = new Date(Date.parse(is_end + " 23:59:59")).getTime();
+				var t_today:Number = new Date().getTime();
+				if (t_today < t_start || t_today > t_end){
+					in_writeLog = -1;
+				}else{
+					in_writeLog = 1;
+				}
+			}
+			
+			if (in_writeLog == -1){
+				return;
+			}
+			
+			//remote call for log user action
+			if (i_proxy == null){
+				//var ps_url:String  = "http://192.168.1.68/LogAct/Gateway.aspx";
+				var ps_url:String  = "http://192.168.1.68/LogAct/Gateway.aspx";
+				var ps_class:String = "LogFun.Log";
+				//i_proxy = new ServiceProxy(ps_url, ps_class);
+				i_proxy = new NetConnection();
+				
+				//i_proxy.addEventListener(ResultEvent.RESULT, onResult, false, 0, true);
+				//i_proxy.addEventListener(FaultEvent.FAULT, onFault, false, 0, true);
+				//i_proxy.addEventListener(FaultEvent.CONNECTION_ERROR, onConnectionError, false, 0, true);
+				
+				//i_proxy.addEventListener(NetStatusEvent.NET_STATUS, onNetConnectionStatusr);   
+				
+				//i_proxy.objectEncoding = ObjectEncoding.AMF3;				
+				i_proxy.connect(ps_url);  
+				
+				
+				//i_proxy.addEventListener(ResultEvent.RESULT, onResult);
+				//i_proxy.addEventListener(FaultEvent.FAULT, onFault);
+			}
+			
+			try {
+				//i_proxy.logAct(is_sysId, ps_form, ps_act);
+				//i_proxy.call("LogFun.Log.logAct", new Responder(Result,Status), is_sysId, ps_form, ps_act);
+				i_proxy.call("LogFun.Log.logAct", null, is_sysId, ps_form, ps_act);
+			}catch(e:Error){
+				//do nothing
+			}
+		}
+		
+		/*
+		private static function onConnectionError(event:FaultEvent):void {
+			trace("onConnectionError: " + event.fault);
+		}
+		
+		private static function onFault(event:FaultEvent):void {
+			trace("onFault: " + event.fault);
+		}
+		
+		private static function onResult(event:ResultEvent):void {
+			trace("onResult: " + event.result);
+		}
+		*/
+		
+		/*
+		private static function onNetConnectionStatusr(e:NetStatusEvent):void {     		
+			if (e.info.code =="NetConnection.Call.Failed") {  				
+				trace("連接遠程服務失敗");  			
+			}  			
+		}
+		
+		
+		
+		private static function Result (re:String):void
+			
+		{
+			
+			trace (re);
+			
+			trace ("成功!");
+			
+		}
+		
+		private static function Status (re:Boolean):void
+			
+		{
+			
+			trace ("错误!");
+			
+		}
+		*/
+		
+	}
+}

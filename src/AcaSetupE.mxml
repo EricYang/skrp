@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="522" height="248"	
+	preinitialize="{iR=Fun.getLang('AcaSetup')}"
+  	creationComplete="init()"	
+	>
+	<fx:Script>
+		<![CDATA[			
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			public var ia_ynFlag:ArrayList = new ArrayList(Fun2.ynFlagDS(is_app, true));
+			[Bindable]
+			private var idw_master:DW;
+			
+			private function init():void{	
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					mapping: true,
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					items: [
+						{source:sn,				dataType:"N",	inputType:"I"},						
+						{source:academicYear,	dataType:"N",	msg:"Write..."},
+						{source:semester,		dataType:"N"},
+						{source:currentStatus,	dataType:"N"},
+						{source:deleFlag,		dataType:"N"},
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"DT",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"DT",	inputType:"R"}
+					]				
+				};				
+			}	
+			
+			private function whenSave(p_data:Object):Boolean{
+				switch (p_data.fun){
+					case "C":
+					case "U":
+						if (!int(Fun.getItem(academicYear))){					
+							Fun.msg("E", iR.message01);
+							return false;
+						}
+						if (!int(Fun.getItem(semester))){					
+							Fun.msg("E", iR.message02);
+							return false;
+						}
+						
+						//判斷是否已有相同學年期
+						var t_data1:Object = {
+							data: "acaYearS",
+							cuEvent: String(p_data.fun),
+							sn: int(Fun.getItem(sn)),
+							academicYear: int(Fun.getItem(academicYear)),
+							semester: int(Fun.getItem(semester))
+						};
+						
+						var ia_data:Object = Fun.readRow(is_app, t_data1);
+						if (int(ia_data.cs) > 0){
+							Fun.msg("E", iR.message03);
+							return false;
+						}
+						
+						//判斷是否已有設定學年期
+						var t_data:Object = Fun.readRow(is_app, {data:"CurrStatus"}); 
+						if (int(t_data.cs) > 0){
+							if (int(Fun.getItem(currentStatus))==1){
+								Fun.msg("E", iR.message04);
+								return false;
+							}
+						}else{
+							Fun.setItem(currentStatus, 1);							
+						}
+						
+						break;
+				}
+				return true;
+			}	
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10" y="174" id="edit_1" fWhenSave="whenSave">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+	<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+		<mx:FormItem label="{iR.academicYear} :" required="true">
+			<s:TextInput id="academicYear" width="82"/>			
+		</mx:FormItem>
+		<mx:FormItem label="{iR.semester} :" required="true">
+			<s:TextInput id="semester" width="82"/>			
+		</mx:FormItem>
+		<mx:FormItem label="{iR.currentStatus} :">
+			<x2:DDL1 id="currentStatus" dataProvider="{ia_ynFlag}"></x2:DDL1>			
+		</mx:FormItem>
+		<mx:FormItem label="{iR.deleFlag} :">
+			<x2:DDL1 id="deleFlag" dataProvider="{ia_ynFlag}"></x2:DDL1>			
+		</mx:FormItem>
+	</mx:Form>
+</s:TitleWindow>

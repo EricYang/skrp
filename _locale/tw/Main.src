@@ -1,0 +1,154 @@
+﻿# Login user info
+loginInfoA=學年度 第
+loginInfoB=學期 ( 登入者：
+loginInfoC=尚未設定目前之 學年度學期 ( 登入者：
+
+logout=登出
+
+# mainArea
+sysCodeA=☆教職員工
+sysCodeB=☆班別經營
+sysCodeC=☆教務管理
+sysCodeD=☆園務行政管理
+sysCodeE=☆總務管理
+sysCodeF=☆基本資料
+sysCodeG=☆家長功能區
+sysCodeH=☆管理處統計報表
+sysCodeI=☆學習歷程
+sysCodeJ=☆財會管理
+
+# ia_menu
+# sysCodeA=☆教職員工
+ToDoList=待辦事項
+gCalendar=個人行事曆
+PersonCal=個人行事曆資料
+RepairForm=報修單
+FilesList=檔案下載
+StaffSelf=員工個人資料
+
+# sysCodeB=☆班別經營
+BabyCheck=幼兒上課點名
+BabyExcuse=班別幼兒請假
+MedicineTicket=托藥給藥紀錄
+MedicineRec=給藥紀錄
+HurtInfo=傷害事故
+BabyWatch=幼兒行為觀察表
+FoodSick=伙食過敏情形
+TeachBook=教學日誌
+TeachProject=教案維護
+EContactBook=電子聯絡簿
+ParentTalk=家長通聯紀錄
+TeachCard=教具卡
+ExportBaby=匯出幼兒名冊
+BabyHealth=幼兒保健
+HealthItem=保健項目資料
+ParentMsgReply=家長留言回覆
+BabyEnsure=幼兒保險
+EnsureItem=保險項目資料
+BabyCar=幼兒搭車資料
+BabyCarInfo=交通車路線資訊
+ClassScheduleView=課程表
+CleanList=教室清潔單
+DevControlStu=發展檢核表
+LeagalInfect=法定傳染病
+FinalEvaluateStu=幼兒期末評量
+LearnPro=學習歷程
+
+# sysCodeC=☆教務管理
+LearnActDesign=學習活動設計表
+UploadMeeting=會議記錄
+ClassSchedule=課程表
+FinalEvaluate=期末評量項目
+
+# sysCodeD=☆園務行政管理
+TimeTable=排班表
+Board=公佈欄
+Project=專案企劃
+FoodTable=每月伙食表
+ParentAskSum=家長問卷統計
+SkillClass=才藝班
+SickSum=幼兒身體異常統計
+SickItem=身體異常項目資料
+ProjectItem=專案項目資料
+DevControl=發展檢核表
+ViolenceAnn=暴力通報
+HygieneControl=衛生自主管理
+HygieneProcess=衛生事故流程
+SitotoxismAnn=食品中毒通報
+SelfEvaluate=評鑑表單
+SelfEvaluateCheck=自評表
+FilesMana=檔案管理
+
+# sysCodeE=☆總務管理
+TeachTool=教具管理
+BookData=圖書資料
+BookMana=圖書管理
+Fortune=財產管理
+CheckStock=庫存盤點
+DamageRepair=損壞維修
+CleanListCheck=教室清潔單
+AccTitle=會計科目
+SafeControl=安全檢核
+SafeControlCheck=安全檢核檢查
+CarCheck=交通車行車檢查
+FireControlCheck=消防安全檢查
+FireCommittee=消防管理編制
+FireDrill=消防安全演練
+
+# sysCodeF=☆基本資料
+Dept=部門資料
+Titles=職稱資料
+Staff=員工基本資料
+ClassInfo=班別資料
+AcaSetup=學年度設定
+StartClass=開班作業
+Student=幼兒基本資料
+Parent=家長資料
+BabyCostItem=幼兒費用項目
+BabyCarList=隨車資料
+BabyCarRec=交通車時間紀錄
+YearCal=年度行事曆
+PublicDept=公務單位資料
+Program=系統名稱管理
+Role=角色權限管理
+DiseaseItem=病症項目資料
+FuncItem=項目資料
+LeagalInfectItem=法定傳染病項目
+SpStudent=特教生
+MultiFuncItem=多筆項目資料
+SchoolInfo=園所資料
+
+# sysCodeG=☆家長功能區
+EContactBookParent=電子聯絡簿
+BabyRestParent=幼兒請假紀錄
+ParentMsg=家長留言
+ParentAsk=填問卷
+gCalendar=綜合行事曆
+FoodTable=每月伙食表
+ClassScheduleView=課程表
+MedicineTicketParent=托藥給藥紀錄
+ParentSelf=家長個人資料
+
+# sysCodeH=☆管理處統計報表
+rptTeacher=教職員工人數統計
+rptStudent=幼兒人數統計
+SickSum=幼兒健康異常統計
+rptBook=書籍統計
+rptTeachTool=教具統計
+AbsentStatus=當日出席狀況
+
+# sysCodeI=☆學習歷程
+LearnProParent=活動照片
+FinalEvaluateStuParent=期末評量
+
+# sysCodeJ=☆財會管理
+AccMain=會計科目設定
+AccIncome=收入項目設定
+AccExpense=支出項目設定
+AccMonthIncome=月份收費
+AccMonthPaid=月份繳費
+AccRequestPayment=請款單
+AccPettyCash=零用金支出
+AccRequestPaid=支出資料維護
+AccReport=財會報表
+AccMIAdj=月份收費調整

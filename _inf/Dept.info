@@ -1,0 +1,14 @@
+{
+    "list":{
+        "select": "SELECT *",
+        "from":   "FROM Dept [_where]",
+        "order":  "ORDER BY deptCode",
+        "items": [
+            {"fid":"deptCode",  "op":"like"},
+            {"fid":"deptName",  "op":"like"}
+      ]
+    },    
+    "progRange": 1,
+    "aFOwner": "creator",
+    "aFOwnerType": "L"
+}

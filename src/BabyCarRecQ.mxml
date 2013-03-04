@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	width="510" height="184" xmlns:x2="x2.*" 
+	
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('BabyCarRec')}"
+ 	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			
+			private var is_app:String = Fun.sApp;
+			
+			[Bindable]
+			private var ia_babyCarInfo:ArrayList = new ArrayList(Fun2.babyCarInfoDS(is_app, false));
+			
+			private function init():void{
+				qry_1.aoItem = [
+					{source:babyCarInfoSn},
+					{source:cDate},
+					{source:eventRec}
+				];					
+			}			
+		]]>
+	</fx:Script>
+	<mx:Form x="7" y="6" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+		<mx:FormItem label="{iR.babyCarInfoSn} :">
+			<x2:DDL1 id="babyCarInfoSn" dataProvider="{ia_babyCarInfo}"></x2:DDL1>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.cDate} :">
+			<mx:DateField formatString="YYYY/MM/DD" id="cDate"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.eventRec} :">				
+			<s:TextInput id="eventRec" width="217"/>
+		</mx:FormItem>
+	</mx:Form>
+	<x2:comQuery x="416" y="11" id="qry_1">
+	</x2:comQuery>
+</s:TitleWindow>

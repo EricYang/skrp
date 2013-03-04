@@ -1,0 +1,44 @@
+{
+    "dws":[
+	    {
+			"selectTable": "TeachBook",
+            "updateTable": "TeachBook",            
+			"items": [
+				{"fid":"sn"}, 
+                {"fid":"academicYear"},
+                {"fid":"semester"},                
+                {"fid":"acaName",       "colName":"''"},
+                {"fid":"classLeavesSn"},
+                {"fid":"subject"},
+                {"fid":"cDate"},
+                {"fid":"activities"},
+                {"fid":"introspection"},
+                {"fid":"specEvent"},
+                {"fid":"creator"},
+                {"fid":"createDate"},
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+
+			]								
+	    },
+	    {
+			"selectTable": "SickLog a LEFT OUTER JOIN Student b ON a.studentSn = b.sn",
+            "updateTable": "SickLog",
+            "defaultTable": "a",
+			"upDW": 0,
+			"items": [
+                {"fid":"sn"},
+	            {"fid":"teachBookSn"},
+                {"fid":"studentSn"},
+                {"fid":"funcItemSn"},
+                {"fid":"sDescribe"},
+                {"fid":"cName", "table":"b"},
+                {"fid":"eName", "table":"b"},
+                {"fid":"creator"},
+                {"fid":"createDate"},
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+			]				
+	    }
+    ]    
+}

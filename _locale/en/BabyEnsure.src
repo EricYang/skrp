@@ -1,0 +1,19 @@
+﻿# list/query fields
+acaName=academic year (semester)
+classLeavesSn=grade and classification
+studentName=student name
+studentSn=date of birth, ID number
+funcItemSn=types of insurance
+cDate=nsurance start date
+creator=created by
+createDate=created on
+reviser=modified by
+reviseDate=last modified
+
+# Q
+academicYear==academic year
+semester= term
+classInfoSn=grade
+classLeavesSn=classification
+cName=Chinese name
+eName=English name

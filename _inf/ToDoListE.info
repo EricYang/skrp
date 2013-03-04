@@ -1,0 +1,46 @@
+{
+    "dws":[
+        {
+            "selectTable": "TodoList a 
+                            INNER JOIN Staff b ON a.staffSnC = b.sn 
+                            LEFT OUTER JOIN Staff c ON a.staffSnA = c.sn 
+                            LEFT OUTER JOIN Staff d ON a.staffSnB = d.sn",
+            "updateTable": "TodoList",
+            "defaultTable": "a",
+            "items": [
+                {"fid":"sn"}, 
+                {"fid":"docNoa"},
+                {"fid":"docNob"},
+                {"fid":"subject"},
+                {"fid":"staffSnA"},
+                {"fid":"staffNameA",    "table":"", "colName":"CONCAT(c.cName, ' ', c.eName)"},
+                {"fid":"staffSnB"},
+                {"fid":"staffNameB",    "table":"", "colName":"CONCAT(d.cName, ' ', d.eName)"},
+                {"fid":"cDate"},
+                {"fid":"contents"},
+                {"fid":"staffSnC"},
+                {"fid":"staffNameC",    "table":"", "colName":"CONCAT(b.cName, ' ', b.eName)"},
+                {"fid":"sncDate"},
+                {"fid":"proFlag"},
+                {"fid":"proDate"},
+                {"fid":"proDescribe"},
+                {"fid":"proFlagReply"},
+                {"fid":"proDateReply"},
+                {"fid":"creator"},
+                {"fid":"createDate"},           
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+             ]                
+        },
+        {
+            "selectTable": "ToDoListRP",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"toDoListSn"},                
+                {"fid":"cDate"},
+                {"fid":"contents"}
+            ]                
+        }
+    ]    
+}

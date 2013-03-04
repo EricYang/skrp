@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="565" height="512" 
+	
+	creationComplete="init()"	
+	close="closeWin()">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.ArrayList;
+			
+			import x2.*;
+			
+			
+			[Bindable]
+			private var iR:Object;			
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var ia_child:ArrayList;
+			
+			private function init():void{
+				
+			}
+			
+			private function okSearch():void{
+				if (Fun.getItem(sDate)!="" && Fun.getItem(eDate)!=""){
+					var t_data:Object = {
+						data: "InputWeek",
+						sDate: Fun.getItem(sDate),
+							eDate: Fun.getItem(eDate)
+					};						
+					ia_child = new ArrayList(Fun.readRows(is_app, t_data));
+					if (ia_child.length == 0){
+						Fun.msg("E", "查無資料");
+					}else{					
+						grid_1.dataProvider = ia_child;
+					}
+				}else{
+					Fun.msg("E", "本學期 起(迄) 日期 尚未選擇");
+				}
+			}
+			private function okClick():void{
+				if (ia_child.length <=0){
+					Fun.msg("E", "尚未選擇欲匯入之資料.");
+				}else{
+					var k:int = 0;
+					var transData:Array = [];
+					for (var j:int=0; j<ia_child.length; j++){
+						if (ia_child.source[j].checkFlag==1){
+							var in_data:Object = {
+								sDay: ia_child.source[j].sDay, 
+								eDay: ia_child.source[j].eDay							
+							};
+							transData.push(in_data);
+							k=k+1;
+						}					
+					}
+					if (k>0){
+						var m_data:Object = {
+							weekData: transData
+						};				
+						var ts_result:int = int(Fun.sync(is_app, "InputWeek", m_data, false));
+						if (ts_result>0){
+							Fun.msg("I", "匯入成功, 計:" + String(ts_result) + " 筆.");						
+						}else{
+							Fun.msg("E", "匯入失敗.");
+						}
+						closeWin();
+					}else{
+						Fun.msg("E", "尚未選擇欲匯入之資料.");
+					}
+				}
+			}
+			private function fnSelect():void{
+				if (ia_child.length <=0){
+					Fun.msg("E", "無資料可選擇");
+				}else{					
+					var i:int=0;
+					grid_1.dataProvider = new ArrayList();
+					
+					switch (Fun.getItem(checkAllFlag)){
+						case "0":
+							for (i; i<ia_child.length; i++){
+								ia_child.source[i].checkFlag = 1;					
+							}
+							grid_1.dataProvider = ia_child;							
+							
+							checkAllFlag.text = "1";
+							checkAllFun.label = "取消全選";						
+							break;
+						case "1":
+							for (i; i<ia_child.length; i++){
+								ia_child.source[i].checkFlag = 0;					
+							}
+							grid_1.dataProvider = ia_child;
+							
+							checkAllFlag.text = "0";
+							checkAllFun.label = "全選";
+							break;					
+					}
+				}
+			}	
+			private function serialNoLabelFunc(p_row:Object, p_column:GridColumn):String {
+				var index:int = p_column.grid.dataProvider.getItemIndex(p_row);
+				if (index > -1) {
+					return (index + 1).toString();
+				}
+				return "";
+			}
+			
+			private function closeWin():void{
+				Fun.closePopup(this);
+			}			
+		]]>
+	</fx:Script>	
+	<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+		<mx:Label text="請輸入本學期 起(迄) 日期 :"/>
+		<mx:FormItem label="日期(起) :" required="true">
+			<mx:HBox x="94" y="2" width="100%">
+				<mx:DateField formatString="YYYY/MM/DD" id="sDate" yearNavigationEnabled="true"/>								
+				<mx:Label text="(迄) :"/>
+				<mx:DateField formatString="YYYY/MM/DD" id="eDate" yearNavigationEnabled="true"/>												
+			</mx:HBox>
+		</mx:FormItem>
+	</mx:Form>
+	<mx:HRule x="0" y="108" width="100%"/>
+	<mx:Form x="10.5" y="116">
+		<mx:HBox width="100%" verticalAlign="bottom">			
+			<mx:Button label="全選" icon="@Embed(source='x2/image/checked.gif')" click="fnSelect()" id="checkAllFun" buttonMode="true"/>		
+			<s:TextInput id="checkAllFlag" text="0" visible="false" width="0"/>
+			<mx:HBox horizontalAlign="right" width="100%">
+				<mx:Button click="okClick()" icon="@Embed(source='x2/image/checked.gif')" id="cmdOk" label="確定匯入" buttonMode="true"/>
+			</mx:HBox>
+		</mx:HBox>		
+		<s:DataGrid id="grid_1" width="510" alpha="0.7" height="288" sortableColumns="false">
+			<s:columns><s:ArrayList>
+				<s:GridColumn headerText="Week" dataField="serialNo" labelFunction="serialNoLabelFunc" width="60"/>
+				<s:GridColumn headerText="選取" dataField="checkFlag" width="60">
+				   <s:itemRenderer>
+						<fx:Component><x2:irCenterVH>
+							<x2:Check2 />
+						</x2:irCenterVH></fx:Component>
+					</s:itemRenderer>        		         
+				</s:GridColumn>
+				<s:GridColumn headerText="Date" dataField="sDay" width="110"/>
+				<s:GridColumn headerText="星期" dataField="sDayW" width="60" />
+				<s:GridColumn headerText="~" width="30"/>
+				<s:GridColumn headerText="Date" dataField="eDay" width="110"/>
+				<s:GridColumn headerText="星期" dataField="eDayW" width="60" />
+			</s:ArrayList></s:columns>
+		</s:DataGrid>			
+	</mx:Form>
+	<mx:VBox x="465" y="27">
+		<mx:Button click="okSearch()" icon="@Embed(source='x2/image/checked.gif')" id="cmdSearch" label="查詢" buttonMode="true"/>
+		<mx:Button click="closeWin()" icon="@Embed(source='x2/image/close.png')" id="cmdExit" label="離開" buttonMode="true"/>
+	</mx:VBox>
+</s:TitleWindow>

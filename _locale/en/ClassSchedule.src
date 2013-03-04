@@ -1,0 +1,16 @@
+﻿# list/query fields
+acaName=academic year (semester)
+classLeavesSn=grade and classification
+creator=created by
+createDate=created on
+reviser=modified by
+reviseDate=last modified
+
+# E
+remark=remark
+
+# Q
+academicYear=academic year
+semester=semester
+classInfoSn=class grade
+classLeavesSn=class type

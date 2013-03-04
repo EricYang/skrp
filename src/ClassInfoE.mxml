@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="550" height="450" 
+	 
+  	creationComplete="init()"  	 	
+	preinitialize="{iR=Fun.getLang('ClassInfo')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;	
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindable]
+			private var idw_master:DW;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var ia_ynFlag:ArrayList = new ArrayList(Fun2.ynFlagDS(is_app, true));
+			
+			private function init():void{	
+				//dw1: ClassInfo
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {	
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					mapping: true,
+					items: [
+						{source:sn,				dataType:"N",	inputType:"I"}, 
+						{source:theClassCode,	dataType:"S"}, 
+						{source:theClassName,	dataType:"S"},
+						{source:classType,		dataType:"N"},
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"D",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"D",	inputType:"R"}
+					]				
+				}; 			
+				
+				//dw3: ClassLeaves
+				edit_1.aoDW[1] = new DW2();
+				(edit_1.aoDW[1] as DW2).xTool = tb_classInfo;
+				edit_1.aoDW[1].oConfig = {					
+					upDW: idw_master,
+					grid: grid_classInfo,
+					upQKeys: ["sn"],
+					qKeys: ["classInfoSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"classInfoSn", 	dataType:"N", 	inputType:"2"},
+						{fid:"classLeavesCode",	dataType:"S"},
+						{fid:"classLeavesName",	dataType:"S"}
+					]				
+				};				
+			}
+		]]>
+	</fx:Script>
+	<x2:Num1 id="sn" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+	<mx:Form x="10.5" y="11">		
+		<mx:FormItem label="{iR.theClassCode}:" required="true">
+			<s:TextInput id="theClassCode"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.theClassName} :" required="true">
+			<s:TextInput id="theClassName"/>
+		</mx:FormItem>	
+		<mx:FormItem label="{iR.classType} :" required="true">
+			<x2:DDL1 id="classType" dataProvider="{ia_ynFlag}"></x2:DDL1>			
+		</mx:FormItem>
+	</mx:Form>
+	<x2:TBar2 x="269" y="142" id="tb_classInfo">
+	</x2:TBar2>
+	<x2:DG2 width="518"
+				 
+				 
+				 alpha="0.7"		
+				 		 
+				 
+				 
+				 height="205" x="10" y="171" id="grid_classInfo">
+		<x2:columns><s:ArrayList>				
+			<s:GridColumn dataField="sn" visible="false"/>
+			<s:GridColumn dataField="classInfoSn" visible="false"/>
+			<s:GridColumn headerText="{iR.classLeavesCode}" dataField="classLeavesCode">
+				<s:itemRenderer>
+					<fx:Component><s:GridItemRenderer>
+						<x2:Text2/>						
+					</s:GridItemRenderer></fx:Component>
+				</s:itemRenderer>        		         
+			</s:GridColumn>
+			<s:GridColumn headerText="{iR.classLeavesName}" dataField="classLeavesName">
+				<s:itemRenderer>
+					<fx:Component><s:GridItemRenderer>
+						<x2:Text2/>						
+					</s:GridItemRenderer></fx:Component>
+				</s:itemRenderer>        		         
+			</s:GridColumn>			
+		</s:ArrayList></x2:columns>
+	</x2:DG2>
+	<x2:comEdit x="9.5" y="381" id="edit_1">
+	</x2:comEdit>	
+</s:TitleWindow>

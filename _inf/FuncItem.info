@@ -1,0 +1,12 @@
+{
+    "list":{
+        "select": "SELECT *",
+        "from":   "FROM FuncItem 
+                    [_where]",
+        "order":  "ORDER BY sysType, sn",
+        "items": [
+            {"fid":"sysType"},
+            {"fid":"itemName",  "op":"like"}
+      ]
+    }
+}

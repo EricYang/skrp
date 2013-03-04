@@ -1,0 +1,39 @@
+﻿# list/query fields
+docNoa=文件号
+docNob=版号
+cDate=待办日期
+subject=主旨
+staffSnA=负责人
+staffSnB=协办人
+staffSnC=交办人
+proFlag=处理状态
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# E
+Canvas01=交办事项
+traceCase=追踪此案件
+contents=内容
+sncDate=日期
+proDate=日期
+proDescribe=说明
+
+Canvas02=交办回覆
+rDate=回覆日期
+rContents=回覆内容
+proFlagReply=处理状态
+proDateReply=日期
+
+Canvas03=历史纪录
+
+# message
+message01=确定追踪此案件？
+message02=取号错误！请重新点选。
+message03=待办事项历史资料
+message04=负责人不得为自己
+message05=协办人不得为自己
+message06=负责人与协办人不得为同一人
+
+# Q

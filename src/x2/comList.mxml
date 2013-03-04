@@ -1,0 +1,1036 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:HGroup 
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	xmlns:x2="x2.*"
+	width="640" height="28" 
+	fontWeight="normal" 
+	gap="1" paddingLeft="2"
+	verticalAlign="middle"
+	>
+	
+	<x2:btnCreate id="btnCreate" click="btnClick('C')"/>
+	<x2:btnRead id="btnRead" click="btnClick('R')"/>
+	<x2:btnUpdate id="btnUpdate" click="btnClick('U')"/>
+	<x2:btnDelete id="btnDelete" click="btnClick('D')"/>
+	<x2:btnView id="btnView" click="btnClick('V')"/>
+	<s:Label width="5"/>
+	<x2:btnPrint id="btnPrint" click="btnPrintClick(event)" visible="false" includeInLayout="false"/>
+	<x2:btnHelp id="btnHelp" click="btnClick('H')" visible="false" includeInLayout="false"/>
+	<x2:btnExport id="btnExport" click="btnClick('E')" visible="false" includeInLayout="false"/>
+	<x2:btnRefresh id="btnRefresh" click="btnClick('RF')" visible="false" includeInLayout="false"/>
+	
+	<fx:Script>
+		<![CDATA[
+			/**
+			 * 預設不顯示 export 和 refresh 按鈕, 如果需要的話, 個別程式自行顯示
+			 * (這裡必須加上 visible=false, 否則邊緣會有一條線)
+			 */ 
+		/* old
+			verticalAlign="middle"	horizontalAlign="left" 
+			verticalScrollPolicy="off" horizontalScrollPolicy="off"
+		*/
+			
+		//import com.adobe.serialization.json.JSON;
+		//import com.json.*;
+		
+		import mx.collections.*;
+		import mx.controls.Menu;
+		import mx.events.MenuEvent;
+		
+		import spark.components.Application;
+		import spark.components.DataGrid;
+		import spark.components.TitleWindow;
+		
+		import x2.*;		
+
+
+        
+		//=================	
+		//=== public  ===
+		//=================	
+
+		/**
+		 * //new, help 檔案路徑, 不含 help 目錄, 如果空白則使用 sInf.
+		 */
+		public var sHelpFile:String="";
+			
+		/**
+		 * 開啟畫面後, 讀取資料庫的種類: 0(不讀取, default), 2(條件讀取), 9(讀取全部)
+		 */ 
+		//public var nReadType:int=0;
+		public var bAutoRead:Boolean=false;
+		
+		/**
+		 * (Optional) 查詢畫面物件, 其中必須實作  qry_1 物件
+		 */ 				
+		public var wQuery:TitleWindow;		
+		
+		/**
+		 * (Optional) 編輯畫面物件, 其中必須實作  edit_1 物件
+		 */ 				
+		public var wEdit:TitleWindow;		
+		
+		/**
+		 * 顯示資料清單的 DataGrid 物件.
+		 */ 				
+		public var gList:DataGrid;
+		
+		/**
+		 * comEdit 物件, 如果編輯畫面上的 comEdit 元件不在第一層(名稱必須為 edit_1), 則必須手動設定. 
+		 */ 				
+		public var xEdit:comEdit; 
+			
+		/**
+		 * 程式可以區分的程式範圍: 0(無, defalt), 1(個人, 需設定 asFOwner[]), 2(部門, 需設定 asFDept[])
+		 */ 				
+		public var nAppRange:int=0;				
+		
+		/**
+		 * 清單畫面是否為 stand along, 如果 false 表示是在 TabNavigator 裡面.
+		 * 考慮會單獨在一個新的瀏覽器開啟清單畫面的狀況!!
+		 */ 				
+		//public var bSingle:Boolean=false;
+			
+		/**
+		 * S2欄位的欄位代號清單
+		 */ 				
+		//public var asS2:Array=[];
+		
+		/**
+		 * 資料擁有者的欄位名稱字串陣列, for nAppRange != 0 only, 必須和 inf 檔裡面的 fOwners 一致
+		 */ 				
+		public var asFOwner:Array=[];
+		
+		/**
+		 * 資料所屬部門的欄位名稱字串陣列, for nAppRange != 0 only, 必須和 inf 檔裡面的 fDepts 一致
+		 */ 				
+		public var asFDept:Array=[];
+		
+		/**
+		 * 使用者在清單畫面的功能權限, 包含以下變數: funCreate, funRead, funUpdate, funDelet, funPrint, funExport, funView.<br/>
+		 * 權限設定為: 0(無),1(個人),2(部門),3(跨部門),5(全部).<br/>
+		 * 可以在畫面開啟後直接設定這個變數的值來控制權限.
+		 */ 				
+		public var oFun:Object={};	
+			
+		/**
+		 * 攔截功能(para object: fun/return boolean), 如果你要重新附予功能表上的某些功能, 則指定這個函數.<br/>
+		 * 傳回 true 表示功能被攔截, 如果傳回 false, 表示執行預設的動作.
+		 */ 				
+		public var fCatchFun:Function;
+		
+		/**
+		 * 開啟畫面後執行的函數(object/void) 傳入Object參數目前無任何變數!!
+		 */ 				
+		public var fAfterOpen:Function;
+		
+		/**
+		 * 執行所有功能(CRUDPEV)之前先執行的函數(para object:fun/return boolean).<br/>
+		 * 自行控制要顯示的訊息.
+		 */ 				
+		public var fWhenFun:Function;
+				
+		/**
+		 * 執行 refresh 時的函數 (void/void).<br/>
+		 */ 				
+		public var fRefresh:Function;
+			
+		/**
+		 * 單筆資料的報表清單陣列, 包含以下變數: label(報表名稱), data(後端程式名稱), fileType(報表種類:doc(default),pdf,htm).<br/>
+		 * 如果 data 變數為空白, 將使用 _CRUD (未完)  
+		 */ 				
+		public var aoReport:Array=[];
+		
+		/**
+		 * 程式代號, 如果空白將使用傳入值, see init().
+		 */ 				
+		public var sApp:String = "";
+		
+		/**
+		 * inf 檔案名稱, 如果空白將使用傳入值, see init().
+		 */ 				
+		public var sInf:String = "";
+		
+		/**
+		 * info list 欄位名稱, default "list"
+		 */ 				
+		public var sList:String = "list";
+			
+		/**
+		 * 標題文字, 用來設定查詢和編輯畫面的標題
+		 */ 				
+		public var sTitle:String = "";
+
+		/**
+		 * Datagrid 上面匯出資料的選取欄位名稱
+		 */ 				
+		public var sSelected:String = "selected";
+		
+		/**
+		 * Datagrid 上面匯出資料的key field name, 匯出時不可空白
+		 */ 				
+		public var sKeyFname:String = "";
+			
+		/**
+		 * Datagrid 上面匯出資料的key field name, 匯出時不可空白
+		 */ 				
+		public var sKeyDatatype:String = "S";
+			
+		/**
+		 * 查詢條件
+		 */ 				
+		//public var oQuery:Object = {};
+
+			
+		//=================	
+		//=== private  ===
+		//=================	
+			
+		private var i_rptMenu:Menu;
+		private var i_ac:ArrayCollection = new ArrayCollection();
+		private var i_upWin:Object;	//parent titlewindow or application
+		private var is_fun:String;
+		private var is_funName:String;
+		private var i_object:Object={};	//中間傳遞變數 
+		//
+		private var is_wEditName:String;	//edit window name, 多個編輯畫面時, 必須考慮初始化 comEdit
+		
+		/**
+		 * 物件初始化, 錯誤時將顯示訊息, called by: 
+		 *  1: 主畫面: 系統會自動設定Fun.oGlobal.item 變數, 包含以下欄位:
+		 *     title(標題), data(程式代號), inf(inf 檔案名稱), fun(功能代號), cond(查詢條件Object)
+		 *  2: 由其他畫面呼叫時, 必須自行設定 sApp
+		 * @param pa_conf 傳入參數, for bAutoRead=true時, 如果這個參數不為空白, 則使用這個參數來查詢, 如果null, 則使用 Fun.oGlobal.item.cond來查詢 (2011-12-15)
+		 *   每個陣列元素的格式為[id,type,value]
+		 */ 
+		public function init(pa_cond:Array=null):void {
+		    //check config, show error msg if any.
+		    		
+		    
+		    //=== adjust/set property and instance variables begin ===		    
+		    //set qQuery 
+		    /*
+		    if (gwQuery != null){
+		    	if (gQuery == null){
+		    		gQuery = (gwQuery as Object).qry_1;
+		    	}
+		    }
+		    */
+		    
+		    //set instance
+			//i_upWin = parent;
+			i_upWin = Fun.parentWin(this);
+			
+			
+			//如果 sApp 為空白, 表示是從主畫面開啟這個元件的畫面
+			var t_item:Object = Fun.oVar.item;
+			if (sApp == "")
+				sApp = t_item.data;			
+			if (sTitle == "")
+				sTitle = t_item.label;
+			if (sInf == "")
+				sInf = t_item.inf;
+			if (sHelpFile == "")
+				sHelpFile = t_item.help;
+			
+			/*
+			if (sTitle == ""){
+		   		//gsTitle = (gbSingle) ? i_upWin.pageTitle : (parent.parent.parent.parent.parent as Object).label;
+		   		//sTitle = (bSingle) ? i_upWin.pageTitle : t_item.label;
+				sTitle = t_item.label;
+		 	}
+			*/
+		 	/*
+		   	if (gsApp == ""){ 		
+		   		if (Fun.gObject.item){
+					//gsApp = Fun.gObject.item.app;   			
+					gsApp = t_item.data;   			
+		   		}else{    	
+					gsApp = i_upWin.className;
+		   		}
+		   	}
+		   	*/
+			/*
+		   	if (sApp == ""){ 		
+				sApp = t_item.data;   			
+		   	}
+		   	if (sInf == ""){
+		   		sInf = t_item.inf;
+		   	}
+			
+			//new 
+			if (sHelpFile == ""){
+				sHelpFile = t_item.help;
+			}
+			*/
+			if (sHelpFile != ""){
+				btnHelp.visible = true;
+				btnHelp.includeInLayout = true;
+			}
+			
+			//set print button tooltip
+			if (aoReport.length == 1){
+				btnPrint.toolTip = aoReport[0].label;
+			}
+			
+			//flex bug here !!
+			//if (is_title == null){
+			//	is_title = "";
+			//}			
+		    //=== end ===
+		    
+		    	    
+		    //=== get menu and user info(if login only) begin === ??
+		    
+		     		            
+		    //=== set object begin ===
+		    gList.dataProvider = i_ac;
+		    gList.doubleClickEnabled = true;
+		    gList.addEventListener(MouseEvent.DOUBLE_CLICK, gridClick2); 
+		     
+		     
+		    //set toolbar button status
+		    if (oFun == null){
+		    	oFun = {};
+		    }
+	    	//var t_item:Object = Fun.AppRight;
+	    	var ts_fun:String = (t_item.fun != null) ? t_item.fun : "";
+	    	if (oFun.funCreate == null) oFun.funCreate = int(ts_fun.substr(0,1));
+	    	if (oFun.funRead == null) oFun.funRead = int(ts_fun.substr(1,1));
+	    	if (oFun.funUpdate == null) oFun.funUpdate = int(ts_fun.substr(2,1));
+	    	if (oFun.funDelete == null) oFun.funDelete = int(ts_fun.substr(3,1));
+	    	if (oFun.funPrint == null) oFun.funPrint = int(ts_fun.substr(4,1));
+	    	if (oFun.funExport == null) oFun.funExport = int(ts_fun.substr(5,1));
+	    	if (oFun.funView == null) oFun.funView = int(ts_fun.substr(6,1));
+		    
+		    //var t_item:Object = (oFun != null) ? oFun : parentApplication.parameters;
+			//always show
+		    btnCreate.enabled = (oFun.funCreate > 0);
+		    btnRead.enabled = (oFun.funRead > 0 && wQuery != null);
+		    btnUpdate.enabled = (oFun.funUpdate > 0);
+		    btnDelete.enabled = (oFun.funDelete > 0);
+			btnView.enabled = (oFun.funView > 0);
+			
+		    //auto show if need
+			if (oFun.funPrint > 0 && aoReport.length > 0){
+				//btnPrint.enabled = true;
+				btnPrint.visible = true;
+				btnPrint.includeInLayout = true;
+				
+				//can not get exact position, therefore set it in mouseClick 
+				i_rptMenu= Menu.createMenu(null, aoReport, false);               
+				//i_rptMenu.x = t_pt.x;
+				//i_rptMenu.y = t_pt + 5;
+				//myMenu.labelField="@label"
+				i_rptMenu.addEventListener("itemClick", rptMenuClick);
+			}
+			if (fRefresh != null){
+				//btnRefresh.enabled = true; 
+				btnRefresh.visible = true;
+				btnRefresh.includeInLayout = true;				
+			}
+			
+			//必須手動自行顯示 !!(設定 visible, includeInLayout)
+			//btnExport.enabled = (oFun.funExport > 0);
+			
+			/*
+		    //set report menu if need
+		    if (oFun.funPrint > 0 && aoReport.length > 1){
+		    	//can not get exact position, therefore set it in mouseClick 
+                i_rptMenu= Menu.createMenu(null, aoReport, false);               
+                //i_rptMenu.x = t_pt.x;
+                //i_rptMenu.y = t_pt + 5;
+                //myMenu.labelField="@label"
+                i_rptMenu.addEventListener("itemClick", funPrintByMenu);
+		    }
+		    */
+			
+		    //retrieve form data if need
+		    var ts_sql:String ;
+			/*
+		    switch (nReadType){
+				case 2:		//retreive with condition
+		    	case 9:		//retrieve all records 
+					//funQuery(null, true);
+					funQuery((pa_cond != null ? pa_cond : t_item.cond), true);
+					break;
+				
+		    	default:
+					//call fAfterOpen
+					if (fAfterOpen != null){
+						var t_input:Object = null;
+						fAfterOpen(t_input);		//輸入參數暫為 null, 以後可擴充 !!
+					}
+			    	break;
+		    }
+			*/
+			if (bAutoRead){
+				queryData((pa_cond != null ? pa_cond : t_item.cond), true);
+			}else{
+				//call fAfterOpen
+				if (fAfterOpen != null){
+					var t_input:Object = null;
+					fAfterOpen(t_input);		//輸入參數暫為 null, 以後可擴充 !!
+				}
+			}
+		    //=== end ===
+		    
+			/*
+			//call fAfterOpen
+			if (fAfterOpen != null){
+				var t_input:Object = null;
+				fAfterOpen(t_input);		//輸入參數暫為 null, 以後可擴充 !!
+			}
+			*/
+			
+			//release						
+	    	//Fun.gObject.item = null;		    	
+		    
+			
+			//check property 			
+			
+			//hot key listener ??
+			//systemManager.
+			//addEventListener("keyUp", hotKey, true);						
+			
+		}
+		
+			
+		/*
+		//memory leak, did not work !!
+		//release memory
+		public function destroy():void{
+			gList.addEventListener("itemClick", gridClick2);
+			//.addEventListener(MouseEvent.DOUBLE_CLICK, gridClick2); 
+			//i_rptMenu.addEventListener("itemClick", funPrintByMenu);
+			//i_rptMenu.addEventListener("itemClick", funPrintByMenu);
+			
+			this.removeElement(btnCreate);
+			this.removeElement(btnRead);
+			this.removeElement(btnUpdate);
+			this.removeElement(btnDelete);
+			this.removeElement(btnView);
+			this.removeElement(btnPrint);
+			//this.removeElement(btnExport);
+			this.removeElement(btnHelp);
+			this.removeElement(btnRefresh);
+				
+			wQuery = null;
+			wEdit = null;
+			gList = null;
+			xEdit = null;
+			asFOwner = null;
+			asFDept = null;
+			oFun = null;
+			fCatchFun = null;
+			fAfterOpen = null;
+			fWhenFun = null;
+			fRefresh = null;
+			aoReport = null;
+			oQuery = null;
+			i_rptMenu = null;
+			i_ac = null;
+			i_upWin = null;
+			i_object = null;			
+		}
+		*/	
+
+			
+		public function setAC(p_ac:ArrayCollection): void{
+			i_ac = p_ac;
+			gList.dataProvider = i_ac;
+		}
+			
+			
+		/**
+		 * 查詢資料, 如果 p_cond 為 null, 則查詢全部
+		 * @pa_cond {Array} 每列包含 id,type,value
+		 * @pb_query true(query), false(export)
+		 * @pb_afterOpen 是否執行 fAfterOpen
+		 */ 			
+		public function queryData(pa_cond:Array=null, pb_afterOpen:Boolean=false):void{
+		//public function queryData(pa_cond:Array=null, pb_query:Boolean=true, pb_afterOpen:Boolean=false):void{
+			var t_data:Object = {
+				fun: "QueryList", 
+				app: sApp,
+				list: sList, 
+				inf: sInf
+			};
+			if (pa_cond != null){
+				//t_data.data = (parent as Application).parameters.data;
+				t_data.data = (Fun2.cbJsonToStr) ? ST.jsonToStr(pa_cond) : pa_cond;
+				//t_data.data = pa_cond;
+			}
+			
+			i_object.hasAfterOpen = pb_afterOpen;
+			Fun.async(sApp, Fun.sService, t_data, queryData2);		    	
+			/*
+			var ta_data:Object = Fun.sync(sApp, Fun.sCRUD, t_data); 			    	
+			if (!Fun.catchResult(ta_data, true, true)){
+				//i_ac = ta_data as Array;
+				
+				for (var i:int=0;i<ta_data.length;i++){
+					i_ac.addItem(ta_data[i]);	
+				}
+			}
+			*/
+		}
+			
+		private function queryData2(p_data:Object):void{
+			if (Fun.catchResult(p_data, true, true)){
+				return;
+			}
+			
+			i_ac.removeAll();
+			var ta_data:Array = p_data as Array;
+			//var tn_s2:int = asS2.length;
+			//AR.arrayEscape(ta_data, asS2);
+
+			for (var i:int=0;i<ta_data.length;i++){
+				//考慮 S2 欄位
+				//for (var j:int=0; j<tn_s2; j++){
+				//	ta_data[i][asS2[j]] = Fun.escape(ta_data[i][asS2[j]], false);
+				//}
+				
+				i_ac.addItem(ta_data[i]);	
+			}
+			
+			//call fAfterOpen
+			if (i_object.hasAfterOpen && fAfterOpen != null){
+				var t_input:Object = null;
+				fAfterOpen(t_input);		//輸入參數暫為 null, 以後可擴充 !!
+			}
+		}
+			
+		
+		//?? hot key handler, did not work !!
+		private function hotKey(p_event:KeyboardEvent):void{
+			if (p_event.altKey){
+				switch (p_event.keyCode){
+					case 65:
+						Fun.msg("I","65");
+						break; 
+				}	
+			}			
+		}
+		
+	
+		/**
+		 * 執行工具列 Button Click.
+		 * @param ps_fun 功能代號.
+		 */   	
+		public function btnClick(ps_fun:String):void{			
+			is_fun = ps_fun;
+			is_funName = Fun.getFunName(ps_fun);
+			if (!whenFun(ps_fun)){
+				return;
+			}
+			
+			switch (ps_fun){
+				case "C":	//create
+				case "U":	//update
+				case "V":	//view
+					Fun.oVar.fun = ps_fun;
+					Fun.sessionFun(openEdit);
+					return;
+				case "R":	//read
+					openQuery();
+					return;
+				case "D":	//delete
+					deleteRow();
+					return;
+				case "E":	//export
+					exportData();
+					return;
+				case "H":	//help
+					//Fun.openHelp(sInf);
+					Fun.openHelp(sHelpFile);	//new
+					return;
+				//case "X":	//exit
+				//	return;
+				default:
+					Fun.msg("E","Function Type is Wrong: "+ps_fun);
+					return;
+			}				
+		}
+
+
+		/*
+		 * called before run fun.
+		 *   (1).check select record.
+		 *   (2).check access right. 
+		 * @param {string} ps_fun function type
+		 * @return {boolean} will show error msg if return false.
+		 */ 
+		private function whenFun(ps_fun:String):Boolean{
+			//catch fun first !!
+			if (fCatchFun != null){
+				if (fCatchFun({fun:ps_fun})){
+					return false;
+				}
+			}
+						
+			var tn_fun:int;
+			var tb_select:Boolean = true;
+			var tb_chkRight:Boolean = true;	
+			var tb_status:Boolean;	
+			switch (ps_fun){
+				case "C":	//create
+					tb_select = false;
+					tb_chkRight = false;
+					tb_status = btnCreate.enabled;
+					break;
+				case "R":	//read
+					tb_select = false;
+					tb_chkRight = false;
+					tb_status = btnRead.enabled;
+					break;
+				case "U":	//update
+					tn_fun = oFun.funUpdate;
+					tb_status = btnUpdate.enabled;
+					break;
+				case "D":	//delete
+					tn_fun = oFun.funDelete;
+					tb_status = btnDelete.enabled;
+					break;
+				case "P":	//print
+					tn_fun = oFun.funPrint;
+					tb_status = btnPrint.enabled;
+					break;
+				case "E":	//export
+					tb_select = false;
+					tb_chkRight = false;
+					//tn_fun = oFun.funExport;
+					tb_status = btnExport.enabled;
+					break;
+				case "V":	//view
+					tn_fun = oFun.funView;
+					tb_status = btnView.enabled;
+					break;
+				case "H":	//new
+					tb_select = false;
+					tb_chkRight = false;
+					tb_status = btnHelp.enabled;
+					break;
+				default:
+					return false;
+			}
+
+
+			//check selected row first limit
+			if (tb_select){
+				var tn_row:int = gList.selectedIndex;
+				if (tn_row == -1){
+					//Fun.msg("E","請先選取要 ["+ts_funName+"] 的資料 !");
+					//Fun.msg("I", Fun.resStr("selectRow"));
+					Fun.msg("I", Fun.R.selectRow);
+					return false;
+				}							
+			}
+
+			
+			//check access right limit
+			if (tb_status && tb_chkRight){
+				//case of can not access this record !
+				if (!checkRight(tn_row, tn_fun)){
+					tb_status = false;
+				}
+			}
+			if (!tb_status){
+				//var ts_funName:String = Fun.getFunName(ps_fun);
+				//Fun.msg("I", Fun.strBuild(Fun.resStr("noRight"), [is_funName]));
+				Fun.msg("I", ST.format(Fun.R.noRight, [is_funName]));
+				return false;	
+			}
+			
+			
+			//call gfWhenFun() if need	
+			if (fWhenFun != null){
+				if (!fWhenFun({fun:ps_fun})){
+					return false;
+				}
+			}
+			
+			//case of ok
+			return true;
+		}
+		
+
+		/**
+		 * 檢查用戶對某筆資料的存取權限
+		 * @param pn_row 資料序號
+		 * @param pn_funRange 某個功能項目的存取範圍(0-5)
+		 * @return true/false.
+		 */ 
+		public function checkRight(pn_row:int, pn_funRange:int):Boolean{
+			//case of (1).program have not record range, (2).use can access all range data 
+			if (nAppRange == 0 || pn_funRange == 5){
+				return true;
+			}
+							
+			//adjust for case of user level
+			if (nAppRange == 1){
+				pn_funRange = 1;
+			}
+			
+			var i:int;
+			var tb_right:Boolean = false;
+			switch (pn_funRange){
+				case 3:		//cross department
+					var ts_depts:String = Fun.sDeptIds+",";
+					for (i=0; i< asFDept.length; i++){
+						if (ts_depts.indexOf(i_ac[pn_row][asFDept[i]]+",") >= 0){
+							tb_right = true;
+							break;
+						}
+					}
+					break;
+				case 2:		//one department
+					var ts_dept:String = Fun.sDeptId;
+					for (i=0; i< asFDept.length; i++){
+						if (i_ac[pn_row][asFDept[i]] == ts_dept){
+							tb_right = true;
+							break;
+						}
+					}
+					break;
+				case 1:		//personal
+					//var ts_user:String = Fun.userId;
+					for (i=0; i< asFOwner.length; i++){
+						if (i_ac[pn_row][asFOwner[i]] == Fun.sUserId || i_ac[pn_row][asFOwner[i]] == Fun.sLoginId){
+							tb_right = true;
+							break;
+						}
+					}
+					break;
+				default:
+					//Fun.msg("E","程式權限設定有誤 ("+ pn_funRange + ") !");		//system error !!
+					Fun.msg("E", "Access Right Setting is Wrong ("+ pn_funRange + ") !");		//system error !!
+					return false;			
+			}
+			
+			//return
+			return tb_right;
+		}	
+		
+						
+//		//without checking
+//		private function runFun(ps_fun:String):void{
+//		//public function runFun(ps_fun:String):void{
+//			switch (ps_fun){
+//				case "C":	//create new
+//				case "U":	//update
+//				case "V":	//view
+//					Fun.oGlobal.fun = ps_fun;
+//					Fun.sessionFun(openEdit);
+//					//openEdit(ps_fun, null);
+//					return;
+//				case "R":	//read
+//					funRead();
+//					return;
+//				case "D":	//delete
+//					funDelete();
+//					return;
+//				/*	
+//				case "P":	//print
+//					funPrint();
+//					return;
+//				case "EXP":	//export
+//					return;
+//				case "C":	//copy
+//					break;
+//				*/
+//				case "H":	//help
+//					Fun.openHelp(sInf);
+//					return;
+//				case "X":	//exit
+//					return;
+//				default:
+//					Fun.msg("E","Function Type is Wrong: "+ps_fun);
+//					return;
+//			}			  	
+//		}
+		
+		 
+		//open Query window.
+		private function openQuery():void{
+			//if query is opened already, just show it
+			if (wQuery.title != ""){
+				wQuery.visible = true;
+				return;
+			}
+			
+			//show close button and set title if need
+			//gwQuery.showCloseButton = true;
+			if (wQuery.title == ""){
+				wQuery.title = "☆" + sTitle + "  》" + is_funName;
+				
+			}
+			
+			//show query window
+			Fun.openPopup(wQuery, i_upWin);
+			//Fun.openPopup(wQuery, this.parentApplication);
+			//Fun.openPopup(wQuery, Fun2.wMain);
+						
+			//set result ds and select string, qQuery is available now (only after open popup)!!
+			//query component id must be "qry_1" !!						
+			var t_query:comQuery = (wQuery as Object).qry_1;
+			t_query.bHideWhenClose = true;
+			t_query.gList = gList;
+			t_query.sApp = sApp;
+			if (Fun.isEmpty(t_query.sInf)){ 
+				t_query.sInf = sInf;	//2009-8-31 add
+			}
+			t_query.bExport = (oFun.funExport > 0);
+			//if (t_query.asS2 == null){
+			//	t_query.asS2 = asS2;
+			//}
+			t_query.init();			
+		}
+
+
+		//called by datagrid double click event
+		private function gridClick2(p_event:Event):void{
+			btnClick("U");
+		}
+		 
+		 
+		private function openEdit(p_data:Object):void{
+			var ts_fun:String = Fun.oVar.fun;
+			openEdit2(ts_fun, null);
+		}			
+		   
+		   
+		/*
+		 * update function, could be called in other windows.
+		 * @param {string} ps_fun function type: A(add),D(delete),U(update),V(view)
+		 * @param {object} p_row selected row, could be null
+		 */   	
+		private function openEdit2(ps_fun:String, p_row:Object=null, ps_rptFile:String=""):void{			
+			if (!Fun.checkSession(true)){
+				return;
+			}
+			
+			//Fun.openPopup(wEdit, this.parent);		
+			Fun.openPopup(wEdit, i_upWin);		
+			//Fun.openPopup(wEdit, Fun2.wMain);		
+			
+			//get query info 
+			//var tw_edit:Object = wEdit;
+			var t_row:Object = (ps_fun != "C" && p_row == null) ? gList.selectedItem : p_row ;
+			var t_data:Object = {
+				win: wEdit,
+				fun: ps_fun, 
+				funName: is_funName,
+				row: t_row 
+			};
+			
+			try {
+		    	if (xEdit == null || is_wEditName != wEdit.className){
+					is_wEditName = wEdit.className;
+					
+		    		//comEdit物件名稱必須為 edit_1 !!
+	    			if (!wEdit.hasOwnProperty("edit_1")){
+	    				Fun.msg("E", "Can not Find edit_1 Object in this form !");
+	    				return;
+	    			}
+		    			
+					var t_edit:Object = Object(wEdit).edit_1;
+					var ts_edit:String = String(t_edit.className).toLowerCase(); 
+	    			if (ts_edit == "comedit"){
+	    				xEdit = t_edit as comEdit;
+					//}else if (ts_edit == "comstepedit"){
+					//	xEdit = t_edit as comEditStep;
+					}else{
+						Fun.msg("E", "edit_1 type is wrong !");
+						return;
+	    			}
+					
+			    	xEdit.sTitle = (wEdit.title != "") ? wEdit.title : sTitle;
+			    	xEdit.gList = gList;			    	
+			    	if (xEdit.sApp == ""){
+				    	xEdit.sApp = sApp;
+			    	}
+		    	}
+				xEdit.init(t_data);
+		    }catch (e:Error){
+		    	//do nothing
+		    	//CursorManager.removeBusyCursor();
+		    }	    		    
+		}   
+		
+
+		//delete current record.    	
+		private function deleteRow():void{
+			//confirm, note that Alert is not modal !!
+			//Fun.ans(Fun.resStr("sureDelete"), 2, funDelete2);
+			Fun.ans(Fun.R.sureDelete, 2, deleteRow2);
+		}
+
+		
+		//callback function of funDelete().
+		private function deleteRow2():void{
+			openEdit2("D", gList.selectedItem);
+		}
+		
+		
+		/*
+		 * called by funPrintBybtn() and funPrintByMenu(), execute print job
+		 * 
+		 * changed log:
+		 *  2009-5-18: change param1 from ps_rptApp(string) to p_item(object)
+		 */ 
+		private function printReport(p_item:Object):void{
+			if (!whenFun("P")){
+				return;
+			}
+				
+			//open report
+			var ts_fileType:String = (p_item.fileType != null) ? p_item.fileType : "doc";
+			var ts_serverApp:String = (p_item.data == null || p_item.data == "") ? Fun.sService : p_item.data;
+			var t_data:Object = gList.selectedItem;
+			t_data.fun = "Report";
+			
+			//add report parameters to t_data 2010-6-3
+			for (var i:String in p_item){
+				if (i != "label" && i != "data"){
+					t_data[i] = p_item[i];
+				}
+			}
+			
+			Fun.openReport(sApp, ts_serverApp, t_data, ts_fileType);			 	
+		}
+		
+		
+		private function exportData():void{
+			if (!whenFun("E")){
+				return;
+			}
+			
+			//檢查是否有選取資料
+			var ts_list:String = "";
+			var ts_quote:String = (sKeyDatatype == "N") ? "" : "'";
+			//var ta_row:Array = gList.dataProvider.source as Array;
+			var ta_row:Array = gList.dataProvider.toArray();
+			for (var i:int=0; i<ta_row.length; i++){
+				if (ta_row[i][sSelected] == 1){
+					ts_list += ts_quote + ta_row[i][sKeyFname] + ts_quote + ",";
+				}
+			}
+			
+			if (ts_list == ""){
+				Fun.msg("I", Fun.R.selectRow);
+				return;
+			}else{
+				//去除最後一個逗號
+				ts_list = ts_list.substr(0, ts_list.length - 1);
+			}
+			
+			//adjust query parameters, 呼叫後端程式
+			/*
+			oQuery.fun = "Excel";
+			oQuery.app = sApp;
+			oQuery.inf = sInf;
+			oQuery.data = ST.jsonTo([[sKeyFname, sKeyDatatype, ts_list]]) ;
+			Fun.async(sApp, Fun.sService, oQuery, funExport2);
+			*/
+			var ta_cond:Array = [[sKeyFname, sKeyDatatype, ts_list]];
+			var t_query:Object = {
+				fun: "Excel",
+				app: sApp,
+				inf: sInf,
+				list: sList,
+				data: (Fun2.cbJsonToStr) ? ST.jsonToStr(ta_cond) : ta_cond
+				//data: ST.jsonToStr([[sKeyFname, sKeyDatatype, ts_list]])
+			}
+			Fun.async(sApp, Fun.sService, t_query, exportData2);
+			
+			/*
+			var t_data:Object = {
+				fun: "Excel",
+				app: sApp, 
+				inf: sInf,
+				useInf: (bUseInf) ? "1" :"0",
+				list: sList,
+				data: qItemsToStr()
+			};
+			if (pb_query){
+				t_data.fun = "QueryList";
+			}else{
+				t_data.fun = "Excel";	    		
+				t_data.template = sTemplate;
+				t_data.table = sExcelTable;
+				t_data.settings = sSettings;
+				t_data.row1 = sExcelRow1;
+			}
+			
+			Fun.async(sApp, sServerApp, t_data, runQuery2);
+			*/
+		}
+
+		//callback of funExport()	
+		private function exportData2(p_data:Object):void{
+			if (Fun.catchResult(p_data, true, true)){
+				return;
+			}
+			
+			Fun.openFile(Fun.sDirTemp + p_data.file);
+			//return;			
+		}
+			
+			
+		//print current record and called by btnPrint click    	
+		private function btnPrintClick(p_event:MouseEvent):void{
+			if (aoReport.length == 1){
+				printReport(aoReport[0]);
+			}else{
+				//show popup menu
+                i_rptMenu.show(p_event.stageX, p_event.stageY + 10);				
+			}
+		}
+		
+		
+		//called by report menu item click
+		private function rptMenuClick(p_event:MenuEvent):void{
+			//funPrint(p_event.item.data);
+			printReport(p_event.item);
+		}
+
+					
+		/**
+		 * 更新資料清單 DataGrid
+		 * @param ps_fun 功能代號(C,U,D)
+		 * @param p_row 要更新的資料.
+		 */ 
+		public function refreshRow(ps_fun:String, p_row:Object):void{
+			var tn_row:int;
+			switch (ps_fun){
+				case "C":
+					i_ac.addItem(p_row);	
+					break;
+				case "U":
+					//tn_row = gGrid.selectedIndex;
+					//i_ac.setItemAt(p_row,tn_row);
+					//tn_row = gGrid.selectedIndex; 
+					var t_row:Object = gList.selectedItem; 
+					for (var i:String in p_row){
+						t_row[i] = p_row[i];
+						//i_ac[tn_row][i] = p_row[i];
+					}
+					//gGrid.validateNow();	//did not work !
+					//i_ac.refresh()		//update row info.
+					Fun.refreshGrid(gList);
+					break;
+				case "D":
+					tn_row = gList.selectedIndex; 
+					i_ac.removeItemAt(tn_row);									
+					break;
+			}			
+		}			
+			
+		]]>
+	</fx:Script>
+		
+</s:HGroup>

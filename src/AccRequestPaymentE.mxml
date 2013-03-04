@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="700" height="600" 	 
+  	creationComplete="init()"  	 
+	preinitialize="{iR=Fun.getLang('AccRequestPayment')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.ArrayList;
+			
+			import x2.*;			
+			[Bindable]
+			private var iR:Object;	
+			[Bindable]
+			private var idw_master:DW;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			public var ia_itemName:ArrayList = new ArrayList(Fun2.itemNameDS(is_app, 21, true));
+			
+			private function init():void{	
+				//dw1: AccRequestPayment
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {	
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					mapping: true,
+					items: [
+						{source:sn,					dataType:"N",	inputType:"I"},
+						{source:accType,			dataType:"N",	init:1},
+						{source:serialNo,			dataType:"S"},
+						{source:staffSn,			dataType:"N"},
+						{source:staffName,			update:false,	inputType:"R",	required:true},						
+						{source:cDate,				dataType:"D"},
+						{source:cAmounts,			dataType:"N"},
+						{source:eDate,				dataType:"D"},
+						{source:funcItemSn,			dataType:"N"},
+						{source:accIocSn,			dataType:"N"},
+						{source:accIocCode,			update:false,	required:true,	fCheckItem:getName},
+						{source:accIocName,			update:false,	inputType:"R",	required:true},
+						{source:pExcerpt,			dataType:"S"},
+						{source:cDesc,				dataType:"S"},
+						{source:publicDeptSn,		dataType:"N"},
+						{source:publicDeptName,		update:false,	inputType:"R"},
+						{source:amounts,			dataType:"N"},
+						{source:creator,			dataType:"S",	inputType:"R"}, 
+						{source:createDate,			dataType:"DT",	inputType:"R"}, 
+						{source:reviser,			dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,			dataType:"DT",	inputType:"R"}
+					]				
+				};				
+			}
+			
+			//找職員
+			private var i_col1:Object, i_col2:Object;			
+			private function doFindStaff(p_col1:Object, p_col2:Object):void{				
+				i_col1 = p_col1;
+				i_col2 = p_col2;
+				Fun2.openStaff(is_app, this, ReturnStaff);
+			}
+			private function ReturnStaff(p_row:Object):void{				
+				Fun.setItem(i_col1, p_row.cName + " " + p_row.eName);
+				idw_master.setItem(i_col2, p_row.sn, true);
+			}
+
+			private function afterOpen(p_data:Object):void{
+				serialNoFI.visible = true;				
+				SchStaff.visible = true;
+				Schfn.visible = true;
+				SchPublicDept.visible = true;
+				
+				switch (p_data.fun){
+					case "C":						
+						serialNoFI.visible = false;
+						break;
+					case "V":						
+						SchStaff.visible = false;
+						Schfn.visible = false;
+						SchPublicDept.visible = false;
+						break;
+				}
+			}
+			private function whenSave(p_data:Object):Boolean{
+				switch (p_data.fun){
+					case "C":
+						var t_data:Object = {
+							data: "AccSerialNo",
+							accSysN: "AccRequestPayment",
+							accSysC: "R"
+						};
+						t_data = Fun.readRow(is_app, t_data);
+						if (t_data){
+							idw_master.setItem(serialNo, t_data.serialNo, true);
+						}
+						break;
+				}
+				return true;
+			}
+
+			private function fnClick():void{
+				Fun2.openAccMTI(is_app, 2, this, ReturnMTI, false);
+			}
+			private function ReturnMTI(p_row:Object):void{				
+				Fun.setItem(accIocCode, p_row.accIocCode);
+				Fun.setItem(accIocName, p_row.accIocName);
+				idw_master.setItem(accIocSn, p_row.accIocSn, true);
+			}
+			
+			//找廠商
+			private var j_col1:Object, j_col2:Object;			
+			private function doFindPublicDept(p_col1:Object, p_col2:Object):void{				
+				j_col1 = p_col1;
+				j_col2 = p_col2;
+				
+				Fun2.openPublicDept(is_app, this, ReturnPublicDept, 4);
+			}
+			private function ReturnPublicDept(p_row:Object):void{				
+				Fun.setItem(j_col1, p_row.unitName);
+				idw_master.setItem(j_col2, p_row.sn, true);
+			}
+			
+			private function getName(p_row:Object):String {	
+				if (Fun.getItem(accIocCode)!=""){
+					var t_data:Object = {
+						data: "AccIoc",
+						accCode: Fun.getItem(accIocCode),
+						accType: 2
+					};
+					t_data = Fun.readRow(is_app, t_data);
+					if (t_data){
+						Fun.setItem(accIocName, t_data.accIocName);
+						idw_master.setItem(accIocSn, t_data.accIocSn, true);
+					}else{
+						Fun.msg("E", iR.Emessage01+ Fun.getItem(accIocCode) +iR.Emessage02);						
+						
+						Fun.setItem(accIocName, "");
+						Fun.setItem(accIocCode, "");
+						idw_master.setItem(accIocSn, "", true);
+					}	
+				}
+				return "";				
+			}
+		]]>
+	</fx:Script>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="accType" visible="false"/>
+	<x2:Num1 id="staffSn" visible="false"/>
+	<x2:Num1 id="accIocSn" visible="false"/>
+	<x2:Num1 id="publicDeptSn" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+	<s:Form x="10" y="10" width="96%">
+		<s:layout> 
+			<s:FormLayout gap="-8"/>
+		</s:layout>
+		<s:FormItem label="{iR.serialNos} :" id="serialNoFI">
+			<s:Label id="serialNo" width="100%" color="#0000FF"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.staffName} :" required="true">
+			<s:HGroup>
+				<s:TextInput id="staffName" click="doFindStaff(staffName, staffSn)"/>
+				<x2:btnPick id="SchStaff" click="doFindStaff(staffName, staffSn)"/>
+			</s:HGroup>
+		</s:FormItem>
+		<s:FormItem label="{iR.cDate} :" required="true">			
+			<x2:Date1 formatString="YYYY/MM/DD" id="cDate" yearNavigationEnabled="true"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.cAmounts} :" required="true">
+			<s:HGroup>
+				<s:NumericStepper minimum="0" maximum="9999999999" id="cAmounts"/>
+				<s:FormItem label="已支付金額 : ">
+					<s:Label id="amounts" color="#FF0000"/>
+				</s:FormItem>
+			</s:HGroup>
+		</s:FormItem>
+		<s:FormItem label="{iR.eDate} :" required="true">			
+			<x2:Date1 formatString="YYYY/MM/DD" id="eDate" yearNavigationEnabled="true"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.funcItemSn} :" required="true">
+			<x2:DDL1 id="funcItemSn" dataProvider="{ia_itemName}" width="250"></x2:DDL1>
+		</s:FormItem>
+		<s:FormItem label="{iR.accIocName} :" required="true">
+			<s:HGroup>
+				<s:TextInput id="accIocCode" width="150"/>
+				<x2:btnPick id="Schfn" click="fnClick()"/>
+				<s:Label id="accIocName" width="100%" color="#0000FF"/>
+			</s:HGroup>
+		</s:FormItem>
+		<s:FormItem label="{iR.pExcerpt} :" required="true">
+			<s:TextInput id="pExcerpt" width="100%"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.cDesc} :">
+			<s:TextArea id="cDesc" width="100%" height="150"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.publicDeptName} :">
+			<s:HGroup>
+				<s:TextInput id="publicDeptName" click="doFindPublicDept(publicDeptName, publicDeptSn)" width="350" editable="false"/>
+				<x2:btnPick id="SchPublicDept" click="doFindPublicDept(publicDeptName, publicDeptSn)"/>				
+			</s:HGroup>
+		</s:FormItem>
+	</s:Form>
+	<x2:comEdit x="10" y="529" id="edit_1" fAfterOpen="afterOpen" fWhenSave="whenSave">
+	</x2:comEdit>	
+</s:TitleWindow>

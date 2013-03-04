@@ -1,0 +1,46 @@
+﻿# list/query fields
+cmdData=家長資料匯入
+deleFlag=刪除
+cName=姓名(中)
+gender=性別
+idNo=身分證號
+conTel=聯絡電話
+address=住址
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# message
+message04=是否確定刪除這筆資料 ?
+message05=此筆資料已刪除 !
+message06=資料刪除完成。
+
+# E
+Canvas01=基本資料
+birthDate=出生日期
+eMail=E-Mail
+eduExtent=教育程度
+company=服務單位
+deleFlag=資料刪除
+
+Canvas02=兒童資料
+relationship=關係
+stuNo=學號
+eName=姓名(英)
+
+Canvas03=帳號設定
+adeleFlag=帳號使用狀況
+loginId=使用者帳號
+loginPw=密碼
+loginPw2=密碼確認
+roleSn=角色權限設定
+
+Canvas04=擁有的角色
+roleName=角色名稱
+
+# message
+message00=電子信箱，輸入格式錯誤。
+message01=此使用者帳號已有人員使用。
+message02=密碼二次輸入不一樣，請再核對密碼。
+message03=幼兒基本資料

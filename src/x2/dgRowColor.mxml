@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:DataGrid 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+
+	<fx:Script>
+		<![CDATA[
+		
+		//public var x2f_drawRowBackground:Function;
+		public var gfGetColor:Function;
+		
+	
+	    override protected function drawRowBackground(p_s:Sprite, p_row:int, p_y:Number, p_height:Number, p_color:uint, p_dataIndex:int):void{
+	    	var tn_color:uint = p_color;
+	    	if (gfGetColor != null){
+	    		//var t_data:Object = {row:p_dataIndex};
+	    		tn_color = gfGetColor({row:p_dataIndex});	    		
+		    	if (tn_color <= 0){
+		    		tn_color = color;
+		    	}
+	    	}
+	    	
+	    	super.drawRowBackground(p_s, p_row, p_y, p_height, tn_color, p_dataIndex);
+	    }
+			
+		]]>
+	</fx:Script>
+	
+</mx:DataGrid>

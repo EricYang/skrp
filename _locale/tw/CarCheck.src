@@ -1,0 +1,32 @@
+﻿# list/query fields
+acaName=學年(期)
+babyCarInfoSn=車輛代號 \ 老師 \ 電話
+staffName=檢查者
+cDate=檢查日期
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# E
+Canvas01=基本資料
+babyCarInfoSn=車輛代號 \ 老師 \ 電話
+staffName=檢查者
+cDate=檢查日期
+seMileage=出車里程數
+sMileage=早
+eMileage=晚
+remark=備註
+Canvas02=檢查事項
+funcItemSn=項目
+checkSign=請打V
+
+# message
+message01=※ 檢核項目共計：
+message02= 項。
+
+# Q
+academicYear=學年
+semester=學期
+babyCarInfoSn=車輛代號 \ 老師 \ 電話
+cDate=檢查日期

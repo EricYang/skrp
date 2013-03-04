@@ -1,0 +1,18 @@
+{
+    "dws":[
+        {
+            "selectTable": "ManaInfo.SchoolD",   
+            "items": [
+                {"fid":"sn"},                
+                {"fid":"schoolCode"},
+                {"fid":"schoolName"},
+                {"fid":"fileName"},
+                {"fid":"webSiteUrl"},
+                {"fid":"conTel"},
+                {"fid":"address"},
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+            ]                
+        }
+    ]    
+}

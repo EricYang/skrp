@@ -1,0 +1,71 @@
+{
+    "dws":[
+        {
+            "selectTable": "Parent",
+            "items": [
+                {"fid":"sn"}, 
+                {"fid":"cName"},
+                {"fid":"gender"},
+                {"fid":"birthDate"},
+                {"fid":"idNo"},
+                {"fid":"conTel"},
+                {"fid":"address"},
+                {"fid":"eMail"},
+                {"fid":"eduExtent"},
+                {"fid":"company"},
+                {"fid":"deleFlag"},
+                {"fid":"creator"},
+                {"fid":"createDate"},
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+
+            ]                                
+        },
+        {
+            "selectTable": "PSRelation a LEFT OUTER JOIN Student b ON a.studentSn = b.sn",
+            "updateTable": "PSRelation",
+            "defaultTable": "a",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"studentSn"},
+                {"fid":"parentSn"},
+                {"fid":"relationship"},
+                {"fid":"stuNo", "table":"b"},
+                {"fid":"cName", "table":"b"},
+                {"fid":"eName", "table":"b"},
+                {"fid":"gender", "table":"b"},
+                {"fid":"birthDate", "table":"b"}
+            ]
+        },
+        {
+            "selectTable": "Account",
+            "upDW": 0,
+            "items": [
+                {"fid":"asn",           "colName":"sn"},
+                {"fid":"userType"},
+                {"fid":"userSn"},
+                {"fid":"loginId"},
+                {"fid":"loginPw"},                
+                {"fid":"adeleFlag",     "colName":"deleFlag"},
+                {"fid":"acreator",      "colName":"creator"},
+                {"fid":"acreateDate",   "colName":"createDate"},
+                {"fid":"areviser",      "colName":"reviser"},
+                {"fid":"areviseDate",   "colName":"reviseDate"}
+            ]                
+        },
+        {
+            "selectTable": "RoleUser a INNER JOIN Role b ON a.roleSn = b.sn [_where] ORDER BY b.roleName",
+            "updateTable": "RoleUser",
+            "defaultTable":"a",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"userSn"},
+                {"fid":"roleSn"},
+                {"fid":"userType"},                
+                {"fid":"roleName",    "table":"b"}
+            ]                
+        }
+    ]    
+}

@@ -1,0 +1,18 @@
+﻿# list/query fields
+accTitleCodeTmp=会计科目编号
+accTitleNameTmp=会计科目名称
+accTitleType=注册/月费别
+accIocCodeTmp=收入项目编号
+accIocNameTmp=收入项目名称
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# E
+accIocCode=收入项目编号
+accIocName=收入项目名称
+
+# Q
+accTitleCode=会计科目编号
+accTitleName=会计科目名称

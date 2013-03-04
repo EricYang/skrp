@@ -1,0 +1,12 @@
+{
+    "list":{    
+        "select": "SELECT *",
+        "from": "FROM AccMonthPaidDT
+                [_where]",
+        "order": "ORDER BY serialNo",
+        "items": [                      
+            {"fid":"serialNo"},
+            {"fid":"cDate"}
+        ]
+    }
+}

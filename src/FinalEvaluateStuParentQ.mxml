@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	width="730" height="210" xmlns:x2="x2.*" 
+	
+  	creationComplete="init()"	
+	preinitialize="{iR=Fun.getLang('FinalEvaluateStuParent')}"
+ 	>
+	<fx:Script>
+		<![CDATA[			
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			[Bindable]
+			private var iR:Object;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["usersSn","academicYear","semester"]});			
+			[Bindable]
+			public var ia_academicYear:ArrayList = new ArrayList(Fun2.academicYearListDS(is_app, false));
+			[Bindable]
+			public var ia_semester:ArrayList = new ArrayList(Fun2.semesterListDS(is_app, false));
+			
+			private function init():void{
+				qry_1.aoItem = [
+					{source:academicYear,	dataType:"N"}, 
+					{source:semester,		dataType:"N"},
+					{source:cName,			dataType:"S"},
+					{source:eName,			dataType:"S"},					
+					{source:cDate,			dataType:"D",	relat:cDate2},
+					{source:cDate2,			dataType:"D"},
+					{source:parentSn,		dataType:"N"}
+				];
+				
+				Fun.setItem(academicYear, int(i_session.academicYear));
+				Fun.setItem(semester, int(i_session.semester));
+			}
+			private function whenSubmit(p_data:Object):Boolean{				
+				Fun.setItem(parentSn, int(i_session.usersSn));
+				return true;
+			}
+		]]>
+	</fx:Script>
+	<x2:Num1 id="parentSn" visible="false"/>
+	<mx:Form x="7" y="10" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+		<mx:FormItem label="{iR.academicYear} :">
+			<mx:HBox width="100%">
+				<x2:DDL1 id="academicYear" dataProvider="{ia_academicYear}"></x2:DDL1>				
+				<mx:FormItem label="{iR.semester} :">
+					<x2:DDL1 id="semester" dataProvider="{ia_semester}"></x2:DDL1>					
+				</mx:FormItem>
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.cName} :">
+			<s:TextInput id="cName"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.eName} :">
+			<s:TextInput id="eName"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.cDate} :">
+			<mx:HBox width="100%">
+				<mx:DateField formatString="YYYY/MM/DD" id="cDate" yearNavigationEnabled="true"/>
+				<mx:Label text=" - "/>
+				<mx:DateField formatString="YYYY/MM/DD" id="cDate2" yearNavigationEnabled="true"/>
+			</mx:HBox>	
+		</mx:FormItem>
+	</mx:Form>
+	<x2:comQuery x="641" y="10" id="qry_1" fWhenSubmit="whenSubmit">
+	</x2:comQuery>
+</s:TitleWindow>

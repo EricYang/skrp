@@ -1,0 +1,23 @@
+﻿# list/query fields
+selfFlag=自行请假
+readTimeP=家长阅读
+readTimeS=教师阅读
+acaName=学年(期)
+classLeavesSn=班级别
+studentName=学生姓名
+excuse=假别
+exDate=请假日期
+exRemark=请假原由
+creator=建档人员
+createDate=建档日期
+
+# E
+# message
+message01=此笔资料为非自行请假，不可删除。
+message02=此笔资料教师已经阅读，不可删除。
+
+# Q
+academicYear=学年
+semester=学期
+cName=中文姓名
+eName=英文名

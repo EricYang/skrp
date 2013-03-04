@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="528" height="190" 
+	 
+  	creationComplete="init()"  	
+	
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			private var is_app:String = Fun.sApp;
+			private var idw_master:DW;
+			
+			private function init():void{
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					mapping: true,
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					items: [
+						{source:sn, 			dataType:"N",	inputType:"I"}, 
+						{source:sysCode},
+						{source:sysName}, 
+						{source:creator}, 
+						{source:createDate,		dataType:"DT"},
+						{source:reviser},
+						{source:reviseDate,		dataType:"DT"}	
+					]				
+				};			
+			}			
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10" y="113" id="edit_1">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>	
+	<mx:Form x="10" y="10">
+		<mx:FormItem label="系統代碼 :" required="true">
+			<s:TextInput id="sysCode"/>
+		</mx:FormItem>
+		<mx:FormItem label="系統名稱 :" required="true">
+			<s:TextInput id="sysName" width="250"/>										
+		</mx:FormItem>
+	</mx:Form>
+</s:TitleWindow>

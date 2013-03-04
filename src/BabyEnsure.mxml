@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*" 
+	 
+	
+	 
+	width="100%" height="100%" 
+ 	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('BabyEnsure')}"
+ 	>
+	<fx:Script>
+		<![CDATA[		
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			private var is_app:String = Fun.sApp;
+			
+			[Bindable]			
+			private var ia_classInfoName:ArrayList = new ArrayList(Fun2.classInfoNameDS(is_app, false));
+			[Bindable]
+			public var ia_itemName:ArrayList = new ArrayList(Fun2.itemNameDS(is_app, 2, true));
+			[Bindable]
+			private var ia_studentBI:ArrayList = new ArrayList(Fun2.studentBIDS(is_app, false));
+
+			private function init():void {
+				list_1.nAppRange = 1; //個人
+				list_1.asFOwner = ["creator"];
+				
+				list_1.wQuery = new BabyEnsureQ();
+				list_1.wEdit = new BabyEnsureE();			
+				list_1.gList = grid_1;
+				list_1.init();			
+			}						
+			private function classInfoName(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_classInfoName, p_row[p_column.dataField]);
+			}
+			private function itemName(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_itemName, p_row[p_column.dataField]);
+			}
+			private function studentBI(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_studentBI, p_row[p_column.dataField]);
+			}
+		]]>
+	</fx:Script>
+	<x2:sysBG/>
+	<x2:subFunHead/>
+	
+	<x2:comList x="81" y="59" id="list_1">
+	</x2:comList>
+	<s:DataGrid id="grid_1" x="55" y="87" width="92%" height="80%" alpha="0.7">
+		<s:columns>
+			<s:ArrayList>
+				<s:GridColumn dataField="sn" visible="false"/>
+				<s:GridColumn headerText="{iR.acaName}" dataField="acaName" width="80"/>
+				<s:GridColumn headerText="{iR.classLeavesSn}" dataField="classLeavesSn" width="150" labelFunction="classInfoName"/>			
+				<s:GridColumn headerText="{iR.studentName}" dataField="studentName" width="100"/>
+				<s:GridColumn headerText="{iR.studentSn}" dataField="studentSn" labelFunction="studentBI"/>			
+				<s:GridColumn headerText="{iR.funcItemSn}" dataField="funcItemSn" width="100" labelFunction="itemName"/>
+				<s:GridColumn headerText="{iR.cDate}" dataField="cDate" width="85"/>
+				<s:GridColumn headerText="{iR.creator}" dataField="creator" width="80"/>
+				<s:GridColumn headerText="{iR.createDate}" dataField="createDate" width="130"/>
+				<s:GridColumn headerText="{iR.reviser}" dataField="reviser" width="80"/>
+				<s:GridColumn headerText="{iR.reviseDate}" dataField="reviseDate" width="130"/>
+			</s:ArrayList>
+		</s:columns>
+	</s:DataGrid>
+</s:Application>

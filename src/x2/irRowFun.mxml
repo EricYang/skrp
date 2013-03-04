@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:GridItemRenderer 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	creationComplete="init(event)"	
+	>
+	
+	<s:layout>
+		<s:VerticalLayout verticalAlign="middle" horizontalAlign="center"/>
+	</s:layout>
+	
+	<s:Image id="image1" source="{is_fun=='C' ? i_add : (is_fun=='UU' ? i_update : null)}"
+		toolTip="{is_fun=='C' ? Fun.R.tipNewRow : (is_fun=='UU' ? Fun.R.tipUpdated : '')}" >
+	</s:Image>
+
+	<fx:Script>
+		<![CDATA[
+			/**
+			 * 以 component 的型式放在 spark datagrid 裡面.
+			 * toolTip 無作用 !!
+			 */
+			
+			/* old property
+			toolTip="{data[ic_fun]=='C' ? Fun.R.tipNewRow : (data[ic_fun]=='UU' ? Fun.R.tipUpdated : '')}"
+			verticalAlign="middle" 
+			horizontalAlign="center"
+			scaleContent="false"
+			*/
+			
+			//toolTip="{data[ic_fun]=='C' ? Fun.R.tipNewRow : (data[ic_fun]=='UU' ? '此筆資料已被修改' : '')}"
+		//import mx.controls.dataGridClasses.DataGridColumn;
+		import spark.components.gridClasses.GridColumn;
+		import mx.binding.utils.*;		
+		import flash.events.*;
+
+
+        [Embed(source="image/create.png")]
+        [Bindable]
+        private var i_add:Class;
+        
+        [Embed(source="image/update.png")]
+        [Bindable]
+        private var i_update:Class;
+        
+        /*
+        [Embed(source="image/delete.png")]
+        [Bindable]
+        private var i_delete:Class;
+		*/
+		
+
+		private const ic_fun:String = "_fun";	//must match DW2.ic_fun !!
+
+		private var _fun:String;
+			
+		[Bindable]
+		private function get is_fun():String{
+			return _fun;
+		}			
+		private function set is_fun(ps_fun:String):void{	//如果沒有這一段, compile會出現 warning
+			_fun = ps_fun;
+		}
+		//private var is_fun:String;
+		//private var is_fun:String = data[ic_fun];
+			
+		 
+		private function init(p_event:Event):void{
+			//temp add
+			//return;
+			
+			//is_fun = (this.data == null) ? "U" : this.data[ic_fun];
+			
+			//for spark
+			//var t_col:GridColumn = this.styleName as GridColumn;	//datagridcolumn object
+	    	var t_col:GridColumn = this.column as GridColumn;	//datagridcolumn object
+ 			t_col.editable = false; 	
+ 			t_col.headerText = " ";
+ 			t_col.width = 20;
+ 			t_col.dataField = ic_fun;
+ 			
+ 			//t_col.rendererIsEditor = true;
+ 			//t_col.showDataTips = true;
+ 			//t_col.dataTipFunction = getTip;
+ 			
+			var t_bind:ChangeWatcher = BindingUtils.bindSetter(bindValue, image1, "id");			
+			
+ 			//set image 			
+		}
+
+			
+		private function bindValue(p_value:String):void {
+			//is_fun = (this.data == null) ? "U" : this.data[ic_fun];
+			_fun = (this.data == null) ? "U" : this.data[ic_fun];
+		}
+
+			
+		/*
+		//[Bindable]
+    	public function zz_showTip(p_data:Object):String{
+		 	if (p_data[ic_fun] == "C"){
+		 		return "這是一筆新資料";
+		 	}else if (p_data[ic_fun] == "UU"){
+		 		return "此筆資料已被修改";
+		 	}else if (p_data[ic_fun].substr(0,1) == "D"){
+		 		return "此筆資料將會被刪除";
+		 	}else{
+		 		return "";
+		 	}
+    		
+    	} 
+		*/
+			
+		]]>
+	</fx:Script>	
+</s:GridItemRenderer>

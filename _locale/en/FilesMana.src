@@ -1,0 +1,42 @@
+﻿# list/query fields
+deleFlag=刪除
+funcItemSn=檔案類別
+filesAlias=檔案名稱
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# message
+message01=是否確定刪除這筆資料 ?
+message02=此筆資料已刪除 !
+message03=資料刪除完成。
+
+# E
+Canvas01=基本資料
+funcItemSn=檔案類別
+filesAlias=檔案名稱
+description=備註
+textFilesName=開啟檔案
+tmpFileName=檔案上傳
+fileName=瀏覽檔案
+deleFlag=資料刪除
+Canvas02=檔案存取設定
+roleName=角色名稱
+Canvas03=檔案下載紀錄
+dDate=日期
+userType=角色
+userNo=編號
+userName=姓名
+gender=性別
+
+# message
+message04=檔案名稱尚未填寫
+message05=檔案類型不符, 檔案必須為 (.pdf, .xls, .xlsx, .doc, .docx, .ppt, .jpg, .gif, .jpeg, .png) 格式
+message06=角色人員
+
+# Q
+funcItemSn=檔案類別
+filesAlias=檔案名稱
+
+# message

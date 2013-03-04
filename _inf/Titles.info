@@ -1,0 +1,14 @@
+{
+    "list":{
+        "select": "SELECT *",
+        "from":   "FROM Titles",
+        "order":  "ORDER BY titlesCode",
+        "items": [
+            {"fid":"titlesCode",  "op":"like"},
+            {"fid":"titlesName",  "op":"like"}
+      ]
+    },    
+    "progRange": 1,
+    "aFOwner": "creator",
+    "aFOwnerType": "L"
+}

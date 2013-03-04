@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  xmlns:x2="x2.*"
+		  width="186" height="36" 
+		  gap="4" verticalAlign="middle"
+		  creationComplete="init()"
+		  >
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<s:TextInput id="file1" width="118" enabled="false"/>
+	<s:Image id="get1" buttonMode="true" enabled="{bGetFile}" click="getFile()" source="@Embed('x2/image/getFile.png')" toolTip="{Fun.R.tipGetFile}"/>
+	<s:Image id="view1" buttonMode="true" enabled="{sFileUrl != ''}" click="openFile()" source="@Embed('x2/image/view.png')" toolTip="{Fun.R.tipViewFile}"/>
+	<x2:imageSound id="sound1" click="openFile()" enabled="{view1.enabled}" includeInLayout="false" visible="false" buttonMode="true" toolTip="{Fun.R.tipPlaySound}"/>
+	<s:Image id="delete1" click="clearFile()" enabled="{get1.enabled &amp;&amp; file1.text!=''}" buttonMode="true" source="@Embed('x2/image/deleteRow.png')" toolTip="{Fun.R.tipClearFile}"/>
+	
+	<fx:Script>
+		<![CDATA[
+			
+			//傳入 Object has var: file
+			//傳回: void
+			//public var oFile:FileReference;
+			public var fAfterGet:Function;		//fileReference/void
+			public var fAfterClear:Function;	//void/void
+			
+			[Bindable]
+			public var sFileUrl:String = "";
+			
+			public var sFileType:String;	//S(sound),P(pic),V(video),A(all), 可以有2個以上種類, ex:SV
+			public var sFileDesc:String;
+			public var bEmptyMsg:Boolean = true;	//開啟檔案不存在時, 顯示訊息
+			
+			[Bindable]
+			public var bGetFile:Boolean = true;
+			
+			private var is_fileExt:String;	//選取的檔案副檔名, 不含 "."			
+			private var i_file:FileReference;
+			
+			//set button status
+			//p_data: file, open()
+			//外部程式也可以呼叫
+			public function init():void{
+				//if (sFileType == "S" && !sound1.visible){
+				if (sFileType == "S"){
+					sound1.visible = true;
+					sound1.includeInLayout = true;
+					view1.visible = false;
+					view1.includeInLayout = false;
+				}else{
+					sound1.visible = false;
+					sound1.includeInLayout = false;					
+					view1.visible = true;
+					view1.includeInLayout = true;
+				}
+				
+				//get1.enabled = bGetFile;
+				view1.enabled = (sFileUrl != "");
+				file1.text = FL.getName(sFileUrl);
+				//sound1.enabled = view1.enabled;
+			}
+			
+			private function getFile():void{
+				FL.fileGet(sFileType, getFile2, sFileDesc, i_file); 
+			}
+			
+			//callback function
+			private function getFile2(p_file:FileReference):void{
+				//update field
+				file1.text = p_file.name;
+				is_fileExt = String(p_file.type).substr(1).toLowerCase();
+				//view1.enabled = true;
+				
+				//call fAfterGetFile
+				if (fAfterGet != null){
+					fAfterGet(p_file);
+				}
+			}
+				
+			private function openFile():void{
+				if (Fun.csSoundTypes.indexOf(FL.getExt(sFileUrl).toLowerCase()) < 0){
+					Fun.openFile(sFileUrl);					
+				}else if (sound1.visible){
+					Fun.playSound(sFileUrl, bEmptyMsg, sound1);						
+				}else{
+					Fun.playSound(sFileUrl, bEmptyMsg);
+				}					
+			}
+			
+			private function clearFile():void{
+				//update field
+				file1.text = "";
+				view1.enabled = false;
+				
+				//call fAfterGetFile
+				if (fAfterClear != null){
+					fAfterClear();
+				}				
+			}
+		]]>
+	</fx:Script>
+</s:HGroup>

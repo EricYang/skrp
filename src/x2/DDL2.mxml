@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<x2:DDL1 
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	xmlns:x2="x2.*"
+	fontWeight="normal" 
+	creationComplete="init(event)" 
+	change="change(event)" 
+	focusIn="focusIn(event)"
+	focusOut="focusOut(event)" 
+	value="{i_info.row.data[i_info.fid]}"
+	render="setStatus()"
+	>
+	
+	<!--
+	value="{i_info.row.data[i_info.fid]}"
+	  1.不使用 GridItemRenderer 的型式, 因為如果外面包含Group時, 在UI的宣告上不方便
+	  2.必須繼承 DDL1 (裡面有 value 的 get/set) 
+	-->
+	<fx:Script source="Combo2Fun.as"/>	
+</x2:DDL1>

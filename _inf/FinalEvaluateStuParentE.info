@@ -1,0 +1,38 @@
+{
+    "dws":[
+        {            
+            "selectTable": "FinalEvaluateStu a INNER JOIN Student b ON a.studentSn = b.sn",
+            "updateTable": "FinalEvaluateStu",
+            "defaultTable": "a",
+            "items": [
+                {"fid":"sn"},
+                {"fid":"academicYear"},
+                {"fid":"semester"},
+                {"fid":"acaName",         "table":"", "colName":"CONCAT(a.academicYear, ' - ', a.semester)"},
+                {"fid":"classLeavesSn"},
+                {"fid":"studentSn"},
+                {"fid":"studentName",     "table":"", "colName":"CONCAT(b.cName, ' ', b.eName)"},
+                {"fid":"cDate"},
+                {"fid":"comments"},
+                {"fid":"creator"},
+                {"fid":"createDate"},           
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+            ]
+        },
+        {
+            "selectTable": "FinalEvaluateStuDetail [_where] ORDER BY sn",
+            "updateTable": "FinalEvaluateStuDetail",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"finalEvaluateStuSn"},                
+                {"fid":"finalEvaluateDetailSn"},
+                {"fid":"targetName",   "table":"",    "colName":"''"},
+                {"fid":"contents",     "table":"",    "colName":"''"},
+                {"fid":"remark",       "table":"",    "colName":"''"},
+                {"fid":"checkSign"}
+            ]                
+        }
+   ]    
+}

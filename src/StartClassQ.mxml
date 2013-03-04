@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	width="460" height="178" xmlns:x2="x2.*" 
+	
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('StartClass')}"
+ 	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;					
+			
+			[Bindable]
+			private var iR:Object;
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var ia_class:ArrayList;
+			[Bindable]			
+			public var ia_classInfoList:ArrayList = new ArrayList(Fun2.classInfoListDS(is_app, 0, true));						
+			
+			private function getClassLeaves():void{			
+				var t_data:Object = {
+					type: "classLeavesList",
+					classInfoSn: int(Fun.getItem(classInfoSn))					
+				};								
+				ia_class = new ArrayList(Fun.comboDS2(is_app, t_data, true));				
+				classLeavesSn.validateNow();
+			}
+			private function init():void{
+				qry_1.aoItem = [
+					{source:classInfoSn,	dataType:"N"},
+					{source:classLeavesSn,	dataType:"N"}
+				];
+			}
+		]]>
+	</fx:Script>
+	<mx:Form x="10" y="10">
+		<mx:FormItem label="{iR.classInfoSn} :">
+			<x2:DDL1 id="classInfoSn" dataProvider="{ia_classInfoList}" change="getClassLeaves()"></x2:DDL1>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.classLeavesSn} :">
+			<x2:DDL1 id="classLeavesSn" dataProvider="{ia_class}"></x2:DDL1>			
+		</mx:FormItem>		
+	</mx:Form>
+	<x2:comQuery x="365" y="10" id="qry_1">
+	</x2:comQuery>
+</s:TitleWindow>

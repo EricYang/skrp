@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="522" height="480" 
+	 
+	preinitialize="{iR=Fun.getLang('FindClassTeacherList')}"
+	close="closeWin()">
+	
+	<fx:Script>
+		<![CDATA[
+			
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;	
+			
+			//[Bindable]
+			//private var is_app:String;
+			[Bindable]
+			private var if_selectRow:Function;			
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			public var ia_cTitles:ArrayList = new ArrayList(Fun2.cTitlesDS(is_app, false));
+			[Bindable]
+			public var ia_gender:ArrayList = new ArrayList(Fun2.genderDS(is_app, false));
+			
+			public var classLeavesSn:int;			
+			
+			public function init(ps_app:String, pf_selectRow:Function):void{			
+				is_app = ps_app;
+				if_selectRow = pf_selectRow;
+				
+				var t_data:Object = {
+					data: "FindClassTeacherList",
+					classLeavesSn: classLeavesSn
+				};
+				var ta_row:Array = Fun.readRows(is_app, t_data);
+				qry_1.dataProvider = new ArrayCollection(ta_row);
+			}
+			
+			private function fnClick():void{				
+				if (qry_1.selectedItem == null){
+					Fun.msg("I", "select row first !");
+				}else{
+					if (if_selectRow != null){
+						if_selectRow(qry_1.selectedItem);
+					}
+					Fun.closePopup(this);					
+				}
+			}			
+			private function closeWin():void{
+				Fun.closePopup(this);
+			}
+			private function cTitles(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_cTitles, p_row[p_column.dataField]);
+			}
+			private function gender(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_gender, p_row[p_column.dataField]);
+			}
+		]]>
+	</fx:Script>	
+	<mx:Form x="10" y="10">
+		<mx:HBox width="100%" verticalAlign="bottom">
+			<mx:Label text="{iR.teacherList}：" fontWeight="bold" id="teacherList"/>
+			<mx:HBox horizontalAlign="right" width="100%" height="26">
+				<mx:Button click="fnClick()" label="{iR.select}" width="75" icon="@Embed(source='x2/image/checked.gif')"  visible="false"/>
+			</mx:HBox>
+		</mx:HBox>
+		<s:DataGrid width="461"
+					 
+					 
+					 alpha="0.7"		
+					 		 
+					 
+					 
+					 height="359" id="qry_1"
+					 click="fnClick()"					 
+					 >
+			<s:columns><s:ArrayList>
+				<s:GridColumn headerText="{iR.cTitles}" dataField="cTitles" labelFunction="cTitles"/>				
+				<s:GridColumn headerText="{iR.cName}" dataField="cName"/>
+				<s:GridColumn headerText="{iR.eName}" dataField="eName"/>
+				<s:GridColumn headerText="{iR.gender}" dataField="gender" labelFunction="gender" width="100"/>				
+			</s:ArrayList></s:columns>
+		</s:DataGrid>			
+	</mx:Form>
+</s:TitleWindow>

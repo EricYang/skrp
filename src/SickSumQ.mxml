@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	width="450" height="210" xmlns:x2="x2.*" 
+	
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('SickSum')}"
+ 	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindale]
+			private var is_app:String = Fun.sApp;
+			[Bindale]
+			private var ia_data:Array = [];			
+			[Bindable]
+			public var ia_academicYear:ArrayList = new ArrayList(Fun2.academicYearListDS(is_app, false));
+			[Bindable]
+			public var ia_semester:ArrayList = new ArrayList(Fun2.semesterListDS(is_app, false));
+
+			private function init():void{
+				qry_1.bEchoExcel = true;
+				qry_1.aoItem = [
+					{source:academicYear,	required:true},
+					{source:semester}
+				];		
+			}
+			
+			private function afterSubmit(p_data:Object):void{
+				
+				ia_data = (qry_1.gList.dataProvider as ArrayCollection).source;
+				
+				if (ia_data){															
+					var gM1:int=0, gM2:int=0, gM3:int=0, gM4:int=0, gM5:int=0, gM6:int=0;
+					var gM7:int=0, gM8:int=0, gM9:int=0, gM10:int=0, gM11:int=0, gM12:int=0;
+					var gmCount:int=0;
+					
+					/* Mark by Ken Cheng 2013/01/31
+					for (var i:int=0; i<ia_data.length; i++){
+						gM1 = gM1 + int(ia_data[i].M1);
+						gM2 = gM2 + int(ia_data[i].M2);
+						gM3 = gM3 + int(ia_data[i].M3);
+						gM4 = gM4 + int(ia_data[i].M4);
+						gM5 = gM5 + int(ia_data[i].M5);
+						gM6 = gM6 + int(ia_data[i].M6);
+						gM7 = gM7 + int(ia_data[i].M7);
+						gM8 = gM8 + int(ia_data[i].M8);
+						gM9 = gM9 + int(ia_data[i].M9);
+						gM10 = gM10 + int(ia_data[i].M10);
+						gM11 = gM11 + int(ia_data[i].M11);
+						gM12 = gM12 + int(ia_data[i].M12);
+						gmCount = gmCount + int(ia_data[i].mSumAll);						
+					}
+					*/
+					
+				
+					for (var i:int=0; i<p_data.length; i++)
+					{
+						gM1 = gM1 + int(p_data[i].M1);
+						gM2 = gM2 + int(p_data[i].M2);
+						gM3 = gM3 + int(p_data[i].M3);
+						gM4 = gM4 + int(p_data[i].M4);
+						gM5 = gM5 + int(p_data[i].M5);
+						gM6 = gM6 + int(p_data[i].M6);
+						gM7 = gM7 + int(p_data[i].M7);
+						gM8 = gM8 + int(p_data[i].M8);
+						gM9 = gM9 + int(p_data[i].M9);
+   						gM10 = gM10 + int(p_data[i].M10);
+						gM11 = gM11 + int(p_data[i].M11);
+						gM12 = gM12 + int(p_data[i].M12);
+						gmCount = gmCount + int(p_data[i].mSumAll);						
+				    }
+					
+					ia_data.push(Object);
+					ia_data.push({itemName:iR.message01, M1:gM1, M2:gM2, M3:gM3, M4:gM4, M5:gM5, M6:gM6, M7:gM7, M8:gM8, M9:gM9, M10:gM10, M11:gM11, M12:gM12, mSumAll:gmCount});
+					
+					(qry_1.gList.dataProvider as ArrayCollection).source = ia_data;
+				}
+			}
+			private function openChart():void {
+				if (Fun.getItem(academicYear)==""){
+					Fun.msg("I", iR.message02);
+				}else{
+					var v_data:Object = {
+						data: "listSickSum",
+						academicYear: Fun.getItem(academicYear),
+						semester: Fun.getItem(semester)
+					};
+					var g_row:Array = Fun.readRows(is_app, v_data);				
+					if (g_row!=null){
+						var t_win:DispColumnChart = new DispColumnChart();
+						t_win.g_row = g_row;
+						Fun.openPopup(t_win, this);
+					}else{
+						Fun.msg("I", iR.message03);	
+					}
+				}
+			}
+		]]>
+	</fx:Script>
+	<x2:BtnChart id="dispChart" click="openChart()" x="354" y="140"/>
+	<mx:Form x="6" y="10" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+		<mx:FormItem label="{iR.academicYear} :" required="true">
+			<x2:DDL1 id="academicYear" dataProvider="{ia_academicYear}"></x2:DDL1>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.semester} :">
+			<x2:DDL1 id="semester" dataProvider="{ia_semester}"></x2:DDL1>					
+		</mx:FormItem>
+	</mx:Form>
+	<x2:comQuery x="354" y="10" id="qry_1" fAfterSubmit="afterSubmit">
+	</x2:comQuery>
+</s:TitleWindow>

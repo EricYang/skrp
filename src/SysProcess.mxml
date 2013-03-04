@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="850" height="455" 
+	 
+	close="closeWin()"
+  	creationComplete="init()"
+	title="尚未處理之前置作業"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+
+			[Bindalbe]
+			private var is_app:String = Fun.csMain;
+			[Bindable]
+			private var ia_child:ArrayCollection;
+		
+			private function init():void{
+				var t_data:Object = {
+					data: "SysProcess"
+				};					
+				ia_child = new ArrayCollection(Fun.readRows(is_app, t_data));
+				if (ia_child.length == 0){
+					closeWin();
+				}else{
+					grid_1.dataProvider = ia_child;					
+				}	
+			}
+			public function openSys(pn_pCode:String):void{
+				Main(Fun.wMain).openAppByName(pn_pCode);
+				closeWin();
+			}
+			private function serialNoLabelFunc(p_row:Object, p_column:GridColumn):String {
+				var index:int = p_column.grid.dataProvider.getItemIndex(p_row);
+				if (index > -1) {
+					return (index + 1).toString();
+				}
+				return "";
+			}
+			private function closeWin():void{
+				Fun.closePopup(this);
+			}
+		]]>
+	</fx:Script>
+	<s:DataGrid id="grid_1" x="10" y="9" alpha="0.7" height="400" width="822">
+		<s:columns><s:ArrayList>
+			<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+			<s:GridColumn headerText="前往處理" width="70" >
+				<s:itemRenderer>
+					<fx:Component><s:GridItemRenderer>
+						<mx:Image height="70" click="outerDocument.openSys(data.pCode)" toolTip="{data.sysName}" source="image/child/{data.imageSource}" scaleContent="true" buttonMode="true"/>
+					</s:GridItemRenderer></fx:Component>
+				</s:itemRenderer>        		         
+			</s:GridColumn>
+			<s:GridColumn headerText="作業描述" dataField="proCon"/>			
+		</s:ArrayList></s:columns>
+	</s:DataGrid>
+</s:TitleWindow>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="580" height="300" 
+	 
+  	creationComplete="init()"  	 		
+	preinitialize="{iR=Fun.getLang('TeachTool')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			import mx.formatters.DateFormatter;
+			
+			[Bindable]
+			private var idw_master:DW;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var i_col1:Object, i_col2:Object;
+			
+			private function doFindStaff(p_col1:Object, p_col2:Object):void{				
+				i_col1 = p_col1;
+				i_col2 = p_col2;
+				Fun2.openStaff(is_app, this, ReturnStaff);
+			}
+			private function ReturnStaff(p_row:Object):void{				
+				Fun.setItem(i_col1,p_row.cName + " " + p_row.eName);
+				idw_master.setItem(i_col2, p_row.sn, true);
+			}
+			
+			private function doFindCardNo():void{
+				Fun2.openTeachCard(is_app, this, ReturnTeachCard);
+			}
+			private function ReturnTeachCard(p_row:Object):void{				
+				Fun.setItem(cardNo, p_row.cardNo);
+				idw_master.setItem(teachCardSn, p_row.sn, true);
+				idw_master.setItem(cardName, p_row.cardName, true);
+			}
+			
+			private function init():void{	
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					mapping: true,
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					items: [						
+						{source:sn,				dataType:"N",	inputType:"I"}, 
+						{source:teachCardSn,	dataType:"N"},
+						{source:cardNo,							update:false,	inputType:"R",	required:true},
+						{source:cardName,						update:false,	inputType:"R"},
+						{source:staffSn,		dataType:"N"},
+						{source:staffName,						update:false,	inputType:"R",	required:true},
+						{source:cDate,			dataType:"D"},
+						{source:rDate,			dataType:"D"},
+						{source:remark,			dataType:"S"},
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"DT",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"DT",	inputType:"R"}
+					]				
+				};				
+			}
+			//編輯視窗開啟後顯示該代辦事項交辦人及負責人名字
+			private function afterOpen(p_data:Object):void{
+				
+				var dateFormatter:DateFormatter = new DateFormatter();
+				dateFormatter.formatString = "YYYY/MM/DD JJ:NN:SS";
+				idw_master.setItem(cDate, dateFormatter.format(Fun.getItem(cDate)), true);
+				
+				if (Fun.getItem(rDate)!=""){
+					idw_master.setItem(rDate, dateFormatter.format(Fun.getItem(rDate)), true);
+				}
+				
+				switch (p_data.fun){
+					case "V":
+						SchCardNo.visible = false; //檢視模式不顯示搜尋按鈕及說明文字
+						SchStaff.visible = false; //檢視模式不顯示搜尋按鈕及說明文字
+						break;
+				}
+			}
+			
+			private function whenSave(p_data:Object):Boolean{
+				if (p_data.fun != "D"){
+					if (Fun.getItem(rDate)!=""){
+						if (Fun.getItem(rDate)<Fun.getItem(cDate)){					
+							Fun.msg("E", iR.message01);
+							Fun.setItem(rDate, Fun.getItem(cDate));
+							return false;
+						}
+					}					
+				}
+				return true;
+			}
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10.5" y="229" id="edit_1" fAfterOpen="afterOpen" fWhenSave="whenSave">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="teachCardSn" visible="false"/>
+	<s:TextInput id="cardName" visible="false"/>
+	<x2:Num1 id="staffSn" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+	<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+		<mx:FormItem label="{iR.cardNo} :" required="true">
+			<mx:HBox width="100%">
+				<s:TextInput id="cardNo" click="doFindCardNo()"/>	
+				<x2:btnPick id="SchCardNo" click="doFindCardNo()"/>				
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.staffName} :" required="true">
+			<mx:HBox x="72" y="1" width="100%">
+				<s:TextInput id="staffName" click="doFindStaff(staffName, staffSn)"/>
+				<x2:btnPick id="SchStaff" click="doFindStaff(staffName, staffSn)"/>				
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.cDate} :" required="true">
+			<mx:DateField formatString="YYYY/MM/DD" id="cDate" yearNavigationEnabled="true"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.rDate} :">
+			<mx:DateField formatString="YYYY/MM/DD" id="rDate" yearNavigationEnabled="true"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.remark} :">
+			<mx:TextArea width="400" id="remark"/>
+		</mx:FormItem>
+	</mx:Form>
+</s:TitleWindow>

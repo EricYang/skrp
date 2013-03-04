@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:CheckBox xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			xmlns:s="library://ns.adobe.com/flex/spark" 
+			xmlns:mx="library://ns.adobe.com/flex/mx">
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			/**
+			 * selected value.
+			 */ 
+			public var gYes:Object = 1;	
+			
+			/**
+			 * not selected value.
+			 */ 
+			public var gNo:Object = 0;
+			
+					
+			public function get value(): Object{
+				return (this.selected) ? gYes : gNo;
+			}
+			
+			
+			//for provide value property
+			public function set value(p_value:Object) : void {
+				this.selected = (p_value == gYes);
+			}
+			
+			
+		]]>
+	</fx:Script>
+</s:CheckBox>

@@ -1,0 +1,17 @@
+{
+    "list":{
+        "select": "SELECT a.*, CONCAT(b.cName, ' ', b.eName) AS chairmanStaffName, CONCAT(c.cName, ' ', c.eName) AS recorderStaffName",
+        "from":   "FROM UploadMeeting a LEFT OUTER JOIN
+                    Staff b ON a.chairmanStaffSn = b.sn LEFT OUTER JOIN
+                    Staff c ON a.recorderStaffSn = c.sn [_where]",
+        "order":  "ORDER BY a.cDate",
+        "items": [
+            {"fid":"cDate",     "table":"a",    "op":"between"},
+            {"fid":"location",  "table":"a",    "op":"like"},
+            {"fid":"subject",   "table":"a",    "op":"like"}
+      ]
+    },    
+    "progRange": 1,
+    "aFOwner": "a.creator",
+    "aFOwnerType": "L"
+}

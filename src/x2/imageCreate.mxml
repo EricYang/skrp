@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Image 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	useHandCursor="true" 
+	buttonMode="true"
+	scaleContent="false"
+ 	verticalAlign="middle" 
+ 	horizontalAlign="center"
+	width="22" height="22"
+ 	toolTip="{Fun.R.tipImageCreate}"
+	enabled="{in_status > 0 || (in_status == 0 &amp;&amp; xRelatField.enabled)}"
+	source="{this.enabled ? i_yes : i_no}"
+	>
+	
+	<fx:Script>
+		<![CDATA[
+			//source="@Embed(source='x2/image/create.gif')" 
+			//
+			import mx.core.UIComponent;			
+			//import x2.*;
+			
+			
+			[Bindable]
+			[Embed(source="x2/image/create.gif")]
+			private var i_yes:Class;
+			
+			[Bindable]
+			[Embed(source="x2/image/create0.gif")]
+			private var i_no:Class;
+			
+			[Bindable]
+			public var xRelatField:UIComponent;
+			
+			//0(by xRelatField), 1(enabled), 0(disabled)
+			[Bindable]
+			private var in_status:int = 0;
+			
+			public function setStatus(pn_status:int):void{
+				in_status = pn_status;
+			}
+			
+			/*
+			[Bindable]
+			private function getStatus():Boolean{
+				if (in_status != 0){
+					return (in_status > 0)
+				}else{
+					return xRelatField.enabled;
+				}
+			}
+			*/
+		]]>
+	</fx:Script>
+</mx:Image>

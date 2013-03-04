@@ -1,0 +1,21 @@
+{
+    "dws":[
+	    {
+			"selectTable": "PublicDept",   
+			"items": [
+                {"fid":"sn"}, 
+                {"fid":"infoCategory"}, 
+                {"fid":"unitName"},
+                {"fid":"contactName"},
+                {"fid":"conTel"}, 
+                {"fid":"fax"},
+                {"fid":"address"}, 
+                {"fid":"webSite"}, 
+                {"fid":"creator"},
+                {"fid":"createDate"},           
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+            ]				
+	    }
+    ]    
+}

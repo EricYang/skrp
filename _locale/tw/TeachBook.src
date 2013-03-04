@@ -1,0 +1,31 @@
+﻿# list/query fields
+acaName=學年(期)
+classLeavesSn=班別(級)
+subject=主題
+cDate=日期
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# E
+Canvas01=教學日誌
+Canvas02=身體異常紀錄
+
+activities=教學要項
+introspection=活動檢討
+specEvent=偶發事件處理建議事項
+funcItemSn=異常種類
+cName=姓名(中)
+eName=姓名(英)
+sDescribe=狀況說明
+
+# message
+message01=幼兒基本資料
+message02=請先選擇 班別(級)
+
+# Q
+academicYear=學年
+semester=學期
+classInfoSn=班別
+classLeavesSn=班級

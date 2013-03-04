@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="555" height="210" 
+	 
+  	creationComplete="init()"	
+	preinitialize="{iR=Fun.getLang('FuncItem')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;	
+			
+			[Bindable]
+			private var idw_master:DW;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var ia_sysType:ArrayList = new ArrayList(Fun2.sysTypeDS(is_app, true));
+			[Bindable]
+			private var ia_ynFlag:ArrayList = new ArrayList(Fun2.ynFlagDS(is_app, true));
+			
+			private function init():void{	
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					mapping: true,
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					items: [
+						{source:sn,				dataType:"N",	inputType:"I"},						
+						{source:sysType,		dataType:"N"},
+						{source:itemName,		dataType:"S"},
+						{source:deleFlag,		dataType:"N"},
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"DT",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"DT",	inputType:"R"}
+					]				
+				};				
+			}
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10" y="140" id="edit_1">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>	
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>	
+	<s:Form x="10" y="10">		
+		<s:layout> 
+			<s:FormLayout gap="-8"/>
+		</s:layout>
+		<s:FormItem label="{iR.sysType} :" required="true">			
+			<x2:DDL1 id="sysType" dataProvider="{ia_sysType}"></x2:DDL1>
+		</s:FormItem>
+		<s:FormItem label="{iR.itemName} :" required="true">
+			<s:TextInput id="itemName" width="370"/>													
+		</s:FormItem>
+		<s:FormItem label="{iR.deleFlag} :">
+			<x2:DDL1 id="deleFlag" dataProvider="{ia_ynFlag}"></x2:DDL1>			
+		</s:FormItem>
+	</s:Form>
+</s:TitleWindow>

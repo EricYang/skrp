@@ -1,0 +1,34 @@
+﻿# list/query fields
+acaName=学年(期)
+classLeavesSn=班级(别)
+cDate=日期
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# message
+message01=检核
+
+# E
+Canvas01=消毒作业
+classLeavesSn=班级(别)
+cDate=日期
+staffNameA=教师
+staffNameB=检查者
+funcItemSnA=准备物品
+Canvas02=检核记录表
+funcItemSnB=项目
+checkSign=教师
+checkFlag=检查者
+
+# message
+message02=※ 检核项目共计：
+message03= 项。
+
+# Q
+academicYear=学年
+semester=学期
+classInfoSn=班级
+classLeavesSnB=班别
+cDate=日期

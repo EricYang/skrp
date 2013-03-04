@@ -1,0 +1,20 @@
+{
+    "dws":[
+        {
+            "selectTable": "HygieneProcess",
+            "items": [
+                {"fid":"sn"}, 
+                {"fid":"academicYear"},
+                {"fid":"semester"},
+                {"fid":"acaName",       "table":"", "colName":"CONCAT(academicYear, ' - ', semester)"},
+                {"fid":"cDate"},
+                {"fid":"fileName"},
+                {"fid":"remark"},
+                {"fid":"creator"},
+                {"fid":"createDate"},
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+             ]                
+        }
+    ]    
+}

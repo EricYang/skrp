@@ -1,0 +1,22 @@
+{
+    "dws":[
+	    {
+			"selectTable": "TeachCard",   
+			"items": [
+                {"fid":"sn"}, 
+                {"fid":"cardNo"},
+                {"fid":"cardName"},
+                {"fid":"purpose"}, 
+                {"fid":"materials"},
+                {"fid":"suitAge"},
+                {"fid":"suitUnit"},
+                {"fid":"situation"},
+                {"fid":"useMethod"},
+                {"fid":"creator"},
+                {"fid":"createDate"},           
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+            ]				
+	    }
+    ]    
+}

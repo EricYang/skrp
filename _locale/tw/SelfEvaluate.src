@@ -1,0 +1,30 @@
+﻿# list/query fields
+deleFlag=刪除
+selfEvaluateItem=項目
+itemName=評鑑項目
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# message
+message01=是否確定刪除這筆資料 ?
+message02=此筆資料已刪除 !
+message03=資料刪除完成。
+
+# E
+selfEvaluateItem=項目
+itemName=評鑑項目
+deleFlag=資料刪除
+Canvas01=評鑑內容
+contents=評鑑內容
+Canvas02=說明及訪評方式
+
+# message
+
+
+# Q
+selfEvaluateItem=項目
+itemName=評鑑項目
+
+# message

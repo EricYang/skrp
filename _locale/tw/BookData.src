@@ -1,0 +1,19 @@
+﻿# list/query fields
+bookNo=書籍編號
+bookName=書籍名稱
+cDate=購買日期
+price=價格
+isbn=ISBN
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# E
+publisher=出版社
+author=作者
+quantity=數量
+remark=備註
+
+# message
+message01=該 書籍編號 或 ISBN 已存在，請重新填寫。

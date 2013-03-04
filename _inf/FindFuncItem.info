@@ -1,0 +1,13 @@
+{
+   "list":{
+        "select": "SELECT *",
+        "from": "FROM FuncItem 
+                WHERE deleFlag = 0
+                [_where]",
+        "order": "ORDER BY sn",
+		"items": [
+            {"fid":"sysType",  "op":"in"},
+			{"fid":"itemName",  "op":"like"}
+		]
+   }
+}

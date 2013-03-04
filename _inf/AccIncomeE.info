@@ -1,0 +1,30 @@
+{
+    "dws":[
+	    {
+		"selectTable": "AccMain a INNER JOIN AccTitle b ON a.sn = b.accMainSn AND a.accMainType = 1",
+                "updateTable": "AccTitle",
+                "defaultTable": "b",
+		"items": [
+                    {"fid":"sn"},
+                    {"fid":"accTitleCodeTmp",   "table":"", "colName":"CONCAT(a.accMainCode, ' - ', b.accTitleCode)"},
+                    {"fid":"accTitleNameTmp",   "table":"", "colName":"CONCAT(a.accMainName, ' - ', b.accTitleName)"},
+                    {"fid":"accTitleType"}
+		]								
+	    },
+	    {
+		"selectTable": "AccIoc [_where] ORDER BY accIocCode",
+                "updateTable": "AccIoc",
+		"upDW": 0,
+		"items": [
+                    {"fid":"sn"},
+	            {"fid":"accTitleSn"},
+                    {"fid":"accIocCode"},
+	            {"fid":"accIocName"},
+                    {"fid":"creator"},
+                    {"fid":"createDate"},
+                    {"fid":"reviser"},
+                    {"fid":"reviseDate"}
+		]				
+	    }
+    ]    
+}

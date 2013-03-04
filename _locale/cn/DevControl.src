@@ -1,0 +1,38 @@
+﻿# list/query fields
+devAgeName=检核年龄别名
+ageScope=年龄范围
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# message
+
+# E
+Canvas01=检核对象
+devAgeName=检核年龄别名
+ageScope=年龄范围
+sAge=岁
+sMonth=个月
+sDay=天
+eAge=岁
+eMonth=个月
+eDay=天
+remark=备注
+Canvas02=发展里程检核
+controlItem=检核项目
+answer=答案
+Canvas03=上传图档
+fileName=浏览档案
+
+# message
+message01=岁
+message02=个月
+message03=天 ~
+message04=岁
+message05=个月
+message06=天
+message07=档案类型不符, 照片档案必须为(.jpg, .gif, .jpeg, .png) 格式图档
+
+# Q
+devAgeName=检核年龄别名

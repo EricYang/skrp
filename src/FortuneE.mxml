@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="590" height="510" 
+	 
+  	creationComplete="init()"  	 		
+	preinitialize="{iR=Fun.getLang('Fortune')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;	
+			
+			[Bindable]
+			private var iR:Object;
+			private var idw_master:DW;						
+			private var is_app:String = Fun.sApp;
+			
+			private var i_col1:Object, i_col2:Object;
+			
+			private function doFindStaff(p_col1:Object, p_col2:Object):void{				
+				i_col1 = p_col1;
+				i_col2 = p_col2;
+				Fun2.openStaff(is_app, this, ReturnStaff);
+			}
+			private function ReturnStaff(p_row:Object):void{				
+				Fun.setItem(i_col1,p_row.cName + " " + p_row.eName);
+				idw_master.setItem(i_col2, p_row.sn, true);
+			}			
+			private function init():void{	
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					mapping: true,
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					items: [						
+						{source:sn,				dataType:"N",	inputType:"I"},
+						{source:fortuneNo,		dataType:"S"},
+						{source:fortuneName,	dataType:"S"},
+						{source:brand,			dataType:"S"},
+						{source:ts,				dataType:"S"},
+						{source:cDate,			dataType:"D"},
+						{source:price,			dataType:"N"},
+						{source:staffSnU,		dataType:"N"},
+						{source:uName,							update:false,	inputType:"R",	required:false},						
+						{source:place,			dataType:"S"},
+						{source:staffSnK,		dataType:"N"},
+						{source:kName,							update:false,	inputType:"R",	required:true},
+						{source:remark,			dataType:"S"},
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"DT",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"DT",	inputType:"R"}
+					]				
+				};				
+			}
+			//編輯視窗開啟後顯示該代辦事項交辦人及負責人名字
+			private function afterOpen(p_data:Object):void{			
+				if (p_data.fun == "U" || p_data.fun == "V"){
+					if (p_data.fun == "V") {
+						SchStaffU.visible = false; //檢視模式不顯示搜尋按鈕及說明文字
+						SchStaffK.visible = false; //檢視模式不顯示搜尋按鈕及說明文字
+					}									
+				}
+			}	
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10" y="438" id="edit_1" fAfterOpen="afterOpen">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="staffSnU" visible="false"/>
+	<x2:Num1 id="staffSnK" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+	<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+		<mx:FormItem label="{iR.fortuneNo} :" required="true">
+			<s:TextInput id="fortuneNo"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.fortuneName} :" required="true">
+			<s:TextInput id="fortuneName" width="394"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.brand} :" required="true">
+			<s:TextInput id="brand" width="394"/>			
+		</mx:FormItem>
+		<mx:FormItem label="{iR.ts} :" required="true">
+			<s:TextInput id="ts" width="394"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.cDate} :" required="true">
+			<mx:DateField id="cDate" formatString="YYYY/MM/DD" yearNavigationEnabled="true"/>						
+		</mx:FormItem>
+		<mx:FormItem label="{iR.price} :" required="true">					
+			<mx:NumericStepper id="price" maximum="9999999"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.uName} :">
+			<mx:HBox width="100%">
+				<s:TextInput id="uName" click="doFindStaff(uName, staffSnU)"/>
+				<x2:btnPick id="SchStaffU" click="doFindStaff(uName, staffSnU)"/>				
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.place} :" required="true">
+			<s:TextInput id="place" width="394"/>			
+		</mx:FormItem>
+		<mx:FormItem label="{iR.kName} :" required="true">
+			<mx:HBox width="100%">
+				<s:TextInput id="kName" click="doFindStaff(kName, staffSnK)"/>
+				<x2:btnPick id="SchStaffK" click="doFindStaff(kName, staffSnK)"/>				
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.remark} :">
+			<mx:TextArea width="394" height="86" id="remark"/>
+		</mx:FormItem>
+	</mx:Form>
+</s:TitleWindow>

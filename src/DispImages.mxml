@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	xmlns:flexiframe="http://code.google.com/p/flex-iframe/"
+	preinitialize="{iR=Fun.getLang('FindStu')}"
+	xmlns:x2="x2.*"	
+	x="0" y="0"
+	backgroundColor = "#000000"				
+	borderVisible="false"
+	height = "{Capabilities.screenResolutionY - 250}"	
+	width = "{Capabilities.screenResolutionX - 100}"		
+	creationComplete="init();"
+	close="closeWin()"
+	keyDown="titleWindow_keyDown(event);">
+	<fx:Script>
+		<![CDATA[
+			import x2.*;			
+			[Bindable]
+			private var iR:Object;			
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			public var ps_fileName:String;
+			
+			private function init():void {
+				switch (FL.getExt(ps_fileName)){
+					case "jpg":
+					case "gif":
+					case "jpeg":
+					case "png":
+						imageName.source = Fun.sDirRoot + Fun2.fLearnPro + ps_fileName;
+						imageName.height = Capabilities.screenResolutionY - 282;
+						
+						videoName.visible = false;
+						iFrame.visible = false;
+						break;
+					case "mp4":
+						videoName.source = Fun.sDirRoot + Fun2.fLearnPro + ps_fileName;
+						videoName.width = this.width / 1.5;
+						videoName.height = this.height / 1.5;
+						
+						videoName.fullScreenButton.visible = false;
+						
+						imageName.visible = false;
+						iFrame.visible = false;
+						break;
+					case "avi":
+					case "wmv":
+						//iFrame.source = Fun.sDirRoot + "/dbUpLoadFiles/TeachersFolder/LearnPro/iframe.php?theWidth="+ this.width / 1.5 +"&theHeight="+ this.height / 1.5 +"&fileName=" + ps_fileName;
+						iFrame.source = Fun.sDirRoot + "/iframe.php?theWidth="+ this.width / 1.5 +"&theHeight="+ this.height / 1.5 +"&fileName=" + ps_fileName;
+						iFrame.width = 430;
+						iFrame.height = 410;
+						//iFrame.source = Fun.sDirRoot + "/_app/iframe.php?theWidth="+ this.width / 1.5 +"&theHeight="+ this.height / 1.5 +"&pathName=" + Fun2.fLearnPro + "&fileName=" + ps_fileName;
+						//iFrame.width = this.width / 1.5;
+						//iFrame.height = this.height / 1.5;
+						
+						imageName.visible = false;
+						videoName.visible = false;
+						break;
+				}
+				this.setFocus();
+			}
+			private function titleWindow_keyDown(evt:KeyboardEvent):void {
+				if (evt.charCode == Keyboard.ESCAPE) {					
+					closeWin();
+				}
+			}
+			private function closeWin():void{
+				Fun.closePopup(this);
+				//videoName.stop();
+			}
+		]]>
+	</fx:Script>
+	<!--
+	<s:Group id="videoName" horizontalCenter="0" verticalCenter="0"/>
+	-->	
+	<mx:Image id="imageName" autoLoad="true" baseline="0" horizontalAlign="center"
+			  horizontalCenter="0" scaleContent="true"
+			  smoothBitmapContent="true" useHandCursor="true" verticalAlign="middle"
+			  verticalCenter="0" click="closeWin();"/>
+	<s:VideoPlayer id="videoName" autoPlay="true" horizontalCenter="0" verticalCenter="0" dropShadowVisible="true"/>
+	<x2:IFrame id="iFrame" borderColor="#FFFFFF" cornerRadius="5"
+			   dropShadowVisible="true" horizontalCenter="0" verticalCenter="0" borderStyle="solid" borderVisible="true"/>
+</s:TitleWindow>

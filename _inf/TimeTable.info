@@ -1,0 +1,19 @@
+{
+    "list":{
+        "select": "SELECT a.*, 
+                    CONCAT(b.cName, ' ', b.eName) AS staffName,                    
+                    CONCAT(LPAD(a.sTimeH, 2, 0), ':', LPAD(a.sTimeM, 2, 0), '~', LPAD(a.eTimeH, 2, 0), ':', LPAD(a.eTimeM, 2, 0)) AS seTimeHM",
+        "from":   "FROM TimeTable a INNER JOIN
+                    Staff b ON a.staffSn = b.sn                    
+                    [_where]",
+        "order":  "ORDER BY a.sDate, a.eDate",
+        "defaultTable": "a",
+        "items": [
+            {"fid":"staffSn"},
+            {"fid":"jobs"}
+      ]
+    },    
+    "progRange": 1,
+    "aFOwner": "a.creator",
+    "aFOwnerType": "L"
+}

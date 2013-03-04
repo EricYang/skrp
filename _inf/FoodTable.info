@@ -1,0 +1,13 @@
+{
+    "list":{
+		"select": "SELECT *",
+		"from": "FROM FoodTable [_where]",
+		"order": "ORDER BY cDate",
+		"items": [
+            {"fid":"cDate",     "op":"between"}
+      ]
+    },    
+    "progRange": 1,
+    "aFOwner": "creator",
+    "aFOwnerType": "L"
+}

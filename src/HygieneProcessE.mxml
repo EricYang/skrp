@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="780" height="430" 
+	 
+  	creationComplete="init()"	
+	preinitialize="{iR=Fun.getLang('HygieneProcess')}"
+	>
+	<fx:Script>
+		<![CDATA[
+
+			import mx.utils.StringUtil;
+			
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			[Bindable]
+			private var iR:Object;
+			[Bindalbe]
+			private var idw_master:DW;
+			[Bindalbe]
+			private var is_app:String = Fun.sApp;			
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["academicYear","semester","usersSn","userCName","userEName","schoolDSn"]});
+			
+			private function init():void{				
+				//dw1: HygieneProcess
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					mapping: true,
+					items: [
+						{source:sn, 			dataType:"N",	inputType:"I"}, 
+						{source:academicYear,	dataType:"N",	init:int(i_session.academicYear)}, 
+						{source:semester,		dataType:"N",	init:int(i_session.semester)},
+						{source:acaName,						update:false,	inputType:"R"},
+						{source:cDate,			dataType:"D"},						
+						{source:fileName,		dataType:"S"},
+						{source:remark,			dataType:"S"},						
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"D",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"D",	inputType:"R"}
+					]				
+				};
+			}
+			
+			private var fileNames:String;
+			private function afterOpen(p_data:Object):void{
+				tmpFileName.text = "";
+				textFilesName.visible = false;
+				switch (p_data.fun){
+					case "V":
+					case "U":
+						fileNames = StringUtil.trim(Fun.getItem(fileName) as String);
+						if (fileNames!=""){
+							textFilesName.visible = true;
+						}
+						break;
+				}
+				switch (p_data.fun){
+					case "V":
+						fileUploadLabel.visible = false;
+						break;
+				}
+			}
+			
+			private var i_file:FileReference;
+			private function fnUpload():void {
+				if (Fun.getItem(cDate)!=""){
+					i_file = new FileReference();
+					i_file.addEventListener(Event.SELECT, getFile);
+					i_file.browse();
+				}else{
+					Fun.msg("I", iR.message01);
+				}				
+			}
+			private function getFile(p_event:Event):void {				
+				var fileTypeTmp:String = String(p_event.target.type).toLowerCase();				
+				switch (fileTypeTmp){
+					case ".pdf":
+					case ".xls":
+					case ".xlsx":
+					case ".doc":
+					case ".docx":
+					case ".ppt":
+					case ".jpg":
+					case ".gif":
+					case ".jpeg":
+					case ".png":
+						var fileNameTmp:String = StringUtil.trim('HygieneProcess_' + String(i_session.schoolDSn) + '_' + String(i_session.usersSn) + '_' + String(new Date().getTime()) + fileTypeTmp);
+						
+						var t_file:Object = {};
+						t_file[Fun.csFile] = i_file;
+						t_file[Fun.csFilePath] = Fun2.fTeachers + fileNameTmp;
+						FL.upload(this, is_app, [t_file]);
+						
+						Fun.setItem(tmpFileName, p_event.target.name);
+						idw_master.setItem(fileName, fileNameTmp, true);					
+						
+						fileNames = fileNameTmp;
+						textFilesName.visible = true;
+						
+						break;					
+					default:					
+						Fun.msg("E", iR.message02);
+						break;
+				}
+			}
+			private function openFiles():void {				
+				Fun.openFile(Fun.sDirRoot + Fun2.fTeachers + fileNames);
+			}
+			
+			private function whenSave(p_data:Object):Boolean{
+				if (p_data.fun != "D"){
+					Fun.setItem(acaName, String(Fun.getItem(academicYear))+ ' - '+String(Fun.getItem(semester)));
+				}
+				return true;
+			}
+		]]>
+	</fx:Script>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="academicYear" visible="false"/>
+	<x2:Num1 id="semester" visible="false"/>
+	<s:TextInput id="acaName" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>	
+	<mx:TabNavigator x="10" y="10" width="750" height="340">
+		<mx:Canvas label="{iR.Canvas01}">
+			<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+				<mx:FormItem label="{iR.cDate} :" required="true">
+					<mx:DateField id="cDate" formatString="YYYY/MM/DD" yearNavigationEnabled="true"/>
+				</mx:FormItem>
+				<mx:FormItem id="textFilesName">
+					<x2:btnTBar buttonMode="true" label="{iR.textFilesName}" icon="@Embed(source='x2/image/star.gif')" click="openFiles()" toolTip="{iR.textFilesName}"/>
+				</mx:FormItem>		
+				<mx:FormItem label="{iR.fileUploadLabel}  :" id="fileUploadLabel">
+					<mx:HBox>			
+						<s:TextInput id="tmpFileName" editable="false" enabled="false" width="285"/>
+						<mx:Button label="{iR.tmpFileName}" click="fnUpload()"/>
+					</mx:HBox>			
+					<s:TextInput id="fileName" visible="false"/>
+				</mx:FormItem>		
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas02}">	
+			<mx:Form x="10" y="10">
+				<mx:TextArea id="remark" width="695" height="250"/>
+			</mx:Form>
+		</mx:Canvas>
+	</mx:TabNavigator>
+	<x2:comEdit x="10" y="360" id="edit_1" fWhenSave="whenSave" fAfterOpen="afterOpen">
+	</x2:comEdit>
+</s:TitleWindow>

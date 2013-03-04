@@ -1,0 +1,28 @@
+﻿# list/query fields
+inputExcelType=资料汇入项目
+example=上传格式范例
+openFilesF=开启档案
+classLeavesSn=所属班级(别)
+fileUploadLabel=档案上传汇入
+tmpFileName=浏览档案
+cmdOk=确定汇入
+cmdExit=离开
+
+# message
+message01=所属班级(别) 尚未选择。
+message02=资料汇入项目 尚未选择。
+message03=档案类型不符, 档案必须为(.xls, .xlsx) 格式。
+message04=资料汇入项目 尚未选择。
+message05=所属班级(别) 尚未选择。
+message06=资料汇入项目尚未选择或档案尚未上传。
+
+# E
+
+
+# message
+
+
+# Q
+
+
+# message

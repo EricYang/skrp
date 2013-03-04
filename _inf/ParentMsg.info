@@ -1,0 +1,23 @@
+{
+    "list":{
+        "select": "SELECT a.*, CONCAT(a.academicYear, ' - ', a.semester) AS acaName, 
+                    CONCAT(b.cName, ' ', b.eName) AS studentName,
+                    CONCAT(d.cName, ' ', d.eName) AS staffName",
+        "from": "FROM ParentMsg a INNER JOIN
+                Student b ON a.studentSn = b.sn INNER JOIN
+                ClassLeaves c ON a.classLeavesSn = c.sn LEFT OUTER JOIN 
+                Staff d ON a.staffSn = d.sn
+                WHERE (a.parentSn = [parentSn])
+                [_where]",
+        "order": "ORDER BY a.sn",
+        "items": [
+            {"fid":"academicYear",      "table":"a"},
+            {"fid":"semester",          "table":"a"},
+            {"fid":"cName",             "table":"b",    "op":"like"},
+            {"fid":"eName",             "table":"b",    "op":"like"},
+            {"fid":"createDate",        "table":"a",    "op":"between"},
+            {"fid":"subject",           "table":"a",    "op":"like"},            
+            {"fid":"parentSn",          "isCond":0}
+      ]
+    }
+}

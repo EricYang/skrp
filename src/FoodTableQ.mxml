@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	width="460" height="210" xmlns:x2="x2.*" 
+	
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('FoodTable')}"
+ 	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;		
+			import mx.utils.StringUtil;
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindalbe]
+			private var is_app:String = Fun.sApp;			
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["schoolDSn","usersSn"]});
+			
+			private function init():void{
+				qry_1.aoItem = [
+					{source:cDate,			dataType:"D",	relat:cDate2,	required:true},
+					{source:cDate2,			dataType:"D",	required:true}
+				];
+			}
+			
+			private function openPdfFiles():void {				
+				//執行 PDF 資料匯出
+				var fileNameTmp:String = StringUtil.trim('FoodTable_' + String(i_session.schoolDSn) + '_' + String(i_session.usersSn) + '_' + String(new Date().getTime()) + '.pdf');
+				var m_data:Object = {
+					cDate: Fun.getItem(cDate),
+					cDate2: Fun.getItem(cDate2),
+					fileNameTmp: fileNameTmp,
+					defaultPdfPath: "../" + Fun2.fPdf					
+				};
+				var ts_result:String = Fun.sync(is_app, "FoodTable", m_data, false) as String;
+				
+				switch (ts_result){
+					case "0":
+						Fun.msg("E", iR.message02);
+						break;
+					case "1":
+						Fun.openFile(Fun.sDirRoot + Fun2.fPdf + fileNameTmp);
+						break;
+				}
+			}
+		]]>
+	</fx:Script>
+	<x2:comQuery x="369" y="10" id="qry_1">
+	</x2:comQuery>	
+	<x2:BtnPdf x="369" y="144" id="outputPdf" click="openPdfFiles()"/>
+	<mx:Form x="6" y="10" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+		<mx:FormItem label="{iR.cDate} :" required="true">
+			<mx:HBox>
+				<mx:DateField formatString="YYYY/MM/DD" id="cDate" yearNavigationEnabled="true"/>
+				<mx:FormItem label=" - ">
+					<mx:DateField formatString="YYYY/MM/DD" id="cDate2" yearNavigationEnabled="true"/>		
+				</mx:FormItem>
+			</mx:HBox>
+		</mx:FormItem>
+	</mx:Form>
+</s:TitleWindow>

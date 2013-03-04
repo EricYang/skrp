@@ -1,0 +1,16 @@
+﻿# list/query fields
+readTimeP=已閱讀
+acaName=學年(期)
+classLeavesSn=班別(級)
+studentName=學生姓名
+cDate=日期
+tomoCarry=明日需攜帶物品
+teacherUrge=老師愛的叮嚀
+creator=建檔人員
+createDate=建檔日期
+
+# Q
+academicYear=學年
+semester=學期
+cName=中文姓名
+eName=英文名

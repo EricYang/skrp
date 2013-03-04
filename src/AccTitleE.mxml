@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="580" height="500" 
+	 
+  	creationComplete="init()"  	 
+	preinitialize="{iR=Fun.getLang('AccTitle')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;			
+			[Bindable]
+			private var iR:Object;	
+			[Bindable]
+			private var idw_master:DW;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["academicYear","semester"]});
+			
+			private function init():void{	
+				//dw1: AccTitle
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {	
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					mapping: true,
+					items: [
+						{source:sn,				dataType:"N",	inputType:"I"},
+						{source:academicYear,	dataType:"N",	init:int(i_session.academicYear)}, 
+						{source:semester,		dataType:"N",	init:int(i_session.semester)},
+						{source:acaName,						update:false,	inputType:"R"},
+						{source:accClass,		dataType:"S"},
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"D",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"D",	inputType:"R"}
+					]				
+				}; 			
+				
+				//dw1: AccTitleDetail
+				edit_1.aoDW[1] = new DW2();
+				(edit_1.aoDW[1] as DW2).xTool = tb_AccTitleDetail;
+				edit_1.aoDW[1].oConfig = {					
+					upDW: idw_master,
+					grid: grid_AccTitleDetail,
+					upQKeys: ["sn"],
+					qKeys: ["accTitleSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"accTitleSn", 		dataType:"N", 	inputType:"2"},
+						{fid:"accountCode",		dataType:"S"},
+						{fid:"accountName",		dataType:"S"},
+						{fid:"fees",			dataType:"N"}
+					]				
+				};				
+			}
+			private function serialNoLabelFunc(p_row:Object, p_column:GridColumn):String {
+				var index:int = p_column.grid.dataProvider.getItemIndex(p_row);
+				if (index > -1) {
+					return (index + 1).toString();
+				}
+				return "";
+			}
+		]]>
+	</fx:Script>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="academicYear" visible="false"/>
+	<x2:Num1 id="semester" visible="false"/>
+	<s:TextInput id="acaName" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+	<mx:Form x="10" y="10">		
+		<mx:FormItem label="{iR.accClass} :" required="true">
+			<s:TextInput id="accClass" width="329"/>
+		</mx:FormItem>		
+	</mx:Form>
+	<x2:TBar2 x="286" y="86" id="tb_AccTitleDetail">
+	</x2:TBar2>
+	<mx:Form x="10" y="112">
+		<x2:DG2 width="518"
+				 
+				 
+				 alpha="0.7"		
+				 		 
+				 
+				 
+				 height="272" x="10" y="112" id="grid_AccTitleDetail">
+			<x2:columns><s:ArrayList>				
+				<s:GridColumn dataField="sn" visible="false"/>
+				<s:GridColumn dataField="accTitleSn" visible="false"/>
+				<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+				<s:GridColumn headerText="{iR.accountCode}" dataField="accountCode">
+					<s:itemRenderer>
+						<fx:Component><s:GridItemRenderer>
+							<x2:Text2/>						
+						</s:GridItemRenderer></fx:Component>
+					</s:itemRenderer>        		         
+				</s:GridColumn>
+				<s:GridColumn headerText="{iR.accountName}" dataField="accountName">
+					<s:itemRenderer>
+						<fx:Component><s:GridItemRenderer>
+							<x2:Text2/>						
+						</s:GridItemRenderer></fx:Component>
+					</s:itemRenderer>        		         
+				</s:GridColumn>
+				<s:GridColumn headerText="{iR.fees}" dataField="fees" width="80">
+					<s:itemRenderer>
+						<fx:Component><s:GridItemRenderer>
+							<x2:Num2/>						
+						</s:GridItemRenderer></fx:Component>
+					</s:itemRenderer>        		         
+				</s:GridColumn>
+			</s:ArrayList></x2:columns>
+		</x2:DG2>
+	</mx:Form>
+	<x2:comEdit x="9.5" y="427" id="edit_1">
+	</x2:comEdit>	
+</s:TitleWindow>

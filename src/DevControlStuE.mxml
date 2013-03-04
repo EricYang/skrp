@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="924" height="650" 
+	
+	creationComplete="init()"	
+	preinitialize="{iR=Fun.getLang('DevControlStu')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			
+			import mx.utils.StringUtil;
+			
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			[Bindable]
+			private var iR:Object;
+			[Bindalbe]
+			private var idw_master:DW;
+			[Bindalbe]
+			private var idw_DevControlStuDetail:DW2;
+			[Bindalbe]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["usersSn","academicYear","semester"]});
+			[Bindable]
+			public var ia_ynFlag:ArrayList = new ArrayList(Fun2.ynFlagDS(is_app, true));
+			[Bindable]
+			public var ia_controlItem:ArrayList = new ArrayList(Fun2.controlItemDS(is_app, 7, true));
+			
+			private function init():void{
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					mapping: true,
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					items: [
+						{source:sn, 				dataType:"N",	inputType:"I"},
+						{source:academicYear,		dataType:"N",	init:int(i_session.academicYear)}, 
+						{source:semester,			dataType:"N",	init:int(i_session.semester)},
+						{source:acaName,							update:false,	inputType:"R"},
+						{source:classLeavesSn,		dataType:"N"},
+						{source:studentSn,			dataType:"N"},
+						{source:studentName,						update:false,	inputType:"R",	required:true},
+						{source:devControlSn,		dataType:"N"},
+						{source:controlResult,		dataType:"N"},
+						{source:creator,			dataType:"S",	inputType:"R"}, 
+						{source:createDate,			dataType:"DT",	inputType:"R"}, 
+						{source:reviser,			dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,			dataType:"DT",	inputType:"R"}
+					]				
+				};
+				
+				//dw2: DevControlStuDetail
+				edit_1.aoDW[1] = new DW2();				
+				idw_DevControlStuDetail = edit_1.aoDW[1]; 
+				idw_DevControlStuDetail.xTool = tb_DevControlStuDetail;
+				idw_DevControlStuDetail.oConfig = {					
+					grid: grid_DevControlStuDetail,
+					upEditDW: idw_master,
+					upEKeys: ["sn"],
+					eKeys: ["devControlStuSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 					dataType:"N", 	inputType:"I"},
+						{fid:"devControlStuSn", 	dataType:"N", 	inputType:"2"},						
+						{fid:"devControlDetailSn",	dataType:"N"},
+						{fid:"checkSign",			dataType:"N"},
+						{fid:"answer",				update:false,	inputType:"R"}
+					]				
+				};
+			}
+			
+			private function afterOpen(p_data:Object):void{				
+				switch (p_data.fun){
+					case "C":						
+						SchStu.visible = true;
+						
+						Fun.setItem(devControlSn, 0);
+						devAgeName.text = "";
+						ageScope.text = "";
+						remark.text = "";							
+						imageName.source = "";
+						idw_DevControlStuDetail.getAC().removeAll();
+						break;					
+					case "U":
+					case "V":
+						SchStu.visible = false;
+						
+						var u_data:Object ={
+							data: "DevControl",
+							cuEvent: String(p_data.fun),
+							devControlSn: int(Fun.getItem(devControlSn)),
+							sn: int(Fun.getItem(sn))
+						};						
+						var ua_data:Array = Fun.readRows(is_app, u_data);
+						if (ua_data){
+							//讀取主檔資料
+							devAgeName.text = ua_data[0].devAgeName;
+							ageScope.text = String(ua_data[0].sAge) + iR.message01 + String(ua_data[0].sMonth) + iR.message02 + String(ua_data[0].sDay) + iR.message03 + String(ua_data[0].eAge) + iR.message04 + String(ua_data[0].eMonth) + iR.message05 + String(ua_data[0].eDay) + iR.message06;
+							remark.text = ua_data[0].remark;							
+							imageName.source = Fun.sDirRoot + Fun2.fTeachers + ua_data[0].fileName;
+							//讀取次檔資料
+							for (var j:int=0; j<ua_data.length; j++){
+								idw_DevControlStuDetail.addRow(ua_data[j]);
+								if (String(ua_data[j].checkSign) != ""){
+									idw_DevControlStuDetail.setDirtyRow("U", j, ua_data[j]);									
+								}							
+							}
+						}
+						break;
+				}				
+			}			
+			
+			private function whenSave(p_data:Object):Boolean{
+				if (p_data.fun != "D"){
+					//為了讓儲存時, 也能同時更新顯示的頁面, 所以要特別給予值
+					Fun.setItem(acaName, String(Fun.getItem(academicYear))+ ' - '+String(Fun.getItem(semester)));
+					var checkControlResult:String = "Y";
+					switch (p_data.fun){
+						case "C":							
+						case "U":
+							if (Fun.getItem(devControlSn)==0 || Fun.getItem(devControlSn)==""){
+								Fun.msg("I", iR.message07);
+								return false;					
+							}else{
+								var ta_row:Array = ArrayCollection(grid_DevControlStuDetail.dataProvider).source;
+								for (var i:int=ta_row.length - 1; i>=0; i--){
+									if(ta_row[i].checkSign!=ta_row[i].answer){
+										checkControlResult = "N";
+									}
+									if (String(ta_row[i].checkSign) == ""){									
+										idw_DevControlStuDetail.deleteRow(i, false);									
+									}						
+								}
+								if (checkControlResult=="N"){
+									idw_master.setItem(controlResult, 0, true);
+									Fun.msg("I", Fun.getItem(studentName) + iR.message08);
+								}else{
+									idw_master.setItem(controlResult, 1, true);
+									Fun.msg("I", Fun.getItem(studentName) + iR.message09);
+								}
+							}
+							break;
+						case "V":						
+							break;
+					}										
+				}
+				return true;
+			}
+			
+			private function doFindStu():void{
+				Fun2.openStudent(is_app, this, ReturnStu, false);
+			}
+			
+			private function ReturnStu(p_row:Object):void{				
+				Fun.setItem(studentName, p_row.cName + " " + p_row.eName);
+				idw_master.setItem(studentSn, p_row.sn, true);
+				idw_master.setItem(classLeavesSn, p_row.classLeavesSn, true);
+				//Fun.msg("I", String(Fun.dateDiff2(String(p_row.birthDate), Fun.sToday)));
+				//如果有生日
+				if (p_row.birthDate!=""){					
+					var t_data:Object ={
+						data: "DevControl",
+						cuEvent: "C",
+						ageDays: DT.dateDiffS(String(p_row.birthDate), Fun.sToday)
+							//Fun.df2(String(p_row.birthDate), Fun.sToday)
+					};						
+					var ta_data:Array = Fun.readRows(is_app, t_data);
+					if (ta_data){
+						//讀取主檔資料						
+						idw_master.setItem(devControlSn, ta_data[0].devControlSn, true);						
+						devAgeName.text = ta_data[0].devAgeName;
+						ageScope.text = String(ta_data[0].sAge) + iR.message10 + String(ta_data[0].sMonth) + iR.message11 + String(ta_data[0].sDay) + iR.message12 + String(ta_data[0].eAge) + iR.message13 + String(ta_data[0].eMonth) + iR.message14 + String(ta_data[0].eDay) + iR.message15;
+						remark.text = ta_data[0].remark;							
+						imageName.source = Fun.sDirRoot + Fun2.fTeachers + ta_data[0].fileName;
+						//讀取次檔資料
+						for (var i:int=0; i<ta_data.length; i++){
+							idw_DevControlStuDetail.addRow(ta_data[i]);								
+						}
+					}else{
+						Fun.setItem(devControlSn, 0);						
+						devAgeName.text = "";
+						ageScope.text = "";
+						remark.text = "";							
+						imageName.source = "";
+						idw_DevControlStuDetail.getAC().removeAll();
+						Fun.msg("I", iR.message16);
+					}
+				}else{
+					Fun.msg("I", iR.message17);
+				}				
+			}
+			
+			private function serialNoLabelFunc(p_row:Object, p_column:GridColumn):String {
+				var index:int = p_column.grid.dataProvider.getItemIndex(p_row);
+				if (index > -1) {
+					return (index + 1).toString();
+				}
+				return "";
+			}
+			private function devControlDetailName(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_controlItem, p_row[p_column.dataField]);
+			}
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10" y="582" id="edit_1" fAfterOpen="afterOpen" fWhenSave="whenSave">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="academicYear" visible="false"/>
+	<x2:Num1 id="semester" visible="false"/>
+	<s:TextInput id="acaName" visible="false"/>
+	<x2:Num1 id="classLeavesSn" visible="false"/>
+	<x2:Num1 id="studentSn" visible="false"/>	
+	<x2:Num1 id="devControlSn" visible="false"/>
+	<x2:Num1 id="controlResult" visible="false"/>	
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+	<mx:TabNavigator x="10" y="10" width="894" height="564">
+		<mx:Canvas label="{iR.Canvas01}">
+			<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+				<mx:FormItem label="{iR.studentName} :" required="true">
+					<mx:HBox x="72" y="1" width="100%">
+						<s:TextInput id="studentName" editable="false"/>
+						<x2:btnPick id="SchStu" click="doFindStu()"/>						
+					</mx:HBox>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.devAgeName} :" required="true">
+					<s:TextInput id="devAgeName" width="250" enabled="false"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.ageScope} :" required="true">
+					<s:TextInput id="ageScope" width="300" enabled="false"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.remark} :">
+					<mx:TextArea width="600" height="100" id="remark" enabled="false"/>
+				</mx:FormItem>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas02}">
+			<x2:TBar2 x="608" y="4" id="tb_DevControlStuDetail" visible="false">
+			</x2:TBar2>
+			<mx:Form x="10" y="29">				
+				<x2:DG2 width="840" alpha="0.7"	rowHeight="50"
+						height="450" x="10.5" y="143" id="grid_DevControlStuDetail">
+					<x2:columns><s:ArrayList>
+									<s:GridColumn dataField="sn" visible="false"/>						
+									<s:GridColumn dataField="devControlStuSn" visible="false"/>
+									<s:GridColumn dataField="answer" visible="false"/>
+									<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+									<s:GridColumn headerText="{iR.devControlDetailSn}" dataField="devControlDetailSn" labelFunction="devControlDetailName">
+										<s:itemRenderer>
+											<fx:Component><s:GridItemRenderer>
+												<x2:TextArea2 editable="false"/>																	
+											</s:GridItemRenderer></fx:Component>
+										</s:itemRenderer>        		         
+									</s:GridColumn>
+									<s:GridColumn headerText="{iR.checkSign}" dataField="checkSign" width="80">
+										<s:itemRenderer>
+											<fx:Component><s:GridItemRenderer>
+												<x2:DDL2 dataProvider="{outerDocument.ia_ynFlag}"/>
+											</s:GridItemRenderer></fx:Component>
+										</s:itemRenderer>        		         
+									</s:GridColumn>
+								</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas03}">
+			<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+				<mx:FormItem>					
+					<mx:Image id="imageName" width="800" height="200" autoLoad="true" scaleContent="true" smoothBitmapContent="true"/>
+				</mx:FormItem>
+			</mx:Form>
+		</mx:Canvas>
+	</mx:TabNavigator>
+</s:TitleWindow>

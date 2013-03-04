@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"	
+	preinitialize="{iR=Fun.getLang('gCalendar')}"
+	creationComplete="init()"
+	creationPolicy="all">
+	
+	<fx:Script source="gCalendar.as"/>	
+	<fx:Script>
+		<![CDATA[	
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["userType"]});
+			
+			[Bindable]
+			private var iR:Object;
+			
+			[Bindable]	
+			private var months_class:ArrayCollection = new ArrayCollection(
+				[					
+					{data:1, 	label:"1"},
+					{data:2, 	label:"2"},					
+					{data:3, 	label:"3"},				
+					{data:4, 	label:"4"},				
+					{data:5, 	label:"5"},
+					{data:6, 	label:"6"},
+					{data:7, 	label:"7"},
+					{data:8, 	label:"8"},
+					{data:9, 	label:"9"},
+					{data:10, 	label:"10"},
+					{data:11, 	label:"11"},
+					{data:12, 	label:"12"}
+				]);
+			
+			private function init():void{
+				grid_1.showDate(new Date());			
+
+				setYM();
+				if (i_session.userType!="2"){
+					explain.text = iR.explain;
+				}else{	
+					explain.text = iR.explain1;	
+				}				
+			}	
+			
+			private function setYM():void{
+				var t_date:Date = grid_1.getDate();
+				txtYear.text = String(t_date.fullYear);
+				Fun.setItem(txtMonth, String(t_date.month + 1));
+				
+				readDB();						
+			}
+			
+			private function openEdit(p_data:Object):void{	
+				var t_date:Date = grid_1.getDate();			
+				var	theYearMonthDay:String = String(t_date.fullYear + '-' + ST.preZero(2,t_date.month + 1) + '-' + ST.preZero(2,t_date.date));			
+				Fun2.openCalendarDetail(is_app, this, theYearMonthDay);
+			}
+		]]>
+	</fx:Script>
+	<x2:sysBG/>
+	<x2:subFunHead/>
+	
+	<mx:HBox x="81" y="59" verticalAlign="bottom">
+		<mx:Label text="{iR.txtYear}"/>
+		<x2:Num1 id="txtYear"/>
+		<mx:Label width="9"/>
+		<mx:Label text="{iR.txtMonth}"/>
+		<x2:DDL1 id="txtMonth" dataProvider="{months_class}"></x2:DDL1>
+		<mx:Button label="go" click="funGo()" icon="@Embed(source='x2/image/checked.gif')"/>
+		<mx:Button label="&lt;" click="moveMonth(-1)"/>
+		<mx:Button label="&gt;" click="moveMonth(1)"/>
+		<mx:Label color="#0000FF" id="explain"/>
+	</mx:HBox>
+	<x2:DGCalendarStaff x="81" y="86" id="grid_1" width="89%" height="80%" fEditCell="openEdit"/>
+</s:Application>

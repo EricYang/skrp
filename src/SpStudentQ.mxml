@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	width="780" height="210" xmlns:x2="x2.*" 
+	
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('SpStudent')}"
+ 	>
+	<fx:Script>
+		<![CDATA[			
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			[Bindable]
+			private var iR:Object;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]			
+			public var ia_classInfoStart:ArrayList = new ArrayList(Fun2.classInfoStartDS(is_app, false));	
+			[Bindable]
+			private var ia_class:ArrayList;
+			[Bindable]
+			public var ia_diagnosis:ArrayList = new ArrayList(Fun2.diagnosisDS(is_app, false));
+			[Bindable]
+			public var ia_academicYear:ArrayList = new ArrayList(Fun2.academicYearListDS(is_app, false));
+			[Bindable]
+			public var ia_semester:ArrayList = new ArrayList(Fun2.semesterListDS(is_app, false));
+			
+			private function init():void{
+				qry_1.aoItem = [
+					{source:academicYear,	dataType:"N"}, 
+					{source:semester,		dataType:"N"},
+					{source:classInfoSn,	dataType:"N"},
+					{source:classLeavesSn,	dataType:"N"},					
+					{source:cDate,			dataType:"D",	relat:cDate2},
+					{source:cDate2,			dataType:"D"},
+					{source:diagnosis,		dataType:"S"}
+				];
+			}
+			private function getClassLeaves():void{			
+				var t_data:Object = {
+					type: "classLeavesStart",
+					classInfoSn: int(Fun.getItem(classInfoSn))					
+				};								
+				ia_class = new ArrayList(Fun.comboDS2(is_app, t_data, true));				
+				classLeavesSn.validateNow();
+			}
+		]]>
+	</fx:Script>
+	<mx:Form x="10" y="10" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+		<mx:FormItem label="{iR.academicYear} :">
+			<mx:HBox width="100%">
+				<x2:DDL1 id="academicYear" dataProvider="{ia_academicYear}"></x2:DDL1>				
+				<mx:FormItem label="{iR.semester} :">
+					<x2:DDL1 id="semester" dataProvider="{ia_semester}"></x2:DDL1>					
+				</mx:FormItem>
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.classInfoSn} :">
+			<mx:HBox width="100%">
+				<x2:DDL1 id="classInfoSn" dataProvider="{ia_classInfoStart}" change="getClassLeaves()"></x2:DDL1>				
+				<mx:FormItem label="{iR.classLeavesSn} :">
+					<x2:DDL1 id="classLeavesSn" dataProvider="{ia_class}"></x2:DDL1>					
+				</mx:FormItem>
+			</mx:HBox>			
+		</mx:FormItem>
+		<mx:FormItem label="{iR.cDate} :">
+			<mx:HBox width="100%">
+				<mx:DateField formatString="YYYY/MM/DD" id="cDate" yearNavigationEnabled="true"/>
+				<mx:Label text=" - "/>
+				<mx:DateField formatString="YYYY/MM/DD" id="cDate2" yearNavigationEnabled="true"/>
+			</mx:HBox>	
+		</mx:FormItem>
+		<mx:FormItem label="{iR.diagnosis} :">
+			<x2:DDL1 id="diagnosis" dataProvider="{ia_diagnosis}"></x2:DDL1>
+		</mx:FormItem>
+	</mx:Form>
+	<x2:comQuery x="686" y="10" id="qry_1">
+	</x2:comQuery>
+</s:TitleWindow>

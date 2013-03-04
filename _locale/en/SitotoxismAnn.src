@@ -1,0 +1,41 @@
+﻿# list/query fields
+acaName=學年(期)
+classLeavesSn=班別(級)
+studentName=學生姓名
+cDate=攝食日期
+cTime=時間
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# message
+
+
+# E
+studentName=學生姓名
+cDate=攝食日期
+cTime=時間
+iDate=發病日期
+iTime=時間
+mhHospSitu=就醫情形
+mhHosp=就醫
+publicDeptName=就醫處
+supplier=供應商
+sitotoxismAnnDetail=症狀
+checkSign=請打V
+funcItemSn=症狀
+
+# message
+message01=請選填 就醫處
+
+# Q
+academicYear=學年
+semester=學期
+classInfoSn=班別
+classLeavesSn=班級
+cName=中文姓名
+eName=英文名
+cDate=攝食日期
+
+# message

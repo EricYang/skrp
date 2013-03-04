@@ -1,0 +1,21 @@
+﻿# list/query fields
+acaName=Year(Semester)
+classLeavesSn=Class
+studentName=Name of Student
+parentSn=Name of Parent
+cDate=Date
+conRecord=Record of contact
+creator=Created by
+createDate=Created on
+
+# E
+parentSn2=Name of Parent
+timeHM=Time
+
+# Q
+academicYear=Academic Year
+semester=Semester
+classInfoSn=Class
+classLeavesSn=Class Name
+cName=Chinese Name
+eName=English Name

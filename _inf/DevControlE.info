@@ -1,0 +1,35 @@
+{
+    "dws":[
+        {            
+            "selectTable": "DevControl",
+            "items": [
+                {"fid":"sn"},
+				{"fid":"devAgeName"},
+                {"fid":"sAge"},
+                {"fid":"sMonth"},
+                {"fid":"sDay"},
+                {"fid":"eAge"},
+                {"fid":"eMonth"},                
+                {"fid":"eDay"},
+                {"fid":"ageScope",       "colName":"''"},
+                {"fid":"fileName"},
+                {"fid":"remark"},
+                {"fid":"creator"},
+                {"fid":"createDate"},           
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+			]
+		},
+        {
+            "selectTable": "DevControlDetail [_where] ORDER BY sn",
+            "updateTable": "DevControlDetail",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"devControlSn"},                
+                {"fid":"controlItem"},
+                {"fid":"answer"}
+            ]                
+        }
+   ]    
+}

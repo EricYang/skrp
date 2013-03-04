@@ -1,0 +1,24 @@
+{
+    "dws":[
+	    {
+			"selectTable": "FoodSick a INNER JOIN Student b ON a.studentSn = b.sn",   
+            "updateTable": "FoodSick",
+            "defaultTable": "a",
+			"items": [
+                {"fid":"sn"}, 
+                {"fid":"academicYear"},
+                {"fid":"semester"},
+                {"fid":"acaName",         "table":"", "colName":"CONCAT(a.academicYear, ' - ', a.semester)"},
+                {"fid":"classLeavesSn"},
+                {"fid":"studentSn"},
+                {"fid":"studentName",     "table":"", "colName":"CONCAT(b.cName, ' ', b.eName)"},
+                {"fid":"cDate"},
+                {"fid":"senCon"},
+                {"fid":"avoidFood"},
+                {"fid":"creator"},
+                {"fid":"createDate"}
+             ]				
+	    }
+
+    ]    
+}

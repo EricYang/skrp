@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="980" height="620" 
+	 
+	close="closeWin()"
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('BabyCheck')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var ia_child:Array = [];			
+			
+			public var gCDate:String;
+			public var gClassInfoSn:int;
+			public var gClassInfoName:String;
+			public var gM1:String;
+			public var gM2:String;
+			public var gM3:String;
+			
+			private function init():void {
+				if (!gCDate){
+					Fun.msg("E",iR.message01);					
+				}else{
+					var t_data:Object = {
+						data: "BabyCheck",
+						cDate: gCDate,
+						classInfoSn: gClassInfoSn						
+					};				
+					
+					ia_child = Fun.readRows(is_app, t_data);
+					
+					for (var i:int=0; i<ia_child.length; i++){						
+						ia_child[i].vFlag = 1;											
+					}
+					
+					tile1.dataProvider = ia_child;
+					
+					Fun.setItem(cDate, gCDate);
+					Fun.setItem(classInfoName, gClassInfoName);
+					Fun.setItem(M1, gM1);
+					Fun.setItem(M2, gM2);
+					Fun.setItem(M3, gM3);
+				}	
+			}
+			private function closeWin():void{
+				Fun.closePopup(this);
+			}
+		]]>
+	</fx:Script>
+	<mx:HBox x="10" y="10" verticalAlign="middle" 
+			 cornerRadius="5" borderColor="#FFFFFF" 
+			 backgroundColor="#FFFFFF" alpha="0.7" borderStyle="solid" width="98%" height="40">
+		<mx:FormItem label="{iR.cDate} :">
+			<mx:Label id="cDate" fontWeight="bold"/>						
+		</mx:FormItem>
+		<mx:FormItem label="{iR.classLeavesSn} :">
+			<mx:Label id="classInfoName" fontWeight="bold"/>						
+		</mx:FormItem>
+		<mx:FormItem label="應到人數 :">
+			<mx:Label id="M1" fontWeight="bold"/>						
+		</mx:FormItem>
+		<mx:FormItem label="實到人數 :">
+			<mx:Label id="M2" fontWeight="bold"/>						
+		</mx:FormItem>
+		<mx:FormItem label="缺席人數 :">
+			<mx:Label id="M3" fontWeight="bold"/>						
+		</mx:FormItem>
+	</mx:HBox>
+	<mx:TileList id="tile1" x="10" y="53" width="98%" borderStyle="solid"
+				 dataProvider="{ia_child}"
+				 itemRenderer="BabyCheckItem"
+				 columnWidth="145"
+				 rowHeight="170"
+				 columnCount="8"
+				 verticalScrollPolicy="on"
+				 borderColor="#FFFFFF"
+				 height="85%">
+	</mx:TileList>
+	<mx:Button x="10" y="556" click="closeWin()" icon="@Embed(source='x2/image/close.png')" id="cmdExit" label="Exit" buttonMode="true"/>
+</s:TitleWindow>

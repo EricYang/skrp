@@ -1,0 +1,23 @@
+{
+    "dws":[
+	    {
+			"selectTable": "BookData",   
+			"items": [
+                {"fid":"sn"}, 
+                {"fid":"bookNo"},
+                {"fid":"bookName"},
+                {"fid":"publisher"}, 
+                {"fid":"author"},
+                {"fid":"cDate"}, 
+                {"fid":"price"}, 
+                {"fid":"quantity"}, 
+                {"fid":"isbn"}, 
+                {"fid":"remark"}, 
+                {"fid":"creator"},
+                {"fid":"createDate"},           
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+            ]				
+	    }
+    ]    
+}

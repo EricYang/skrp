@@ -1,0 +1,7 @@
+﻿# list/query fields
+sTitle=student name list
+select=select
+classInfoName=grade and classification
+stuNo=student ID number
+cName=Chinese name
+eName=English name

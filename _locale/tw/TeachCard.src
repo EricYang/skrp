@@ -1,0 +1,15 @@
+﻿# list/query fields
+cardNo=教具編號
+cardName=教具名稱
+suitAge=適用年齡
+suitUnit=適用單元
+situation=適用情境
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# E
+purpose=製作目的
+materials=製作材料
+useMethod=操作方法

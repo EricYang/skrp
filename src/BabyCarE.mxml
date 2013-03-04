@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="600" height="450" 
+	 
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('BabyCar')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.ArrayList;
+			
+			import x2.*;
+			
+			[Bindable]
+			private var iR:Object;
+			private var is_app:String = Fun.sApp;
+			private var idw_master:DW;
+			
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["academicYear","semester"]});
+			[Bindable]
+			private var ia_sParent:ArrayList;
+			[Bindable]
+			public var ia_babyCarInfo:ArrayList = new ArrayList(Fun2.babyCarInfoDS(is_app, true));
+			
+			private function doFindStu():void{
+				Fun2.openStudent(is_app, this, ReturnStu, false);
+			}
+			
+			private function ReturnStu(p_row:Object):void{				
+				Fun.setItem(studentName, p_row.cName + " " + p_row.eName);
+				idw_master.setItem(studentSn, p_row.sn, true);
+				idw_master.setItem(classLeavesSn, p_row.classLeavesSn, true);
+				
+				var t_data:Object = {
+					type: "sParent",
+					studentSn: int(p_row.sn)					
+				};								
+				ia_sParent = new ArrayList(Fun.comboDS2(is_app, t_data, true));
+				parentSnS2.validateNow();
+				parentSnE2.validateNow();
+			}			
+			private function init():void{
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					mapping: true,
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					items: [
+						{source:sn, 			dataType:"N",	inputType:"I"}, 
+						{source:academicYear,	dataType:"N",	init:int(i_session.academicYear)}, 
+						{source:semester,		dataType:"N",	init:int(i_session.semester)},
+						{source:acaName,						update:false,	inputType:"R"},						
+						{source:babyCarInfoSn,	dataType:"N"},
+						{source:classLeavesSn,	dataType:"N"},
+						{source:studentSn,		dataType:"N"},
+						{source:studentName,					update:false,	inputType:"R",	required:true},
+						{source:sLoaction,		dataType:"S"},
+						{source:sTimeH,			dataType:"N"},
+						{source:sTimeM,			dataType:"N"},						
+						{source:parentSnS,		dataType:"N"},						
+						{source:parentSnS2,						update:false},						
+						{source:eLoaction,		dataType:"S"},
+						{source:eTimeH,			dataType:"N"},
+						{source:eTimeM,			dataType:"N"},						
+						{source:parentSnE,		dataType:"N"},						
+						{source:parentSnE2,						update:false},						
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"DT",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"DT",	inputType:"R"}					
+					]				
+				};
+			}
+			private function afterOpen(p_data:Object):void{									
+					switch (p_data.fun){
+						case "V":
+							SchStu.visible = false; //檢視模式不顯示搜尋按鈕
+							break;
+						case "U":
+							var t_data:Object = {
+								type: "sParent",
+								studentSn: int(Fun.getItem(studentSn))					
+							};								
+							ia_sParent = new ArrayList(Fun.comboDS2(is_app, t_data, true));						
+							parentSnS2.validateNow();
+							parentSnE2.validateNow();
+							Fun.setItem(parentSnS2, Fun.getItem(parentSnS));
+							Fun.setItem(parentSnE2, Fun.getItem(parentSnE));
+							break;
+						case "C":
+							CBabyCarInfo.visible = false;
+							ia_sParent = new ArrayList([]);
+							sTimeH.value=8;
+							eTimeH.value=14;
+							eTimeM.value=30;
+							break;
+					}			
+			}
+			private function whenSave(p_data:Object):Boolean{
+				if (p_data.fun != "D"){
+					idw_master.setItem(parentSnS, int(Fun.getItem(parentSnS2)), true);
+					idw_master.setItem(parentSnE, int(Fun.getItem(parentSnE2)), true);
+					
+					Fun.setItem(acaName, String(Fun.getItem(academicYear))+ ' - '+String(Fun.getItem(semester)));
+					Fun.setItem(parentNameS, parentSnS2.selectedItem.label);
+					Fun.setItem(parentNameE, parentSnE2.selectedItem.label);
+				}
+				return true;
+			}
+			
+			private function fnQuery():void{		
+				if (int(Fun.getItem(babyCarInfoSn))){
+					CBabyCarInfo.visible = true;
+				}else{
+					CBabyCarInfo.visible = false;
+				}
+			}
+			
+			private function fnQueryCT():void{
+				var t_win:BabyCarInfoE = new BabyCarInfoE();					
+				var t_data:Object = {
+					win: t_win,
+					fun: "V",
+					row: {sn:Fun.getItem(babyCarInfoSn)}
+				};
+				Fun.openPopup(t_win, this);				
+				var t_edit:comEdit = t_win.edit_1; 
+				t_edit.sApp = is_app;
+				t_edit.sInf = "BabyCarInfoE";
+				t_edit.sTitle = iR.message01;					
+				t_edit.init(t_data);
+			}
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10" y="372" id="edit_1" fWhenSave="whenSave" fAfterOpen="afterOpen">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="academicYear" visible="false"/>
+	<x2:Num1 id="semester" visible="false"/>
+	<s:TextInput id="acaName" visible="false"/>
+	<x2:Num1 id="classLeavesSn" visible="false"/>
+	<x2:Num1 id="studentSn" visible="false"/>
+	<x2:Num1 id="parentSnS" visible="false"/>
+	<s:TextInput id="parentNameS" visible="false"/>
+	<x2:Num1 id="parentSnE" visible="false"/>
+	<s:TextInput id="parentNameE" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+	<s:Form x="10" y="10">
+		<s:layout> 
+			<s:FormLayout gap="-8"/>			
+		</s:layout>	
+		<s:FormItem label="{iR.babyCarInfoSn} :" required="true">
+			<s:HGroup>
+				<x2:DDL1 id="babyCarInfoSn" dataProvider="{ia_babyCarInfo}" change="fnQuery()"></x2:DDL1>
+				<mx:Label text="{iR.CBabyCarInfo}" id="CBabyCarInfo" click="fnQueryCT()" useHandCursor="true" mouseChildren="false" buttonMode="true" textDecoration="underline" color="#0000FF"/>
+			</s:HGroup>
+		</s:FormItem>
+		<s:FormItem label="{iR.studentName} :" required="true">
+			<mx:HBox x="72" y="1" width="100%">
+				<s:TextInput id="studentName" editable="false" click="doFindStu()"/>				
+				<x2:btnPick id="SchStu" click="doFindStu()"/>
+			</mx:HBox>
+		</s:FormItem>
+	</s:Form>
+	<s:Form x="10" y="106">
+		<s:layout> 
+			<s:FormLayout gap="-8"/>			
+		</s:layout>	
+		<s:FormItem label="{iR.sLoaction} :">
+			<s:TextInput id="sLoaction" width="400"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.sTimeHM} :">
+			<mx:HBox width="100%">
+				<mx:NumericStepper maximum="24" id="sTimeH" value="8"/>
+				<mx:Label text="："/>
+				<mx:NumericStepper maximum="59" id="sTimeM"/>
+			</mx:HBox>
+		</s:FormItem>
+		<s:FormItem label="{iR.parentSnS2} :">
+			<x2:DDL1 id="parentSnS2" dataProvider="{ia_sParent}"></x2:DDL1>
+		</s:FormItem>
+	</s:Form>
+	<s:Form x="10" y="235">
+		<s:layout> 
+			<s:FormLayout gap="-8"/>			
+		</s:layout>
+		<s:FormItem label="{iR.eLoaction} :">
+			<s:TextInput id="eLoaction" width="400"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.eTimeHM} :">
+			<mx:HBox width="100%">
+				<mx:NumericStepper maximum="24" id="eTimeH" value="14"/>
+				<mx:Label text="："/>
+				<mx:NumericStepper maximum="59" id="eTimeM" value="30"/>
+			</mx:HBox>
+		</s:FormItem>
+		<s:FormItem label="{iR.parentSnE2} :">
+			<x2:DDL1 id="parentSnE2" dataProvider="{ia_sParent}"></x2:DDL1>
+		</s:FormItem>
+	</s:Form>
+</s:TitleWindow>

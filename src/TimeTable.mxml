@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*" 
+	 
+	
+	 
+	width="100%" height="100%" 
+ 	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('TimeTable')}"
+ 	>
+	<fx:Script>
+		<![CDATA[		
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var ia_jobs:ArrayList = new ArrayList(Fun2.jobsDS(is_app, false));
+
+			private function init():void {		
+				list_1.nAppRange = 1; //0 不分  1 個人	2 部門
+				list_1.asFOwner = ["creator"];
+				
+				list_1.wQuery = new TimeTableQ();
+				list_1.wEdit = new TimeTableE();			
+				list_1.gList = grid_1;
+				list_1.init();			
+				
+				var t_data:Object ={
+					data: "listTimeTable"
+				};
+				grid_1.dataProvider = new ArrayCollection(Fun.readRows(is_app, t_data));	
+			}						
+			private function jobs(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_jobs, p_row[p_column.dataField]);
+			}
+		]]>
+	</fx:Script>
+	<x2:sysBG/>
+	<x2:subFunHead/>
+
+	<x2:comList x="81" y="59" id="list_1">
+	</x2:comList>
+	<s:DataGrid id="grid_1" x="55" y="87" width="92%" height="80%" alpha="0.7">
+		<s:columns>
+			<s:ArrayList>
+				<s:GridColumn dataField="sn" visible="false"/>
+				<s:GridColumn headerText="{iR.staffName}" dataField="staffName" width="100"/>						
+				<s:GridColumn headerText="{iR.seTimeHM}" dataField="seTimeHM" width="140"/>			
+				<s:GridColumn headerText="{iR.jobs}" dataField="jobs" labelFunction="jobs"/>			
+				<s:GridColumn headerText="{iR.creator}" dataField="creator" width="80"/>
+				<s:GridColumn headerText="{iR.createDate}" dataField="createDate" width="130"/>
+				<s:GridColumn headerText="{iR.reviser}" dataField="reviser" width="80"/>
+				<s:GridColumn headerText="{iR.reviseDate}" dataField="reviseDate" width="130"/>
+			</s:ArrayList>
+		</s:columns>
+	</s:DataGrid>
+</s:Application>

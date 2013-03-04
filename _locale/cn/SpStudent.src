@@ -1,0 +1,87 @@
+﻿# list/query fields
+acaName=学年(期)
+classLeavesSn=班级(别)
+studentName=学生姓名
+cDate=填写日期
+diagnosis=主要诊断
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# message
+
+
+# E
+Canvas01=基本资料
+studentName=学生姓名
+CTeacher=班级 与 教师 资料
+cDate=填写日期
+diagnosis=主要诊断
+remark=说明
+bornSitu=出生状况
+cbFetus01=1.第
+cbFetus02=胎（包括流产在内）
+cbWeek01=2.怀孕周期为
+cbWeek02=周
+cbWeight01=3.出生体重为
+cbWeight02=公克
+cbStatus=4.生产过程
+Canvas02=鉴定与早疗
+unitName=鉴定医院
+department=鉴定科别
+cDate2=鉴定日期
+sDate=时间(起)
+eDate=时间(迄)
+unitName=早疗机构、医院
+remedyType=治疗类型
+Canvas3=医疗史
+mhBody=身体状况
+mhBodyCon=情况为
+mhHosp=有无住院
+mhHospCon=情况为
+DIcodeDesc=疾病史
+checkSign=请打V
+Canvas04=目前状况 A
+BH=1.肢体障碍
+checkSign=请打V
+BHcodeDesc=肢体障碍
+remark=说明
+ES=2.视觉状况
+checkSign=请打V
+EScodeDesc=视觉状况
+remark=说明
+LS=3.听觉状况
+checkSign=请打V
+LScodeDesc=听觉状况
+remark=说明
+BA=4.身体动作
+checkSign=请打V
+BAcodeDesc=身体动作
+remark=说明
+Canvas05=目前状况 B
+sp5=5.语言能力
+sp51=理解能力
+sp52=口语能力
+sp53=沟通方式
+sp06=6.饮食能力
+sp07=7.如厕能力
+sp08=8.社会性
+sp09=9.情绪反应
+sp10=10.注意力
+sp11=11.活动量
+assistTool=12.目前使用之辅具
+Canvas06=家人期待
+
+# message
+message01=开班作业
+
+# Q
+academicYear=学年
+semester=学期
+classInfoSn=班级
+classLeavesSn=班别
+cDate=填写日期
+diagnosis=主要诊断
+
+# message

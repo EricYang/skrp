@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	width="530" height="176" xmlns:x2="x2.*" 
+	
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('PublicDept')}"
+ 	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindalbe]
+			private var is_app:String = Fun.sApp;	
+			[Bindable]
+			public var ia_infoCategory:ArrayList = new ArrayList(Fun2.infoCategoryDS(is_app, false));
+		
+			private function init():void{
+				qry_1.aoItem = [
+					{source:infoCategory},
+					{source:unitName}
+				];					
+			}			
+		]]>
+	</fx:Script>
+	<s:Form x="10" y="10">
+		<s:FormItem label="{iR.infoCategory} :">
+			<x2:DDL1 id="infoCategory" dataProvider="{ia_infoCategory}"></x2:DDL1>										
+		</s:FormItem>
+		<s:FormItem label="{iR.unitName} :">
+			<s:TextInput id="unitName" width="250"/>
+		</s:FormItem>
+	</s:Form>
+	<x2:comQuery x="437" y="10" id="qry_1">
+	</x2:comQuery>
+</s:TitleWindow>

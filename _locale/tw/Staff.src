@@ -1,0 +1,76 @@
+﻿# list/query fields
+cmdData=教職員資料匯入
+deleFlag=刪除
+empNo=員工編號
+cName=姓名
+deptSn=部門
+gender=性別
+birthDate=出生日期
+idNo=身分證號
+conTel=聯絡電話
+address=住址
+takeOfficeDate=到職日
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# message
+message03=是否確定刪除這筆資料 ?
+message04=此筆資料已刪除 !
+message05=資料刪除完成。
+
+# E
+Canvas01=基本資料 A
+cName=姓名(中)
+eName=姓名(英)
+eMail=E-Mail
+titlesSn=職務名稱
+tmpFileName=照片上傳
+fileName=瀏覽檔案
+deleFlag=資料刪除
+dutyFlag=在職狀況
+Canvas02=基本資料 B
+birthplace=出生地
+maritalStatus=婚姻狀況
+bloodType=血型
+stature=身高(公分)
+weight=體重(公斤)
+urgentName=緊急聯絡人
+urgentTel=聯絡人電話
+Canvas03=學歷
+school=學校名稱
+degree=學位
+department=科系名稱
+sDate02=就學期間(起)
+eDate02=就學期間(迄)
+studyStatus=狀態
+Canvas04=經歷
+company=公司名稱
+titles=職務名稱
+sDate03=任職期間(起)
+eDate03=任職期間(迄)
+jobContent=工作內容
+Canvas05=駕照與證照
+funcItemSn=駕照名稱
+theFiles=相關檔案
+openFilesDG=開啟檔案
+licenseName=證照名稱
+upload=上傳
+Canvas06=帳號角色設定
+adeleFlag=帳號使用狀況
+loginId=使用者帳號
+loginPw=密碼
+loginPw2=密碼確認
+roleSn=角色權限設定
+Canvas07=擁有的角色
+roleName=角色名稱
+
+# message
+message00=電子信箱，輸入格式錯誤。
+message01=此使用者帳號已有人員使用。
+message02=密碼二次輸入不一樣，請再核對密碼。
+message06=檔案類型不符, 照片檔案必須為 (.jpg, .gif, .jpeg, .png) 格式圖檔
+message07=上傳檔案成功！
+message08=檔案類型不符, 檔案必須為 (.pdf, .xls, .xlsx, .doc, .docx, .ppt, .jpg, .gif, .jpeg, .png) 格式
+message09=尚未上傳檔案！

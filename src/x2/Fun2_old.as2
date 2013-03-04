@@ -1,0 +1,353 @@
+package x2{
+	
+	import mx.collections.*;
+	import mx.controls.dataGridClasses.DataGridColumn;
+	//import mx.formatters.DateFormatter;
+	import com.Rijndael;
+	import com.json.*;
+
+
+	//declare global variables
+   	public class Fun2{
+		//public for system
+		public static const cbAutoUserId:Boolean = true;	//使用userId做為DW的 自動欄位(autos[]), false:使用loginId
+		public static const csAppExt:String = ".php";		//has '.'
+		public static const csLabelForEmpty:String = "--全部--";
+		public static const cnFileSize:int = 3000000;		//上傳檔案上限為 3MB
+		//
+		public static const cnEncryptType:int = 2;			//資料加密, 0(無),1(靜態key),2(動態 key) 
+		public static const csBaseKey:String = "tqmtmkshjrrmgwghvifvfyiu";
+		public static const cnKeySize:int = 256;    
+		//
+		//temp change
+		//public static var wMain:Main;				//main application object.
+		//public static var wMain:Main;				//main application object.
+		public static var wMain:Object;				//main application object.
+		public static var sLang:String = "tw";		//使用者選用的語系
+		public static var oGlobal:Object = {};		//for 傳遞參數
+		
+		public static var sDebugPara:String = "DBGSESSID=408026744667600003;d=1,p=0,c=1";	//debug parameter
+		//public static var sDebugPara:String = "";	//debug parameter
+		
+	    //public static var sLang:String = "us";	//預設的語系    
+	    //public static var aesKey:String = "wirmytirevfnkhbndwlgtchmlifmrwrmher";	//company and road    
+		//public static const cKey:String = "12345";    
+		//public static const csLoginTitle:String = "登入系統";
+
+									
+		//local setting
+	    
+  		
+  		//=== mandatory function begin ===
+		public static function encrypt(p_data:Object):String {
+			//temp change			
+			return JSON.encode(p_data);				
+			
+			var t_aes:Rijndael = new Rijndael(Fun.aKeyByte0);
+			return t_aes.encrypt(JSON.encode(p_data));
+		} 	
+		
+
+		/**
+  		 * get related field name
+  		 * @param {string} ps_type return type.
+  		 * @param {object} p_data data with query field value.
+  		 * @param {boolean} pb_emptyMsg show msg if not found.
+  		 * @return {string} name string.
+  		 */ 
+  		//public static function getRelatName(p_win:Object, ps_type:String, p_data:Object, pb_showEmpty:Boolean=true):String {
+  		public static function getRelatInfo(ps_app:String, ps_type:String, p_data:Object, pb_emptyMsg:Boolean=true):Object {
+  			switch (ps_type){
+  				default:
+  					//Fun.msg("E","Fun2.getRelatName().ps_type = '" + ps_type + "' is wrong !");
+  					return null;
+  			}  			
+  		} 
+  		
+
+		/**
+		 * return query field info.
+  		 * @param {string} ps_fid query field id.
+  		 * @param {object} p_data data with query field value, has below elements :
+  		 *   upWin: parent window.
+  		 *   dw: dw no of this field.
+  		 *   toFields: field array to return, ex:[memberType,memberId,memberName].
+		 */   		
+		public static function getQueryField(ps_type:String):Object {
+			//var ts_app:String;
+			//var tw_query:TitleWindow;
+			//var ts_fidName:String = (p_data.fidName) ? p_data.fidName : "id"; 
+  			switch (ps_type){
+  				/*
+  				case "member":
+  					return {app:"Member", win:new MemberQ(), title:"查詢會員"};
+  				case "okPlace":
+  					return {app:"OkPlace", win:new FindOkPlace(), title:"查詢可預約的場地"};
+  				*/	
+  				default:
+  					return null;
+  			}  			
+		}
+
+		
+		public static function showMain():void{
+			Object(wMain).showMain(true);
+		}
+
+		
+		/**
+		 * 開啟一個新增資料的編輯畫面, 2010/10/5
+		 * @param p_upWin 上一層視窗
+		 * @param ps_winName windows name
+		 * //@param p_combo combobox 欄位, 新增後會寫一筆資料到這個欄位
+		 * @param pf_afterSave 儲存新增後呼叫此函數
+		 */
+		public static function openAddWin(p_upWin:Object, ps_winName:String, pf_afterSave:Function=null):void{
+			
+			//不使用 reflection !!
+			var t_win:Object;
+			var ts_app:String;
+			var ts_keyFid:String;
+
+			
+			/*
+			//=== set here begin ===
+			switch (ps_winName){
+				case "CompanyE":
+					ts_app = "Company";
+					ts_keyFid = "AgentNum";
+					t_win = new CompanyE();
+					break;
+				case "ClientE":
+					ts_app = "Client";
+					ts_keyFid = "ClientNum";
+					t_win = new ClientE();
+					break;
+				case "SalesE":
+					ts_app = "Sales";
+					ts_keyFid = "SalesNum";
+					t_win = new SalesE();
+					break;
+				case "CurrencyE":
+					ts_app = "Currency";
+					ts_keyFid = "dataSeq";
+					t_win = new CurrencyE();
+					break;
+				default:
+					Fun.msg("E", ps_winName+" did not exist in Fun.openAddWin() !");
+					return;
+			}
+			//=== set here end ===
+			*/
+			
+			//open window
+			Fun.openPopup(t_win, p_upWin);
+			
+			//set global for pass to Fun.openAddWin2()
+			Fun.oGlobal.openAddWin_fn = pf_afterSave;
+			Fun.oGlobal.openAddWin_key = t_win[ts_keyFid];		//必須在開啟後設定 !!
+			
+			//initial window
+			var t_edit:ComEdit = ComEdit(t_win.edit_1);
+			t_edit.sApp = ts_app;
+			t_edit.fAfterSave = Fun.openAddWin2;
+			t_edit.init({win:t_win, fun:"C"});
+		}
+
+		
+		public static function hourDS(ps_app:String, pb_addEmpty:Boolean=true):Array{
+		 	var ta_1:Array = [];
+		 	for (var i:int=0; i<24; i++){
+		 		ta_1[i] = {data:i, label:i};
+		 	}
+		 	return Fun.arrayAddEmpty(ta_1, pb_addEmpty);
+		}
+
+		public static function minDS(ps_app:String, pb_addEmpty:Boolean=true):Array{
+		 	var ta_1:Array = [];
+		 	for (var i:int=0; i<60; i++){
+		 		ta_1[i] = {data:i, label:i};
+		 	}
+		 	return Fun.arrayAddEmpty(ta_1, pb_addEmpty);
+		}
+
+		//間隔 5 分鐘
+		public static function min2DS(ps_app:String, pb_addEmpty:Boolean=true):Array{
+			var ta_1:Array = [
+				{data:0, 	label:"0"},
+				{data:5, 	label:"5"},
+				{data:10, 	label:"10"},
+				{data:15, 	label:"15"},
+				{data:20, 	label:"20"},
+				{data:25, 	label:"25"},
+				{data:30, 	label:"30"},
+				{data:35, 	label:"35"},
+				{data:40, 	label:"40"},
+				{data:45, 	label:"45"},
+				{data:50, 	label:"50"},
+				{data:55, 	label:"55"}
+			];
+			return Fun.arrayAddEmpty(ta_1, pb_addEmpty);			
+		}
+		
+		//0, 30分
+		public static function min3DS(ps_app:String, pb_addEmpty:Boolean=true):Array{
+			var ta_1:Array = [
+				{data:0, 	label:""},
+				{data:30, 	label:"30分"}
+			];
+			return Fun.arrayAddEmpty(ta_1, pb_addEmpty);			
+		}
+		
+		//角色
+		public static function roleDS(ps_app:String, pb_addEmpty:Boolean=true):Array{
+			return Fun.codeDS(ps_app, "role", pb_addEmpty);
+			//var ta_1:Array = Fun.comboBoxDS(ps_app, "role");
+			//return Fun.arrayAddEmpty(ta_1, pb_addEmpty, pb_editWin);
+		}
+		
+		
+		//測驗種類
+		public static function testDS(ps_app:String, pb_addEmpty:Boolean=true):Array{
+			return Fun.codeDS(ps_app, "test", pb_addEmpty);
+			//var ta_1:Array = Fun.comboBoxDS(ps_app, "role");
+			//return Fun.arrayAddEmpty(ta_1, pb_addEmpty, pb_editWin);
+		}
+
+		
+		//用戶
+		public static function userDS(ps_app:String, ps_client:String, pb_addEmpty:Boolean=true):Array{
+		 	//var ta_1:Array = Fun.comboBoxDS(ps_app, "user");
+		 	//return Fun.arrayAddEmpty(ta_1, pb_addEmpty, false);
+
+			var t_data:Object = {
+				type: "user",
+				client: ps_client
+			};
+			return Fun.comboBoxDS2(ps_app, t_data, pb_addEmpty, true);		 	
+		}
+
+		
+		public static function examDS(ps_app:String, pb_addEmpty:Boolean=true):Array{			
+			return Fun.comboBoxDS(ps_app, "exam", pb_addEmpty);
+		}
+
+		
+		public static function rowStatusDS(ps_app:String, pb_addEmpty:Boolean=true):Array{			
+			return Fun.codeDS(ps_app, "rowStatus", pb_addEmpty);
+		}
+
+		
+		public static function yesEmptyDS(ps_app:String, pb_add:Boolean=true):Array{			
+			var ta_1:Array = [
+				{data:1, label:"是"},
+				{data:0, label:""}
+			];
+			return Fun.arrayAddEmpty(ta_1, pb_add);
+		}
+
+		public static function yesEmpty2DS(ps_app:String, pb_add:Boolean=true):Array{			
+			var ta_1:Array = [
+				{data:1, label:"是"},
+				{data:0, label:"否"}
+			];
+			return Fun.arrayAddEmpty(ta_1, pb_add);
+		}
+		
+		/**
+		 * 傳回2個日期之間的天數(含時數)
+		 */ 
+		public static function dateDiff(p_date1:Object, p_hour1:Object, p_date2:Object, p_hour2:Object):Number {
+			var td_date1:Date = Fun.strToDate(Fun.getItem(p_date1) as String);
+			var td_date2:Date = Fun.strToDate(Fun.getItem(p_date2) as String);
+			var tn_days:int = Fun.dateDiff(td_date1, td_date2);
+			var tn_hour1:int = Fun.getItem(p_hour1) as int;
+			var tn_hour2:int = Fun.getItem(p_hour2) as int;
+			var tn_hours:int = tn_hour2 - tn_hour1;
+			var tn_dayDiff:Number = tn_days as Number;
+			if (tn_hours >= 0){
+				if (tn_hours > 8){
+					tn_hours = 8;
+				}
+			}else{
+				if (tn_hours < -8){
+					tn_hours = -8;
+				}				
+			}
+			
+			return (tn_dayDiff + tn_hours/8);
+		}
+		
+		//=== relat field: user begin ===
+		//check
+		public static function userCheck(ps_app:String, ps_userId:String, pf_callback:Function):String{
+			var t_data:Object = {
+				data: "User",
+				userId: ps_userId
+			};
+			var ta_row:Array = Fun.readRows(ps_app, t_data);
+			if (ta_row == null){
+				return  "用戶資料不存在 !";				
+			}else{
+				pf_callback(ta_row[0]);
+				return "";
+			}
+		}
+		
+		//open patent query window
+		/*
+		public static function userOpen(ps_app:String, p_win:Object, pw_user:FindUser, p_data:Object, pf_callback:Function):void{
+			if (pw_user == null){
+				pw_user = new FindUser();
+			}
+			
+			Fun.openPopup(pw_user, p_win);
+			
+			pw_user.qry_1.sApp = ps_app;
+			pw_user.qry_1.fSelectRow = pf_callback;
+			pw_user.qry_1.init();
+			
+			if (p_data.hasOwnProperty("userId")){
+				Fun.setItem(pw_user.userId, p_data.userId);
+			} 
+		}		
+		*/
+		//=== relat field: UnitedPatentNo end === 
+
+		
+		//時數轉成幾日幾時
+		public static function hourToDH(p_row:Object, p_column:DataGridColumn):String{
+			var tn_hour:int = p_row[p_column.dataField];
+			return hourToDH2(tn_hour);
+			/*
+			if (tn_hour <= 0){
+				return "";
+			}else{
+				return ((tn_hour >= 8) ? (int(tn_hour/8)+"日") : "") + ((tn_hour % 8 == 0) ? "" : (tn_hour % 8) + "時");
+			}
+			*/
+		}
+
+		public static function hourToDH2(pn_hour:int):String{
+			if (pn_hour <= 0){
+				return "";
+			}else{
+				return ((pn_hour >= 8) ? (int(pn_hour/8)+"日") : "") + ((pn_hour % 8 == 0) ? "" : (pn_hour % 8) + "時");
+			}
+		}
+		
+		
+		public static function addToLeave(ps_app:String, pn_addSeq:int):Object{
+			var ta_row:Array = Fun.readRows(ps_app, {data:"AddToLeave", addSeq:pn_addSeq});
+			if (ta_row == null){
+				return null;
+			}else{
+				return ta_row[0];
+			}
+		}
+		
+
+		//=== relat field: UnitedPatentNo end ===
+		
+   	}//class
+}

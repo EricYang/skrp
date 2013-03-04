@@ -1,0 +1,15 @@
+{
+    "list":{    
+        "select": "SELECT *",
+        "from": "FROM Parent
+                [_where]",
+        "order": "ORDER BY cName, idNo",
+        "items": [                                    
+            {"fid":"cName",     "op":"like"},
+            {"fid":"idNo",      "op":"like"}
+        ]
+    },    
+    "progRange": 1,
+    "aFOwner": "creator",
+    "aFOwnerType": "L"
+}

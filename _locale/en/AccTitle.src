@@ -1,0 +1,11 @@
+﻿# list/query fields
+accClass=會計類別
+creator=created by
+createDate=created on
+reviser=modified by
+reviseDate=last modified
+
+# E
+accountCode=科目代碼
+accountName=科目名稱
+fees=費用

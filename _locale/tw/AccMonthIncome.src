@@ -1,0 +1,36 @@
+﻿# list/query fields
+serialNos=流水編號
+classLeavesSn=班別(級)
+studentName=學生姓名
+cYearMonth=年 / 月份
+sumOfMoney=金額合計
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# E
+accIocCode=收入項目編號
+accIocName=收入項目名稱
+amounts=金額
+accCode=編號
+accName=名稱
+SelFun3=搜尋
+selected=選取
+accIocCode=收入項目編號
+accIocName=收入項目名稱
+paidOff=已繳費
+
+# message
+Emessage01=年 格式請輸入 1900 ~ 3000  間
+Emessage02=月 格式請輸入 1 ~ 12 間
+Emessage03=編號 與 名稱 不得為空白
+
+errSelected=選取的 編號 已經存在，無法新增。
+errNoSelect=請先選取右列 資料。
+
+# Q
+classInfoSn=班別
+classLeavesSn=班級
+cName=中文姓名
+eName=英文名

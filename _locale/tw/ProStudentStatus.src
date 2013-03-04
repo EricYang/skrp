@@ -1,0 +1,12 @@
+﻿# list/query fields
+oriStartClassSn=舊 學年(期) 班別(級)
+List1=學生班別升級至
+nowStartClassSn=新 學年(期) 班別(級)
+cmdOk=確定
+cmdExit=離開
+
+# message
+message01=請選擇 舊 學年(期) 班別(級)。
+message02=請選擇 新 學年(期) 班別(級)。
+message03=該 新 學年(期) 班別(級) 學生資料已經存在。
+message04=更新成功，請登出系統後，再重新登入。

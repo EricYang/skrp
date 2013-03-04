@@ -1,0 +1,36 @@
+{
+    "dws":[
+        {
+            "selectTable": "AccRequestPayment a INNER JOIN Staff b ON a.staffSn = b.sn 
+                            INNER JOIN AccIoc c ON a.accIocSn = c.sn AND a.accType = 1
+                            INNER JOIN AccTitle d ON c.accTitleSn = d.sn
+                            INNER JOIN AccMain e ON d.accMainSn = e.sn 
+                            LEFT OUTER JOIN PublicDept f ON a.publicDeptSn = f.sn",
+            "updateTable": "AccRequestPayment",
+            "defaultTable": "a",
+            "items": [
+                {"fid":"sn"}, 
+                {"fid":"accType"},
+                {"fid":"serialNo"},
+                {"fid":"staffSn"},
+                {"fid":"staffName", "table":"", "colName":"CONCAT(b.cName, ' ', b.eName)"},
+                {"fid":"cDate"},
+                {"fid":"cAmounts"},
+                {"fid":"eDate"},
+                {"fid":"funcItemSn"},
+                {"fid":"accIocSn"},
+                {"fid":"accIocCode", "table":"c"},
+                {"fid":"accIocName", "table":"c"},
+                {"fid":"pExcerpt"},
+                {"fid":"cDesc"},
+                {"fid":"publicDeptSn"},
+                {"fid":"publicDeptName",  "table":"f", "colName":"unitName"},
+                {"fid":"amounts"},
+                {"fid":"creator"},
+                {"fid":"createDate"},
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+             ]                
+        }
+    ]    
+}

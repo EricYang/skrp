@@ -1,0 +1,57 @@
+﻿# list/query fields
+selfFlag=自行填写
+readTimeP=家长阅读
+readTimeS=教师阅读
+acaName=学年(期)
+classLeavesSn=班级别
+studentName=学生姓名
+cDate=用药日期
+eventRec=特殊事项处理
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# message
+message02=此笔资料为家长自行填写，不可删除。
+message03=此笔资料家长已经阅读，不可删除。
+
+# E
+Canvas01=托药单
+Canvas02=给药纪录
+
+disease=病状
+disease01=感冒
+disease02=肠胃炎
+disease03=支气管炎
+disease04=中耳炎
+disease05=其它
+inMed=内用药物
+inMed01=药粉
+inMed02=药水
+inMed03=药锭
+inMed04=发烧
+exMed=外用药物
+exMedCon=，部位
+remark=备注
+remark01=需冷藏
+remark02=用前需摇匀
+remark03=其它
+eventRec=特殊事项处理
+medTime=用药时间
+medTimeCon=备注
+medTimeH=给药时间(时)
+medTimeM=给药时间(分)
+inMedType=用药方式
+ceName=喂药者
+
+# message
+message01=请先选择 学生姓名
+
+# Q
+academicYear=学年
+semester=学期
+classInfoSn=班级
+classLeavesSn=班别
+cName=中文姓名
+eName=英文名

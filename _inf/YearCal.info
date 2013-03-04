@@ -1,0 +1,11 @@
+{
+    "list":{
+        "select": "SELECT *, CONCAT(academicYear, ' - ', semester) AS acaName",
+        "from": "FROM YearEdu [_where]",        
+        "order":  "ORDER BY sDate",
+        "items": [
+            {"fid":"academicYear"},
+            {"fid":"semester"}
+      ]
+    }
+}

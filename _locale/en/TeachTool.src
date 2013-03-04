@@ -1,0 +1,16 @@
+﻿# list/query fields
+cardNo=Property Number
+cardName=Name of Teaching Aid
+staffName=Staff Name
+cDate=Checkout Date
+rDate=Returning Date
+creator=Created by
+createDate=Created on
+reviser=Revised by
+reviseDate=Revised on
+
+# E
+remark=Note
+
+# message
+message01=The returning date cannot be earlier than the checkout date.

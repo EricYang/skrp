@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="680" height="530" 
+	 
+  	creationComplete="init()"  	 		
+	preinitialize="{iR=Fun.getLang('HurtInfo')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			private var is_app:String = Fun.sApp;
+			private var idw_master:DW;
+			
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["academicYear","semester"]});
+			
+			//找學生
+			private var s_col1:Object, s_col2:Object, s_col3:Object;			
+			private function doFindStu(n_col1:Object, n_col2:Object, n_col3:Object):void{
+				s_col1 = n_col1;
+				s_col2 = n_col2;
+				s_col3 = n_col3;
+				Fun2.openStudent(is_app, this, ReturnStu, false);
+			}			
+			private function ReturnStu(p_row:Object):void{				
+				Fun.setItem(s_col1, p_row.cName + " " + p_row.eName);
+				idw_master.setItem(s_col2, p_row.sn, true);
+				idw_master.setItem(s_col3, p_row.classLeavesSn, true);
+			}
+			
+			//找職員
+			private var i_col1:Object, i_col2:Object;			
+			private function doFindStaff(p_col1:Object, p_col2:Object):void{				
+				i_col1 = p_col1;
+				i_col2 = p_col2;
+				Fun2.openStaff(is_app, this, ReturnStaff);
+			}
+			private function ReturnStaff(p_row:Object):void{				
+				Fun.setItem(i_col1, p_row.cName + " " + p_row.eName);
+				idw_master.setItem(i_col2, p_row.sn, true);
+			}
+			
+			private function init():void{
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					mapping: true,
+					autos: ["creator","createDate"],
+					keys: ["sn"],
+					items: [
+						{source:sn, 			dataType:"N",	inputType:"I"}, 
+						{source:academicYear,	dataType:"N",	init:int(i_session.academicYear)}, 
+						{source:semester,		dataType:"N",	init:int(i_session.semester)},
+						{source:acaName,						update:false,	inputType:"R"},
+						{source:classLeavesSnA,	dataType:"N"},
+						{source:classLeavesSnB,	dataType:"N"},
+						{source:studentSnA,		dataType:"N"},
+						{source:studentNameA,					update:false,	inputType:"R",	required:true},
+						{source:studentSnB,		dataType:"N"},
+						{source:studentNameB,					update:false,	inputType:"R",	required:false},
+						{source:occurDate,		dataType:"D"},
+						{source:occurTimeH,		dataType:"N"},
+						{source:occurTimeM,		dataType:"N"},
+						{source:occurTime,						update:false,	inputType:"R"},
+						{source:staffSn,		dataType:"N"},
+						{source:staffName,						update:false,	inputType:"R",	required:true},
+						{source:occurPlace,		dataType:"S"},
+						{source:proDescribe,	dataType:"S"},
+						{source:occurDeal,		dataType:"S"},
+						{source:introspection,	dataType:"S"},
+						{source:remark,			dataType:"S"},
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"DT",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"DT",	inputType:"R"}					
+					]				
+				};
+			}
+			
+			private function afterOpen(p_data:Object):void{
+				if (p_data.fun == "U" || p_data.fun == "V"){					
+					if (p_data.fun == "V") {
+						SchStudentA.visible = false; //檢視模是不顯示搜尋按鈕
+						SchStudentB.visible = false; //檢視模是不顯示搜尋按鈕
+						SchStaff.visible = false; //檢視模是不顯示搜尋按鈕
+					}
+				}
+			}
+			private function whenSave(p_data:Object):Boolean{
+				if (p_data.fun != "D"){
+					Fun.setItem(acaName, String(Fun.getItem(academicYear))+ ' - '+String(Fun.getItem(semester)));
+					Fun.setItem(occurTime, String(Fun.getItem(occurTimeH))+ '：'+String(Fun.getItem(occurTimeM)));
+				}
+				return true;
+			}
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10" y="461" id="edit_1" fAfterOpen="afterOpen" fWhenSave="whenSave">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="academicYear" visible="false"/>
+	<x2:Num1 id="semester" visible="false"/>
+	<s:TextInput id="acaName" visible="false"/>
+	<x2:Num1 id="classLeavesSnA" visible="false"/>
+	<x2:Num1 id="classLeavesSnB" visible="false"/>
+	<x2:Num1 id="studentSnA" visible="false"/>
+	<x2:Num1 id="studentSnB" visible="false"/>
+	<s:TextInput id="occurTime" visible="false"/>
+	<x2:Num1 id="staffSn" visible="false"/>	
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+	<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+		<mx:FormItem label="{iR.studentNameA} :" required="true">
+			<mx:HBox x="72" y="1" width="100%">
+				<s:TextInput id="studentNameA" click="doFindStu(studentNameA, studentSnA, classLeavesSnA)"/>
+				<x2:btnPick id="SchStudentA" click="doFindStu(studentNameA, studentSnA, classLeavesSnA)"/>				
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.studentNameB} :" required="false">
+			<mx:HBox x="72" y="1" width="100%">
+				<s:TextInput id="studentNameB" click="doFindStu(studentNameB, studentSnB, classLeavesSnB)"/>
+				<x2:btnPick id="SchStudentB" click="doFindStu(studentNameB, studentSnB, classLeavesSnB)"/>				
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.occurDate} :" required="true">
+			<mx:DateField formatString="YYYY/MM/DD" id="occurDate" yearNavigationEnabled="true"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.occurTime} :" required="true">
+			<mx:HBox x="92" y="2" width="100%">
+				<mx:NumericStepper maximum="24" id="occurTimeH"/>
+				<mx:Label text="："/>
+				<mx:NumericStepper maximum="59" id="occurTimeM"/>
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.staffName} :" required="true">
+			<mx:HBox x="72" y="1" width="100%">
+				<s:TextInput id="staffName" click="doFindStaff(staffName, staffSn)"/>
+				<x2:btnPick id="SchStaff" click="doFindStaff(staffName, staffSn)"/>				
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.occurPlace} :" required="true">
+			<mx:TextArea width="400" id="occurPlace"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.proDescribe} :" required="true">
+			<mx:TextArea width="400" id="proDescribe"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.occurDeal} :">
+			<mx:TextArea width="400" id="occurDeal"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.introspection} :">
+			<mx:TextArea width="400" id="introspection"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.remark} :">
+			<mx:TextArea width="400" id="remark"/>
+		</mx:FormItem>
+	</mx:Form>
+</s:TitleWindow>

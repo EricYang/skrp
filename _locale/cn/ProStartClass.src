@@ -1,0 +1,15 @@
+﻿# list/query fields
+acaSetupSn=学年(期)
+List1=开班资料 复制到
+List2=目前 学年(期)
+newAcademicYear=学年
+newSemester=学期
+cmdOk=确定
+cmdExit=离开
+
+# message
+message01=请选择学年(期)。
+message02=目前 学年 资料错误。
+message03=目前 学期 资料错误。
+message04=该目前学年(期) 资料已存在。
+message05=复制成功，请登出系统后，再重新登入。

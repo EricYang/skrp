@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TextArea 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	creationComplete="init()"
+	focusIn="focusIn(event)"
+	focusOut="focusOut(event)"
+	text="{i_info.row.data[i_info.fid]}"
+	render="setStatus()"
+	width="98%" height="98%"
+	>
+	<!--
+	text="{i_info.row.data[i_info.fid]}"
+	<fx:Binding source="this.text" destination="i_info.row.data.userId" twoWay="true"/>
+	-->
+	<fx:Script>
+		<![CDATA[
+			/**
+			 * 2011-12-13: 編輯畫面如果有2個DG2, 裡面同時有 Text2時, 無法捉到正確的相對的 DW2, 所以改回 Text2.as(可正確執行) 
+			 */
+			
+			/**
+	text="{i_info.row.data[i_info.fid]}"
+			 * 因為連結到物件裡的變數, 所以無法雙向binding, 使用者修改欄位資料時, 必須呼叫 setValue()
+			 * 才能將資料更新到 dataProvider.  
+			 */
+			
+			/* temp remark
+			text="{i_info.row.data[i_info.fid]}"
+			initialize="init()"
+			focusIn="focusIn(event)"
+			focusOut="focusOut(event)"
+			render="setStatus()"
+			
+			*/
+			
+			//change="change(event)"
+			//=== same for TextInput2, NumericInput2, DateField2 fields begin ===
+			import flash.events.Event;
+			import x2.*;
+			
+			//[Bindable]	
+			//public var oRow:Object;		//用來對應 datagrid.data
+			
+			[Bindable]
+			private var i_info:Object;
+			//private var i_dw2:DW2;		//access DW2 directly for more effective !!
+			//private var is_fid:String;
+			
+			//[Bindable]
+			//private var is_text:String;
+			//[Bindable]
+			//private var i_info.row.data:Object;
+			
+			private function init():void{
+				//this.percentWidth = 98;
+				//this.percentHeight = 98;
+
+				i_info = Fun.initDW2Field(this);							
+			}
+			
+			
+			//set status
+			private function setStatus():void{
+				DW2(i_info.dw2).setSubStatus(this);
+			}
+			
+			//private function change(p_event:Event):void{
+			//	(i_info.dw2 as DW2).changeText(p_event);    
+			//}
+			
+			private function focusIn(p_event:Event):void{
+				DW2(i_info.dw2).fieldFocusIn(p_event);            
+			}
+			
+			
+			//called outside
+			public function setValue(ps_text:String):void{
+				this.text = ps_text;
+				this.dispatchEvent(new Event("FocusOut")); 
+			}
+			
+			
+			//will triggerred twice, filter out one !		
+			private function focusOut(p_event:Event):void{
+			//update field value to dataProvider, important !!
+			
+				//trace("focus out");
+				
+				if (i_info.row.data[i_info.fid] != this.text){
+					i_info.row.data[i_info.fid] = this.text;
+					//trace("focus out2");
+					DW2(i_info.dw2).fieldFocusOut(p_event);
+				}
+			}
+
+			/*
+			override public function set  data(p_row:Object):void{
+				var tt:String = "tt";
+			}
+			
+			
+			override public function get data():Object{
+				var tt:String = "tt";
+				return "t1";
+			}		
+			*/
+			
+			//=== end ===
+		]]>
+	</fx:Script>
+	
+</s:TextArea>

@@ -1,0 +1,29 @@
+{
+    "dws":[
+        {            
+            "selectTable": "BabyCarInfo a
+                left outer join Staff b on a.driverStaffSn = b.sn left outer join Staff c on a.venStaffSn = c.sn",   
+            "updateTable": "BabyCarInfo",
+            "defaultTable": "a",  
+            "items": [
+                {"fid":"sn"},
+                {"fid":"academicYear"},
+                {"fid":"semester"},
+				{"fid":"carCode"},
+				{"fid":"route"},
+                {"fid":"carNumber"},
+                {"fid":"driverStaffSn"},
+                {"fid":"driverStaffCName",      "table":"b", "colName":"cName"},
+                {"fid":"driverStaffEName",      "table":"b", "colName":"eName"},
+                {"fid":"venStaffSn"},
+                {"fid":"venStaffCName",         "table":"c", "colName":"cName"},
+                {"fid":"venStaffEName",         "table":"c", "colName":"eName"},
+                {"fid":"vehTel"},
+                {"fid":"creator"},
+                {"fid":"createDate"},           
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+			]
+		}			   
+   ]    
+}

@@ -1,0 +1,18 @@
+﻿# list/query fields
+actScope=activity scope
+unitName=unit name
+suitAge=suitable for/from
+creator=created by
+createDate=created on
+reviser=modified by
+reviseDate=last modified
+
+# E
+cDescribe=description
+textFilesName=open learning data
+tmpFileNameUpload=upload learning data
+tmpFileName=browse learning data
+
+# message
+message01=activity scope not yet specified
+message02=file format not identified. Only (.pdf, .xls, .xlsx, .doc, .docx, .ppt, .jpg, .gif, .jpeg, .png).

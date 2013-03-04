@@ -1,0 +1,46 @@
+﻿# list/query fields
+cmdData=家长资料汇入
+deleFlag=删除
+cName=姓名(中)
+gender=性别
+idNo=身分证号
+conTel=联络电话
+address=住址
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# message
+message04=是否确定删除这笔资料 ?
+message05=此笔资料已删除 !
+message06=资料删除完成。
+
+# E
+Canvas01=基本资料
+birthDate=出生日期
+eMail=E-Mail
+eduExtent=教育程度
+company=服务单位
+deleFlag=资料删除
+
+Canvas02=儿童资料
+relationship=关系
+stuNo=学号
+eName=姓名(英)
+
+Canvas03=帐号设定
+adeleFlag=帐号使用状况
+loginId=使用者帐号
+loginPw=密码
+loginPw2=密码确认
+roleSn=角色权限设定
+
+Canvas04=拥有的角色
+roleName=角色名称
+
+# message
+message00=电子信箱，输入格式错误。
+message01=此使用者帐号已有人员使用。
+message02=密码二次输入不一样，请再核对密码。
+message03=幼儿基本资料

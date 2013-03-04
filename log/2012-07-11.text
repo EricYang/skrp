@@ -1,0 +1,773 @@
+; 127.0.0.1; 9:42:10; _Service2(GetLang)
+Supervisor; 127.0.0.1; 9:42:13; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 9:42:13; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341970933)
+Supervisor; 127.0.0.1; 9:42:13; Login; Supervisor
+Supervisor; 127.0.0.1; 9:42:14; _Main(getMain)
+Supervisor; 127.0.0.1; 9:42:15; _Service2(GetLang)
+Supervisor; 127.0.0.1; 9:42:17; _Service2(GetLang)
+Supervisor; 127.0.0.1; 9:42:23; _Service2(GetLang)
+Supervisor; 127.0.0.1; 9:42:37; _Service2(GetLang)
+Supervisor; 127.0.0.1; 9:42:58; _Service2(GetLang)
+Supervisor; 127.0.0.1; 9:43:00; Student(QueryList)
+Supervisor; 127.0.0.1; 9:43:31; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 9:43:32; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 9:43:33; _Service2(GetLang)
+Supervisor; 127.0.0.1; 9:43:35; Student(QueryEdit)
+Supervisor; 127.0.0.1; 9:46:51; _Service2(GetLang)
+Supervisor; 127.0.0.1; 9:47:01; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 9:47:02; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 9:50:31; Student(QueryList)
+; 127.0.0.1; 9:51:01; _Service2(GetLang)
+Supervisor; 127.0.0.1; 9:51:07; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 9:51:07; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341971467)
+Supervisor; 127.0.0.1; 9:51:07; Login; Supervisor
+Supervisor; 127.0.0.1; 9:51:08; _Main(getMain)
+Supervisor; 127.0.0.1; 9:51:09; _Service2(GetLang)
+Supervisor; 127.0.0.1; 9:51:11; _Service2(GetLang)
+Supervisor; 127.0.0.1; 9:51:18; _Service2(GetLang)
+Supervisor; 127.0.0.1; 9:51:29; _Service2(GetLang)
+Supervisor; 127.0.0.1; 9:51:43; _Service2(GetLang)
+Supervisor; 127.0.0.1; 9:51:45; Student(QueryList)
+Supervisor; 127.0.0.1; 9:52:24; Student(QueryList)
+Supervisor; 127.0.0.1; 9:53:04; Student(QueryList)
+Supervisor; 127.0.0.1; 9:53:27; Student(QueryList)
+Supervisor; 127.0.0.1; 9:57:57; Student(QueryList)
+Supervisor; 127.0.0.1; 10:02:51; Student(QueryList)
+; 127.0.0.1; 10:06:44; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:07:08; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 10:07:08; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341972428)
+Supervisor; 127.0.0.1; 10:07:08; Login; Supervisor
+Supervisor; 127.0.0.1; 10:07:09; _Main(getMain)
+Supervisor; 127.0.0.1; 10:07:10; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:07:12; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:07:18; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:07:34; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:07:49; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:07:51; Student(QueryList)
+Supervisor; 127.0.0.1; 10:08:07; Student(QueryList)
+; 127.0.0.1; 10:08:16; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:08:18; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 10:08:18; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341972498)
+Supervisor; 127.0.0.1; 10:08:18; Login; Supervisor
+Supervisor; 127.0.0.1; 10:08:19; _Main(getMain)
+Supervisor; 127.0.0.1; 10:08:21; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:08:23; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:08:29; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:08:45; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:09:11; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:09:22; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:09:24; Student(QueryList)
+Supervisor; 127.0.0.1; 10:09:43; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 10:09:44; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 10:09:45; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:09:47; Student(QueryEdit)
+; 127.0.0.1; 10:12:07; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:12:41; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 10:12:41; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341972761)
+Supervisor; 127.0.0.1; 10:12:41; Login; Supervisor
+Supervisor; 127.0.0.1; 10:12:42; _Main(getMain)
+Supervisor; 127.0.0.1; 10:12:43; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:12:45; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:12:50; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:13:20; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:13:45; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:13:47; Student(QueryList)
+Supervisor; 127.0.0.1; 10:14:10; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 10:14:11; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 10:14:12; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:14:15; Student(QueryEdit)
+; 127.0.0.1; 10:44:15; _Service2(GetLang)
+; 127.0.0.1; 10:44:57; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:45:00; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 10:45:00; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341974700)
+Supervisor; 127.0.0.1; 10:45:00; Login; Supervisor
+Supervisor; 127.0.0.1; 10:45:01; _Main(getMain)
+Supervisor; 127.0.0.1; 10:45:02; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:45:06; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:45:11; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:45:50; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:46:11; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:46:24; Staff(Upload)
+Supervisor; 127.0.0.1; 10:46:27; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A1', '王永涵', 'Eric',
+                                'A1', 'A1',
+                                '1', STR_TO_DATE('1966.9.8', '%Y.%m.%d'), 'A159876254',
+                                '0911-854-963', '台北市南港區向陽路166號1樓', 'A1', STR_TO_DATE('2000.5.20', '%Y.%m.%d'), 
+                                '臺北市', '1', '1', 
+                                176, 75, '朱巧筑', 
+                                '0928-050-830', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:46:27; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A2', '朱巧筑', 'Mia',
+                                'A2', 'A2',
+                                '2', STR_TO_DATE('1958.8.20', '%Y.%m.%d'), 'A235665454',
+                                '0928-050-830', '台北市南港區向陽路166號1樓', 'A2', STR_TO_DATE('2000.5.21', '%Y.%m.%d'), 
+                                '臺北市', '1', '1', 
+                                167, 55, '王永涵', 
+                                '0911-854-963', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:46:27; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A3', '林詩瑜', 'Rita',
+                                'A3', 'A3',
+                                '2', STR_TO_DATE('1973.12.10', '%Y.%m.%d'), 'F233254158',
+                                '0987-853-243', '台北市南港區八德路四段778號', 'A3', STR_TO_DATE('2000.5.22', '%Y.%m.%d'), 
+                                '新北市', '1', '2', 
+                                160, 58, '張嘉瑋', 
+                                '0935-854-698', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:46:27; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A4', '謝雯欣', 'Francy',
+                                'A4', 'A4',
+                                '2', STR_TO_DATE('1974.2.17', '%Y.%m.%d'), 'A225478792',
+                                '0988-075-787', '台北市松山區民生東路五段100號', 'A4', STR_TO_DATE('2000.5.23', '%Y.%m.%d'), 
+                                '臺北市', '1', '1', 
+                                163, 53, '劉玉銘', 
+                                '0936-255-288', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:46:27; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A5', '郭曉琪', 'Gigi',
+                                'A5', 'A5',
+                                '2', STR_TO_DATE('1985.5.30', '%Y.%m.%d'), 'C287965423',
+                                '0922-077-831', '台北市松山區南京東路三段335巷5-3號', 'A5', STR_TO_DATE('2000.5.24', '%Y.%m.%d'), 
+                                '基隆市', '2', '1', 
+                                166, 49, '郭有順', 
+                                '0933-854-855', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:46:27; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A6', '陳雅婷', 'Joyce',
+                                'A6', 'A6',
+                                '2', STR_TO_DATE('1978.12.23', '%Y.%m.%d'), 'C274568548',
+                                '0936-245-233', ' 台北市信義區基隆路1段178號180號1樓', 'A6', STR_TO_DATE('2000.5.25', '%Y.%m.%d'), 
+                                '基隆市', '1', '3', 
+                                158, 58, '廖秋煌', 
+                                '0987-111-254', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:46:27; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A7', '林秀娟', 'Ivy',
+                                'A7', 'A7',
+                                '2', STR_TO_DATE('1978.11.10', '%Y.%m.%d'), 'A277896541',
+                                '0919-116-852', '台北市大安區師大路87號 ', 'A7', STR_TO_DATE('2000.5.26', '%Y.%m.%d'), 
+                                '臺北市', '1', '3', 
+                                158, 56, '羅新順', 
+                                '0921-245-588', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:46:27; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A8', '吳孟瑤', 'Vicky',
+                                'A8', 'A8',
+                                '2', STR_TO_DATE('1987.5.22', '%Y.%m.%d'), 'S225741698',
+                                '0936-962-847', '新北市汐止區新台五路一段262號', 'A8', STR_TO_DATE('2000.5.27', '%Y.%m.%d'), 
+                                '高雄市', '2', '3', 
+                                162, 55, '沈欣蘭', 
+                                '0985-259-687', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:46:27; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A9', '張婉瑜', 'Kiffen',
+                                'A9', 'A9',
+                                '2', STR_TO_DATE('1977.7.10', '%Y.%m.%d'), 'Q285485688',
+                                '0919-854-741', ' 台北市大安區羅斯福路三段267號 ', 'A9', STR_TO_DATE('2000.5.28', '%Y.%m.%d'), 
+                                '嘉義市', '1', '1', 
+                                164, 60, '鄭智龍', 
+                                '0932-075-765', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:46:27; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A10', '游采彤', 'Fiona',
+                                'A10', 'A10',
+                                '2', STR_TO_DATE('1973.6.4', '%Y.%m.%d'), 'A245784632',
+                                '0931-358-354', '新北市汐止區樟樹一路141巷2號', 'A10', STR_TO_DATE('2000.5.29', '%Y.%m.%d'), 
+                                '臺北市', '1', '1', 
+                                155, 61, '劉德華', 
+                                '0931-254-586', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:46:27; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A11', '陳奕君', 'Anita',
+                                'A11', 'A11',
+                                '2', STR_TO_DATE('1979.9.21', '%Y.%m.%d'), 'A217799654',
+                                '0980-790-763', '基隆市仁愛區林泉里復興街60巷5號', 'A11', STR_TO_DATE('2000.5.30', '%Y.%m.%d'), 
+                                '臺北市', '1', '1', 
+                                156, 58, '張學友', 
+                                '0935-854-866', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:46:27; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A12', '蘇承佑', 'Ethan',
+                                'A12', 'A12',
+                                '1', STR_TO_DATE('1977.6.29', '%Y.%m.%d'), 'F112876549',
+                                '0932-332-336', '台北市忠孝東路5段790巷68弄5號1F', 'A12', STR_TO_DATE('2006.6.1', '%Y.%m.%d'), 
+                                '新北市', '1', '2', 
+                                178, 77, '林于湄', 
+                                '0911-245-222', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:46:27; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A13', '連小雯', 'Polly',
+                                'A13', 'A13',
+                                '2', STR_TO_DATE('1978.6.28', '%Y.%m.%d'), 'C258744496',
+                                '0932-854-852', ' 新北市汐止區新台五路一段268號', 'A13', STR_TO_DATE('2006.6.2', '%Y.%m.%d'), 
+                                '基隆市', '1', '4', 
+                                168, 60, '羅志祥', 
+                                '0927-685-844', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:46:27; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A14', '洪英哲', 'Jack',
+                                'A14', 'A14',
+                                '1', STR_TO_DATE('1963.1.7', '%Y.%m.%d'), 'A101456876',
+                                '0939-654-638', '台北市大安區泰順街13號 ', 'A14', STR_TO_DATE('2006.6.3', '%Y.%m.%d'), 
+                                '臺北市', '1', '1', 
+                                180, 70, '陳貞琪', 
+                                '0925-365-985', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:46:27; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A15', '陳家緯', 'Jerry',
+                                'A15', 'A15',
+                                '1', STR_TO_DATE('1953.7.3', '%Y.%m.%d'), 'A123235466',
+                                '0939-783-257', '台北市大安區和平東路三段230號 ', 'A15', STR_TO_DATE('2006.6.4', '%Y.%m.%d'), 
+                                '臺北市', '2', '1', 
+                                178, 78, '林鈺貞', 
+                                '0931-656-989', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:46:27; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A16', '邱伯恩', 'Colin',
+                                'A16', 'A16',
+                                '1', STR_TO_DATE('1953.7.3', '%Y.%m.%d'), 'C154649633',
+                                '0925-281-252', '臺北市信義區信義路五段15號2樓', 'A16', STR_TO_DATE('2006.6.5', '%Y.%m.%d'), 
+                                '基隆市', '2', '1', 
+                                177, 76, '蔡侑玲', 
+                                '0931-354-854', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:46:27; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A17', '黃信翰', 'Alen',
+                                'A17', 'A17',
+                                '1', STR_TO_DATE('1960.4.23', '%Y.%m.%d'), 'A158545666',
+                                '0933-933-457', '台北市松山區健康路11號 ', 'A17', STR_TO_DATE('2006.6.6', '%Y.%m.%d'), 
+                                '臺北市', '1', '2', 
+                                176, 80, '盧瑞君', 
+                                '0955-252-757', 1, 'Supervisor', CURRENT_TIMESTAMP())
+; 127.0.0.1; 10:48:28; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:48:31; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 10:48:31; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341974911)
+Supervisor; 127.0.0.1; 10:48:31; Login; Supervisor
+Supervisor; 127.0.0.1; 10:48:32; _Main(getMain)
+Supervisor; 127.0.0.1; 10:48:33; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:48:35; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:48:42; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:48:55; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:53:10; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:53:12; Staff(QueryList)
+Supervisor; 127.0.0.1; 10:53:18; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:53:23; _Service2(GetLang)
+; 127.0.0.1; 10:56:16; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:56:22; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 10:56:22; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341975382)
+Supervisor; 127.0.0.1; 10:56:22; Login; Supervisor
+Supervisor; 127.0.0.1; 10:56:23; _Main(getMain)
+Supervisor; 127.0.0.1; 10:56:24; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:56:26; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:56:32; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:56:54; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:57:44; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:58:17; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:58:35; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:58:37; Staff(QueryList)
+Supervisor; 127.0.0.1; 10:58:43; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:58:49; Staff(Upload)
+Supervisor; 127.0.0.1; 10:58:51; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A1', '王永涵', 'Eric',
+                                '11', '1',
+                                '1', STR_TO_DATE('1966.9.8', '%Y.%m.%d'), 'A159876254',
+                                '0911-854-963', '台北市南港區向陽路166號1樓', 'abc@yyy.com.tw', STR_TO_DATE('2000.5.20', '%Y.%m.%d'), 
+                                '臺北市', '1', '1', 
+                                176, 75, '朱巧筑', 
+                                '0928-050-830', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:58:52; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A2', '朱巧筑', 'Mia',
+                                '8', '2',
+                                '2', STR_TO_DATE('1958.8.20', '%Y.%m.%d'), 'A235665454',
+                                '0928-050-830', '台北市南港區向陽路166號1樓', 'def@yyy.com.tw', STR_TO_DATE('2000.5.21', '%Y.%m.%d'), 
+                                '臺北市', '1', '1', 
+                                167, 55, '王永涵', 
+                                '0911-854-963', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:58:52; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A3', '林詩瑜', 'Rita',
+                                '11', '3',
+                                '2', STR_TO_DATE('1973.12.10', '%Y.%m.%d'), 'F233254158',
+                                '0987-853-243', '台北市南港區八德路四段778號', 'ghi@yyy.com.tw', STR_TO_DATE('2000.5.22', '%Y.%m.%d'), 
+                                '新北市', '1', '2', 
+                                160, 58, '張嘉瑋', 
+                                '0935-854-698', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:58:52; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A4', '謝雯欣', 'Francy',
+                                '7', '4',
+                                '2', STR_TO_DATE('1974.2.17', '%Y.%m.%d'), 'A225478792',
+                                '0988-075-787', '台北市松山區民生東路五段100號', 'abc@yyy.com.tw', STR_TO_DATE('2000.5.23', '%Y.%m.%d'), 
+                                '臺北市', '1', '1', 
+                                163, 53, '劉玉銘', 
+                                '0936-255-288', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:58:52; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A5', '郭曉琪', 'Gigi',
+                                '8', '5',
+                                '2', STR_TO_DATE('1985.5.30', '%Y.%m.%d'), 'C287965423',
+                                '0922-077-831', '台北市松山區南京東路三段335巷5-3號', 'def@yyy.com.tw', STR_TO_DATE('2000.5.24', '%Y.%m.%d'), 
+                                '基隆市', '2', '1', 
+                                166, 49, '郭有順', 
+                                '0933-854-855', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:58:52; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A6', '陳雅婷', 'Joyce',
+                                '9', '2',
+                                '2', STR_TO_DATE('1978.12.23', '%Y.%m.%d'), 'C274568548',
+                                '0936-245-233', ' 台北市信義區基隆路1段178號180號1樓', 'ghi@yyy.com.tw', STR_TO_DATE('2000.5.25', '%Y.%m.%d'), 
+                                '基隆市', '1', '3', 
+                                158, 58, '廖秋煌', 
+                                '0987-111-254', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:58:52; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A7', '林秀娟', 'Ivy',
+                                '10', '3',
+                                '2', STR_TO_DATE('1978.11.10', '%Y.%m.%d'), 'A277896541',
+                                '0919-116-852', '台北市大安區師大路87號 ', 'abc@yyy.com.tw', STR_TO_DATE('2000.5.26', '%Y.%m.%d'), 
+                                '臺北市', '1', '3', 
+                                158, 56, '羅新順', 
+                                '0921-245-588', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:58:52; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A8', '吳孟瑤', 'Vicky',
+                                '7', '4',
+                                '2', STR_TO_DATE('1987.5.22', '%Y.%m.%d'), 'S225741698',
+                                '0936-962-847', '新北市汐止區新台五路一段262號', 'def@yyy.com.tw', STR_TO_DATE('2000.5.27', '%Y.%m.%d'), 
+                                '高雄市', '2', '3', 
+                                162, 55, '沈欣蘭', 
+                                '0985-259-687', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:58:52; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A9', '張婉瑜', 'Kiffen',
+                                '8', '5',
+                                '2', STR_TO_DATE('1977.7.10', '%Y.%m.%d'), 'Q285485688',
+                                '0919-854-741', ' 台北市大安區羅斯福路三段267號 ', 'ghi@yyy.com.tw', STR_TO_DATE('2000.5.28', '%Y.%m.%d'), 
+                                '嘉義市', '1', '1', 
+                                164, 60, '鄭智龍', 
+                                '0932-075-765', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:58:52; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A10', '游采彤', 'Fiona',
+                                '9', '3',
+                                '2', STR_TO_DATE('1973.6.4', '%Y.%m.%d'), 'A245784632',
+                                '0931-358-354', '新北市汐止區樟樹一路141巷2號', 'abc@yyy.com.tw', STR_TO_DATE('2000.5.29', '%Y.%m.%d'), 
+                                '臺北市', '1', '1', 
+                                155, 61, '劉德華', 
+                                '0931-254-586', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:58:52; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A11', '陳奕君', 'Anita',
+                                '10', '4',
+                                '2', STR_TO_DATE('1979.9.21', '%Y.%m.%d'), 'A217799654',
+                                '0980-790-763', '基隆市仁愛區林泉里復興街60巷5號', 'def@yyy.com.tw', STR_TO_DATE('2000.5.30', '%Y.%m.%d'), 
+                                '臺北市', '1', '1', 
+                                156, 58, '張學友', 
+                                '0935-854-866', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:58:52; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A12', '蘇承佑', 'Ethan',
+                                '7', '5',
+                                '1', STR_TO_DATE('1977.6.29', '%Y.%m.%d'), 'F112876549',
+                                '0932-332-336', '台北市忠孝東路5段790巷68弄5號1F', 'ghi@yyy.com.tw', STR_TO_DATE('2006.6.1', '%Y.%m.%d'), 
+                                '新北市', '1', '2', 
+                                178, 77, '林于湄', 
+                                '0911-245-222', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:58:52; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A13', '連小雯', 'Polly',
+                                '8', '4',
+                                '2', STR_TO_DATE('1978.6.28', '%Y.%m.%d'), 'C258744496',
+                                '0932-854-852', ' 新北市汐止區新台五路一段268號', 'abc@yyy.com.tw', STR_TO_DATE('2006.6.2', '%Y.%m.%d'), 
+                                '基隆市', '1', '4', 
+                                168, 60, '羅志祥', 
+                                '0927-685-844', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:58:52; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A14', '洪英哲', 'Jack',
+                                '9', '5',
+                                '1', STR_TO_DATE('1963.1.7', '%Y.%m.%d'), 'A101456876',
+                                '0939-654-638', '台北市大安區泰順街13號 ', 'def@yyy.com.tw', STR_TO_DATE('2006.6.3', '%Y.%m.%d'), 
+                                '臺北市', '1', '1', 
+                                180, 70, '陳貞琪', 
+                                '0925-365-985', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:58:52; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A15', '陳家緯', 'Jerry',
+                                '10', '3',
+                                '1', STR_TO_DATE('1953.7.3', '%Y.%m.%d'), 'A123235466',
+                                '0939-783-257', '台北市大安區和平東路三段230號 ', 'ghi@yyy.com.tw', STR_TO_DATE('2006.6.4', '%Y.%m.%d'), 
+                                '臺北市', '2', '1', 
+                                178, 78, '林鈺貞', 
+                                '0931-656-989', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:58:52; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A16', '邱伯恩', 'Colin',
+                                '7', '4',
+                                '1', STR_TO_DATE('1953.7.3', '%Y.%m.%d'), 'C154649633',
+                                '0925-281-252', '臺北市信義區信義路五段15號2樓', 'abc@yyy.com.tw', STR_TO_DATE('2006.6.5', '%Y.%m.%d'), 
+                                '基隆市', '2', '1', 
+                                177, 76, '蔡侑玲', 
+                                '0931-354-854', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:58:52; _UpdateDB; INSERT INTO Staff(
+                                empNo, cName, eName, 
+                                deptSn, titlesSn,
+                                gender, birthDate, idNo, 
+                                conTel, address, eMail, takeOfficeDate, 
+                                birthplace, maritalStatus, bloodType, 
+                                stature, weight, urgentName, 
+                                urgentTel, dutyFlag, creator, createDate) VALUES(
+                                'A17', '黃信翰', 'Alen',
+                                '8', '2',
+                                '1', STR_TO_DATE('1960.4.23', '%Y.%m.%d'), 'A158545666',
+                                '0933-933-457', '台北市松山區健康路11號 ', 'def@yyy.com.tw', STR_TO_DATE('2006.6.6', '%Y.%m.%d'), 
+                                '臺北市', '1', '2', 
+                                176, 80, '盧瑞君', 
+                                '0955-252-757', 1, 'Supervisor', CURRENT_TIMESTAMP())
+Supervisor; 127.0.0.1; 10:59:06; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 10:59:07; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 10:59:08; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:59:10; Staff(QueryEdit)
+; 127.0.0.1; 11:18:10; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:18:12; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 11:18:12; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341976692)
+Supervisor; 127.0.0.1; 11:18:12; Login; Supervisor
+Supervisor; 127.0.0.1; 11:18:13; _Main(getMain)
+Supervisor; 127.0.0.1; 11:18:14; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:18:16; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:18:22; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:18:56; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:19:07; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:19:08; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:19:09; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:19:26; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:19:42; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:19:45; StartClass(C)
+; 127.0.0.1; 11:26:24; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:26:27; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 11:26:27; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341977187)
+Supervisor; 127.0.0.1; 11:26:27; Login; Supervisor
+Supervisor; 127.0.0.1; 11:26:28; _Main(getMain)
+Supervisor; 127.0.0.1; 11:26:29; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:26:31; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:26:38; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:26:48; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:26:59; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:27:00; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:27:02; StartClass(QueryEdit)
+Supervisor; 127.0.0.1; 11:27:04; StartClass(D)
+Supervisor; 127.0.0.1; 11:27:04; _UpdateDB; delete from StartClass where sn=109
+Supervisor; 127.0.0.1; 11:27:07; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:27:09; _Service2(CheckSession)
+; 127.0.0.1; 11:28:22; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:28:36; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 11:28:36; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341977316)
+Supervisor; 127.0.0.1; 11:28:36; Login; Supervisor
+Supervisor; 127.0.0.1; 11:28:37; _Main(getMain)
+Supervisor; 127.0.0.1; 11:28:38; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:28:40; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:28:46; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:29:16; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:29:26; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:29:27; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:29:29; _Service2(GetLang)
+; 127.0.0.1; 11:31:06; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:31:42; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 11:31:42; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341977502)
+Supervisor; 127.0.0.1; 11:31:42; Login; Supervisor
+Supervisor; 127.0.0.1; 11:31:43; _Main(getMain)
+Supervisor; 127.0.0.1; 11:31:44; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:31:46; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:31:52; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:32:54; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:34:27; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:34:28; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:34:29; _Service2(GetLang)
+; 127.0.0.1; 12:45:26; _Service2(GetLang)
+; 127.0.0.1; 14:17:08; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:17:11; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 14:17:12; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341987431)
+Supervisor; 127.0.0.1; 14:17:12; Login; Supervisor
+Supervisor; 127.0.0.1; 14:17:13; _Main(getMain)
+Supervisor; 127.0.0.1; 14:17:14; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:17:16; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:17:22; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:17:30; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:17:37; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:17:38; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:17:39; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:17:41; Role(QueryEdit)
+Supervisor; 127.0.0.1; 14:19:17; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:19:21; Role(QueryList)
+Supervisor; 127.0.0.1; 14:19:49; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:19:54; Role(QueryList)
+; 127.0.0.1; 14:21:43; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:21:49; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 14:21:49; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341987709)
+Supervisor; 127.0.0.1; 14:21:49; Login; Supervisor
+Supervisor; 127.0.0.1; 14:21:50; _Main(getMain)
+Supervisor; 127.0.0.1; 14:21:51; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:21:53; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:21:59; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:22:11; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:22:52; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:22:53; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:22:54; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:22:56; Role(QueryEdit)
+Supervisor; 127.0.0.1; 14:23:28; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:23:32; Role(QueryList)
+Supervisor; 127.0.0.1; 14:23:51; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:23:55; Role(QueryList)
+Supervisor; 127.0.0.1; 14:24:17; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:24:21; Role(QueryList)
+Supervisor; 127.0.0.1; 14:24:26; Role(QueryList)
+Supervisor; 127.0.0.1; 14:24:53; Role(QueryList)
+Supervisor; 127.0.0.1; 14:24:59; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:25:02; Role(QueryList)
+Supervisor; 127.0.0.1; 14:26:20; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:26:23; Role(QueryList)
+Supervisor; 127.0.0.1; 14:26:38; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:26:39; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:26:41; Role(QueryEdit)
+Supervisor; 127.0.0.1; 14:26:47; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:26:48; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:26:50; Role(QueryEdit)
+Supervisor; 127.0.0.1; 14:26:54; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:26:59; Role(QueryList)
+Supervisor; 127.0.0.1; 14:27:19; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:27:21; Role(U)
+Supervisor; 127.0.0.1; 14:27:26; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:27:34; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:27:35; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:27:36; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:27:37; Role(QueryEdit)
+Supervisor; 127.0.0.1; 14:44:31; _Service2(GetLang)
+; 127.0.0.1; 14:47:37; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:47:50; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 14:47:50; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341989270)
+Supervisor; 127.0.0.1; 14:47:50; Login; Supervisor
+Supervisor; 127.0.0.1; 14:47:51; _Main(getMain)
+Supervisor; 127.0.0.1; 14:47:52; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:47:54; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:48:00; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:48:10; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:48:31; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:48:32; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:48:33; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:48:35; Staff(QueryEdit)
+Supervisor; 127.0.0.1; 14:48:39; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:48:40; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:48:58; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:48:59; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:49:01; Staff(QueryEdit)
+Supervisor; 127.0.0.1; 14:49:04; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:49:05; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:50:01; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:50:11; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:50:12; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:50:13; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:50:14; Parent(QueryEdit)
+Supervisor; 127.0.0.1; 14:50:18; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:50:19; _Service2(CheckSession)

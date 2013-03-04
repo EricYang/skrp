@@ -1,0 +1,44 @@
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+
+s|Application {
+	fontSize: 16;
+}
+
+mx|ToolTip {
+	fontSize: 16;
+	/*border-thickness: 1; */
+	drop-shadow: true;
+	corner-radius: 3;
+}
+
+s|Button {
+	fontSize: 16;
+}
+
+s|TitleWindow {
+	backgroundColor: #C2DAFA;
+	backgroundAlpha: 0.8;
+	borderVisible: true;
+	cornerRadius: 5;
+}
+
+mx|TabNavigator {
+	backgroundAlpha: 0.7;
+	dropShadowVisible: true;
+	borderVisible: false;
+	cornerRadius: 10;
+}
+
+mx|TileList {
+	dropShadowVisible: true;
+}
+
+s|DataGrid {
+	chromeColor: #BACDE2;
+	buttonMode: true;
+}
+.ListItem {	
+	fontSize: 12;
+	font-weight: normal;
+}

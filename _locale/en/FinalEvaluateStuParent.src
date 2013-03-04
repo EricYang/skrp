@@ -1,0 +1,28 @@
+﻿# list/query fields
+readTimeP=已閱讀
+acaName=學年(期)
+classLeavesSn=班別(級)
+studentName=學生姓名
+cDate=日期
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# message
+
+
+# E
+
+
+# message
+
+
+# Q
+academicYear=學年
+semester=學期
+cName=姓名(中)
+eName=姓名(英)
+cDate=日期
+
+# message

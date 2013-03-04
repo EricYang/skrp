@@ -1,0 +1,42 @@
+﻿# list/query fields
+deleFlag=删除
+funcItemSn=档案类别
+filesAlias​​=档案名称
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# message
+message01=是否确定删除这笔资料 ?
+message02=此笔资料已删除 !
+message03=资料删除完成。
+
+# E
+Canvas01=基本资料
+funcItemSn=档案类别
+filesAlias​​=档案名称
+description=备注
+textFilesName=开启档案
+tmpFileName=档案上传
+fileName=浏览档案
+deleFlag=资料删除
+Canvas02=档案存取设定
+roleName=角色名称
+Canvas03=档案下载纪录
+dDate=日期
+userType=角色
+userNo=编号
+userName=姓名
+gender=性别
+
+# message
+message04=档案名称尚未填写
+message05=档案类型不符, 档案必须为(.pdf, .xls, .xlsx, .doc, .docx, .ppt, .jpg, .gif, .jpeg, .png) 格式
+message06=角色人员
+
+# Q
+funcItemSn=档案类别
+filesAlias​​=档案名称
+
+# message

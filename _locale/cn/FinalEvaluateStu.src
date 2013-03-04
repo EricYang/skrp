@@ -1,0 +1,38 @@
+﻿# list/query fields
+acaName=学年(期)
+classLeavesSn=班级(别)
+studentName=学生姓名
+cDate=评量日期
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# message
+
+
+# E
+Canvas01=基本资料
+studentName=学生姓名
+CTeacher=班级 与 教师 资料
+cDate=评量日期
+Canvas02=期末评量
+targetName=指标名称
+remark=说明
+contents=内容
+checkSign=选项
+Canvas03=评语
+
+# message
+message01=※ 评量项目共计：
+message02= 项。
+message03=开班作业
+
+# Q
+academicYear=学年
+semester=学期
+classInfoSn=班级
+classLeavesSn=班别
+cDate=评量日期
+
+# message

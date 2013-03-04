@@ -1,0 +1,17 @@
+{
+    "list":{
+        "select": "SELECT a.*, CONCAT(b.cName, ' ', b.eName) AS uName, CONCAT(c.cName, ' ', c.eName) AS kName",
+        "from":   "FROM Fortune a LEFT OUTER JOIN
+                    Staff b ON a.staffSnU = b.sn LEFT OUTER JOIN
+                    Staff c ON a.staffSnK = c.sn [_where]",
+        "order":  "ORDER BY a.fortuneNo",
+        "items": [
+            {"fid":"fortuneNo",   "table":"a",      "op":"like"},
+            {"fid":"fortuneName", "table":"a",      "op":"like"},
+            {"fid":"staffSnU",    "table":"a"}
+      ]
+    },    
+    "progRange": 1,
+    "aFOwner": "a.creator",
+    "aFOwnerType": "L"
+}

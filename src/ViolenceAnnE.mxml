@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="880" height="570" 
+	 
+  	creationComplete="init()"	
+	preinitialize="{iR=Fun.getLang('ViolenceAnn')}"
+	>
+	<fx:Script>
+		<![CDATA[
+
+			
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			[Bindable]
+			private var iR:Object;
+			[Bindalbe]
+			private var idw_master:DW;
+			[Bindalbe]
+			private var is_app:String = Fun.sApp;			
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["academicYear","semester","usersSn","userCName","userEName"]});
+			[Bindable]
+			public var ia_identity:ArrayList = new ArrayList(Fun2.identityDS(is_app, true));
+			[Bindable]
+			public var ia_uniStatus:ArrayList = new ArrayList(Fun2.uniStatusDS(is_app, true));
+			[Bindable]
+			public var ia_itemNameA:ArrayList = new ArrayList(Fun2.itemNameDS(is_app, 12, true));
+			[Bindable]
+			public var ia_itemNameB:ArrayList = new ArrayList(Fun2.itemNameDS(is_app, 13, true));
+			
+			private function init():void{				
+				//dw1: ViolenceAnn
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					mapping: true,
+					items: [
+						{source:sn, 			dataType:"N",	inputType:"I"}, 
+						{source:academicYear,	dataType:"N",	init:int(i_session.academicYear)}, 
+						{source:semester,		dataType:"N",	init:int(i_session.semester)},
+						{source:acaName,						update:false,	inputType:"R"},
+						{source:classLeavesSn,	dataType:"N"},
+						{source:studentSn,		dataType:"N"},
+						{source:studentName,					update:false,	inputType:"R",	required:true},						
+						{source:cDate,			dataType:"D"},
+						{source:timeH,			dataType:"N"},
+						{source:timeM,			dataType:"N"},
+						{source:timeHM,							update:false,	inputType:"R"},
+						{source:occurPlace,		dataType:"S"},
+						{source:proDescribe,	dataType:"S"},
+						{source:funcItemSnA,	dataType:"N"},
+						{source:identity,		dataType:"N"},
+						{source:uniStatus,		dataType:"N"},
+						{source:funcItemSnB,	dataType:"N"},
+						{source:funcItemSnBCon,	dataType:"S"},
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"D",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"D",	inputType:"R"}
+					]				
+				};
+			}
+			
+			private function doFindStu():void{
+				Fun2.openStudent(is_app, this, ReturnStu, false);
+			}
+			
+			private function ReturnStu(p_row:Object):void{				
+				Fun.setItem(studentName, p_row.cName + " " + p_row.eName);
+				idw_master.setItem(studentSn, p_row.sn, true);
+				idw_master.setItem(classLeavesSn, p_row.classLeavesSn, true);
+			}
+			
+			private function afterOpen(p_data:Object):void{
+				if (p_data.fun == "U" || p_data.fun == "V"){					
+					if (p_data.fun == "V") {
+						SchStu.visible = false; //檢視模是不顯示搜尋按鈕
+					}
+				}
+			}
+			
+			private function whenSave(p_data:Object):Boolean{
+				if (p_data.fun != "D"){
+					Fun.setItem(acaName, String(Fun.getItem(academicYear))+ ' - '+String(Fun.getItem(semester)));
+					Fun.setItem(timeHM, String(Fun.getItem(timeH))+ '：'+String(Fun.getItem(timeM)));
+				}
+				return true;
+			}
+		]]>
+	</fx:Script>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="academicYear" visible="false"/>
+	<x2:Num1 id="semester" visible="false"/>
+	<s:TextInput id="acaName" visible="false"/>
+	<x2:Num1 id="classLeavesSn" visible="false"/>
+	<x2:Num1 id="studentSn" visible="false"/>
+	<s:TextInput id="timeHM" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>	
+	<mx:TabNavigator x="10" y="10" width="850" height="485">
+		<mx:Canvas label="{iR.Canvas01}">
+			<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+				<mx:FormItem label="{iR.studentName} :" required="true">
+					<mx:HBox x="72" y="1" width="100%">
+						<s:TextInput id="studentName" editable="false"/>
+						<x2:btnPick id="SchStu" click="doFindStu()"/>						
+					</mx:HBox>
+				</mx:FormItem>	
+				<mx:FormItem label="{iR.cDate} :" required="true">
+					<mx:DateField id="cDate" formatString="YYYY/MM/DD" yearNavigationEnabled="true"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.timeHM} :" required="true">
+					<mx:HBox x="69" y="3" width="100%">
+						<mx:NumericStepper maximum="24" id="timeH"/>
+						<mx:Label text="："/>
+						<mx:NumericStepper maximum="59" id="timeM"/>
+					</mx:HBox>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.occurPlace} :" required="true">
+					<mx:TextArea id="occurPlace" width="660" height="58"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.proDescribe} :" required="true">
+					<mx:Label text="{iR.proDescribeExa}" color="#0000FF"/>
+					<mx:TextArea id="proDescribe" width="660" height="138"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.funcItemSnA} :" required="true">
+					<x2:DDL1 id="funcItemSnA" dataProvider="{ia_itemNameA}"></x2:DDL1>
+					<mx:Label text="{iR.funcItemSnAExa}" color="#0000FF"/>				
+				</mx:FormItem>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas02}">
+			<mx:Form x="10" y="10">
+				<mx:FormItem label="{iR.identity} :" required="true">
+					<x2:DDL1 id="identity" dataProvider="{ia_identity}"></x2:DDL1>										
+				</mx:FormItem>
+				<mx:FormItem label="{iR.uniStatus} :" required="true">
+					<x2:DDL1 id="uniStatus" dataProvider="{ia_uniStatus}"></x2:DDL1>										
+				</mx:FormItem>
+				<mx:FormItem label="{iR.annBasis} :" required="true">
+					<mx:HBox>
+						<mx:Label text="{iR.funcItemSnB}"/>
+						<x2:DDL1 id="funcItemSnB" dataProvider="{ia_itemNameB}"></x2:DDL1>
+					</mx:HBox>
+					<mx:FormItem label="{iR.funcItemSnBCon} :">			
+						<s:TextInput id="funcItemSnBCon" width="414"/>
+					</mx:FormItem>
+				</mx:FormItem>
+			</mx:Form>
+		</mx:Canvas>
+	</mx:TabNavigator>
+	<x2:comEdit x="10" y="500" id="edit_1" fWhenSave="whenSave" fAfterOpen="afterOpen">
+	</x2:comEdit>
+</s:TitleWindow>

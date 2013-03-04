@@ -1,0 +1,16 @@
+{
+    "list":{    
+        "select": "SELECT *",
+        "from": "FROM ClassInfo 
+                [_where]",
+        "order": "ORDER BY theClassCode",
+        "items": [                        
+            {"fid":"theClassCode",         "op":"like"},
+            {"fid":"theClassName",         "op":"like"},
+            {"fid":"classType"}
+        ]
+    },    
+    "progRange": 1,
+    "aFOwner": "creator",
+    "aFOwnerType": "L"
+}

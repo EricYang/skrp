@@ -1,0 +1,31 @@
+﻿# list/query fields
+acaName=学年(期)
+classLeavesSnA=班级别
+studentSnA=受伤学生
+classLeavesSnB=班级别
+studentSnB=伤人学生
+occurDate=事发日期
+occurTime=事发时间
+staffSn=值班老师
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# E
+studentNameA=受伤学生姓名
+studentNameB=伤人学生姓名
+staffName=值班老师
+occurPlace=事发地点
+proDescribe=过程描述
+occurDeal=事后处理
+introspection=个人反省
+remark=备注
+
+# Q
+academicYear=学年
+semester=学期
+classInfoSn=班级
+classLeavesSn=班别
+cName=受伤学生中文姓名
+eName=受伤学生英文名

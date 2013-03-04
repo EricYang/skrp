@@ -1,0 +1,29 @@
+﻿# list/query fields
+serialNos=流水編號
+cDate=收費日期
+sumOfMoney=金額合計
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# E
+SelFun2=搜尋
+selected=選取
+
+paidDate=收費日期
+invoiceSno=收據號碼
+childSnoName=幼兒編號 / 姓名
+classFor=班別
+yearMonthFor=年 / 月份
+paidFor=費用
+
+# message
+Emessage01=收據號碼 或 班別 或 年 / 月份 不得為空白
+Emessage02=年 格式請輸入 1900 ~ 3000  間
+Emessage03=月 格式請輸入 1 ~ 12 間
+
+errSelected=選取的 收據號碼 已經存在，無法新增。
+errNoSelect=請先選取右列 資料。
+
+# Q

@@ -1,0 +1,24 @@
+{
+    "dws":[
+        {            
+            "selectTable": "BabyCarRec",
+            "items": [
+                {"fid":"sn"},
+                {"fid":"academicYear"},
+                {"fid":"semester"},
+		{"fid":"babyCarInfoSn"},
+		{"fid":"cDate"},
+                {"fid":"timeInter"},
+                {"fid":"leaveTimeH"},
+                {"fid":"leaveTimeM"},
+                {"fid":"backTimeH"},
+                {"fid":"backTimeM"},
+                {"fid":"eventRec"},
+                {"fid":"creator"},
+                {"fid":"createDate"},           
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+            ]
+        }			   
+   ]    
+}

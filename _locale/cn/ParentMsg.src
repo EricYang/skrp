@@ -1,0 +1,21 @@
+﻿# list/query fields
+createDate=留言日期
+acaName=学年(期)
+classLeavesSn=班级别
+studentName=学生姓名
+subject=主旨
+reviseDate=回覆时间
+staffName=老师姓名
+
+# E
+leaveCon=留言内容
+replyCon=回覆内容
+
+# message
+message01=送出
+
+# Q
+academicYear=学年
+semester=学期
+cName=中文姓名
+eName=英文名

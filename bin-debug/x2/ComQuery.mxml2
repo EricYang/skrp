@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	width="75" height="126" fontSize="12" fontFamily="Arial" horizontalAlign="left" verticalAlign="top" horizontalGap="50"
+	 verticalGap="3">
+
+	<fx:Script>
+		<![CDATA[
+			import com.json.*;
+			
+			import flash.events.KeyboardEvent;
+			
+			import mx.collections.*;
+			import mx.controls.DataGrid;
+			import mx.core.Container;
+			import mx.events.ListEvent;
+			
+			import x2.*;
+
+		
+		
+		//=================	
+		//=== public  ===
+		//=================	
+
+		/**
+		 * 查詢欄位資訊陣列, 每一筆資料包含以下變數:<br/>
+		 *   source: 欄位物件.<br/>
+		 *   dataType: 資料型態, S(字串, default), N(數字), D(日期).<br/>
+		 *   init: 初始值.<br/>
+		 *   fname: 欄位名稱, 自動捉取 formItem label, 如果欄位包含在 HBox, VBox 裡面, 則必須自行指定.<br/>
+		 *   required: 是否為必填欄位, 自動捉取 formItem.required, see fname.<br/>
+		 *   relat: 關聯欄位, 如果這個查詢欄位為起迄欄位, 則必需設定這個變數.
+		 */ 
+		public var aoItem:Array = [];
+		
+		/**
+		 * 程式代號, 不可空白.
+		 */ 
+		public var sApp:String = "";
+		
+		/**
+		 * 執行查詢的後端程式名稱, 不含副檔名, 預設為 Fun.sCRUD
+		 */ 
+		public var sServerApp:String = Fun.sService;
+		
+		/**
+		 * inf 檔案名稱(或 Fun2._getSql() data 變數), 不含副檔名, 預設等於 sApp.
+		 */ 
+		public var sInf:String = "";
+		
+		/**
+		 * 是否使用 inf 檔案來查詢資料, 預設是, 如果不是, 則會使用後端 Fun2._getSql()裡面的資料.(必須撰寫對應的程式碼)
+		 */ 
+		public var bUseInf:Boolean = true;
+		
+		/**
+		 * inf 檔案中用來執行查詢清單的變數名稱, 預設為 "list"
+		 */ 
+		public var sList:String = "list";
+		
+		/**
+		 * 匯出 Excel 檔案中的 template name, 預設為 sInf
+		 */ 
+		public var sTemplate:String;
+			
+		/**
+		 * 匯出 Excel 檔案中的系統資料表的欄位清單
+		 */ 
+		public var sSettings:String = "";
+			
+		/**
+		 * 匯出 Excel 檔案中的 table name, 預設為 sInf
+		 */ 
+		public var sExcelTable:String;
+		
+		/**
+		 * 匯出 Excel 檔案中第一筆資料的內容, 格式為: fname1,fname2...,value1,value2...(以逗號分隔).<br/>
+		 * 通常用在 Excel 的隱藏欄位.
+		 */ 
+		public var sExcelRow1:String;
+		
+		/**
+		 * 用戶是否有匯出功能, 預設無. 
+		 */ 
+		public var bExport:Boolean = false;
+		
+		/**
+		 * 查詢條件是否可以全部空白, 預設可以.
+		 */ 
+		public var bCanEmpty:Boolean = true;
+		
+		/**
+		 * 用戶按下 Enter 時執行的功能, 預設為查詢, 如果為匯出則設為 "E"
+		 */ 
+		public var sDefaultFun:String = "R";
+		
+		/**
+		 * 是否隱藏畫面取代關閉(用來保存查詢條件), 預設false.
+		 */ 
+		public var bHideWhenClose:Boolean = false;//just hide when close or not
+		
+		/**
+		 * 執行查詢之前要呼叫的函數 (para object:fun/return boolean)
+		 */ 
+		public var fWhenSubmit:Function;
+		
+		/**
+		 * 執行查詢之後要呼叫的函數 (para object:fun/void)
+		 */ 
+		public var fAfterSubmit:Function;
+		
+		/**
+		 * 資料清單 DataGrid 物件, 可以動態指定 !
+		 */ 
+		public var gList:DataGrid;
+				
+		/**
+		 * (Optional) 選取一筆資料(double click)時要執行的函數.(para object:內容為欄位值)
+		 */ 
+		public var fSelectRow:Function;
+		
+		/**
+		 * 是否可以選取多筆, 預設為單筆.
+		 */ 
+		public var bRows:Boolean = false;		//multiple select or not.		
+
+		
+
+		//=================	
+		//=== private  ===
+		//=================	
+				
+		private var ib_init:Boolean = false;	//initialized or not.
+		private var ib_query:Boolean = true;	//query list(true) or output excel(false).
+
+
+
+		/**
+		 * 初始化物.
+		 * @return 傳回錯誤訊息 if any.
+		 */
+		public function init():String{
+			if (ib_init){
+				return "";
+			}
+
+			//set position, did not work !!
+			//parent.y = 10;
+			
+		   	if (sApp == ""){ 		    	
+				return "gsApp can not be Empty in comQuery.init() !";
+		   	}
+		   	if (sInf == ""){
+		   		sInf = sApp;
+		   	} 		    	
+		   	if (sExcelTable == ""){
+		   		sExcelTable = sInf;
+		   	} 		    	
+			if (sTemplate == ""){
+				sTemplate = sInf;
+			} 		    	
+			
+			//initial i_file
+			ib_init = true;
+			/*
+			if (gbExport){
+	            i_file = new FileReference();
+	            i_file.addEventListener(Event.COMPLETE, genExcelOk);
+   			}
+			*/
+			
+			//set button status 
+			cmdExport.enabled = bExport;	
+			cmdExport.visible = bExport;	
+
+			
+			var t_field:Object;
+			var t_item:Object;
+			var t_formItem:Object;
+			var tb_form:Boolean;
+			for (var i:int=0;i<aoItem.length;i++){				
+				//default dataType to "S"
+				t_item = aoItem[i];
+				if (t_item.dataType == null){
+					t_item.dataType = "S";
+				}
+				
+				//set item.fname and required property !	
+				t_field = t_item.source;			
+				t_formItem = t_field.parent;
+				tb_form = (t_formItem == null) ? false : (t_formItem.className == "FormItem");
+				if (t_item.fname == null){
+					//remove char of [:] [：] space(half type) space(full type)  　					
+					t_item.fname = (tb_form) ? " ["+t_formItem.label.replace(/:|：| |　/g, "")+"] " : " [本欄位] ";
+				}else{
+					t_item.fname = " ["+t_item.fname+"] ";
+				}
+				if (t_item.required == null){
+					t_item.required = (tb_form) ? t_formItem.required : false;
+				}
+				
+				//set default value to field
+				if (t_item.init != null){
+					Fun.setItem(t_field, t_item.init);
+				}
+				
+				//set field
+				//Fun.initField(false, t_item.dataType, t_field);
+			}
+			
+			//set dataprovider if need, 
+			//set iac_data
+			if (gList != null){
+				if (gList.dataProvider == null){
+					//iac_data = new ArrayCollection();
+					var tac_data:ArrayCollection = new ArrayCollection();
+					gList.dataProvider = tac_data;
+				//}else{
+				//	iac_data = gGrid.dataProvider as ArrayCollection;				
+				}
+			}
+			
+			//add event listener for parent titlewindow close event
+			var tw_query:Object = parent;
+			if (tw_query.hasOwnProperty("showCloseButton")){
+				tw_query.showCloseButton = true;			
+				tw_query.verticalScrollPolicy = "off";		//disable vertical scrollbar
+				tw_query.addEventListener(Event.CLOSE, funClose);
+				//tw_query.defaultButton = cmdOk;
+			}
+			tw_query.addEventListener(KeyboardEvent.KEY_DOWN, keyEnter);
+
+			//if (gfSelect != null){			
+			//if (fSelectRow != null && bRows == false){	//double click時再去判斷 !!			
+				gList.doubleClickEnabled = true;
+				gList.addEventListener(ListEvent.ITEM_DOUBLE_CLICK, selectRow);			
+			//}
+			
+			return "";
+			
+		}
+
+		
+	    //when user press enter, trigger ok button click
+	    private function keyEnter(p_event:KeyboardEvent):void{
+		    if (p_event.keyCode == Keyboard.ENTER){
+		    	if (sDefaultFun == "R"){ 
+		        	funQuery();
+		     	}else if(sDefaultFun == "E"){
+		        	funExport();		     		
+		     	}
+		    }	    	
+	    }	    
+		
+		
+		/**
+		 * 執行匯出功能.
+		 */ 
+		public function funExport():void{
+			runQuery(false);
+		}
+		
+		
+		/**
+		 * 執行查詢功能.
+		 */ 
+		public function funQuery():void{
+			runQuery(true);
+		}
+		
+		
+		/**
+		 * 傳回查詢條件 Object, for pass to Server Side.
+		 * @param pb_query true(查詢)/false(匯出)
+		 * @return 如果錯誤則傳回 null.
+		 */ 
+		public function getQueryInfo(pb_query:Boolean=true):Object{
+		//public function getQueryItems(pb_query:Boolean=true):Object{
+			//do when submit first
+			if (fWhenSubmit != null){
+				//var t_para:Object = {};
+				//t_para[Fun.csFun] = (pb_query) ? "R" : "E";
+				//if (!gfWhenSubmit({fun:(pb_list) ? "QueryList" : "Excel"})){
+				if (!fWhenSubmit({fun:(pb_query) ? "R" : "E"})){	//CRUDPEV
+					return null;
+				}
+			}
+			
+			//check empty limitation !
+			var tb_empty:Boolean = true;
+			for (var i:int=0;i<aoItem.length;i++){
+				if (Fun.isFieldEmpty(aoItem[i].source)){
+					if (aoItem[i].required){
+						Fun.msg("E", aoItem[i].fname + Fun.R.notEmpty);
+						return null;
+					}
+				}else{
+					tb_empty = false;
+				}
+			}
+			if (tb_empty && !bCanEmpty){
+				Fun.msg("E", Fun.R.qItemsEmpty);
+				return null;						
+			}
+															
+	    	//var ts_data:String = ;
+	    	var t_data:Object = {
+	    		_app: sApp, 
+		    	//_inf: sInf,
+				inf: sInf,
+		    	useInf: (bUseInf) ? "1" :"0",
+	    		list: sList,
+	    		data: qItemsToStr()
+	    	};
+	    	if (pb_query){
+	    		t_data.fun = "QueryList";
+	    	}else{
+	    		t_data.fun = "Excel";	    		
+				t_data.template = sTemplate;
+	    		t_data.table = sExcelTable;
+				t_data.settings = sSettings;
+	    		t_data.row1 = sExcelRow1;
+	    	}
+	    	
+	    	return t_data;			
+		}
+		
+
+		/*
+		 * convert query field value to json string
+		 * @param {Array} pa_item, see comQuery.gItems[]
+		 * @return data string.
+		 */
+		private function qItemsToStr():String{
+			//get sql statement
+			var ts_value:String;
+			var t_field:Object;
+			var ts_fid:String;
+			var tn_len:int;
+			var tn_ary:int = 0; 
+			var ta_data:Array = [];
+			var ta_relat:Array = [];
+			for (var i:int=0;i<aoItem.length;i++){
+				t_field = aoItem[i].source;
+				
+				/*
+				//skip empty combobox
+				if (t_field.className == "ComboBox" && t_field.selectedLabel == ""){
+					continue;
+				}
+				*/
+				 
+				//skip related field
+				tn_len = ta_relat.length;
+				var tb_find:Boolean = false; 
+				for (var j:int=0;j<tn_len;j++){
+					if (t_field == ta_relat[j]){
+						tb_find = true;
+						break;
+					}
+				}
+				
+				if (tb_find){
+					continue;
+				}
+				
+				//empty limitation check
+
+				
+				//query field and its related
+				ts_value = String(Fun.getItem(t_field));	//force to string !! not use xxx as string !!
+				if (aoItem[i].relat){
+					//add to ta_relat[]
+					var t_relat:Object = aoItem[i].relat;
+					ta_relat[tn_len] = t_relat;
+
+					//get sql for these two fields					
+					var ts_value2:String = String(Fun.getItem(t_relat));
+					var tb_empty:Boolean = (ts_value == "null" || ts_value == ""); 
+					var tb_empty2:Boolean = (ts_value2 == "null" || ts_value2 == ""); 
+					if (tb_empty && tb_empty2){
+						continue;
+					}else if (!tb_empty && !tb_empty2){
+						ts_value = ts_value+","+ts_value2
+					}else if (!tb_empty2){
+						ts_value = ts_value2						
+					}
+				}else{
+					//get field value
+					if (ts_value == "null" || ts_value == ""){
+						continue;
+					}
+				}
+								
+				ta_data[tn_ary] = [
+					t_field.id, 
+					aoItem[i].dataType,
+					ts_value
+				]
+				tn_ary++;
+			}
+			
+			return JSON.encode(ta_data);
+		}
+		
+		
+		//查詢或匯出資料
+		private function runQuery(pb_query:Boolean):void{
+	    	
+	    	var t_data:Object = this.getQueryInfo(pb_query);
+	    	if (t_data == null){
+	    		return;
+	    	}
+	    	
+	    	//call server ap
+	    	ib_query = pb_query;
+	    	Fun.async(sApp, sServerApp, t_data, runQuery2);
+	 	}
+	 
+	 	 
+	 	//callback function of runQuery() 
+		private function runQuery2(p_data:Object):void{	    
+			//var ta_row:Object = Fun.ajax(gsApp, Fun.CRUD, t_data);
+			//var tb_query:Boolean = i_object.query;
+			if (Fun.catchResult(p_data, ib_query, true)){
+				return;
+			}
+			
+			//case of export excel
+			//open dialog for save excel file				
+			var t_para:Object = {fun:(ib_query) ? "R" : "E"};
+			//t_para[Fun.csFun] = (ib_query) ? "R" : "E";
+		  	if (!ib_query){
+				//call gfAfterSubmit
+				if (fAfterSubmit != null){
+					fAfterSubmit(t_para);
+				}
+			
+		  		//Fun.openFile(Fun.sDirTemp + gsInf + ".xls");
+		  		Fun.openFile(Fun.sDirTemp + p_data.file);
+		  		return;
+		  	}
+		  	
+		  	
+		  	//case of query db
+		  	//update dataStore for refresh win list.
+		  	//replace 
+		  	var tac_data:ArrayCollection = gList.dataProvider as ArrayCollection;
+		  	//iac_data.removeAll();
+		  	tac_data.removeAll();
+		  	var ta_row:Array = p_data as Array;
+		  	var tn_len:int = ta_row.length; 
+			for (var i:int=0;i<tn_len;i++){
+				tac_data.addItem(ta_row[i]);	
+			}
+			
+			//call gfAfterSubmit
+			if (fAfterSubmit != null){
+				fAfterSubmit(t_para);
+			}
+			
+			//close parent window if need
+			//if (!ib_returnRow){
+			if (fSelectRow == null && bRows == false){
+				funClose();
+			}
+
+			Fun.msg("I", Fun.strBuild(Fun.R.findRow, [ta_row.length]));
+		}
+				
+		
+		/**
+		 * 關閉視窗 
+		 * @param p_event (for Event Handler), 在程式中呼叫時不需此參數.
+		 */
+		public function funClose(p_event:Event=null):void{
+			if (bHideWhenClose){
+				parent.visible = false;
+			}else{
+				Fun.closePopup(parent);				
+			}
+		}
+		
+		
+		/**
+		 * 清除畫面
+		 * @param p_up 上一層視窗物件(for Event Handler), 在程式中呼叫時不需此參數.
+		 */ 
+		public function funClear(p_up:DisplayObjectContainer=null):void{
+			if (p_up == null){
+				p_up = parent;
+			}
+			var t_child:DisplayObject;
+			for (var i:int=0; i<p_up.numChildren; i++){
+				t_child = p_up.getChildAt(i)
+				if (t_child == this || !t_child.hasOwnProperty("className")){
+					continue;
+				}else if ((t_child.hasOwnProperty("editable") && (t_child.hasOwnProperty("text")) || (t_child as Object).className.substr(0,8) == "ComboBox")){
+					Fun.setItem(t_child, "");
+				}else if(t_child.hasOwnProperty("numChildren")){
+					funClear(t_child as DisplayObjectContainer);
+				}
+			}
+		}
+		
+		
+		/**
+		 * 選取目前這筆資料.
+		 * @param p_event (for Event Handler), 在程式中呼叫時不需此參數.
+		 */ 
+		public function selectRow(p_event:Event = null):void{
+			if (fSelectRow == null || bRows){
+				return;
+			}
+			
+			var t_data:Object = gList.selectedItem;
+			if (t_data != null){
+				fSelectRow(t_data);
+				funClose();				
+			}
+			
+			/*
+			var tn_index:int = p_event.rowIndex;
+			if (tn_index >= 0 && gReturns.length > 0){
+				gfSelect(gReturns, gDS[tn_index]);
+				exitClick(p_event);				
+			}
+			*/			
+		}
+				
+		]]>
+	</fx:Script>
+		
+	<mx:Button buttonMode="true" label="{Fun.R.read}" fontWeight="bold" id="cmdOk" click="funQuery()" width="74" icon="@Embed(source='image/checked.gif')" height="26" toolTip="{Fun.R.tipRunRead}"/>
+	<mx:Button buttonMode="true" label="{Fun.R.exit}" fontWeight="normal" id="cmdExit" click="funClose()" width="74" icon="@Embed(source='image/close.png')" height="26" toolTip="{Fun.R.tipExit}"/>
+	<mx:Label height="6"/>
+	<mx:Button buttonMode="true" label="{Fun.R.clear}" fontWeight="normal" id="cmdClear" click="funClear()" width="74" icon="@Embed(source='image/clear.png')" height="26" toolTip="{Fun.R.tipClear}"/>
+	<mx:Button buttonMode="true" label="{Fun.R.export}" fontWeight="normal" click="funExport()" width="74" fontStyle="normal" id="cmdExport" icon="@Embed(source='image/excel.png')" height="26" enabled="false" disabledIcon="@Embed(source='image/excel0.png')" toolTip="{Fun.R.tipExport}"/>
+</mx:VBox>

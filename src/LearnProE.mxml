@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:x2="x2.*"
+			   width="1000" height="610"
+			   preinitialize="{iR=Fun.getLang('LearnPro')}"
+			   creationComplete="init()" xmlns:local="*"
+			   >
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.ArrayList;
+			import mx.utils.StringUtil;
+			
+			import x2.*;
+			[Bindable]
+			public var iR:Object;			
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["academicYear","semester"]});
+			[Bindable]
+			public var ia_sharedType:ArrayList;			
+			[Bindable]
+			public var is_dir1:String = Fun.sDirRoot + Fun2.fLearnPro;
+
+			//for 上傳
+			private var ia_file:Array = [];
+			
+			private var idw_master:DW;
+			private var idw_LearnProPT:DW2, idw_LearnProTG:DW2;
+			[Bindable]
+			private var ia_gender:ArrayList = new ArrayList(Fun2.genderDS(is_app, true));
+			[Bindable]
+			private var ia_classInfoStartConb:ArrayList = new ArrayList(Fun2.classInfoStartConbDS(is_app, true));
+			
+			private function init():void {		
+				//dw1:LearnPro
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					autos: ["creator", "createDate", "reviser", "reviseDate"],
+					mapping: true,
+					keys: ["sn"],
+					items: [
+						{source:sn, 			dataType:"N",	inputType:"I"},
+						{source:acaName,						update:false,	inputType:"R"},
+						{source:classLeavesSn,	dataType:"N"},
+						{source:yearEduSn,		dataType:"N"},
+						{source:yearEduName,	update:false,	inputType:"R",	required:true}, 
+						{source:subject,		dataType:"S2"},
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"DT",	inputType:"R"},
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"DT",	inputType:"R"}
+					]				
+				};		
+				
+				//dw2:LearnProPT 
+				edit_1.aoDW[1] = new DW2();
+				idw_LearnProPT = edit_1.aoDW[1];
+				idw_LearnProPT.xTool = tb_LearnProPT;
+				idw_LearnProPT.oConfig = {
+					grid: grid_LearnProPT,
+					autos: ["creator", "createDate", "reviser", "reviseDate"],
+					upDW: idw_master,
+					upQKeys: ["sn"],
+					qKeys: ["learnProSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn",				dataType:"N",		inputType:"I"},
+						{fid:"learnProSn",		dataType:"N",		inputType:"2"},
+						{fid:"fileType",		dataType:"N"},
+						{fid:"fileName",		dataType:"S"},
+						{fid:"fileCon",			dataType:"S2"},
+						{fid:"creator",			dataType:"S",		inputType:"R"}, 
+						{fid:"createDate",		dataType:"DT",		inputType:"R"},
+						{fid:"reviser",			dataType:"S",		inputType:"R"}, 
+						{fid:"reviseDate",		dataType:"DT",		inputType:"R"}
+					]
+				};
+				
+				//dw3:LearnProTG
+				edit_1.aoDW[2] = new DW2();
+				idw_LearnProTG = edit_1.aoDW[2];
+				idw_LearnProTG.xTool = tb_LearnProTG;
+				idw_LearnProTG.fFilter = filterTG;
+				idw_LearnProTG.oConfig = {
+					grid: grid_LearnProTG,
+					//讀取資料的關聯欄位
+					upDW: idw_master,
+					upQKeys: ["sn"],
+					qKeys: ["learnProSn"],
+					//編輯資料的關聯欄位		
+					upEditDW: idw_LearnProPT,
+					upEKeys: ["sn"],
+					eKeys: ["learnProPTSn"],
+					//					
+					keys: ["sn"],
+					items: [
+						{fid:"sn",				inputType:"I",	dataType:"N"},		
+						{fid:"learnProSn",		inputType:"R",	dataType:"N",	update:false},
+						{fid:"learnProPTSn",	inputType:"2",	dataType:"N"},
+						{fid:"academicYear",	dataType:"N"},
+						{fid:"semester",		dataType:"N"},
+						{fid:"classLeavesSn",	dataType:"N"},
+						{fid:"studentSn",		dataType:"N"},
+						{fid:"cName",			update:false},
+						{fid:"eName",			update:false},
+						{fid:"gender",			update:false},
+						{fid:"tagCon",			dataType:"S2"}
+					]
+				};
+				
+				tb_LearnProPT.cmdAdd.visible = false;
+				tb_LearnProPT.cmdAdd.width = 0;
+				tb_LearnProTG.cmdAdd.visible = false;
+				tb_LearnProTG.cmdAdd.width = 0;
+				
+			}
+			
+			//指定 filter function for DW2
+			private var in_learnProSn:int;
+			private function filterTG(p_row:Object):Boolean{
+				return (p_row.learnProPTSn == in_learnProSn);
+			}
+			
+			//執行 filter 動作
+			private function filterParagSub():void{
+				if (grid_LearnProPT.dataProvider.length > 0){
+					if (grid_LearnProPT.selectedItem == null){
+						grid_LearnProPT.setSelectedIndex(0);
+					}
+					var t_row:Object = grid_LearnProPT.selectedItem;
+					in_learnProSn = t_row.sn;
+					idw_LearnProTG.filter(t_row);
+				}
+			}
+			
+			private function whenOpen(p_data:Object):Boolean{
+				//edit_1.addSend({tablePre:is_tablePre});
+				return true;
+			}            
+			
+			private function afterOpen(p_data:Object):void {
+				filterParagSub(); //idw_contSub進行filter
+				
+				FunID1.visible = true;
+				FunID2.visible = true;
+				switch (p_data.fun){					
+					case "C":
+					case "U":
+						SchWeek.visible = true;						
+						break;					
+					case "V":
+						FunID1.visible = false;
+						FunID2.visible = false;
+						SchWeek.visible = false;						
+						break;
+				}
+			}
+			
+			private function whenSave(p_data:Object):Boolean {				
+				if (Fun.isEmpty(idw_master.getItem(subject))) {
+					Fun.msg("I", iR.Emessage01);
+					return false;
+				}
+				if (p_data.fun != "D"){
+					Fun.setItem(acaName, String(i_session.academicYear)+ ' - '+String(i_session.semester));
+				}
+				
+				return true;
+			}
+			
+			private function afterSave(p_data:Object):void {
+				switch (p_data.fun){
+					case "C":
+					case "U":
+						var m_data:Object = {
+							sn: Fun.getItem(sn),
+							classLeavesSn: Fun.getItem(classLeavesSn)
+						};
+						Fun.sync(is_app, "LearnPro", m_data, false);
+						break;
+					case "V":
+					case "D":
+						return;
+						break;
+				}
+			}
+			
+			private function serialNoLabelFunc(p_row:Object, p_column:GridColumn):String {
+				var index:int = p_column.grid.dataProvider.getItemIndex(p_row);
+				if (index > -1) {
+					return (index + 1).toString();
+				}
+				return "";
+			}			
+			private function gender(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_gender, p_row[p_column.dataField]);
+			}			
+			private function doFindWeekList():void{	
+				Fun2.openWeekList(is_app, this, ReturnWeekList);
+			}			
+			private function ReturnWeekList(p_row:Object):void{
+				Fun.setItem(yearEduName, p_row.sDate + " ~ " + p_row.eDate);
+				idw_master.setItem(yearEduSn, p_row.sn, true);
+			}
+			//上傳圖檔
+			public function fnClickMUF():void{
+				Fun2.aGlobal = [];
+				
+				var t_win:MulitiUploadFiles = new MulitiUploadFiles();
+				Fun.openPopup(t_win, this);
+				
+				t_win.fAfterOk = fSelectRowPic;
+			}
+			private function fSelectRowPic():void{
+				if (Fun2.aGlobal.length!=0){
+					
+					var fileType:int;
+					for (var i:int=Fun2.aGlobal.length - 1; i>=0; i--){
+						
+						fileType = 0;
+						switch (FL.getExt(Fun2.aGlobal[i].fileName)){
+							case "mp4":
+							case "avi":
+							case "wmv":
+								fileType = 1;
+								break;
+						}
+						
+						var idw_data:Object = {
+							fileName: Fun2.aGlobal[i].fileName,
+							fileType: fileType
+						};
+						idw_LearnProPT.addRow(idw_data);						
+					}
+				}
+			}
+			//多選學生			
+			public function fnClickStudentAll():void{
+				if (Fun.getItem(classLeavesSn)==null){
+					Fun.msg("E", iR.Emessage02);
+					Fun.focusField(classLeavesSn);
+					return;
+				}
+				if ((grid_LearnProPT.dataProvider as ArrayCollection).length==0){
+					Fun.msg("E", iR.Emessage03);
+					return;
+				}
+				
+				Fun2.bGlobal = ArrayCollection(grid_LearnProTG.dataProvider);
+				Fun2.aGlobal = [];
+				
+				var t_win:FindStuOpt = new FindStuOpt();
+				Fun.openPopup(t_win, this);			
+				
+				Fun.setItem(t_win.classLeavesSn, Fun.getItem(classLeavesSn));
+				t_win.qry_1.btnReadClick();
+				t_win.classLeavesSn.enabled = false;
+				
+				t_win.qry_1.bCloseAfterQuery = false;
+				t_win.fAfterOk = fSelectRowStudent;
+			}			
+			private function fSelectRowStudent():void{
+				if (Fun2.aGlobal.length!=0){					
+					for (var i:int=Fun2.aGlobal.length - 1; i>=0; i--){
+						var idw_data:Object = {
+							academicYear: i_session.academicYear,
+							semester: i_session.semester,
+							classLeavesSn: Fun2.aGlobal[i].classLeavesSn,
+							studentSn: Fun2.aGlobal[i].sn,
+							cName: Fun2.aGlobal[i].cName, 
+							eName: Fun2.aGlobal[i].eName, 
+							gender: Fun2.aGlobal[i].gender							
+						};
+						idw_LearnProTG.addRow(idw_data);						
+					}
+				}
+			}
+			public function openImage(pn_fileName:String):void{
+				var t_win:DispImages = new DispImages();
+				t_win.ps_fileName = pn_fileName;
+				Fun.openPopup(t_win, this);				
+			}
+		]]>
+	</fx:Script>
+	
+	<x2:comEdit id="edit_1" x="10" y="539" width="850" fWhenOpen="whenOpen" fAfterOpen="afterOpen" fWhenSave="whenSave" fAfterSave="afterSave">
+	</x2:comEdit>
+	
+	<x2:Num1 id="sn" visible="false"/>
+	<s:TextInput id="acaName" visible="false"/>
+	<x2:Num1 id="yearEduSn" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+	<mx:TabNavigator x="10" y="10" width="980" height="517">
+		<s:NavigatorContent label="{iR.NavigatorContent01}">
+			<s:Form x="10" y="10">
+				<s:layout> 
+					<s:FormLayout gap="-10"/>
+				</s:layout>
+				<s:FormItem label="{iR.classInfoName} :" required="true">
+					<x2:DDL1 id="classLeavesSn" dataProvider="{ia_classInfoStartConb}" width="100%"/>						
+				</s:FormItem>
+				<s:FormItem label="{iR.yearEduName} :" required="true">					
+					<s:HGroup>						
+						<s:TextInput id="yearEduName" width="200"/>
+						<x2:btnPick id="SchWeek" click="doFindWeekList()"/>
+					</s:HGroup>					
+				</s:FormItem>	
+				<s:FormItem label="{iR.subject} :" required="true">
+					<s:TextArea id="subject" width="450" height="100"/>
+				</s:FormItem>				
+			</s:Form>
+		</s:NavigatorContent>
+		<s:NavigatorContent label="{iR.NavigatorContent02}">
+			<mx:HBox x="10" y="10" id="FunID1">				
+				<!--<x2:TBar2v id="tb_LearnProPT"/>-->
+				<x2:BtnIBar id="cmdInsertPT" click="fnClickMUF()"/>
+				<x2:btnDeleteRow id="btnDelete1" x="469" y="104" click="idw_LearnProPT.deleteRow();"/>
+				<x2:TBar2 id="tb_LearnProPT" width="0" visible="false"/>				
+			</mx:HBox>
+			<x2:DG2 id="grid_LearnProPT" x="10" y="40" width="453" height="430" rowHeight="212" 
+					sortableColumns="false" selectionChange="filterParagSub()" selectionMode="singleRow">
+				<x2:columns>
+					<s:ArrayList>						
+						<s:GridColumn dataField="sn" visible="false"/>						
+						<s:GridColumn dataField="learnProSn" visible="false"/>
+						<s:GridColumn dataField="fileType" visible="false"/>
+						<s:GridColumn dataField="creator" visible="false"/>
+						<s:GridColumn dataField="createDate" visible="false"/>
+						<s:GridColumn dataField="reviser" visible="false"/>
+						<s:GridColumn dataField="reviseDate" visible="false"/>						
+						<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+						<s:GridColumn headerText="{iR.fileName}" dataField="fileName">
+							<s:itemRenderer><fx:Component><x2:irCenterVH>
+								<mx:Form backgroundColor="#FFFFFF" borderColor="#CCCCCC" borderStyle="solid" height="200" verticalScrollPolicy="off" horizontalScrollPolicy="off" cornerRadius="2" dropShadowVisible="true">				
+									<s:VGroup gap="-10" horizontalCenter="0" textAlign="center" verticalCenter="0" horizontalAlign="center" verticalAlign="middle">
+										<x2:Text2 text="{data.fileName}" color="#3B5998" fontFamily="Tahoma" buttonMode="true" editable="false" width="100%" toolTip="▼ Tag Photo" borderColor="#FFFFFF" contentBackgroundColor="#EDEFF4"/>
+										<s:Image source="{(data.fileType!='1') ? outerDocument.is_dir1 + data.fileName:outerDocument.is_dir1 + 'Video.jpg'}" width="180" height="180" buttonMode="true" scaleMode="letterbox" smooth="true" smoothingQuality="high" click="outerDocument.openImage(data.fileName)"/>
+									</s:VGroup>
+								</mx:Form>
+								</x2:irCenterVH></fx:Component></s:itemRenderer>											
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.fileCon}" dataField="fileCon" width="180">
+							<s:itemRenderer><fx:Component><s:GridItemRenderer>
+								<x2:TextArea2 text="{data.fileCon}"/>
+							</s:GridItemRenderer></fx:Component></s:itemRenderer>												
+						</s:GridColumn>	
+					</s:ArrayList>
+				</x2:columns>				
+			</x2:DG2>
+			
+			<mx:HBox x="471" y="10" id="FunID2">				
+				<!--<x2:TBar2v id="tb_LearnProTG"/>-->
+				<x2:BtnIBar id="cmdInsertTG" click="fnClickStudentAll()"/>
+				<x2:btnDeleteRow id="btnDelete2" click="idw_LearnProTG.deleteRow();"/>
+				<x2:TBar2 id="tb_LearnProTG" width="0" visible="false"/>
+			</mx:HBox>
+			<x2:DG2 id="grid_LearnProTG" x="471" y="40" width="499" height="430" rowHeight="60" sortableColumns="false"	alpha="0.7">
+				<x2:columns>
+					<s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>			
+						<s:GridColumn dataField="learnProSn" visible="false"/>
+						<s:GridColumn dataField="learnProPTSn" visible="false"/>
+						<s:GridColumn dataField="academicYear" visible="false"/>
+						<s:GridColumn dataField="semester" visible="false"/>
+						<s:GridColumn dataField="classLeavesSn" visible="false"/>
+						<s:GridColumn dataField="studentSn" visible="false"/>
+						<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+						<s:GridColumn headerText="{iR.cName}" dataField="cName"/>
+						<s:GridColumn headerText="{iR.eName}" dataField="eName"/>
+						<s:GridColumn headerText="{iR.gender}" dataField="gender" labelFunction="gender" width="50"/>
+						<s:GridColumn headerText="{iR.tagCon}" dataField="tagCon">
+							<s:itemRenderer><fx:Component><s:GridItemRenderer>
+								<x2:TextArea2 text="{data.tagCon}"/>
+							</s:GridItemRenderer></fx:Component></s:itemRenderer>												
+						</s:GridColumn>			
+					</s:ArrayList>
+				</x2:columns>				
+			</x2:DG2>							
+		</s:NavigatorContent>
+	</mx:TabNavigator>
+</s:TitleWindow>

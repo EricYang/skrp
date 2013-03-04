@@ -1,0 +1,11 @@
+﻿# list/query fields
+payItemCode=费用代码
+payItemName=费用名称
+theAmount=金额
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# E
+remark=备注

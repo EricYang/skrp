@@ -1,0 +1,70 @@
+﻿# list/query fields
+cmdData=學生資料匯入
+deleFlag=刪除
+cmdOpen=Class Change to
+acaName=Year(Semester)
+classLeavesSn=Class
+stuNo=Student Number
+studentName=Student Name
+gender=Gender
+birthDate=Birthdate
+idNo=ID number
+address=address
+creator=created by
+createDate=created on
+reviser=revised by
+reviseDate=revised on
+
+# message
+message07=是否確定刪除這筆資料 ?
+message08=此筆資料已刪除 !
+message09=資料刪除完成。
+
+# E
+Canvas01=Personal Information
+cName=Chinese Name
+eName=English Name
+enrollFlag=School Status
+uploadFiles=Upload a picture
+tmpFileName=View the file
+deleFlag=資料刪除
+
+Canvas02=Class
+acaFlag=Current
+academicYear=Acacademic Year
+semester=Semester
+
+Canvas03=Height/Weight
+cDate=Date
+stature=Height
+weight=Weight
+
+Canvas04=Preferred Hospital or Clinic
+urgentFlag=Order
+unitName=Name
+conTel=Number
+
+Canvas05=Medical Record
+funcItemSn=Item
+sDescribe=Note
+
+Canvas06=Allergy
+senCon=Item
+avoidFood=Food
+
+Canvas07=Family Member
+relationship=Relationship
+sePicker=Main Pick-up person
+urConter=Emergency Contact Person
+
+# message
+message01=Redundant Semester/Class.  Please confirm.
+message02=Information of Parent
+message03=If you wish to change the current profile, please change academica year to 
+message04=。
+message05=New Class
+message06=The format of the file does not match.  Please see file  (.jpg, .gif, .jpeg, .png).
+
+# Q
+classInfoSn=Class
+classLeavesSn=Class Name

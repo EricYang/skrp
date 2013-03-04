@@ -1,0 +1,32 @@
+{
+    "list":{    
+		"select": "SELECT itemName, funcItemSn, SUM(M1) AS M1, SUM(M2) AS M2, SUM(M3) AS M3, SUM(M4) AS M4, SUM(M5) AS M5, SUM(M6) AS M6, 
+                    SUM(M7) AS M7, SUM(M8) AS M8, SUM(M9) AS M9, SUM(M10) AS M10, SUM(M11) AS M11, SUM(M12) AS M12, SUM(mSumAll) AS mSumAll",
+		"from": "FROM(
+                SELECT c.itemName, a.funcItemSn,
+                CASE month(b.cDate) WHEN 1 THEN COUNT(*) ELSE 0 END AS M1,
+                CASE month(b.cDate) WHEN 2 THEN COUNT(*) ELSE 0 END AS M2,
+                CASE month(b.cDate) WHEN 3 THEN COUNT(*) ELSE 0 END AS M3,
+                CASE month(b.cDate) WHEN 4 THEN COUNT(*) ELSE 0 END AS M4,
+                CASE month(b.cDate) WHEN 5 THEN COUNT(*) ELSE 0 END AS M5,
+                CASE month(b.cDate) WHEN 6 THEN COUNT(*) ELSE 0 END AS M6,
+                CASE month(b.cDate) WHEN 7 THEN COUNT(*) ELSE 0 END AS M7,
+                CASE month(b.cDate) WHEN 8 THEN COUNT(*) ELSE 0 END AS M8,
+                CASE month(b.cDate) WHEN 9 THEN COUNT(*) ELSE 0 END AS M9,
+                CASE month(b.cDate) WHEN 10 THEN COUNT(*) ELSE 0 END AS M10,
+                CASE month(b.cDate) WHEN 11 THEN COUNT(*) ELSE 0 END AS M11,
+                CASE month(b.cDate) WHEN 12 THEN COUNT(*) ELSE 0 END AS M12,
+                COUNT(*) AS mSumAll
+                FROM SickLog a, TeachBook b, FuncItem c
+                WHERE a.teachBookSn = b.sn AND a.funcItemSn = c.sn
+                AND c.sysType=3
+                [_where]                
+                GROUP BY a.funcItemSn, month(b.cDate)
+                ) AS c",
+		"order": "GROUP BY funcItemSn",
+		"items": [
+            {"fid":"academicYear",  "table":"b"},
+            {"fid":"semester",      "table":"b"}
+		]
+    }
+}

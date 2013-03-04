@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="280" height="484"
+	close="closeWin()" 
+	title="週期">
+	
+	<fx:Script>
+		<![CDATA[
+			import x2.*;
+			import mx.collections.ArrayCollection;			
+
+			[Bindable]
+			private var is_app:String;
+			[Bindable]
+			private var if_selectRow:Function;
+			
+			public function init(ps_app:String, pf_selectRow:Function):void{
+				is_app = ps_app;
+				if_selectRow = pf_selectRow;
+				
+				var t_data:Object = {
+					data: "FindWeekList"
+				};
+				var ta_row:Array = Fun.readRows(is_app, t_data);
+				grid_1.dataProvider = new ArrayCollection(ta_row);
+			}
+			private function fnClick():void{				
+				if (grid_1.selectedItem == null){
+					Fun.msg("I", "select row first !");
+				}else{
+					if (if_selectRow != null){
+						if_selectRow(grid_1.selectedItem);
+					}
+					Fun.closePopup(this);					
+				}
+			}		
+			private function serialNoLabelFunc(p_row:Object, p_column:GridColumn):String {
+				var index:int = p_column.grid.dataProvider.getItemIndex(p_row);
+				if (index > -1) {
+					return (index + 1).toString();
+				}
+				return "";
+			}	
+			private function closeWin():void{
+				Fun.closePopup(this);
+			}
+		]]>
+	</fx:Script>
+	<s:Label x="10" y="12" text="週期列表(請點選) :"/>
+	<s:DataGrid id="grid_1" x="10" y="31" width="260" height="410" click="fnClick()" buttonMode="true">
+		<s:columns>
+			<s:ArrayList>
+			<s:GridColumn dataField="sn" visible="false"/>
+			<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+			<s:GridColumn headerText="週期" dataField="yearEduName"/>			
+			</s:ArrayList>
+		</s:columns>
+	</s:DataGrid>	
+</s:TitleWindow>

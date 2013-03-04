@@ -1,0 +1,142 @@
+{
+    "dws":[
+	    {
+			"selectTable": "SpStudent a INNER JOIN Student b ON a.studentSn = b.sn",
+            "updateTable": "SpStudent",
+            "defaultTable": "a",
+			"items": [
+				{"fid":"sn"}, 
+                {"fid":"academicYear"},
+                {"fid":"semester"},                
+                {"fid":"acaName",         "table":"", "colName":"''"},
+                {"fid":"classLeavesSn"},
+                {"fid":"studentSn"},
+                {"fid":"studentName",     "table":"", "colName":"CONCAT(b.cName, ' ', b.eName)"},
+                {"fid":"cDate"},
+                {"fid":"diagnosis"},
+                {"fid":"remark"},
+                {"fid":"cbFetus"},
+                {"fid":"cbWeek"},
+                {"fid":"cbWeight"},
+                {"fid":"cbStatus"},
+                {"fid":"mhBody"},
+                {"fid":"mhBodyCon"},
+                {"fid":"mhHosp"},
+                {"fid":"mhHospCon"},
+                {"fid":"sp51"},
+                {"fid":"sp52"},
+                {"fid":"sp53"},
+                {"fid":"sp06"},
+                {"fid":"sp07"},
+                {"fid":"sp08"},
+                {"fid":"sp09"},
+                {"fid":"sp10"},
+                {"fid":"sp11"},
+                {"fid":"assistTool"},
+                {"fid":"familyExpect"},
+                {"fid":"creator"},
+                {"fid":"createDate"},
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+
+			]								
+	    },
+	    {
+			"selectTable": "SpStudentAT a LEFT OUTER JOIN PublicDept b ON a.publicDeptSn = b.sn [_where] ORDER BY a.cDate",
+            "updateTable": "SpStudentAT",
+            "defaultTable":"a",
+			"upDW": 0,
+			"items": [
+                {"fid":"sn"},
+	            {"fid":"spStudentSn"},                
+                {"fid":"publicDeptSn"},
+                {"fid":"unitName",   "table":"b"},
+                {"fid":"department"},
+                {"fid":"cDate"}
+			]				
+	    },
+        {
+            "selectTable": "SpStudentEC a LEFT OUTER JOIN PublicDept b ON a.publicDeptSn = b.sn [_where] ORDER BY a.sDate",
+            "updateTable": "SpStudentEC",
+            "defaultTable":"a",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"spStudentSn"},                
+                {"fid":"publicDeptSn"},
+                {"fid":"sDate"},
+                {"fid":"eDate"},
+                {"fid":"unitName",   "table":"b"},
+                {"fid":"remedyType"}
+            ]                
+        },
+        {
+            "selectTable": "SpStudentDI [_where] ORDER BY codeId",
+            "updateTable": "SpStudentDI",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"spStudentSn"},                
+                {"fid":"codeId"},
+                {"fid":"codeDesc",     "table":"",    "colName":"''"},                
+                {"fid":"checkSign"}
+            ]                
+        },
+        {
+            "selectTable": "SpStudentBH [_where] ORDER BY codeId",
+            "updateTable": "SpStudentBH",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"spStudentSn"},                
+                {"fid":"codeId"},
+                {"fid":"checkSign"},
+                {"fid":"codeDesc",     "table":"",    "colName":"''"},
+                {"fid":"remark"}
+                
+            ]                
+        },
+        {
+            "selectTable": "SpStudentES [_where] ORDER BY codeId",
+            "updateTable": "SpStudentES",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"spStudentSn"},                
+                {"fid":"codeId"},
+                {"fid":"checkSign"},
+                {"fid":"codeDesc",     "table":"",    "colName":"''"},
+                {"fid":"remark"}
+                
+            ]                
+        },
+        {
+            "selectTable": "SpStudentLS [_where] ORDER BY codeId",
+            "updateTable": "SpStudentLS",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"spStudentSn"},                
+                {"fid":"codeId"},
+                {"fid":"checkSign"},
+                {"fid":"codeDesc",     "table":"",    "colName":"''"},
+                {"fid":"remark"}
+                
+            ]                
+        },
+        {
+            "selectTable": "SpStudentBA [_where] ORDER BY codeId",
+            "updateTable": "SpStudentBA",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"spStudentSn"},                
+                {"fid":"codeId"},
+                {"fid":"checkSign"},
+                {"fid":"codeDesc",     "table":"",    "colName":"''"},
+                {"fid":"remark"}
+                
+            ]                
+        }
+    ]    
+}

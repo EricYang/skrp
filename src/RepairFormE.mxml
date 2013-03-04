@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="700" height="350" 
+	 
+  	creationComplete="init()"  	 
+	preinitialize="{iR=Fun.getLang('RepairForm')}"
+	>
+	<fx:Script>
+		<![CDATA[			
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+
+			[Bindable]
+			private var iR:Object;
+			
+			private var is_app:String = Fun.sApp;
+			private var idw_master:DW;
+			
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["usersSn","userCName","userEName"]});			
+			
+			private function doFindFortuneNo():void{
+				Fun2.openFortuneNo(is_app, this, ReturnFortuneNo);
+			}
+			private function ReturnFortuneNo(p_row:Object):void{				
+				Fun.setItem(fortuneNo, p_row.fortuneNo);
+				idw_master.setItem(fortuneSn, p_row.sn, true);
+				idw_master.setItem(fortuneName, p_row.fortuneName, true);
+			}
+			
+			private function init():void{
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {					
+					mapping: true,
+					autos: ["","createDate","",""],					
+					keys: ["sn"],
+					items: [
+						{source:sn,				dataType:"N",	inputType:"I"}, 
+						{source:staffSnA,		dataType:"N",	init:int(i_session.usersSn)},						
+						{source:fortuneSn,		dataType:"N"},
+						{source:fortuneNo,						update:false,	inputType:"R",	required:true},
+						{source:fortuneName,					update:false,	inputType:"R"},
+						{source:damageState,	dataType:"S"},
+						{source:finishDate,						update:false,	inputType:"R"},
+						{source:staffSnR,						update:false,	inputType:"R"},
+						{source:rName,							update:false,	inputType:"R"},
+						{source:conTel,							update:false,	inputType:"R"},
+						{source:repairState,					update:false,	inputType:"R"},
+						{source:createDate,		dataType:"DT",					inputType:"R"},
+						{source:reviseDate,						update:false,	inputType:"R"}
+					]				
+				}; 
+			}
+			//編輯視窗開啟後顯示該代辦事項交辦人及負責人名字
+			private function afterOpen(p_data:Object):void{			
+				if (p_data.fun == "U" || p_data.fun == "V"){
+					if (p_data.fun == "V") {
+						SchFortuneNo.visible = false; //檢視模式不顯示搜尋按鈕及說明文字						
+					}else{
+						SchFortuneNo.visible = true; //檢視模式不顯示搜尋按鈕及說明文字
+					}									
+				}
+			}
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10" y="278" id="edit_1" fAfterOpen="afterOpen">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="staffSnA" visible="false"/>
+	<x2:Num1 id="fortuneSn" visible="false"/>
+	<s:TextInput id="fortuneName" visible="false"/>
+	<x2:Num1 id="staffSnR" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>	
+	<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+		<mx:FormItem label="{iR.fortuneNo} :" required="true">
+			<mx:HBox width="100%">
+				<s:TextInput id="fortuneNo" click="doFindFortuneNo()"/>		
+				<x2:btnPick id="SchFortuneNo" click="doFindFortuneNo()"/>				
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.damageState} :" required="true">
+			<mx:TextArea width="400" id="damageState"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.finishDate} :">
+			<s:TextInput id="finishDate" editable="false" enabled="false"/>							
+		</mx:FormItem>
+		<mx:FormItem label="{iR.rName} :">
+			<mx:HBox x="231" y="3" width="100%">
+				<s:TextInput id="rName" editable="false" enabled="false"/>
+				<mx:FormItem label="{iR.conTel} :">
+					<s:TextInput id="conTel" editable="false" enabled="false"/>			
+				</mx:FormItem>
+			</mx:HBox>			
+		</mx:FormItem>
+		<mx:FormItem label="{iR.repairState} :">
+			<mx:TextArea width="400" id="repairState" enabled="false"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.reviseDate} :">
+			<s:TextInput id="reviseDate" editable="false" enabled="false"/>			
+		</mx:FormItem>
+	</mx:Form>
+</s:TitleWindow>

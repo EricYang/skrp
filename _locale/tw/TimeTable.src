@@ -1,0 +1,12 @@
+﻿# list/query fields
+staffName=負責老師
+seDate=日期
+seTimeHM=時間
+jobs=工作項目
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# Q
+cDate=日期區間

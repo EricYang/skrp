@@ -1,0 +1,34 @@
+﻿# LOGIN
+loginTitle=system login
+schoolCode=Code:
+loginId=Login ID:
+userPwd=Password:
+lang=Language:
+ok=Sign in
+exit=Exit
+forgot=Forgot PWD
+help=Help? (02)2655-1002#72, Peyton.
+error=error
+langList=tw,Traditional Chinese,cn,Simplfied Chinese,en,English
+zz_langList=tw,Traditional Chinese, cn, Simplfied Chinese.
+sCodeEmpty=Code cannot be blank!
+idEmpty=Login ID cannot be blank!
+pwdEmpty=Password cannot be blank!
+loginError=invalid user ID or password
+err100=invalid kindergarten code
+err101=該帳號尚未設定讀取系統角色權限
+
+# FORGOT PWD
+ftitle=I can't access my account
+email=e Mail :
+checkCode=Check Code :
+
+# message
+message01=Code cannot be blank!
+message02=Login ID cannot be blank!
+message03=電子信箱，不可空白。
+message04=電子信箱，輸入格式錯誤。
+message05=驗證碼錯誤。
+message06=作業完成，系統已經將新的密碼寄到你的信箱。
+message07=作業失敗 !!
+message08=此條件下的用戶資料不存在。

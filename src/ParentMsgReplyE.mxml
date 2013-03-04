@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="665" height="400" 
+	 
+  	creationComplete="init()"  	 		
+	preinitialize="{iR=Fun.getLang('ParentMsgReply')}"
+	>
+	<fx:Script>
+		<![CDATA[			
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			private var is_app:String = Fun.sApp;
+			private var idw_master:DW;
+			
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["usersSn"]});
+		
+			private function init():void{
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {					
+					mapping: true,
+					autos: ["","","","reviseDate"],										
+					keys: ["sn"],
+					items: [
+						{source:sn,				dataType:"N",	inputType:"I"},
+						{source:academicYear,					update:false,	inputType:"R"}, 
+						{source:semester,						update:false,	inputType:"R"},
+						{source:acaName,						update:false,	inputType:"R"},
+						{source:classLeavesSn,					update:false,	inputType:"R"},
+						{source:parentSn,						update:false,	inputType:"R"},
+						{source:parentName,						update:false,	inputType:"R"},
+						{source:studentSn,						update:false,	inputType:"R"},						
+						{source:studentName,					update:false,	inputType:"R"},
+						{source:subject,						update:false,	inputType:"R"},
+						{source:leaveCon,						update:false,	inputType:"R"},						
+						{source:staffSn,		dataType:"N",	init:int(i_session.usersSn)},
+						{source:replyCon,		dataType:"S"},
+						{source:createDate,						update:false,	inputType:"R"},
+						{source:reviseDate,		dataType:"DT",					inputType:"R"}						
+					]				
+				}; 
+				
+			}
+			
+			private function whenSave(p_data:Object):Boolean{
+				if (p_data.fun != "D"){
+					idw_master.setItem(staffSn, int(i_session.usersSn), true);
+				}
+				return true;
+			}
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10" y="326" id="edit_1" fWhenSave="whenSave">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="academicYear" visible="false"/>
+	<x2:Num1 id="semester" visible="false"/>
+	<s:TextInput id="acaName" visible="false"/>
+	<x2:Num1 id="classLeavesSn" visible="false"/>
+	<x2:Num1 id="parentSn" visible="false"/>
+	<x2:Num1 id="studentSn" visible="false"/>	
+	<x2:Num1 id="staffSn" visible="false"/>	
+	<s:TextInput id="reviseDate" visible="false"/>
+	<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+		<mx:FormItem label="{iR.createDate} :">
+			<s:TextInput id="createDate" enabled="false"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.studentName} :">
+			<mx:HBox x="73" y="8" width="100%">
+				<s:TextInput id="studentName" enabled="false"/>
+				<mx:FormItem label="{iR.parentName} :">
+					<s:TextInput id="parentName" enabled="false"/>		
+				</mx:FormItem>
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.subject} :">
+			<s:TextInput id="subject" width="401" enabled="false"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.leaveCon} :">
+			<mx:TextArea width="401" height="86" id="leaveCon" enabled="false"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.replyCon} :">			
+			<mx:TextArea width="401" height="86" id="replyCon"/>
+		</mx:FormItem>
+	</mx:Form>
+</s:TitleWindow>

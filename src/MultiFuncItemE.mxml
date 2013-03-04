@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="830" height="650" 
+	 
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('MultiFuncItem')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;	
+			[Bindable]
+			private var iR:Object;
+			private var idw_master:DW;
+			[Bindalbe]
+			private var idw_MultiFuncItemDetail:DW2;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var ia_multiSysType:ArrayList = new ArrayList(Fun2.multiSysTypeDS(is_app, true));
+			[Bindable]
+			private var ia_ynFlag:ArrayList = new ArrayList(Fun2.ynFlagDS(is_app, true));
+			
+			private function init():void{	
+				//dw1: MultiFuncItem
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {	
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					mapping: true,
+					items: [
+						{source:sn,				dataType:"N",	inputType:"I"}, 
+						{source:multiSysType,	dataType:"N"},
+						{source:itemName,		dataType:"S"},
+						{source:deleFlag,		dataType:"N"},
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"D",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"D",	inputType:"R"}
+					]				
+				}; 			
+				
+				//dw2: MultiFuncItemDetail
+				edit_1.aoDW[1] = new DW2();				
+				idw_MultiFuncItemDetail = edit_1.aoDW[1]; 
+				idw_MultiFuncItemDetail.xTool = tb_MultiFuncItemDetail;
+				idw_MultiFuncItemDetail.oConfig = {			
+					upDW: idw_master,
+					grid: grid_MultiFuncItemDetail,
+					upQKeys: ["sn"],
+					qKeys: ["multiFuncItemSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"multiFuncItemSn", dataType:"N", 	inputType:"2"},
+						{fid:"contents",		dataType:"S"}
+					]				
+				};				
+			}
+			
+			
+			private function whenSave(p_data:Object):Boolean{
+				if (p_data.fun == "U" && idw_MultiFuncItemDetail.isUserChanged()){
+					idw_master.setDirtyByField(reviser);
+					idw_master.setDirtyByField(reviseDate);
+				}
+				return true;
+			}
+			
+			
+			private function serialNoLabelFunc(p_row:Object, p_column:GridColumn):String {
+				var index:int = p_column.grid.dataProvider.getItemIndex(p_row);
+				if (index > -1) {
+					return (index + 1).toString();
+				}
+				return "";
+			}
+		]]>
+	</fx:Script>
+	<x2:Num1 id="sn" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+	<mx:Form x="10" y="10">
+		<mx:FormItem label="{iR.multiSysType} :" required="true">			
+			<x2:DDL1 id="multiSysType" dataProvider="{ia_multiSysType}" width="350"></x2:DDL1>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.itemName} :" required="true">
+			<mx:HBox>
+				<s:TextInput id="itemName" width="350"/>
+				<mx:FormItem label="{iR.deleFlag} :">
+					<x2:DDL1 id="deleFlag" dataProvider="{ia_ynFlag}"></x2:DDL1>			
+				</mx:FormItem>				
+			</mx:HBox>
+		</mx:FormItem>	
+	</mx:Form>
+	<mx:TabNavigator x="10" y="102" width="805" height="475" id="tns">
+		<mx:Canvas label="{iR.Canvas01}">
+			<x2:TBar2 x="518" y="6" id="tb_MultiFuncItemDetail">
+			</x2:TBar2>
+			<mx:Form x="10" y="31">
+				<x2:DG2 width="750" alpha="0.7"	rowHeight="50"
+						 height="360" x="10" y="112" id="grid_MultiFuncItemDetail">
+					<x2:columns><s:ArrayList>	
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="multiFuncItemSn" visible="false"/>
+						<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+						<s:GridColumn headerText="{iR.contents}" dataField="contents">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:TextArea2/>						
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>		
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>	
+		</mx:Canvas>
+	</mx:TabNavigator>
+	<x2:comEdit x="10" y="583" id="edit_1" fWhenSave="whenSave">
+	</x2:comEdit>	
+</s:TitleWindow>

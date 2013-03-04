@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="550" height="240" 
+	 
+ 	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('LeagalInfectItem')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			[Bindable]
+			private var iR:Object;
+			[Bindable]
+			private var idw_master:DW;
+			
+			private function init():void{	
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					mapping: true,
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					items: [
+						{source:sn,				dataType:"N",	inputType:"I"},						
+						{source:itemName,		dataType:"S"},
+						{source:remark,			dataType:"S"},
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"DT",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"DT",	inputType:"R"}
+					]				
+				};				
+			}
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10" y="167" id="edit_1">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>	
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>	
+	<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+		<mx:FormItem label="{iR.itemName} :" required="true">
+			<s:TextInput id="itemName" width="370"/>													
+		</mx:FormItem>
+		<mx:FormItem label="{iR.remark} :" required="true">
+			<mx:TextArea width="370" height="86" id="remark"/>													
+		</mx:FormItem>
+	</mx:Form>
+</s:TitleWindow>

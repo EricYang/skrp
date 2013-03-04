@@ -1,0 +1,25 @@
+﻿# list/query fields
+classLeavesSn=Class
+tuition=Tuition
+classH=Total Hours of Class
+
+# E
+Canvas01=Class Profile
+Canvas02=Stuff on-duty
+Canvas03=Student Information
+
+classInfoSn2=Class
+classLeavesSn2=Class Name
+tuition=Tuition
+classH=Total Hours of Class
+cTitles=Title of Position
+empNo=Employee Number
+cName=Chinese Name
+eName=English Name
+gender=Gender
+stuNo=Student ID number
+birthDate=Birthdate
+
+# Q
+classInfoSn=Class
+classLeavesSn=Class Name

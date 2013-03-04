@@ -1,0 +1,44 @@
+﻿# list/query fields
+acaName=学年(期)
+classLeavesSn=班级(别)
+studentName=学生姓名
+cDate=发生日期
+timeHM=发生时间
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# message
+
+
+# E
+Canvas01=基本资料
+studentName=学生姓名
+cDate=发生日期
+timeHM=发生时间
+occurPlace=发生地点
+proDescribe=案情陈述
+proDescribeExa=（如案发经过、已提供之协助、受暴情形等）
+funcItemSnA=案件危机评估
+funcItemSnAExa=有上列情形之一者，除传真本通报表外，建议立即以电话联系当地防治中心社工员评估处理。
+Canvas02=儿童保护案件
+identity=相对人身分
+uniStatus=就学状况
+annBasis=通报依据
+funcItemSnB=儿童及少年福利法
+funcItemSnBCon=其它
+
+# message
+
+
+# Q
+academicYear=学年
+semester=学期
+classInfoSn=班级
+classLeavesSn=班别
+cName=中文名
+eName=英文名
+cDate=发生日期
+
+# message

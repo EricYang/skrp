@@ -1,0 +1,17 @@
+﻿# list/query fields
+sn=sn
+createDate=reported on
+aName=reported by
+fortuneName=damaged item
+finishDate=maintenance completion date
+rName=maintainer
+reviseDate=maintenance recovery date
+
+# message
+message01=reply
+
+# E
+conTel=contact number
+fortuneNo=item number
+damageState=damange condition
+repairState=repair status

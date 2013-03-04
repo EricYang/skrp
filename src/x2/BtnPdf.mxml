@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Button 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	 buttonMode="true"
+	icon="@Embed(source='image/pdf.png')" 
+	width="74" height="26"
+   creationComplete="button1_creationCompleteHandler(event)">	
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import mx.utils.ObjectUtil
+			protected function button1_creationCompleteHandler(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				trace('FUN.R:'+ObjectUtil.toString(Fun.R))
+				label=Fun.R.btnPdfLabel
+				toolTip=Fun.R.btnPdfTip
+			}
+			
+		]]>
+	</fx:Script>
+</s:Button>

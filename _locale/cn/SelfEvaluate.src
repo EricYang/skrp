@@ -1,0 +1,30 @@
+﻿# list/query fields
+deleFlag=删除
+selfEvaluateItem=项目
+itemName=评鉴项目
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# message
+message01=是否确定删除这笔资料 ?
+message02=此笔资料已删除 !
+message03=资料删除完成。
+
+# E
+selfEvaluateItem=项目
+itemName=评鉴项目
+deleFlag=资料删除
+Canvas01=评鉴内容
+contents=评鉴内容
+Canvas02=说明及访评方式
+
+# message
+
+
+# Q
+selfEvaluateItem=项目
+itemName=评鉴项目
+
+# message

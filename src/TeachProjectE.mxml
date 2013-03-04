@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="808" height="562" 	 
+  	creationComplete="init()" 
+	preinitialize="{iR=Fun.getLang('TeachProject')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindable]
+			private var idw_master:DW;			
+			[Bindable]
+			private var is_app:String = Fun.sApp;			
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["academicYear","semester"]});
+			[Bindable]			
+			public var ia_classInfoStartConb:ArrayList = new ArrayList(Fun2.classInfoStartConbDS(is_app, true));
+			
+			private function init():void{				
+				//dw1: TeachBook
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					mapping: true,
+					items: [
+						{source:sn,				dataType:"N",	inputType:"I"}, 
+						{source:academicYear,	dataType:"N",	init:int(i_session.academicYear)}, 
+						{source:semester,		dataType:"N",	init:int(i_session.semester)},
+						{source:acaName,						update:false,	inputType:"R"},
+						{source:classLeavesSn,	dataType:"N"},						
+						{source:subject,		dataType:"S"},
+						{source:cDate,			dataType:"D"},
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"D",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"D",	inputType:"R"}
+					]				
+				}; 			
+				
+				//dw2: SickLog
+				edit_1.aoDW[1] = new DW2();
+				(edit_1.aoDW[1] as DW2).xTool = tb_teachProjectDetail;
+				edit_1.aoDW[1].oConfig = {					
+					upDW: idw_master,
+					grid: grid_teachProjectDetail,
+					upQKeys: ["sn"],
+					qKeys: ["teachProjectSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"teachProjectSn", 	dataType:"N", 	inputType:"2"},
+						{fid:"process",			dataType:"S"},
+						{fid:"activities",		dataType:"S"},
+						{fid:"teachMater",		dataType:"S"}
+					]				
+				};
+			}
+			private function whenSave(p_data:Object):Boolean{
+				if (p_data.fun != "D"){				
+					//為了讓儲存時, 也能同時更新顯示的頁面, 所以要特別給予值
+					Fun.setItem(acaName, String(Fun.getItem(academicYear))+ ' - '+String(Fun.getItem(semester)));					
+				}
+				return true;
+			}
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10.5" y="488" id="edit_1" fWhenSave="whenSave">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="academicYear" visible="false"/>
+	<x2:Num1 id="semester" visible="false"/>
+	<s:TextInput id="acaName" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>	
+	<mx:Form x="10" y="1">
+		<mx:HBox>
+			<mx:FormItem label="{iR.classLeavesSn} :" required="true">
+				<x2:DDL1 id="classLeavesSn" dataProvider="{ia_classInfoStartConb}" width="200"></x2:DDL1>			
+			</mx:FormItem>
+		</mx:HBox>	
+		<mx:HBox>
+			<mx:FormItem label="{iR.cDate} :" required="true">
+				<mx:DateField id="cDate" formatString="YYYY/MM/DD" yearNavigationEnabled="true"/>
+			</mx:FormItem>
+			<mx:FormItem label="{iR.subject} :" required="true">
+				<s:TextInput width="521" id="subject"/>
+			</mx:FormItem>
+		</mx:HBox>
+	</mx:Form>
+	<x2:TBar2 x="514" y="98" id="tb_teachProjectDetail">
+	</x2:TBar2>
+	<mx:Form x="10" y="123">
+		<x2:DG2 width="747" alpha="0.7"	rowHeight="100"
+					 height="314" id="grid_teachProjectDetail">
+			<x2:columns><s:ArrayList>
+				<s:GridColumn dataField="sn" visible="false"/>
+				<s:GridColumn dataField="teachProjectSn" visible="false"/>
+				<s:GridColumn dataField="creator" visible="false"/>
+				<s:GridColumn dataField="createDate" visible="false"/>
+				<s:GridColumn dataField="reviser" visible="false"/>
+				<s:GridColumn dataField="reviseDate" visible="false"/>
+				<s:GridColumn headerText="{iR.process}" dataField="process">
+					<s:itemRenderer>
+						<fx:Component><s:GridItemRenderer>
+							<x2:TextArea2/>																	
+						</s:GridItemRenderer></fx:Component>
+					</s:itemRenderer>        		         
+				</s:GridColumn>
+				<s:GridColumn headerText="{iR.activities}" dataField="activities">
+					<s:itemRenderer>
+						<fx:Component><s:GridItemRenderer>
+							<x2:TextArea2/>																	
+						</s:GridItemRenderer></fx:Component>
+					</s:itemRenderer>        		         
+				</s:GridColumn>
+				<s:GridColumn headerText="{iR.teachMater}" dataField="teachMater">
+					<s:itemRenderer>
+						<fx:Component><s:GridItemRenderer>
+							<x2:TextArea2/>																	
+						</s:GridItemRenderer></fx:Component>
+					</s:itemRenderer>        		         
+				</s:GridColumn>
+			</s:ArrayList></x2:columns>
+		</x2:DG2>
+	</mx:Form>
+</s:TitleWindow>

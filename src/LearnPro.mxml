@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application 
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	xmlns:x2="x2.*"	
+	width="100%" height="100%" 
+	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('LearnPro')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import spark.components.DataGrid;
+			import spark.components.gridClasses.GridColumn;			
+			import x2.*;
+			import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			public var iR:Object;			
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var ia_classInfoName:ArrayList = new ArrayList(Fun2.classInfoNameDS(is_app, false));
+			
+			private function init():void {				
+				//list_1.bAutoRead = true;
+				list_1.wQuery = new LearnProQ();
+				list_1.wEdit = new LearnProE();
+				list_1.gList = grid_1;
+				list_1.init();
+				
+				var t_data:Object ={
+					data: "listLearnPro",
+					csDataTemp: Fun2.gbClassLeaves
+				};
+				grid_1.dataProvider = new ArrayCollection(Fun.readRows(is_app, t_data));				
+			}
+			private function classInfoName(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_classInfoName, p_row[p_column.dataField]);
+			}	
+			private function catchFun(p_data:Object):Boolean {
+				var t_row:Object = grid_1.selectedItem;
+				switch (p_data.fun){
+					case "U":
+					case "D":
+					case "V":						
+						if (t_row){
+							if (Fun.sLoginId != t_row.creator){
+								switch (p_data.fun){
+									case "U":
+										list_1.btnClick("V");
+										return true;
+										break;
+									case "D":
+										Fun.msg("E", iR.message01);
+										return true;
+										break;
+								}					
+							}	
+						}
+						break;
+				}
+				return false;
+			}
+		]]>
+	</fx:Script>
+
+	<x2:sysBG/>
+	<x2:subFunHead/>
+
+	<x2:comList id="list_1" x="81" y="59" fCatchFun="catchFun">		
+	</x2:comList>	
+	
+	<s:DataGrid id="grid_1" x="55" y="87" width="92%" height="80%" alpha="0.7">
+		<s:columns>
+			<s:ArrayList>
+				<s:GridColumn dataField="sn" visible="false"/>
+				<s:GridColumn headerText="{iR.acaName}" width="80" dataField="acaName"/>
+				<s:GridColumn headerText="{iR.classInfoName}" width="150" dataField="classLeavesSn" labelFunction="classInfoName"/>
+				<s:GridColumn headerText="{iR.yearEduName}" width="200" dataField="yearEduName"/>
+				<s:GridColumn headerText="{iR.subject}" dataField="subject"/>
+				<s:GridColumn headerText="{iR.creator}" dataField="creator" width="80"/>
+				<s:GridColumn headerText="{iR.createDate}" dataField="createDate" width="130"/>
+				<s:GridColumn headerText="{iR.reviser}" dataField="reviser" width="80"/>
+				<s:GridColumn headerText="{iR.reviseDate}" dataField="reviseDate" width="130"/>
+			</s:ArrayList>
+		</s:columns>
+	</s:DataGrid>
+</s:Application>

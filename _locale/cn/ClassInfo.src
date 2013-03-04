@@ -1,0 +1,12 @@
+﻿# list/query fields
+theClassCode=班级代码
+theClassName=班级名称
+classType=为才艺班
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# E
+classLeavesCode=班别代码
+classLeavesName=班别名称

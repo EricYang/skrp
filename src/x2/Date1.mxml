@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:DateField 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	formatString = "{x2.Fun.sDateFormat}" 
+	yearNavigationEnabled = "true" 
+	editable = "true" 
+	dayNames = "[日,一,二,三,四,五,六]"
+	monthNames="[一,二,三,四,五,六,七,八,九,十,十一,十二]"
+	monthSymbol="月"
+	restrict="0-9/"
+	>
+	
+	<fx:Script>
+		<![CDATA[
+		//labelFunction = "labelFun"
+		//parseFunction = "parseFun"
+		
+		//import mx.formatters.DateFormatter;
+		//import x2.*;
+		
+		/*
+		private function change(p_event:Event):void {
+			Fun.msg("I", "change");
+		}
+		*/
+		
+		/*
+		private function labelFun(p_date:Date):String {
+			var t_df:DateFormatter = new DateFormatter();
+			t_df.formatString = Fun2.dateFormat;
+			return t_df.format(p_date);
+		}
+		
+		//public function parseFun(ps_date:String, ts_format:String="{Fun2.dateFormat}"):Date{
+		private function parseFun(ps_date:String, ts_format:String="YYYY/MM/DD"):Date{
+			if (ps_date == null || ps_date == "") {
+				return null;
+			}                        
+                        
+			var tn_year:Number = Number(ps_date.substr(0,4));
+			var tn_month:Number = Number(ps_date.substr(5,2)) - 1;
+			var tn_day:Number = Number(ps_date.substr(8,2));
+			var t_date:Date = new Date(tn_year, tn_month, tn_day);
+			return t_date;		
+		}
+		*/
+			
+		]]>
+	</fx:Script>
+</mx:DateField>

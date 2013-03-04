@@ -1,0 +1,24 @@
+﻿# list/query fields
+acaName=学年(期)
+classLeavesSn=班级别
+studentName=学生姓名
+funcItemSn=主题
+cDate=日期
+watchTime=时间
+behavior=幼儿行为
+creator=建档人员
+createDate=建档日期
+
+# E
+timeHM=时间
+assay=分析
+advice=老师的建议
+observeRef=观察心得
+
+# Q
+academicYear=学年
+semester=学期
+classInfoSn=班级
+classLeavesSn=班别
+cName=中文姓名
+eName=英文名

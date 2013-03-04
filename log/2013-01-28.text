@@ -1,0 +1,18 @@
+; ::1; 9:25:42; _Service2(GetLang)
+Supervisor; ::1; 9:34:42; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; ::1; 9:34:42; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1359336882)
+Supervisor; ::1; 9:34:42; Login; Supervisor
+Supervisor; ::1; 9:34:44; _Main(getMain)
+Supervisor; ::1; 9:34:45; _Service2(GetLang)
+Supervisor; ::1; 9:34:47; _Service2(GetLang)
+Supervisor; ::1; 9:34:53; _Service2(GetLang)
+Supervisor; ::1; 9:35:16; _Service2(GetLang)
+Supervisor; ::1; 9:35:20; _Service2(CheckSession)
+Supervisor; ::1; 9:35:21; _Service2(CheckSession)
+Supervisor; ::1; 9:35:22; _Service2(GetLang)
+Supervisor; ::1; 9:35:25; _Service2(GetLang)
+Supervisor; ::1; 9:35:30; BookMana(QueryList)
+Supervisor; ::1; 9:35:37; _Service2(GetLang)
+Supervisor; ::1; 9:37:39; BookMana(QueryList)
+Supervisor; ::1; 9:38:20; _Service2(CheckSession)
+Supervisor; ::1; 9:38:23; BookMana(C)

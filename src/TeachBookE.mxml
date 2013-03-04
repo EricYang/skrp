@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="660" height="530" 	 
+  	creationComplete="init()"  	 	
+	preinitialize="{iR=Fun.getLang('TeachBook')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindalbe]
+			private var idw_master:DW;
+			[Bindalbe]
+			private var idw_sickLog:DW2;
+			[Bindalbe]
+			private var is_app:String = Fun.sApp;
+			[Bindalbe]
+			public var bShowColumn:Boolean = true;
+			
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["academicYear","semester"]});	
+			[Bindable]
+			public var ia_studentStart:ArrayList = new ArrayList(Fun2.studentStartDS(is_app, true));
+			[Bindable]
+			public var ia_itemName:ArrayList = new ArrayList(Fun2.itemNameDS(is_app, 3, true));
+			[Bindable]			
+			public var ia_classInfoStartConb:ArrayList = new ArrayList(Fun2.classInfoStartConbDS(is_app, true));
+			
+			private function init():void{				
+				//dw1: TeachBook
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					mapping: true,
+					items: [
+						{source:sn,				dataType:"N",	inputType:"I"}, 
+						{source:academicYear,	dataType:"N",	init:int(i_session.academicYear)}, 
+						{source:semester,		dataType:"N",	init:int(i_session.semester)},
+						{source:acaName,						update:false,	inputType:"R"},
+						{source:classLeavesSn,	dataType:"N"},						
+						{source:subject,		dataType:"S"},
+						{source:cDate,			dataType:"D"},						
+						{source:activities,		dataType:"S"},
+						{source:introspection,	dataType:"S"},
+						{source:specEvent,		dataType:"S"},
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"D",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"D",	inputType:"R"}
+					]				
+				}; 			
+				
+				//dw2: SickLog
+				edit_1.aoDW[1] = new DW2();				
+				idw_sickLog = edit_1.aoDW[1]; 
+				idw_sickLog.xTool = tb_sickLog;
+				idw_sickLog.oConfig = {	
+					autos: ["creator","createDate","reviser","reviseDate"],
+					upDW: idw_master,
+					grid: grid_sickLog,
+					upQKeys: ["sn"],
+					qKeys: ["teachBookSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"teachBookSn", 	dataType:"N", 	inputType:"2"},
+						{fid:"studentSn", 		dataType:"N"},
+						{fid:"funcItemSn",		dataType:"N"},
+						{fid:"cName",			update:false},
+						{fid:"eName",			update:false},
+						{fid:"sDescribe",		dataType:"S"},
+						{fid:"creator",			dataType:"S",	inputType:"R"}, 
+						{fid:"createDate",		dataType:"DT",	inputType:"R"}, 
+						{fid:"reviser",			dataType:"S",	inputType:"R"}, 
+						{fid:"reviseDate",		dataType:"DT",	inputType:"R"}
+					]				
+				};
+			}
+			
+			public function fnStuClick(pn_StuSn:int):void{
+				if (int(pn_StuSn)){
+					var t_win:StudentE = new StudentE();
+					var t_data:Object = {
+						win: t_win,
+						fun: "V",
+						row: {sn:pn_StuSn}
+					};
+					Fun.openPopup(t_win, this);				
+					var t_edit:comEdit = t_win.edit_1; 
+					t_edit.sApp = is_app;
+					t_edit.sInf = "StudentE";
+					t_edit.sTitle = iR.message01;				
+					t_edit.init(t_data);
+				}
+			}
+			
+			public function fnClick(pn_sn:int):void{
+				if (bShowColumn){
+					if (Fun.getItem(classLeavesSn)){
+						var t_win:FindStu = new FindStu();				
+						Fun.openPopup(t_win, this);				
+						
+						t_win.classLeavesSnFlag.visible = false;
+						t_win.theLine.visible = false;
+						t_win.theForm.y = 10;
+						t_win.grid_1.height = 360;
+						t_win.classLeavesSn.selectedIndex = classLeavesSn.selectedIndex;
+						t_win.qry_1.btnReadClick();
+						
+						t_win.qry_1.fSelectRow = fSelectRow;		
+						t_win.qry_1.bCloseAfterQuery = false;
+						t_win.fAfterOk = fSelectRow;
+					}else{
+						Fun.msg("E", iR.message02);
+					}
+				}
+			}			
+			private function fSelectRow(p_row:Object):void{
+				var tn_row:int = grid_sickLog.selectedIndex;
+				
+				var t_row:Object = grid_sickLog.selectedItem;			
+				t_row.cName = p_row.cName;
+				t_row.eName = p_row.eName;
+
+				idw_sickLog.setItemByFid("studentSn", p_row.sn, true, tn_row);
+				Fun.refreshGrid(grid_sickLog, tn_row);
+			}
+			
+			private function whenSave(p_data:Object):Boolean{
+				if (p_data.fun != "D"){
+					//為了讓儲存時, 也能同時更新顯示的頁面, 所以要特別給予值
+					Fun.setItem(acaName, String(Fun.getItem(academicYear))+ ' - '+String(Fun.getItem(semester)));
+				}
+				return true;
+			}
+			private function afterOpen(p_data:Object):void{
+				switch (p_data.fun){
+					case "C":
+					case "U":
+						bShowColumn = true;										
+						break;
+					case "V":
+						bShowColumn = false;				
+						break;
+				}
+			}
+		]]>
+	</fx:Script>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="academicYear" visible="false"/>
+	<x2:Num1 id="semester" visible="false"/>
+	<s:TextInput id="acaName" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>	
+	<mx:TabNavigator x="10" y="10" width="629" height="437">
+		<s:NavigatorContent label="{iR.Canvas01}">
+			<s:Form x="10" y="10">				
+				<s:layout> 
+					<s:FormLayout gap="-10"/>
+				</s:layout>
+				<s:FormItem label="{iR.classLeavesSn} :" required="true">
+					<x2:DDL1 id="classLeavesSn" dataProvider="{ia_classInfoStartConb}"></x2:DDL1>			
+				</s:FormItem>
+				<s:FormItem label="{iR.subject} :" required="true">
+					<s:TextInput width="400" id="subject"/>
+				</s:FormItem>
+				<s:FormItem label="{iR.cDate} :" required="true">
+					<mx:DateField id="cDate" formatString="YYYY/MM/DD" yearNavigationEnabled="true"/>
+				</s:FormItem>
+				<s:FormItem label="{iR.activities} :" required="true">
+					<mx:TextArea width="400" height="90" id="activities"/>
+				</s:FormItem>
+				<s:FormItem label="{iR.introspection} :">
+					<mx:TextArea width="400" height="90" id="introspection"/>
+				</s:FormItem>
+				<s:FormItem label="{iR.specEvent} :">
+					<mx:TextArea width="400" height="60" id="specEvent"/>
+				</s:FormItem>
+			</s:Form>
+		</s:NavigatorContent>
+		<s:NavigatorContent label="{iR.Canvas02}">
+			<s:Form x="9" y="29">
+				<x2:DG2 width="570" alpha="0.7"	height="327" id="grid_sickLog">
+					<x2:columns><s:ArrayList>
+						<!-- 讀取 Table Name: SickLog 的資料 -->
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="teachBookSn" visible="false"/>
+						<s:GridColumn dataField="studentSn" visible="false"/>
+						<s:GridColumn dataField="creator" visible="false"/>
+						<s:GridColumn dataField="createDate" visible="false"/>
+						<s:GridColumn dataField="reviser" visible="false"/>
+						<s:GridColumn dataField="reviseDate" visible="false"/>						
+						<s:GridColumn headerText="{iR.funcItemSn}" dataField="funcItemSn" width="100">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:DDL2 dataProvider="{outerDocument.ia_itemName}"/>
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn width="20">
+							<s:itemRenderer><fx:Component><x2:irCenterVH>
+								<s:Image source="@Embed(source='x2/image/view.png')" scaleMode="letterbox" smooth="true" smoothingQuality="high" buttonMode="true" toolTip="View ..." click="outerDocument.fnStuClick(data.studentSn)"/>
+							</x2:irCenterVH></fx:Component></s:itemRenderer>											
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.cName}" dataField="cName"/>
+						<!-- 卡
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<s:Label text="{data.cName}" useHandCursor="true" mouseChildren="false" buttonMode="true" textDecoration="underline" color="#0000FF" click="outerDocument.fnStuClick(data.studentSn)"/>
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						-->
+						<s:GridColumn headerText="{iR.eName}" dataField="eName"/>						
+						<s:GridColumn headerText="{iR.sDescribe}" dataField="sDescribe" width="200">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:Text2/>																	
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn width="40">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:btnPick click="outerDocument.fnClick(data.sn)"/>									
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</s:Form>			
+			<x2:TBar2 x="336" y="4" id="tb_sickLog">
+			</x2:TBar2>
+		</s:NavigatorContent>
+	</mx:TabNavigator>
+	<x2:comEdit x="10" y="459" id="edit_1" fWhenSave="whenSave" fAfterOpen="afterOpen">
+	</x2:comEdit>
+</s:TitleWindow>

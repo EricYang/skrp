@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:flexlib="http://code.google.com/p/flexlib/" 
+	xmlns:flow="flow.*"
+	layout="absolute" width="500" height="400">
+	<!--
+	<mx:Canvas x="0" y="0" width="500" height="400">
+	-->
+		<flow:DragScrollingCanvas x="25" y="25" 
+									 borderStyle="inset" id="dragCanvas"
+									 width="450" height="350" 
+									 childrenDoDrag="true" backgroundColor="#feefd3" backgroundAlpha=".65" cornerRadius="0"
+									 creatingContentPane="true"
+									 >
+			<!--
+			<mx:Image id="myLogo" source="@Embed('canvasT1.jpg')"/>
+			-->
+		</flow:DragScrollingCanvas>
+	<!--
+	</mx:Canvas>
+	-->
+</mx:Application> 

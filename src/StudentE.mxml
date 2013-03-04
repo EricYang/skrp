@@ -1,0 +1,647 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="890" height="460" 	 
+  	creationComplete="init()"  
+	preinitialize="{iR=Fun.getLang('Student')}"
+	>
+	<fx:Script>
+		<![CDATA[
+
+			import mx.collections.ArrayCollection;
+			import mx.collections.ArrayList;
+			import mx.utils.StringUtil;
+			
+			import x2.*;			
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindalbe]
+			private var idw_master:DW;
+			[Bindalbe]
+			private var idw_parent:DW2, idw_studentHW:DW2, idw_studentMT:DW2, idw_studentDI:DW2;			
+			[Bindalbe]
+			private var is_app:String = Fun.sApp;
+			[Bindalbe]
+			public var bShowColumn:Boolean = true;			
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["usersSn","academicYear","semester","schoolDSn"]});
+			[Bindable]
+			private var ia_gender:ArrayList = new ArrayList(Fun2.genderDS(is_app, true));
+			[Bindable]
+			private var ia_classInfoName:ArrayList = new ArrayList(Fun2.classInfoNameDS(is_app, true));
+			[Bindable]
+			public var ia_urgentFlag:ArrayList = new ArrayList(Fun2.urgentFlagDS(is_app, true));
+			[Bindable]
+			public var ia_itemName:ArrayList = new ArrayList(Fun2.itemNameDS(is_app, 5, true));
+			[Bindable]
+			public var ia_ynFlag:ArrayList = new ArrayList(Fun2.ynFlagDS(is_app, true));
+			
+			private function init():void{
+				
+				//dw1: Student
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					mapping: true,
+					items: [
+						{source:sn,				dataType:"N",	inputType:"I"},
+						{source:stuNo,			dataType:"S"},
+						{source:cName,			dataType:"S"},
+						{source:eName,			dataType:"S"},					
+						{source:acaName,						update:false,	inputType:"R"},
+						{source:studentName,					update:false,	inputType:"R"},						
+						{source:gender,			dataType:"S"},
+						{source:birthDate,		dataType:"D"},
+						{source:idNo,			dataType:"S"},
+						{source:address,		dataType:"S"},
+						{source:enrollFlag,		dataType:"N"},
+						{source:fileName,		dataType:"S"},
+						{source:deleFlag,		dataType:"N"},
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"D",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"D",	inputType:"R"}
+					]				
+				}; 			
+				
+				//dw2: PSRelation
+				edit_1.aoDW[1] = new DW2();
+				idw_parent = edit_1.aoDW[1]; 
+				idw_parent.xTool = tb_student;
+				idw_parent.oConfig = {			
+					upDW: idw_master,
+					grid: grid_student,
+					upQKeys: ["sn"],
+					qKeys: ["studentSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"studentSn", 		dataType:"N", 	inputType:"2"},
+						{fid:"parentSn",		dataType:"N"},
+						{fid:"relationship",	dataType:"S"},
+						{fid:"sePicker",		dataType:"N"},
+						{fid:"urConter",		dataType:"N"},
+						{fid:"idNo",			update:false},
+						{fid:"cName",			update:false},						
+						{fid:"gender",			update:false},
+						{fid:"conTel",			update:false}
+					]				
+				};
+							
+				//dw4: StudentHW
+				edit_1.aoDW[2] = new DW2();
+				idw_studentHW = edit_1.aoDW[2]; 
+				idw_studentHW.xTool = tb_hw;
+				idw_studentHW.oConfig = {			
+					upDW: idw_master,
+					grid: grid_hw,
+					upQKeys: ["sn"],
+					qKeys: ["studentSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"studentSn", 		dataType:"N", 	inputType:"2"},
+						{fid:"cDate",			dataType:"D"},
+						{fid:"stature",			dataType:"N"},
+						{fid:"weight",			dataType:"N"}
+					]				
+				};
+				
+				//dw5: StudentMT
+				edit_1.aoDW[3] = new DW2();
+				idw_studentMT = edit_1.aoDW[3]; 
+				idw_studentMT.xTool = tb_studentMT;
+				idw_studentMT.oConfig = {			
+					upDW: idw_master,
+					grid: grid_studentMT,
+					upQKeys: ["sn"],
+					qKeys: ["studentSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"studentSn", 		dataType:"N", 	inputType:"2"},
+						{fid:"publicDeptSn",	dataType:"N"},
+						{fid:"urgentFlag",		dataType:"N"},
+						{fid:"unitName",		update:false},
+						{fid:"conTel",			update:false},						
+						{fid:"address",			update:false}
+					]				
+				};
+				
+				//dw6: StudentDI
+				edit_1.aoDW[4] = new DW2();
+				idw_studentDI = edit_1.aoDW[4]; 
+				idw_studentDI.xTool = tb_studentDI;
+				idw_studentDI.oConfig = {			
+					upDW: idw_master,
+					grid: grid_studentDI,
+					upQKeys: ["sn"],
+					qKeys: ["studentSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"studentSn", 		dataType:"N", 	inputType:"2"},
+						{fid:"funcItemSn",		dataType:"N"},
+						{fid:"sDescribe",		dataType:"S"}
+					]				
+				};
+			}
+			private function whenSave(p_data:Object):Boolean{				
+				if (p_data.fun != "D"){
+					
+					//為了讓儲存時, 也能同時更新顯示的頁面, 所以要特別給予值
+					Fun.setItem(acaName, String(i_session.academicYear)+ ' - ' +String(i_session.semester));
+					Fun.setItem(studentName, Fun.getItem(cName)+ ' ' +Fun.getItem(eName));					
+				}
+				return true;
+			}
+			private function afterOpen(p_data:Object):void{
+				tmpFileName.text = "";				
+				switch (p_data.fun){
+					case "C":
+						imageName.source = Fun.sDirRoot + Fun2.fStudents + "images.jpg";
+						break;					
+					case "U":
+					case "V":
+						var fileNames:String = StringUtil.trim(Fun.getItem(fileName) as String);
+						
+						if (fileNames==""){
+							fileNames="images.jpg";						
+						}
+						imageName.source = Fun.sDirRoot + Fun2.fStudents + fileNames;
+						
+						//列出學生班級歷史
+						var t_datass:Object = {
+							data: "listStudentStatusHistory",
+							studentSn: int(Fun.getItem(sn))
+						};
+						var tass_row:Array = Fun.readRows(is_app, t_datass);
+						grid_StudentStatus.dataProvider = new ArrayCollection(tass_row);
+
+						//列出伙食過敏情形
+						var t_datafs:Object = {
+							data: "listFoodSickHistory",
+							studentSn: int(Fun.getItem(sn))
+						};
+						var tafs_row:Array = Fun.readRows(is_app, t_datafs);
+						grid_FoodSick.dataProvider = new ArrayCollection(tafs_row);
+						break;
+				}
+				
+				//相關隱藏顯示設定
+				switch (p_data.fun){					
+					case "C":
+						bShowColumn = true;
+						uploadFiles.visible = true;
+						
+						FoodSick.enabled = false;
+						StudentStatus.enabled = false;
+						//tns.removeChild(FoodSick);
+						//tns.removeChild(StudentStatus);						
+						break;
+					case "U":
+						//針對學生班級別做處理
+						bShowColumn = true;
+						uploadFiles.visible = true;
+						FoodSick.enabled = true;
+						StudentStatus.enabled = true;
+						//tns.addChild(FoodSick);
+						//tns.addChild(StudentStatus);
+						break;
+					case "V":
+						bShowColumn = false;
+						uploadFiles.visible = false;
+						FoodSick.enabled = true;
+						StudentStatus.enabled = true;
+						//tns.addChild(FoodSick);			
+						//tns.addChild(StudentStatus);
+						break;
+				}
+				
+			}
+			
+			private function getRowBackgroundColor(item:Object):uint{
+				if( item.color!=null ){
+					return item.color;
+				}
+				return 0xFFCCFF;				
+			}
+			
+			public function fnParClick(pn_ParSn:int):void{
+				if (int(pn_ParSn)){
+					var t_win:ParentE = new ParentE();
+					//t_win.tnsaTemp = 3;
+					var t_data:Object = {
+						win: t_win,
+						fun: "V",
+						row: {sn:pn_ParSn}
+					};
+					Fun.openPopup(t_win, this);				
+					var t_edit:comEdit = t_win.edit_1; 
+					t_edit.sApp = is_app;
+					t_edit.sInf = "ParentE";
+					t_edit.sTitle = iR.message02;				
+					t_edit.init(t_data);
+					t_win.tnsa.removeChild(t_win.canvasLabel3);
+					t_win.tb_parent.visible = false;					
+				}				
+			}
+			
+			public function fnClassTeacherClick(pn_startClassSn:int):void{
+				if (int(pn_startClassSn)){
+					var s_data:Object = {
+						data: "classType",
+						sn: int(pn_startClassSn)
+					};				
+					var sa_data:Object = Fun.readRow(is_app, s_data);
+					var t_data:Object;
+					//var t_edit:comEdit; 
+					switch (sa_data.classType){
+						case "0":
+							var t_win:StartClassE = new StartClassE();
+							t_win.canvasLabel2Temp = 2; //1 開啟, 2 關閉
+							t_data = {
+								win: t_win,
+								fun: "V",
+								row: {sn:pn_startClassSn}
+							};
+							Fun.openPopup(t_win, this);				
+							var t_edit:comEdit = t_win.edit_1;
+							t_edit.sApp = is_app;
+							t_edit.sInf = "StartClassE";
+							t_edit.sTitle = iR.message05;							
+							t_edit.init(t_data);							
+							t_win.tb_ClassTeacher.visible = false;
+							break;
+						case "1":
+							var t_wins:SkillClassE = new SkillClassE();							
+							t_data = {
+								win: t_wins,
+								fun: "V",
+								row: {sn:pn_startClassSn}
+							};
+							Fun.openPopup(t_wins, this);							
+							var t_edit:comEdit = t_wins.edit_1;
+							t_edit.sApp = is_app;
+							t_edit.sInf = "SkillClassE";
+							t_edit.sTitle = iR.message05;					
+							t_edit.init(t_data);
+							t_wins.fTuition.visible = false;
+							t_wins.fClassH.visible = false;							
+							t_wins.tb_ClassTeacher.visible = false;
+							t_wins.tns.removeChild(t_wins.canvasLabel3);							
+							break;
+					}					
+				}				
+			}
+			
+			//家庭成員
+			public function fnClick(pn_sn:int):void{
+				if (bShowColumn){
+					var t_win:FindParent = new FindParent();
+					Fun.openPopup(t_win, this);				
+					
+					t_win.qry_1.fSelectRow = fSelectRow;
+					t_win.qry_1.bCloseAfterQuery = false;
+					t_win.fAfterOk = fSelectRow;
+				}
+			}
+			
+			private function fSelectRow(p_row:Object):void{
+				var tn_row:int = grid_student.selectedIndex;
+				
+				var t_row:Object = grid_student.selectedItem;				
+				t_row.idNo = p_row.idNo;
+				t_row.cName = p_row.cName;				
+				t_row.gender = p_row.gender;
+				t_row.conTel = p_row.conTel;
+				
+				idw_parent.setItemByFid("parentSn", p_row.sn, true, tn_row);
+				Fun.refreshGrid(grid_student, tn_row);
+			}
+			
+			//經常就診醫療院所
+			public function fnClickPublicDept(pn_sn:int):void{
+				if (bShowColumn){
+					var t_win:FindPublicDept = new FindPublicDept();
+					t_win.infoCategoryValue = 1;
+					Fun.openPopup(t_win, this);				
+					
+					t_win.qry_1.fSelectRow = fSelectRowPD;
+					t_win.qry_1.bCloseAfterQuery = false;
+					t_win.fAfterOk = fSelectRowPD;
+				}
+			}
+			
+			private function fSelectRowPD(p_row:Object):void{
+				var tn_row:int = grid_studentMT.selectedIndex;
+				
+				var t_row:Object = grid_studentMT.selectedItem;				
+				t_row.unitName = p_row.unitName;
+				t_row.conTel = p_row.conTel;				
+				t_row.address = p_row.address;				
+				
+				idw_studentMT.setItemByFid("publicDeptSn", p_row.sn, true, tn_row);
+				Fun.refreshGrid(grid_studentMT, tn_row);
+			}
+			
+			private function genderParent(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_gender, p_row[p_column.dataField]);
+			}
+			private function classInfoName(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_classInfoName, p_row[p_column.dataField]);
+			}
+			
+			private var i_file:FileReference;
+			private function fnUpload():void {
+				i_file = new FileReference();
+				i_file.addEventListener(Event.SELECT, getFile);
+				i_file.addEventListener(Event.COMPLETE, onComplete);				
+				i_file.browse();
+			}			
+						
+			private function getFile(p_event:Event):void {
+				
+				var fileTypeTmp:String = String(p_event.target.type).toLowerCase();				
+				switch (fileTypeTmp){
+					case ".jpg":
+					case ".gif":
+					case ".jpeg":
+					case ".png":
+						var fileNameTmp:String = StringUtil.trim('Student_' + String(i_session.schoolDSn) + '_' + String(i_session.usersSn) + '_' + String(new Date().getTime()) + fileTypeTmp);
+						
+						var t_file:Object = {};
+						t_file[Fun.csFile] = i_file;
+						t_file[Fun.csFilePath] = Fun2.fStudents + fileNameTmp;
+						FL.upload(this, is_app, [t_file]);
+						
+						Fun.setItem(tmpFileName, p_event.target.name);
+						idw_master.setItem(fileName, fileNameTmp, true);
+
+						is_file = Fun.sDirRoot + Fun2.fStudents + fileNameTmp;
+						
+						break;					
+					default:					
+						Fun.msg("E", iR.message06);
+						break;
+				}
+				
+			}
+			
+			private var is_file:String;
+			private function onComplete(p_event:Event):void {				
+				var loader:Loader = new Loader();				
+				var request:URLRequest=new URLRequest(is_file);				
+				loader.contentLoaderInfo.addEventListener(Event.COMPLETE,function():void {
+				//loader.contentLoaderInfo.addEventListener(DataEvent.UPLOAD_COMPLETE_DATA, function():void {
+					imageName.source = loader.content;
+					loader.contentLoaderInfo.removeEventListener(Event.COMPLETE, arguments.callee);
+				});
+				loader.load(request);
+			}
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10" y="388" id="edit_1" fWhenSave="whenSave" fAfterOpen="afterOpen">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>	
+	<s:TextInput id="acaName" visible="false"/>
+	<s:TextInput id="studentName" visible="false"/>	
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+
+	<mx:TabNavigator x="10" y="10" width="864" height="373" id="tns">
+		<mx:Canvas label="{iR.Canvas01}">
+			<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+				<mx:FormItem label="{iR.stuNo} :" required="true">
+					<s:TextInput id="stuNo"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.cName} :" required="true">
+					<s:TextInput id="cName"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.eName} :">
+					<s:TextInput id="eName"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.gender} :" required="true">
+					<x2:DDL1 id="gender" dataProvider="{ia_gender}"></x2:DDL1>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.birthDate} :" required="true">
+					<mx:DateField formatString="YYYY/MM/DD" id="birthDate" yearNavigationEnabled="true"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.idNo} :">
+					<s:TextInput id="idNo"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.enrollFlag} :" required="true">
+					<x2:DDL1 id="enrollFlag" dataProvider="{ia_ynFlag}"></x2:DDL1>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.address} :" required="true">
+					<s:TextInput id="address" width="358"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.deleFlag} :">
+					<x2:DDL1 id="deleFlag" dataProvider="{ia_ynFlag}"></x2:DDL1>			
+				</mx:FormItem>
+			</mx:Form>
+			<mx:Form x="424" y="10">
+				<mx:Image id="imageName" width="148" height="123" autoLoad="true" scaleContent="true" smoothBitmapContent="true"/>				
+				<mx:FormItem label="{iR.uploadFiles} :" width="100%" id="uploadFiles">
+					<mx:HBox width="100%">
+						<s:TextInput id="tmpFileName" editable="false" enabled="false" width="121"/>										
+						<mx:Button label="{iR.tmpFileName}" click="fnUpload()"/>						
+					</mx:HBox>
+					<s:TextInput id="fileName" visible="false"/>
+				</mx:FormItem>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas02}" id="StudentStatus">
+			<mx:Form x="10" y="13">
+				<x2:DG2 width="800" alpha="0.7" height="285" id="grid_StudentStatus">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="startClassSn" visible="false"/>
+						<s:GridColumn headerText="{iR.acaFlag}" dataField="acaFlag" width="50"/>
+						<s:GridColumn headerText="{iR.academicYear}" dataField="academicYear" width="100"/>
+						<s:GridColumn headerText="{iR.semester}" dataField="semester" width="100"/>
+						<s:GridColumn width="20">
+							<s:itemRenderer><fx:Component><x2:irCenterVH>
+								<s:Image source="@Embed(source='x2/image/view.png')" scaleMode="letterbox" smooth="true" smoothingQuality="high" buttonMode="true" toolTip="View ..." click="outerDocument.fnClassTeacherClick(data.startClassSn)"/>
+							</x2:irCenterVH></fx:Component></s:itemRenderer>											
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.classLeavesSn}" dataField="classLeavesSn" labelFunction="classInfoName"/>
+						<!-- 卡
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<mx:Label useHandCursor="true" mouseChildren="false" buttonMode="true" textDecoration="underline" color="#0000FF" click="outerDocument.fnClassTeacherClick(data.startClassSn)"/>															
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						-->
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas03}">
+			<mx:Form x="10" y="29">
+				<x2:DG2 width="561" alpha="0.7" height="269" id="grid_hw">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>						
+						<s:GridColumn dataField="studentSn" visible="false"/>
+						<s:GridColumn headerText="{iR.cDate}" dataField="cDate">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:Date2 id="cDate" editable="false"/>						
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.stature}" dataField="stature" width="200">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:Text2 restrict="0-9"/>						
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.weight}" dataField="weight" width="200">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:Text2 restrict="0-9"/>						
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>
+			<x2:TBar2 x="328" y="4" id="tb_hw">
+			</x2:TBar2>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas04}" id="urgentHandle">
+			<mx:Form x="10" y="29">
+				<x2:DG2 width="800" alpha="0.7" height="269" id="grid_studentMT">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>						
+						<s:GridColumn dataField="studentSn" visible="false"/>
+						<s:GridColumn dataField="publicDeptSn" visible="false"/>
+						<s:GridColumn headerText="{iR.urgentFlag}" dataField="urgentFlag" width="70">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:DDL2 dataProvider="{outerDocument.ia_urgentFlag}"/>
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.unitName}" dataField="unitName" width="170"/>
+						<s:GridColumn headerText="{iR.conTel}" dataField="conTel" width="150"/>						
+						<s:GridColumn headerText="{iR.address}" dataField="address"/>						
+						<s:GridColumn width="40">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:btnPick click="outerDocument.fnClickPublicDept(data.sn)"/>									
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>
+			<x2:TBar2 x="567" y="4" id="tb_studentMT">
+			</x2:TBar2>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas05}" id="Disease">
+			<mx:Form x="10" y="29">
+				<x2:DG2 width="800" alpha="0.7" height="269" id="grid_studentDI">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>						
+						<s:GridColumn dataField="studentSn" visible="false"/>						
+						<s:GridColumn headerText="{iR.funcItemSn}" dataField="funcItemSn" width="100">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:DDL2 dataProvider="{outerDocument.ia_itemName}"/>
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.sDescribe}" dataField="sDescribe">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:Text2/>						
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>
+			<x2:TBar2 x="567" y="4" id="tb_studentDI">
+			</x2:TBar2>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas06}" id="FoodSick">
+			<mx:Form x="10" y="13">
+				<s:DataGrid width="800" alpha="0.7"	height="285" id="grid_FoodSick">
+					<s:columns><s:ArrayList>
+						<s:GridColumn headerText="{iR.cDate}" dataField="cDate" width="120"/>
+						<s:GridColumn headerText="{iR.senCon}" dataField="senCon"/>						
+						<s:GridColumn headerText="{iR.avoidFood}" dataField="avoidFood"/>		
+					</s:ArrayList></s:columns>
+				</s:DataGrid>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas07}" height="100%">
+			<mx:Form x="10" y="29">
+				<x2:DG2 width="800" alpha="0.7" height="269" id="grid_student">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="parentSn" visible="false"/>
+						<s:GridColumn dataField="studentSn" visible="false"/>
+						<s:GridColumn headerText="{iR.relationship}" dataField="relationship" width="80">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:Text2/>						
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.sePicker}" dataField="sePicker" width="90">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:DDL2 dataProvider="{outerDocument.ia_ynFlag}"/>
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.urConter}" dataField="urConter" width="90">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:DDL2 dataProvider="{outerDocument.ia_ynFlag}"/>
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.idNo}" dataField="idNo" width="150"/>
+						<s:GridColumn width="20">
+							<s:itemRenderer><fx:Component><x2:irCenterVH>
+								<s:Image source="@Embed(source='x2/image/view.png')" scaleMode="letterbox" smooth="true" smoothingQuality="high" buttonMode="true" toolTip="View ..." click="outerDocument.fnParClick(data.parentSn)"/>
+							</x2:irCenterVH></fx:Component></s:itemRenderer>											
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.cName}" dataField="cName"/>
+						<!-- 卡
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<mx:Label useHandCursor="true" mouseChildren="false" buttonMode="true" textDecoration="underline" color="#0000FF" click="outerDocument.fnParClick(data.parentSn)"/>															
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						-->
+						<s:GridColumn headerText="{iR.gender}" dataField="gender" width="50" labelFunction="genderParent"/>
+						<s:GridColumn headerText="{iR.conTel}" dataField="conTel"/>
+						<s:GridColumn width="40">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:btnPick click="outerDocument.fnClick(data.sn)"/>									
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>
+			<x2:TBar2 x="567" y="4" id="tb_student">
+			</x2:TBar2>
+		</mx:Canvas>
+	</mx:TabNavigator>	
+</s:TitleWindow>

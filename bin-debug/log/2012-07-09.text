@@ -1,0 +1,612 @@
+; 127.0.0.1; 10:32:16; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:32:55; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 10:32:55; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341801175)
+Supervisor; 127.0.0.1; 10:32:55; Login; Supervisor
+Supervisor; 127.0.0.1; 10:32:56; _Main(getMain)
+Supervisor; 127.0.0.1; 10:32:57; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:32:59; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:33:06; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:35:00; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 10:35:01; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 10:35:02; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:35:02; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 10:35:06; LearnPro(QueryEdit)
+Supervisor; 127.0.0.1; 10:35:30; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 10:35:31; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 10:35:32; LearnPro(QueryEdit)
+Supervisor; 127.0.0.1; 10:35:49; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 10:35:51; LearnPro(U)
+Supervisor; 127.0.0.1; 10:35:51; _UpdateDB; update LearnPro set classLeavesSn=1,reviser=N'Supervisor',reviseDate='2012-07-09 10:35:50' where sn=1
+Supervisor; 127.0.0.1; 10:38:25; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 10:38:26; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 10:38:28; LearnPro(QueryEdit)
+; 127.0.0.1; 11:15:01; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:15:06; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 11:15:06; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341803706)
+Supervisor; 127.0.0.1; 11:15:06; Login; Supervisor
+Supervisor; 127.0.0.1; 11:15:07; _Main(getMain)
+Supervisor; 127.0.0.1; 11:15:08; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:15:10; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:15:16; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:17:23; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:17:24; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:17:25; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:17:25; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 11:17:29; LearnPro(QueryEdit)
+Supervisor; 127.0.0.1; 11:17:43; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:18:02; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:18:03; LearnPro(QueryList)
+Supervisor; 127.0.0.1; 11:18:19; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:18:22; LearnPro(U)
+Supervisor; 127.0.0.1; 11:18:43; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:18:44; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:18:45; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:18:45; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 11:18:48; LearnPro(QueryEdit)
+Supervisor; 127.0.0.1; 11:19:10; _Service2(GetLang)
+; 127.0.0.1; 11:20:15; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:20:26; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 11:20:26; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341804026)
+Supervisor; 127.0.0.1; 11:20:26; Login; Supervisor
+Supervisor; 127.0.0.1; 11:20:27; _Main(getMain)
+Supervisor; 127.0.0.1; 11:20:28; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:20:30; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:20:36; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:21:03; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:21:04; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:21:05; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:21:05; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 11:21:08; LearnPro(QueryEdit)
+Supervisor; 127.0.0.1; 11:21:44; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:21:49; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:21:51; LearnPro(QueryList)
+Supervisor; 127.0.0.1; 11:21:55; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:21:56; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:21:57; LearnPro(QueryEdit)
+Supervisor; 127.0.0.1; 11:22:07; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:22:08; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:22:10; LearnPro(QueryEdit)
+Supervisor; 127.0.0.1; 11:23:14; _Service2(CheckSession)
+; 127.0.0.1; 11:24:17; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:24:19; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 11:24:19; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341804259)
+Supervisor; 127.0.0.1; 11:24:19; Login; Supervisor
+Supervisor; 127.0.0.1; 11:24:20; _Main(getMain)
+Supervisor; 127.0.0.1; 11:24:21; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:24:23; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:24:30; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:24:51; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:24:52; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:24:53; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:24:53; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 11:24:56; LearnPro(QueryEdit)
+Supervisor; 127.0.0.1; 11:25:09; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:25:11; LearnPro(U)
+Supervisor; 127.0.0.1; 11:25:11; _UpdateDB; update LearnPro set classLeavesSn=14,reviser=N'Supervisor',reviseDate='2012-07-09 11:25:10' where sn=1
+; 127.0.0.1; 11:26:08; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:26:11; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 11:26:11; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341804371)
+Supervisor; 127.0.0.1; 11:26:11; Login; Supervisor
+Supervisor; 127.0.0.1; 11:26:12; _Main(getMain)
+Supervisor; 127.0.0.1; 11:26:13; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:26:15; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:26:21; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:26:40; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:26:41; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:26:42; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:26:42; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 11:26:46; LearnPro(QueryEdit)
+Supervisor; 127.0.0.1; 11:27:10; _Service2(CheckSession)
+; 127.0.0.1; 11:27:47; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:27:50; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 11:27:50; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341804470)
+Supervisor; 127.0.0.1; 11:27:50; Login; Supervisor
+Supervisor; 127.0.0.1; 11:27:51; _Main(getMain)
+Supervisor; 127.0.0.1; 11:27:52; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:27:54; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:28:00; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:28:22; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:28:23; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:28:24; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:28:24; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 11:28:28; LearnPro(QueryEdit)
+Supervisor; 127.0.0.1; 11:28:32; _Service2(CheckSession)
+; 127.0.0.1; 11:32:34; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:32:40; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 11:32:40; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341804760)
+Supervisor; 127.0.0.1; 11:32:40; Login; Supervisor
+Supervisor; 127.0.0.1; 11:32:41; _Main(getMain)
+Supervisor; 127.0.0.1; 11:32:42; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:32:44; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:32:50; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:33:13; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:33:14; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:33:15; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:33:15; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 11:33:18; LearnPro(QueryEdit)
+Supervisor; 127.0.0.1; 11:33:22; _Service2(CheckSession)
+; 127.0.0.1; 11:34:56; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:34:59; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 11:34:59; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341804899)
+Supervisor; 127.0.0.1; 11:34:59; Login; Supervisor
+Supervisor; 127.0.0.1; 11:35:00; _Main(getMain)
+Supervisor; 127.0.0.1; 11:35:01; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:35:03; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:35:09; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:35:28; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:35:29; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:35:30; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:35:30; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 11:35:34; LearnPro(QueryEdit)
+Supervisor; 127.0.0.1; 11:35:37; _Service2(CheckSession)
+; 127.0.0.1; 11:38:35; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:39:17; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 11:39:17; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341805157)
+Supervisor; 127.0.0.1; 11:39:17; Login; Supervisor
+Supervisor; 127.0.0.1; 11:39:18; _Main(getMain)
+Supervisor; 127.0.0.1; 11:39:19; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:39:21; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:39:27; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:39:50; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:39:51; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:39:52; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:39:52; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 11:39:55; LearnPro(QueryEdit)
+Supervisor; 127.0.0.1; 11:40:01; _Service2(CheckSession)
+; 127.0.0.1; 11:41:22; _Service2(GetLang)
+Supervisor; 127.0.0.1; 12:45:27; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 12:45:27; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341809127)
+Supervisor; 127.0.0.1; 12:45:27; Login; Supervisor
+Supervisor; 127.0.0.1; 12:45:28; _Main(getMain)
+Supervisor; 127.0.0.1; 12:45:29; _Service2(GetLang)
+Supervisor; 127.0.0.1; 12:45:31; _Service2(GetLang)
+Supervisor; 127.0.0.1; 12:45:37; _Service2(GetLang)
+; 127.0.0.1; 12:47:12; _Service2(GetLang)
+Supervisor; 127.0.0.1; 12:48:17; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 12:48:17; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341809297)
+Supervisor; 127.0.0.1; 12:48:17; Login; Supervisor
+Supervisor; 127.0.0.1; 12:48:18; _Main(getMain)
+Supervisor; 127.0.0.1; 12:48:19; _Service2(GetLang)
+Supervisor; 127.0.0.1; 12:48:21; _Service2(GetLang)
+Supervisor; 127.0.0.1; 12:48:27; _Service2(GetLang)
+Supervisor; 127.0.0.1; 12:48:47; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 12:48:48; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 12:48:49; _Service2(GetLang)
+Supervisor; 127.0.0.1; 12:48:49; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 12:48:52; LearnPro(QueryEdit)
+Supervisor; 127.0.0.1; 12:49:07; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 12:49:49; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 12:49:51; LearnPro(U)
+Supervisor; 127.0.0.1; 12:49:51; _UpdateDB; update LearnPro set classLeavesSn=1,reviser=N'Supervisor',reviseDate='2012-07-09 12:49:50' where sn=1
+Supervisor; 127.0.0.1; 12:49:52; _UpdateDB; DELETE FROM LearnProTG
+                    WHERE sn IN (
+                        SELECT c.sn 
+                        FROM LearnPro a, LearnProPT b, LearnProTG c
+                        WHERE a.sn = b.learnProSn AND b.sn = c.learnProPTSn
+                        AND a.sn = '1' AND c.classLeavesSn != '1'
+                        AND c.academicYear = 900 AND c.semester = 1
+                    )
+Supervisor; 127.0.0.1; 12:49:52; You can't specify target table 'LearnProTG' for update in FROM clause
+   sql: DELETE FROM LearnProTG
+                    WHERE sn IN (
+                        SELECT c.sn 
+                        FROM LearnPro a, LearnProPT b, LearnProTG c
+                        WHERE a.sn = b.learnProSn AND b.sn = c.learnProPTSn
+                        AND a.sn = '1' AND c.classLeavesSn != '1'
+                        AND c.academicYear = 900 AND c.semester = 1
+                    )
+Supervisor; 127.0.0.1; 12:50:11; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 12:50:12; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 12:50:13; LearnPro(QueryEdit)
+Supervisor; 127.0.0.1; 12:51:31; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 12:51:31; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 12:51:32; LearnPro(QueryEdit)
+Supervisor; 127.0.0.1; 12:51:42; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 12:51:43; LearnPro(U)
+Supervisor; 127.0.0.1; 12:51:43; _UpdateDB; update LearnPro set classLeavesSn=14,reviser=N'Supervisor',reviseDate='2012-07-09 12:51:42' where sn=1
+; 127.0.0.1; 12:56:10; _Service2(GetLang)
+; 127.0.0.1; 12:56:10; _Service2(GetLang)
+; 127.0.0.1; 12:56:10; _Service2(GetLang)
+; 127.0.0.1; 12:56:19; _Service2(GetLang)
+Supervisor; 127.0.0.1; 12:58:05; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 12:58:05; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341809885)
+Supervisor; 127.0.0.1; 12:58:05; Login; Supervisor
+Supervisor; 127.0.0.1; 12:58:05; _Main(getMain)
+Supervisor; 127.0.0.1; 12:58:05; _Service2(GetLang)
+Supervisor; 127.0.0.1; 12:58:06; _Service2(GetLang)
+Supervisor; 127.0.0.1; 12:58:07; _Service2(GetLang)
+Supervisor; 127.0.0.1; 12:58:19; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 12:58:20; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 12:58:20; _Service2(GetLang)
+Supervisor; 127.0.0.1; 12:58:20; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 12:58:22; LearnPro(QueryEdit)
+Supervisor; 127.0.0.1; 12:58:29; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 12:58:30; LearnPro(U)
+Supervisor; 127.0.0.1; 12:58:30; _UpdateDB; update LearnPro set classLeavesSn=1,reviser=N'Supervisor',reviseDate='2012-07-09 12:58:30' where sn=1
+Supervisor; 127.0.0.1; 12:58:36; _UpdateDB; DELETE FROM LearnProTG
+                    WHERE sn IN (
+                        SELECT c.sn 
+                        FROM LearnPro a, LearnProPT b, LearnProTG c
+                        WHERE a.sn = b.learnProSn AND b.sn = c.learnProPTSn
+                        AND a.sn = '1' AND c.classLeavesSn != '1'
+                        AND c.academicYear = 900 AND c.semester = 1
+                    )
+Supervisor; 127.0.0.1; 12:58:36; You can't specify target table 'LearnProTG' for update in FROM clause
+   sql: DELETE FROM LearnProTG
+                    WHERE sn IN (
+                        SELECT c.sn 
+                        FROM LearnPro a, LearnProPT b, LearnProTG c
+                        WHERE a.sn = b.learnProSn AND b.sn = c.learnProPTSn
+                        AND a.sn = '1' AND c.classLeavesSn != '1'
+                        AND c.academicYear = 900 AND c.semester = 1
+                    )
+Supervisor; 127.0.0.1; 13:00:07; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 13:00:08; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 13:00:09; LearnPro(QueryEdit)
+Supervisor; 127.0.0.1; 13:00:22; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 13:00:24; LearnPro(U)
+Supervisor; 127.0.0.1; 13:00:24; _UpdateDB; update LearnPro set classLeavesSn=14,reviser=N'Supervisor',reviseDate='2012-07-09 13:00:23' where sn=1
+Supervisor; 127.0.0.1; 13:00:25; _UpdateDB; DELETE FROM LearnProTG
+                    WHERE sn IN (
+                        SELECT c.sn 
+                        FROM LearnPro a, LearnProPT b, LearnProTG c
+                        WHERE a.sn = b.learnProSn AND b.sn = c.learnProPTSn
+                        AND a.sn = '1' AND c.classLeavesSn != '14'
+                        AND c.academicYear = 900 AND c.semester = 1
+                    )
+Supervisor; 127.0.0.1; 13:00:25; You can't specify target table 'LearnProTG' for update in FROM clause
+   sql: DELETE FROM LearnProTG
+                    WHERE sn IN (
+                        SELECT c.sn 
+                        FROM LearnPro a, LearnProPT b, LearnProTG c
+                        WHERE a.sn = b.learnProSn AND b.sn = c.learnProPTSn
+                        AND a.sn = '1' AND c.classLeavesSn != '14'
+                        AND c.academicYear = 900 AND c.semester = 1
+                    )
+Supervisor; 127.0.0.1; 13:00:45; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 13:00:46; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 13:00:48; LearnPro(QueryEdit)
+Supervisor; 127.0.0.1; 13:01:07; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 13:01:09; LearnPro(U)
+Supervisor; 127.0.0.1; 13:01:09; _UpdateDB; update LearnPro set classLeavesSn=1,reviser=N'Supervisor',reviseDate='2012-07-09 13:01:08' where sn=1
+Supervisor; 127.0.0.1; 13:01:09; _UpdateDB; update LearnProTG set tagCon=N'喵 ~ 喵 ~ 喵 ~' where sn=3
+Supervisor; 127.0.0.1; 13:01:10; _UpdateDB; DELETE FROM LearnProTG
+                    WHERE sn IN (
+                        SELECT c.sn 
+                        FROM LearnPro a, LearnProPT b, LearnProTG c
+                        WHERE a.sn = b.learnProSn AND b.sn = c.learnProPTSn
+                        AND a.sn = '1' AND c.classLeavesSn != '1'
+                        AND c.academicYear = 900 AND c.semester = 1
+                    )
+Supervisor; 127.0.0.1; 13:01:10; You can't specify target table 'LearnProTG' for update in FROM clause
+   sql: DELETE FROM LearnProTG
+                    WHERE sn IN (
+                        SELECT c.sn 
+                        FROM LearnPro a, LearnProPT b, LearnProTG c
+                        WHERE a.sn = b.learnProSn AND b.sn = c.learnProPTSn
+                        AND a.sn = '1' AND c.classLeavesSn != '1'
+                        AND c.academicYear = 900 AND c.semester = 1
+                    )
+Supervisor; 127.0.0.1; 13:04:52; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 13:04:53; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 13:04:55; LearnPro(QueryEdit)
+Supervisor; 127.0.0.1; 13:06:44; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:06:45; LearnPro(QueryList)
+; 127.0.0.1; 13:13:43; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:13:45; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 13:13:45; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341810825)
+Supervisor; 127.0.0.1; 13:13:45; Login; Supervisor
+Supervisor; 127.0.0.1; 13:13:46; _Main(getMain)
+Supervisor; 127.0.0.1; 13:13:47; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:13:49; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:13:55; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:14:25; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 13:14:26; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 13:14:27; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:14:27; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 13:14:30; LearnPro(QueryEdit)
+; 127.0.0.1; 13:43:36; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:43:39; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 13:43:39; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341812619)
+Supervisor; 127.0.0.1; 13:43:39; Login; Supervisor
+Supervisor; 127.0.0.1; 13:43:40; _Main(getMain)
+Supervisor; 127.0.0.1; 13:43:41; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:43:43; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:43:49; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:44:09; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 13:44:10; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 13:44:11; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:44:11; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 13:44:14; LearnPro(QueryEdit)
+Supervisor; 127.0.0.1; 13:46:07; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:46:08; LearnPro(QueryList)
+Supervisor; 127.0.0.1; 13:46:51; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 13:46:52; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 13:46:54; LearnPro(QueryEdit)
+Supervisor; 127.0.0.1; 13:47:01; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:47:02; LearnPro(QueryList)
+Supervisor; 127.0.0.1; 13:47:34; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 13:47:35; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 13:47:37; LearnPro(QueryEdit)
+Supervisor; 127.0.0.1; 13:47:55; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:47:56; LearnPro(QueryList)
+Supervisor; 127.0.0.1; 13:48:42; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 13:48:43; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 13:48:45; LearnPro(QueryEdit)
+Supervisor; 127.0.0.1; 13:49:03; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:49:04; LearnPro(QueryList)
+; 127.0.0.1; 14:02:36; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:02:41; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 14:02:41; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341813761)
+Supervisor; 127.0.0.1; 14:02:41; Login; Supervisor
+Supervisor; 127.0.0.1; 14:02:42; _Main(getMain)
+Supervisor; 127.0.0.1; 14:02:43; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:02:45; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:02:52; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:03:19; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:03:20; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:03:21; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:03:21; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 14:03:26; LearnPro(QueryEdit)
+; 127.0.0.1; 14:09:00; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:09:03; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 14:09:03; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341814143)
+Supervisor; 127.0.0.1; 14:09:03; Login; Supervisor
+Supervisor; 127.0.0.1; 14:09:04; _Main(getMain)
+Supervisor; 127.0.0.1; 14:09:05; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:09:07; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:09:13; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:09:34; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:09:35; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:09:36; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:09:36; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 14:09:39; LearnPro(QueryEdit)
+; 127.0.0.1; 14:46:58; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:47:14; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 14:47:14; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341816434)
+Supervisor; 127.0.0.1; 14:47:14; Login; Supervisor
+Supervisor; 127.0.0.1; 14:47:15; _Main(getMain)
+Supervisor; 127.0.0.1; 14:47:16; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:47:18; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:47:24; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:47:36; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:47:43; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:47:44; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:47:45; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:48:10; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:48:11; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:48:12; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:48:12; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 14:48:15; LearnPro(QueryEdit)
+; 127.0.0.1; 14:50:21; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:50:24; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 14:50:24; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341816624)
+Supervisor; 127.0.0.1; 14:50:24; Login; Supervisor
+Supervisor; 127.0.0.1; 14:50:25; _Main(getMain)
+Supervisor; 127.0.0.1; 14:50:26; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:50:27; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:50:34; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:50:55; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:50:56; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:50:57; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:50:57; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 14:51:00; LearnPro(QueryEdit)
+; 127.0.0.1; 14:53:05; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:53:07; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 14:53:07; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341816787)
+Supervisor; 127.0.0.1; 14:53:07; Login; Supervisor
+Supervisor; 127.0.0.1; 14:53:08; _Main(getMain)
+Supervisor; 127.0.0.1; 14:53:09; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:53:11; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:53:17; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:53:44; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:53:45; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:53:46; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:53:46; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 14:53:50; LearnPro(QueryEdit)
+; 127.0.0.1; 15:00:05; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:00:08; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 15:00:08; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341817208)
+Supervisor; 127.0.0.1; 15:00:08; Login; Supervisor
+Supervisor; 127.0.0.1; 15:00:09; _Main(getMain)
+Supervisor; 127.0.0.1; 15:00:10; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:00:12; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:00:18; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:00:50; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 15:00:51; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 15:00:52; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:00:52; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 15:00:55; LearnPro(QueryEdit)
+Supervisor; 127.0.0.1; 15:01:00; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 15:01:02; LearnPro(QueryEdit)
+Supervisor; 127.0.0.1; 15:01:04; LearnPro(D)
+Supervisor; 127.0.0.1; 15:01:04; _UpdateDB; delete from LearnPro where sn=5
+Supervisor; 127.0.0.1; 15:01:04; _UpdateDB; delete from LearnProPT where sn=34
+Supervisor; 127.0.0.1; 15:01:08; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 15:01:09; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 15:01:11; LearnPro(QueryEdit)
+; 127.0.0.1; 15:02:40; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:02:44; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 15:02:44; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341817364)
+Supervisor; 127.0.0.1; 15:02:44; Login; Supervisor
+Supervisor; 127.0.0.1; 15:02:45; _Main(getMain)
+Supervisor; 127.0.0.1; 15:02:46; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:02:48; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:02:54; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:04:02; _Service2()
+; 127.0.0.1; 15:04:08; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:04:11; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 15:04:11; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341817451)
+Supervisor; 127.0.0.1; 15:04:11; Login; Supervisor
+Supervisor; 127.0.0.1; 15:04:12; _Main(getMain)
+Supervisor; 127.0.0.1; 15:04:13; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:04:15; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:04:21; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:04:40; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 15:04:41; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 15:04:42; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:04:42; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 15:04:45; LearnPro(QueryEdit)
+; 127.0.0.1; 15:05:36; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:05:40; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 15:05:40; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341817540)
+Supervisor; 127.0.0.1; 15:05:40; Login; Supervisor
+Supervisor; 127.0.0.1; 15:05:41; _Main(getMain)
+Supervisor; 127.0.0.1; 15:05:42; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:05:44; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:05:50; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:06:09; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 15:06:10; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 15:06:11; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:06:11; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 15:06:14; LearnPro(QueryEdit)
+; 127.0.0.1; 15:08:41; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:08:44; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 15:08:44; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341817724)
+Supervisor; 127.0.0.1; 15:08:44; Login; Supervisor
+Supervisor; 127.0.0.1; 15:08:45; _Main(getMain)
+Supervisor; 127.0.0.1; 15:08:46; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:08:48; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:08:54; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:09:13; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 15:09:14; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 15:09:15; _Service2(GetLang)
+Supervisor; 127.0.0.1; 15:09:15; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 15:09:19; LearnPro(QueryEdit)
+; 127.0.0.1; 16:06:46; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:06:50; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 16:06:50; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341821210)
+Supervisor; 127.0.0.1; 16:06:50; Login; Supervisor
+Supervisor; 127.0.0.1; 16:06:51; _Main(getMain)
+Supervisor; 127.0.0.1; 16:06:52; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:06:54; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:06:59; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:07:20; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:07:21; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:07:23; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:07:23; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 16:07:26; LearnPro(QueryEdit)
+; 127.0.0.1; 16:13:28; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:13:31; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 16:13:31; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341821611)
+Supervisor; 127.0.0.1; 16:13:31; Login; Supervisor
+Supervisor; 127.0.0.1; 16:13:32; _Main(getMain)
+Supervisor; 127.0.0.1; 16:13:33; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:13:35; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:13:41; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:14:03; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:14:04; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:14:05; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:14:05; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 16:14:08; LearnPro(QueryEdit)
+; 127.0.0.1; 16:19:31; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:19:34; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 16:19:34; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341821974)
+Supervisor; 127.0.0.1; 16:19:34; Login; Supervisor
+Supervisor; 127.0.0.1; 16:19:34; _Main(getMain)
+Supervisor; 127.0.0.1; 16:19:35; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:19:37; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:19:43; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:20:12; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:20:13; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:20:14; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:20:14; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 16:20:17; LearnPro(QueryEdit)
+; 127.0.0.1; 16:23:30; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:23:32; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 16:23:32; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341822212)
+Supervisor; 127.0.0.1; 16:23:32; Login; Supervisor
+Supervisor; 127.0.0.1; 16:23:33; _Main(getMain)
+Supervisor; 127.0.0.1; 16:23:34; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:23:36; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:23:43; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:24:03; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:24:04; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:24:05; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:24:05; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 16:24:08; LearnPro(QueryEdit)
+Supervisor; 127.0.0.1; 16:24:15; _Service2(GetLang)
+; 127.0.0.1; 16:27:28; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:27:32; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 16:27:32; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341822452)
+Supervisor; 127.0.0.1; 16:27:32; Login; Supervisor
+Supervisor; 127.0.0.1; 16:27:33; _Main(getMain)
+Supervisor; 127.0.0.1; 16:27:34; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:27:36; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:27:42; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:28:10; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:28:11; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:28:12; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:28:12; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 16:28:15; LearnPro(QueryEdit)
+; 127.0.0.1; 16:45:15; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:45:18; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 16:45:18; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341823518)
+Supervisor; 127.0.0.1; 16:45:18; Login; Supervisor
+Supervisor; 127.0.0.1; 16:45:19; _Main(getMain)
+Supervisor; 127.0.0.1; 16:45:20; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:45:22; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:45:29; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:45:55; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:45:56; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:45:57; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:45:57; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 16:46:00; LearnPro(QueryEdit)
+; 127.0.0.1; 16:46:26; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:46:28; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 16:46:28; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341823588)
+Supervisor; 127.0.0.1; 16:46:28; Login; Supervisor
+Supervisor; 127.0.0.1; 16:46:29; _Main(getMain)
+Supervisor; 127.0.0.1; 16:47:52; _Service2()
+; 127.0.0.1; 16:48:00; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:48:04; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 16:48:04; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341823684)
+Supervisor; 127.0.0.1; 16:48:04; Login; Supervisor
+Supervisor; 127.0.0.1; 16:48:05; _Main(getMain)
+Supervisor; 127.0.0.1; 16:48:06; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:48:08; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:48:14; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:48:48; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:48:49; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:48:50; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:48:50; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 16:48:53; LearnPro(QueryEdit)
+; 127.0.0.1; 16:52:51; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:53:01; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 16:53:01; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341823981)
+Supervisor; 127.0.0.1; 16:53:01; Login; Supervisor
+Supervisor; 127.0.0.1; 16:53:02; _Main(getMain)
+Supervisor; 127.0.0.1; 16:53:03; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:53:05; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:53:12; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:53:48; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:53:49; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:53:50; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:53:50; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 16:53:54; LearnPro(QueryEdit)
+; 127.0.0.1; 17:01:35; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:01:38; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 17:01:38; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341824498)
+Supervisor; 127.0.0.1; 17:01:38; Login; Supervisor
+Supervisor; 127.0.0.1; 17:01:39; _Main(getMain)
+Supervisor; 127.0.0.1; 17:01:40; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:01:42; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:01:48; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:02:26; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 17:02:27; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 17:02:28; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:02:28; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 17:02:31; LearnPro(QueryEdit)
+; 127.0.0.1; 17:03:23; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:03:25; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 17:03:25; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341824605)
+Supervisor; 127.0.0.1; 17:03:25; Login; Supervisor
+Supervisor; 127.0.0.1; 17:03:26; _Main(getMain)
+Supervisor; 127.0.0.1; 17:03:27; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:03:29; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:03:35; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:03:56; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 17:03:57; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 17:03:58; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:03:58; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 17:04:01; LearnPro(QueryEdit)

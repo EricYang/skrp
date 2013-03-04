@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:x2="x2.*"
+			   width="746" height="220" creationComplete="init()"
+			   preinitialize="{iR=Fun.getLang('AccPettyCash')}">
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;	
+			
+			[Bindable]
+			private var iR:Object;	
+			[Bindable]
+			private var is_app:String = Fun.sApp;	
+			
+			private function init():void{
+				qry_1.aoItem = [
+					{source:serialNo,		dataType:"S"},
+					{source:staffSn,		dataType:"N"},
+					{source:cDate,			dataType:"D",	relat:cDate2},
+					{source:cDate2,			dataType:"D"},
+					{source:accIocSn,		dataType:"N"}
+				];				
+			}			
+			
+			private var i_col1:Object, i_col2:Object;			
+			private function doFindStaff(p_col1:Object, p_col2:Object):void{				
+				i_col1 = p_col1;
+				i_col2 = p_col2;
+				Fun2.openStaff(is_app, this, ReturnStaff);
+			}
+			private function ReturnStaff(p_row:Object):void{				
+				Fun.setItem(i_col1, p_row.cName + " " + p_row.eName);
+				Fun.setItem(i_col2, p_row.sn);
+			}
+			private function fnClick():void{
+				Fun2.openAccMTI(is_app, 2, this, ReturnMTI, false);	
+			}
+			private function ReturnMTI(p_row:Object):void{				
+				Fun.setItem(accName, p_row.accIocCode + " " + p_row.accIocName);
+				Fun.setItem(accIocSn, p_row.accIocSn);
+			}
+		]]>
+	</fx:Script>
+	
+	<x2:Num1 id="staffSn" visible="false"/>
+	<x2:Num1 id="accIocSn" visible="false"/>
+	<x2:comQuery x="656" y="10" id="qry_1">
+	</x2:comQuery>
+	<s:Form x="10" y="10">
+		<s:layout> 
+			<s:FormLayout gap="-8"/>
+		</s:layout>
+		<s:FormItem label="{iR.serialNos} :">			
+			<s:TextInput id="serialNo" width="100%"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.StaffSn} :">
+			<s:HGroup>
+				<s:TextInput id="staffName" click="doFindStaff(staffName, staffSn)" editable="false"  enabled="false"/>
+				<x2:btnPick id="SchStaff" click="doFindStaff(staffName, staffSn)"/>
+			</s:HGroup>
+		</s:FormItem>
+		<s:FormItem label="{iR.cDate} :">
+			<s:HGroup width="100%">
+				<x2:Date1 formatString="YYYY/MM/DD" id="cDate" yearNavigationEnabled="true"/>
+				<s:Label text=" - "/>
+				<x2:Date1 formatString="YYYY/MM/DD" id="cDate2" yearNavigationEnabled="true"/>
+			</s:HGroup>
+		</s:FormItem>
+		<s:FormItem label="{iR.accIocSn} :">
+			<s:HGroup>
+				<s:TextInput id="accName" width="350" editable="false" enabled="false"/>
+				<x2:btnPick id="Schfn" click="fnClick()"/>
+			</s:HGroup>
+		</s:FormItem>
+	</s:Form>
+</s:TitleWindow>

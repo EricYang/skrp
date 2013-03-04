@@ -1,0 +1,476 @@
+
+@namespace mx "library://ns.adobe.com/flex/mx";
+
+/* global did not work !! */
+global {
+	/* font-family:"Tahoma"; */ 
+	fontWeight: normal;
+	fontSize:15;	 
+}
+
+
+.main{	
+	backgroundGradientColors: #CCCCCC, #66CCFF;
+	backgroundColor:#C2DAFA;
+	backgroundAlpha:0.8;
+	background-position:left,top;	
+}
+
+
+.mainTab{
+	/* backgroundColor:#FAECD5;*/ 	/* same as application class */
+	backgroundColor: #F2F2E4;	
+}
+
+
+mx|Application {
+	theme-color: #9DBAEB;
+	background-color: #F2F2E4;	
+	backgroundAlpha: 0;		/* should be 0 to match with first page */
+	fontSize: 15;
+	font-weight: normal;
+}
+
+/*
+.applicationTitle {
+font-family: Arial;
+font-size: 12px;
+font-weight: bold;
+}
+*/
+
+
+mx|MenuBar {
+	font-family: Tahoma;
+	fontSize: 15;
+	color: #000000;
+	roll-over-color: #316AC5 ;
+	selection-color: #316AC5;
+	text-roll-over-color: #FFFFFF;
+	text-selected-color: #FFFFFF;
+	background-color: #FFFFFF;
+	border-color: #D8D2BD;
+	height: 24;
+	margin-left: 0;
+	horizontal-gap: 0;
+	border-thickness: 1;
+	selection-easing: 0;
+	popup-duration: 0;
+	theme-color: #FFFFFF;
+	selection-disabled-color: #D8D2BD;
+	
+	/* disabled-color: #f0f0f0;*/
+}
+
+mx|Menu {
+	background-color: #FFFFFF;
+	border-color: #D8D2BD;
+	selection-disabled-color: #D8D2BD;
+	margin-left: 0;
+	horizontal-gap: 0;
+	border-thickness: 1;
+	font-family: Tahoma;
+	fontSize: 15;
+	color: #000000;
+	roll-over-color: #316AC5 ;
+	selection-color: #316AC5;
+	text-roll-over-color: #FFFFFF;
+	text-selected-color: #FFFFFF;
+	selection-easing: 0;
+	theme-color: #FFFFFF;	
+	disabled-color: #f0f0f0;
+}
+
+.menuItem {
+	font-family: tahoma;
+	fontSize: 15;
+	color: #000000;
+	font-weight: normal;
+	disabled-color: #f0f0f0;
+}
+
+
+/*
+.textMenuItem {
+font-family: tahoma;
+font-size: 11;
+color: #000000;
+font-weight: normal;
+horizontal-align: left;
+}
+*/
+
+
+mx|TabNavigator {
+	/* font-family: Tahoma; */
+	
+	fontSize: 15;	
+	color: #000000;
+	font-weight: normal;
+	border-color: #A4ABAB;
+	background-color: #F9F9F9;	
+	horizontal-gap: 1;
+	/*
+	tabStyleName: "MyTabs";
+	firstTabStyleName: "MyFirstTab";
+	lastTabStyleName: "MyLastTab";
+	selectedTabTextStyleName: "MySelectedTab";
+	*/
+	corner-radius: 5;
+	border-thickness: 1;
+	border-style: solid;
+}
+
+.MyTabs {
+	backgroundColor: #8080FF;
+	cornerRadius: 5;
+	color: black;
+}
+
+.MyFirstTab,
+.MyLastTab {
+	backgroundColor: black;
+	cornerRadius: 0;
+	color: black;
+}
+
+.MySelectedTab {
+	backgroundColor: haloBlue;
+	color: haloBlue;
+	textRollOverColor: haloBlue;
+}
+
+mx|Tab{
+	cornerRadius: 5;
+	fillAlphas: 0, 10;
+	fillColors: #A3C9F8, #F2F6FB;
+	borderColor: #A3A7AC;
+	textRollOverColor: #0F0F0F;
+	themeColor: #FFFFFF;
+}
+
+mx|ToolTip {
+	font-family: Tahoma;
+	fontSize: 15;
+	background-color: #FFFFEB;
+	color: #000000;
+	border-color: #000000;
+	border-thickness: 1;
+	/*drop-shadow: false;*/
+	corner-radius: 0;
+}
+
+
+.titleWin, mx|TitleWindow, mx|Alert {
+	/*
+	margin-left: 6;
+	margin-right: 6;
+	margin-top: 6;
+	margin-botom: 6;
+	*/
+	headerColors: #002D7C, #696969;	
+	border-color: #696969;		
+	background-color: #F2F2E4;
+	/*drop-shadow: false;*/
+	/* font-family: Tahoma; */
+	fontSize: 15;
+	color: #000000;
+	/* message-style-name: alertMsg; */
+	/*title-style-name: "title";*/
+	/*vertical-gap: 10;*/
+	titleStyleName: "popupTitle";
+	borderAlpha: 1;
+	border-thickness-top: 0;
+	border-thickness-bottom: 4;
+	border-thickness-left: 4;
+	border-thickness-right: 4;	
+	closeButtonDownSkin: Embed("winXP/close.png");
+	closeButtonUpSkin: Embed("winXP/close.png");
+	closeButtonOverSkin: Embed("winXP/close2.png");	
+}
+
+
+.popupTitle{
+	color: #ffffff;
+	font-weight: bold;
+}
+
+
+mx|Panel {
+	margin-left: 0;
+	margin-right: 0;
+	margin-top: 0;
+	margin-botom: 0;
+	border-color: #0F43E4;
+	border-thickness: 3;
+	/* drop-shadow: false; */
+	/* font-family: Tahoma; */
+	fontSize: 15;
+	color: #FFFFFF;
+	vertical-gap: 0;
+	horizontal-gap: 0;
+}
+
+/*
+Accordion {
+border-color: #003AA4;
+header-height: 33;
+fill-colors: #D7EBFF, #96BAEB;
+selected-fill-colors: #FFF2A4, #F9AB1B ;
+theme-color: #FFD076;
+font-family: Tahoma;
+font-size: 11;
+color: #000000;
+}
+*/
+
+mx|Button {
+	font-family: Tahoma;
+	color: #000000;
+	fontSize: 15;
+	font-weight: normal;
+	text-roll-over-color: #000000;
+}
+
+/*
+mx|Tree {
+open-duration: 0;
+font-size: 12;
+}
+*/
+
+/*
+.noMargins {
+margin-right: 0;
+margin-left: 0;
+margin-top: 0;
+margin-bottom: 0;
+horizontal-gap: 0;
+vertical-gap: 0;
+}
+*/
+/*暫拿掉
+mx|NumericStepper {
+height: 20;
+border-color: #8DABC8;
+border-cap-color: #8DABC8;
+//font-family: Tahoma;
+color: #000000;
+fontSize: 15;
+font-weight: normal;
+}
+*/
+/*
+zzCheckBox {
+font-family: Tahoma;
+font-size: 12;
+color: #000000;
+disabled-color: #000000; 
+}
+*/
+
+/*
+.myLinks {
+font-family: Tahoma;
+font-size: 11;
+text-decoration: underline;
+color: #0000FF;
+}
+
+Link {
+font-family: Tahoma;
+font-size: 11;
+text-decoration: underline;
+color: #0000FF;
+roll-over-color: #FFFFFF;
+text-roll-over-color: #0000FF;
+selection-color: #FFFFFF;
+text-selected-color: #0000FF;
+}
+*/
+
+/*
+zzText {
+font-family: Tahoma;
+font-size: 12;
+color: #000000;
+}
+*/
+/*暫拿掉
+mx|Text, mx|TextInput, mx|TextArea, mx|FormItem, mx|CheckBox, mx|Label, mx|ComboBox, mx|DateField {
+*/
+mx|TextInput, mx|TextArea, mx|FormItem, mx|Label, mx|ComboBox {
+	border-color: #8DABC8;
+	border-cap-color: #8DABC8;
+	highlight-color: #8DABC8;
+	/*font-family: Tahoma;*/
+	color: #000000;
+	fontSize: 15;
+	font-weight: normal;
+	disabled-color: #000000;
+	/*styleName: compoFontStyles;*/
+	/* disabled-color: #f0f0f0; */	
+	/* background-color: #F2F2E4; */
+	/* background-disabled-color: #F2F2E4; */			
+}
+/*
+zzComboBox, .zzComboBox1 {
+font-family: Tahoma;
+font-weight: normal;
+font-size: 12;
+color: #000000;
+border-color: #8DABC8;
+border-cap-color: #8DABC8;
+highlight-color: #8DABC8;
+background-disabled-color: #000000; // did not work !	
+}
+*/
+
+/*
+zzTextArea {
+font-family: arial;
+font-size: 12;
+color: #000000;
+theme-color: #FFFFFF;
+disabled-color: #000000; 
+}
+
+
+zzLabel {
+font-family: Tahoma;
+font-size: 12;
+color: #000000;
+}
+*/
+.editMsg {
+	/* font-family: Tahoma; */
+	fontSize: 15;
+	color: #000000;
+	backgroundColor:#F2F2E4;
+}
+
+/*
+.comboBox2 {
+border-color: #8DABC8;
+border-cap-color: #FFFFFF;
+highlight-color: #FFFFFF;
+height: 18;
+}
+
+List {
+border-color: #8DABC8;
+selection-color: #437ED0;
+text-selected-color: #FFFFFF;
+use-roll-over: false;
+font-family: Tahoma;
+font-size: 11;
+color: #000000;
+margin-top: 20;
+margin-bottom: 20;
+}
+*/
+
+
+/*
+.footerInfo {
+border-thickness: 1;
+border-style: solid;
+border-color: #DDDDDD;
+color: #000000;
+font-family: Tahoma;
+font-size: 11;
+margin-top: 0;
+margin-left: 5;
+horizontal-gap: 20;
+margin-right: 5;
+}
+
+
+.footerInfoDisabled {
+border-thickness: 1;
+border-style: solid;
+border-color: #DDDDDD;
+color: #BABAAB;
+font-family: Tahoma;
+font-size: 11;
+margin-top: 0;
+margin-left: 5;
+margin-right: 4;
+}
+*/
+
+/*
+mx|LegendItem {
+fontWeight: normal;
+font-size: 12;
+}
+*/
+
+/*
+mx|DataTip {
+fontWeight: normal;
+font-size: 12;
+}
+*/
+
+/*
+mx|BarChart {
+fontWeight: normal;
+font-size: 12;
+}
+*/
+
+/*
+mx|PieChart {
+fontWeight: normal;
+font-size: 12;
+}
+*/
+
+/*
+mx|FormItem {		
+background-disabled-color: #F9F9F9;
+labelStyleName: labelFontStyles;
+}
+*/
+
+.labelFontStyles {			
+	fontSize: 15;			
+}
+
+mx|Canvas {		
+	background-disabled-color: #F9F9F9;
+	styleName: compoFontStyles;
+}
+
+.compoFontStyles {			
+	fontSize: 15;			
+}
+
+.titleFontStyles {
+	color: #FFFFFF;
+	fontSize: 15;			
+}
+/*
+fontWeight: bold;
+*/
+.myHeaderStyles {
+	color: #000000;	
+	textAlign: center;
+	fontSize: 15;			
+}
+.myStyle {
+	headerColors: #FFFFFF, #8080FF;
+	fontSize: 15;
+}
+.myCalHeaderStyles {		
+	textAlign: center;
+	fontSize: 15;			
+}
+.LegendItem {	
+	fontSize: 15;
+}
+.ListItem {	
+	fontSize: 12;
+	font-weight: normal;
+}

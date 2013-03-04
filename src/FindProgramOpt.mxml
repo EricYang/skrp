@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="600" height="600" 
+	 
+  	creationComplete="init()"  	
+	preinitialize="{iR=Fun.getLang('FindProgram')}"
+	close="closeWin()">
+	
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			public var fAfterOk:Function;
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindalbe]
+			private var is_app:String = Fun.sApp;
+			[Bindale]
+			public var ia_data:ArrayCollection;
+			[Bindable]
+			private var ia_child:ArrayCollection;
+			[Bindable]
+			public var ia_programM:ArrayList = new ArrayList(Fun2.programMDS(is_app, false));
+			
+			public var sysTypeValue:int;
+			
+			private function init():void{				
+				qry_1.sApp = is_app;
+				qry_1.sInf = "FindProgram";
+				qry_1.gList = grid_1;
+				qry_1.aoItem = [
+					{source:programMSn},
+					{source:sysCode},
+					{source:sysName}
+				];
+				qry_1.init();
+			}
+			private function afterSubmit(p_data:Object):void{
+				ia_data = grid_1.dataProvider as ArrayCollection;
+				if (ia_data){
+					for (var j:int=0; j<ia_data.length; j++){
+						for (var k:int=0; k<Fun2.bGlobal.length; k++){
+							if (ia_data[j].sn == Fun2.bGlobal[k].programSn){
+								ia_data[j].vFlag = 1;																
+							}
+						}					
+					}
+					grid_1.dataProvider = ia_data;					
+				}
+			}
+			
+			private function okClick():void{								
+				var ta_row:ArrayCollection = grid_1.dataProvider as ArrayCollection;
+				var tn_len:int = ta_row.length;
+				
+				//將有選擇的資料存入
+				var transData:Array = [];
+				for (var x:int=tn_len - 1; x>=0; x--){
+					if (int(ta_row[x].checkFlag) == 1){						
+						var s_data:Object = {
+							sn: ta_row[x].sn,
+							sysCode: ta_row[x].sysCode,
+							sysName: ta_row[x].sysName							
+						};
+						transData.push(s_data);						
+					}
+				}
+				
+				if (transData.length!=0){
+					Fun2.aGlobal = transData;
+					fAfterOk();
+					Fun.closePopup(this);
+				}else{
+					Fun.msg("I", "請先選擇資料");
+				}
+			}
+			private function fnSelect():void{
+				var i:int=0;				
+				
+				if (grid_1.dataProvider.length==0){
+					Fun.msg("E", "請先查詢資料");
+					return;
+				}
+				
+				grid_1.dataProvider= new ArrayList();
+				
+				switch (Fun.getItem(checkAllFlag)){
+					case "0":
+						for (i; i<ia_data.length; i++){
+							
+							//如果 Fun2.bGlobal 有值不勾選
+							var existFlag:int = 0;
+							for (var y:int=0; y<Fun2.bGlobal.length; y++){
+								if (ia_data[i].sn == Fun2.bGlobal[y].programSn){
+									existFlag = 1;
+									y = Fun2.bGlobal.length;
+								}
+							}
+							if (existFlag == 0){
+								ia_data[i].checkFlag = 1;	
+							}					
+						}
+						grid_1.dataProvider = ia_data;						
+						ia_data.refresh();
+						
+						checkAllFlag.text = "1";
+						checkAllFun.label = "取消全選";						
+						break;
+					case "1":
+						for (i; i<ia_data.length; i++){
+							ia_data[i].checkFlag = 0;					
+						}
+						grid_1.dataProvider = ia_data;
+						
+						ia_data.refresh();
+						
+						checkAllFlag.text = "0";
+						checkAllFun.label = "全選";
+						break;					
+				}
+			}	
+			private function serialNoLabelFunc(p_row:Object, p_column:GridColumn):String {
+				var index:int = p_column.grid.dataProvider.getItemIndex(p_row);
+				if (index > -1) {
+					return (index + 1).toString();
+				}
+				return "";
+			}
+			
+			private function closeWin():void{
+				Fun.closePopup(this);
+			}
+		]]>
+	</fx:Script>	
+	<s:Form x="10" y="10">
+		<s:layout> 
+			<s:FormLayout gap="-5"/>			
+		</s:layout>	
+		<s:Label text="{iR.search}：" fontWeight="bold"/>
+		<s:FormItem label="{iR.programMSn} :">
+			<x2:DDL1 id="programMSn" dataProvider="{ia_programM}"></x2:DDL1>			
+		</s:FormItem>
+		<s:FormItem label="{iR.sysCode} :">
+			<s:TextInput id="sysCode" width="320"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.sysName} :">
+			<s:TextInput id="sysName" width="320"/>
+		</s:FormItem>
+	</s:Form>
+	<x2:comQuery id="qry_1" x="491" y="27" height="58" fAfterSubmit="afterSubmit">
+	</x2:comQuery>
+	<s:Form x="10.5" y="170">
+		<s:HGroup width="100%" verticalAlign="bottom">
+			<s:Label text="{iR.sList}：" fontWeight="bold"/>
+			<x2:BtnSelect id="checkAllFun" click="fnSelect()"/>					
+			<s:TextInput id="checkAllFlag" text="0" visible="false"/>
+			<s:HGroup horizontalAlign="right" width="100%">
+				<x2:btnOk id="cmdOk" click="okClick()"/>				
+			</s:HGroup>
+		</s:HGroup>
+		<s:DataGrid id="grid_1" alpha="0.7" height="319" width="540">
+			<s:columns><s:ArrayList>
+				<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+				<s:GridColumn headerText="選取" dataField="checkFlag" width="60">
+					<s:itemRenderer><fx:Component><x2:irCenterVH>
+						<x2:Check2 toolTip="{data.vFlag!=1 ? '':'此筆資料已經存在，不得選取。'}" enabled="{data.vFlag!=1}" chromeColor="{data.vFlag!=1 ? 0XFFFFFF:0XB2B6BC}"/>
+					</x2:irCenterVH></fx:Component></s:itemRenderer>
+				</s:GridColumn>
+				<s:GridColumn headerText="{iR.programMName}" dataField="programMName"/>
+				<s:GridColumn headerText="{iR.sysCode}" dataField="sysCode"/>
+				<s:GridColumn headerText="{iR.sysName}" dataField="sysName"/>
+			</s:ArrayList></s:columns>
+		</s:DataGrid>			
+	</s:Form>
+	<mx:HRule x="28" y="162" width="535"/>
+</s:TitleWindow>

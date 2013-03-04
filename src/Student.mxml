@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*" 
+	width="100%" height="100%" 
+ 	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('Student')}"
+ 	>
+	<fx:Script>
+		<![CDATA[		
+			import mx.collections.ArrayCollection;
+			import mx.collections.ArrayList;
+			
+			import x2.*;
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var ia_gender:ArrayList = new ArrayList(Fun2.genderDS(is_app, false));
+			[Bindable]
+			private var ia_ynFlag:ArrayList = new ArrayList(Fun2.ynFlagDS(is_app, false));
+			[Bindable]
+			private var ia_classInfoNameSpec:ArrayList = new ArrayList(Fun2.classInfoNameSpecDS(is_app, false));
+			
+			private function init():void {			
+				list_1.nAppRange = 1; //0 不分  1 個人	2 部門
+				list_1.asFOwner = ["creator"];
+				
+				list_1.wQuery = new StudentQ();
+				list_1.wEdit = new StudentE();			
+				list_1.gList = grid_1;
+				list_1.init();
+				
+				showDefList();
+				
+				list_1.btnExport.visible = false;
+			}
+			private function showDefList():void{
+				var t_data:Object ={
+					data: "listStudent",
+					csDataTemp: Fun2.gbClassLeaves
+				};
+				grid_1.dataProvider = new ArrayCollection(Fun.readRows(is_app, t_data)); 
+			}
+			
+			private function gender(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_gender, p_row[p_column.dataField]);
+			}
+			public function cmdFunData1():void{
+				var t_win:InputExcel = new InputExcel();
+				t_win.inputExcelTypeTemp = 1 ;
+				Fun.openPopup(t_win, this);				
+				
+				t_win.fAfterOk = fSelectRow;
+			}
+			private function fSelectRow():void{
+				showDefList();
+			}
+			public function cmdFunData2():void{
+				Fun2.bGlobal = new ArrayCollection ;
+				Fun2.aGlobal = [];
+				
+				var t_win:ProStuEnroll = new ProStuEnroll();				
+				Fun.openPopup(t_win, this);
+				
+				t_win.qry_1.bCloseAfterQuery = false;
+			}
+			private function ynFlag(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_ynFlag, p_row[p_column.dataField]);
+			}
+			private function classInfoNameSpec(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_classInfoNameSpec, p_row[p_column.dataField]);
+			}
+			private function catchFun(p_data:Object):Boolean {				
+				switch (p_data.fun){
+					case "D":						
+						var t_row:Object = grid_1.selectedItem;
+						if (t_row){
+							if (t_row.deleFlag==0){
+								Fun.ans(iR.message07, 2, DoYNFun);
+								return true;							
+							}else{
+								Fun.msg("I", iR.message08);
+								return true;
+							}	
+						}
+						break;
+				}
+				return false;
+			}			
+			private function DoYNFun():void{
+				var t_row:Object = grid_1.selectedItem;
+				var t_data:Object = {							
+					tableName: "Student",
+					columnName: "deleFlag",
+					theValue: 1,
+					type: "type1", columnKeyName: "sn",
+					keyValue: int(t_row.sn)												
+				};					
+				var tn_row:int = Fun.updateDB(is_app, t_data);					
+				if (tn_row > 0){
+					t_row.deleFlag = 1;
+					Fun.refreshGrid(grid_1, grid_1.selectedIndex);
+				}
+				Fun.msg("I", iR.message09);
+			}
+		]]>
+	</fx:Script>
+	<x2:sysBG/>
+	<x2:subFunHead/>
+
+	<x2:comList x="81" y="59" id="list_1" fCatchFun="catchFun">
+	</x2:comList>
+	<mx:HBox y="60" right="60">		
+		<mx:Button click="cmdFunData1()" icon="@Embed(source='x2/image/update.gif')" id="cmdData1" label="{iR.cmdData}" buttonMode="true"/>
+		<mx:Button click="cmdFunData2()" icon="@Embed(source='x2/image/update.gif')" id="cmdData2" label="更新離校" buttonMode="true"/>
+	</mx:HBox>
+	<s:DataGrid id="grid_1" x="55" y="87" width="92%" height="80%" alpha="0.7">
+		<s:columns>
+			<s:ArrayList>				
+				<s:GridColumn headerText="{iR.deleFlag}" dataField="deleFlag" labelFunction="ynFlag" width="80"/>			
+				<s:GridColumn headerText="{iR.stuNo}" dataField="stuNo" width="50"/>
+				<s:GridColumn headerText="學年(期) 班別(級)" dataField="sn" labelFunction="classInfoNameSpec"/>
+				<s:GridColumn headerText="{iR.studentName}" dataField="studentName" width="150"/>			
+				<s:GridColumn headerText="{iR.gender}" dataField="gender" width="60" labelFunction="gender"/>
+				<s:GridColumn headerText="{iR.birthDate}" dataField="birthDate" width="100"/>
+				<!--
+				<s:GridColumn headerText="{iR.idNo}" dataField="idNo" width="120"/>			
+				<s:GridColumn headerText="{iR.address}" dataField="address" width="200"/>
+				-->
+				<s:GridColumn headerText="{iR.creator}" dataField="creator" width="80"/>
+				<s:GridColumn headerText="{iR.createDate}" dataField="createDate" width="130"/>
+				<s:GridColumn headerText="{iR.reviser}" dataField="reviser" width="80"/>
+				<s:GridColumn headerText="{iR.reviseDate}" dataField="reviseDate" width="130"/>
+			</s:ArrayList>
+		</s:columns>
+	</s:DataGrid>
+</s:Application>

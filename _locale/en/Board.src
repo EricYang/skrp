@@ -1,0 +1,16 @@
+﻿# list/query fields
+subject=subject
+contents=content
+creator=created by
+createDate=created on
+reviser=modified by
+reviseDate=last modified
+
+# E
+textFilesName=open annoucement file
+tmpFileNameUpload=upload annoucement file
+tmpFileName=browse file
+
+# message
+message01=subject not specified
+message02=file type not matched, the file must be in (...) form.

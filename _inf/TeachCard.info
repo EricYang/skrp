@@ -1,0 +1,14 @@
+{
+    "list":{
+		"select": "SELECT *",
+		"from": "FROM TeachCard [_where]",
+		"order": "ORDER BY cardNo",
+		"items": [
+            {"fid":"cardNo",        "op":"like"},
+            {"fid":"cardName",      "op":"like"}
+      ]
+    },    
+    "progRange": 1,
+    "aFOwner": "creator",
+    "aFOwnerType": "L"
+}

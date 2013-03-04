@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:CheckBox xmlns:mx="http://www.adobe.com/2006/mxml"
+	click="fnClick()"
+	>
+
+	<mx:Script>
+    	<![CDATA[
+    		
+		//property
+		public var gfClick:Function ;	
+
+		private function fnClick():void{
+			if (gfClick != null){
+				gfClick(this.selected);
+			}	
+		}
+                	        
+		]]>
+	</mx:Script>    	
+	
+</mx:CheckBox>

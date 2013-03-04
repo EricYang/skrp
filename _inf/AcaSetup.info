@@ -1,0 +1,14 @@
+{
+    "list":{
+		"select": "SELECT *",
+		"from": "FROM AcaSetup 
+                [_where]",
+		"order": "ORDER BY academicYear, semester",
+		"items": [
+            {"fid":"academicYear",  "op":"like"}
+      ]
+    },    
+    "progRange": 1,
+    "aFOwner": "creator",
+    "aFOwnerType": "L"
+}

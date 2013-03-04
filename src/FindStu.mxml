@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="500" height="480" 
+	 
+  	creationComplete="init()"  	 	
+	preinitialize="{iR=Fun.getLang('FindStu')}"
+	close="closeWin()">
+	
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			public var fAfterOk:Function;
+			
+			[Bindable]
+			private var iR:Object;				
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]			
+			private var ia_classInfoStartConb:ArrayList = new ArrayList(Fun2.classInfoStartConbDS(is_app, false));			
+			[Bindable]
+			public var ib_all:Boolean;
+			
+			private function init():void{								
+				qry_1.sApp = is_app;
+				qry_1.sInf = "FindStu";
+				qry_1.gList = grid_1;
+				qry_1.aoItem = [					
+					{source:classLeavesSn}
+				];
+				qry_1.init();			
+
+				qry_1.visible = false;
+			}
+			
+			private function getData():void{
+				qry_1.btnReadClick();				
+			}
+			
+			private function closeWin():void{
+				Fun.closePopup(this);
+			}
+		]]>
+	</fx:Script>	
+	<mx:Form x="10" y="10" id="classLeavesSnFlag">		
+		<mx:Label text="{iR.sTitle}：" fontWeight="bold"/>
+		<mx:FormItem label="{iR.classLeavesSn} :" required="true">
+			<x2:DDL1 id="classLeavesSn" dataProvider="{ia_classInfoStartConb}" change="getData()" width="200"></x2:DDL1>			
+		</mx:FormItem>
+	</mx:Form>
+	<mx:HRule x="28" y="105" width="435" id="theLine"/>
+	<mx:Form x="10.5" y="113" id="theForm">
+		<mx:HBox width="100%" verticalAlign="bottom">
+			<mx:Label text="{iR.sList}：" fontWeight="bold"/>
+			<mx:HBox horizontalAlign="right" width="100%">
+				<mx:Button click="qry_1.selectRow()" label="{iR.select}" width="75" icon="@Embed(source='x2/image/checked.gif')"  visible="false"/>
+			</mx:HBox>
+		</mx:HBox>
+		<s:DataGrid id="grid_1" width="440" alpha="0.7"	height="258"
+					 click="qry_1.selectRow()"
+					 >
+			<s:columns><s:ArrayList>
+				<s:GridColumn headerText="{iR.stuNo}" dataField="stuNo"/>
+				<s:GridColumn headerText="{iR.birthDate}" dataField="birthDate"/>
+				<s:GridColumn headerText="{iR.cName}" dataField="cName"/>
+				<s:GridColumn headerText="{iR.eName}" dataField="eName"/>
+			</s:ArrayList></s:columns>
+		</s:DataGrid>			
+	</mx:Form>
+	<x2:comQuery id="qry_1" x="388" y="26" height="58">
+	</x2:comQuery>
+	<x2:Num1 id="sn" visible="false"/>
+</s:TitleWindow>

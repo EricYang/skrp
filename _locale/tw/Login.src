@@ -1,0 +1,34 @@
+﻿# LOGIN
+loginTitle=登入本系統
+schoolCode=園所代碼 :
+loginId=使用者帳號 :
+userPwd=密碼 :
+lang=語言 Language :
+ok=確定
+exit=離開
+forgot=忘記密碼
+help=Help? (02)2655-1002#72, Peyton.
+error=錯誤
+langList=tw,繁體中文,cn,简体中文,en,English
+zz_langList=tw,正體中文,cn,簡體中文
+sCodeEmpty=園所代碼 不可空白 !
+idEmpty=使用者帳號 不可空白 !
+pwdEmpty=密碼 不可空白 !
+loginError=使用者帳號 或 密碼 輸入錯誤 !
+err100=園所代碼錯誤
+err101=該帳號尚未設定讀取系統角色權限
+
+# FORGOT PWD
+ftitle=忘記密碼
+email=電子信箱 :
+checkCode=驗證碼 :
+
+# message
+message01=園所代碼，不可空白。
+message02=登入帳號，不可空白。
+message03=電子信箱，不可空白。
+message04=電子信箱，輸入格式錯誤。
+message05=驗證碼錯誤。
+message06=作業完成，系統已經將新的密碼寄到你的信箱。
+message07=作業失敗 !!
+message08=此條件下的用戶資料不存在。

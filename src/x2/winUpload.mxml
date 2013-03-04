@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup 
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	width="116" height="32" horizontalAlign="center" verticalAlign="middle" >
+	<s:Label text="{Fun.R.uploading}" id="labMsg"/>	
+	
+	<fx:Script>
+		<![CDATA[
+			import x2.*;
+			
+			private var is_app:String;
+			
+			//要上傳的檔案, 包含 file, fileName(optional) 變數
+			private var ia_file:Array;
+			
+			//目前包含 preFileName 變數, 可空白
+			//private var i_data:Object;
+			
+			private var in_file:int;			
+			private var in_loop:int;
+			//private var is_path:String;
+			private var if_callback:Function;
+			private var i_url:URLRequest;
+			
+			
+			/**
+			 * 檔案上傳必須指定明確的上傳路徑, return error msg if any
+			 * @pa_file: 包含變數 Fun.csFile(FileReference), Fun.csFilePath(檔案相對路徑, 含檔名)
+			 * @p_data: 目前包含 preFileName 變數, 可空白
+			 */ 
+			//public function startUpload(ps_app:String, p_data:Object, pa_file:Array, pf_callback:Function, ps_path:String=""):String{
+			public function upload(ps_app:String, pa_file:Array, pf_callback:Function, ps_path:String=""):String{
+				//set instance
+				is_app = ps_app;
+				//i_data = p_data;
+				//is_path = (ps_path != "") ? ps_path : Fun.csUploadPath; 
+				ia_file = pa_file;			
+				if_callback = pf_callback;
+				in_file = ia_file.length;
+				
+				/*
+				//check			
+				if (pa_file == null || in_file == 0){
+					return "pa_file can not be empty !"
+				} 
+				for (var i:int=0; i<in_file; i++){
+					if (!ia_file[i].hasOwnProperty("file") || !ia_file[i].hasOwnProperty("fileName")){
+						return "pa_file[] need file and fileName property !"						
+					}
+				}
+				*/
+				
+				for (var i:int=0; i<in_file; i++){
+					if (ia_file[i] != null){
+						ia_file[i].isUpload = false;
+					}
+				}
+				
+				in_loop = 0;
+				uploadFiles();
+				
+				return "";
+			}
+			
+			
+			public function uploadByteArray(ps_app:String, pa_byte:ByteArray, pf_callback:Function, ps_file:String):String{
+				//set instance
+				is_app = ps_app;
+				var t_file:FileReference = new FileReference();
+				t_file.data.readBytes(pa_byte, 0, pa_byte.length);
+				ia_file[0] = {isUpload: false};
+				ia_file[0][Fun.csFile] = t_file;
+				ia_file[0][Fun.csFilePath] = ps_file;
+				if_callback = pf_callback;
+				in_file = 1;				
+				in_loop = 0;
+				uploadFiles();
+				
+				return "";
+			}
+
+			
+			//以串接的方式上傳多個檔案
+			private function uploadFiles():void{
+
+				//跳到下一個要上傳的檔案
+				while (in_loop < in_file && (ia_file[in_loop] == null || ia_file[in_loop][Fun.csFile] == null || ia_file[in_loop].isUpload == true)){
+					in_loop++;
+				}
+				
+				
+				//return when complete
+				if (in_loop == ia_file.length){
+					closeWin("");
+					return;        	
+				}		
+				
+				var t_data:Object = {
+					app: is_app, 
+					fun: "Upload"
+				};
+				t_data[Fun.csFilePath] = ia_file[in_loop][Fun.csFilePath];
+				
+				//chrome上傳檔案時, session Id 會跑掉, 必須重傳, 
+				//see http://www.cnblogs.com/rupeng/archive/2012/01/30/2332427.html
+				t_data[Fun.csSessId] = Fun.sSessId;
+				
+				/*
+				//set input parameter
+				var t_data:Object = {app:is_app, fun:"Upload", path:is_path};
+				var ts_preFile:String = (i_data != null && i_data.preFileName != null) ? i_data.preFileName : ""; 
+				if (ia_file[in_loop][Fun.csFilePath] != null){
+					t_data[Fun.csFilePath] = ts_preFile + ia_file[in_loop][Fun.csFilePath];
+				}else{
+					t_data[Fun.csFilePath] = ts_preFile + ia_file[in_loop][Fun.csFilePath];					
+				}
+				*/
+				
+				//encode input parameters
+				var t_para:URLVariables = new URLVariables();
+				t_para.data = Fun.encode(t_data);
+				
+				if (i_url == null){
+					i_url = new URLRequest();
+					//i_url.url = Fun.sDirApp + "_Upload" + Fun2.csAppExt;
+					i_url.url = Fun.sDirApp + Fun.sService + Fun2.csAppExt;
+					i_url.method = URLRequestMethod.POST;	
+					//i_url.method = URLRequestMethod.GET;	
+				}				
+				i_url.data = t_para;
+				
+
+				var t_file:FileReference = ia_file[in_loop][Fun.csFile];
+				//t_file.addEventListener(ProgressEvent.PROGRESS, onProgress);
+				t_file.addEventListener(Event.COMPLETE, onComplete);
+				t_file.addEventListener(IOErrorEvent.IO_ERROR, onIoError);
+				t_file.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onIoError);
+				//t_file.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onSecurityError);
+				//t_file.addEventListener(DataEvent.UPLOAD_COMPLETE_DATA, onComplete2);				
+				t_file.upload(i_url, "file");
+			}
+						
+			
+			//close window
+			private function closeWin(ps_error:String):void {
+				//var t_data:Object;
+				var tn_file:int;
+				if (ps_error == ""){
+					tn_file = in_loop - 1;
+				}else{
+					//t_data = {error: ps_error};
+					tn_file = in_loop;
+				}
+				
+				if (ia_file[tn_file][Fun.csFile] != null){
+					var t_file:FileReference = ia_file[tn_file][Fun.csFile];
+					//t_file.removeEventListener(ProgressEvent.PROGRESS, onProgress);
+					t_file.removeEventListener(Event.COMPLETE, onComplete);
+					t_file.removeEventListener(IOErrorEvent.IO_ERROR, onIoError);
+					t_file.removeEventListener(SecurityErrorEvent.SECURITY_ERROR, onIoError);
+					t_file.cancel();
+					//in_loop = 0;
+				}
+				
+				//show error msg if need
+				if (ps_error != ""){
+					Fun.msg("E", ps_error);
+				}else if (if_callback != null){
+					//if_callback(t_data);
+					if_callback({});
+				}
+								
+				//close win
+				Fun.closePopup(this);
+			}
+
+			
+			// Called on upload complete
+			private function onComplete(event:Event):void {
+				ia_file[in_loop].isUpload = true;
+				uploadFiles();
+			}
+			
+			
+			/*
+			private function onComplete2(p_event:DataEvent):void {
+				var t_data:Object = JSON.decode(p_event.data);
+				ids_fname[in_loop - 1] = t_data.file;
+				
+				if (in_loop == ids_file.length){
+					if (gfCallback != null){
+						gfCallback(ids_fname);
+					}
+					
+					//close window
+					//Fun.closePopup(this);
+					Fun.refreshGrid(grid_1);
+					//this.visible = false;        	
+				}			
+			}
+			*/
+			
+			
+			// Called on upload io error
+			//private function onIoError(event:IOErrorEvent):void {
+			private function onIoError(event:Event):void {
+				closeWin("IO or Security Error !" + event.toString());
+			}
+			
+			/*
+			// Called on upload security error
+			private function onSecurityError(event:SecurityErrorEvent):void {
+				Fun.msg("E", "Security Error !");
+				PopUpManager.removePopUp(i_progress);
+				i_progress == null;
+				(ids_file[in_loop].file as FileReference).cancel();
+				clearUpload();
+			}
+			*/
+			
+			
+		]]>
+	</fx:Script>
+</s:VGroup>

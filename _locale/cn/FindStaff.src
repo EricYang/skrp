@@ -1,0 +1,12 @@
+﻿# list/query fields
+sTitle=搜寻员工
+deptSn=部门
+sList=员工列表(请点选)
+select=选取
+
+empNo=员编
+titlesSn=职称
+titlesName=职称
+cName=姓名(中)
+eName=姓名(英)
+gender=性别

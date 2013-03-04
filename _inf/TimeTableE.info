@@ -1,0 +1,35 @@
+{
+    "dws":[
+        {            
+            "selectTable": "TimeTable a INNER JOIN
+                            Staff b ON a.staffSn = b.sn",                
+            "updateTable": "TimeTable",
+            "defaultTable": "a",
+            "items": [
+                {"fid":"sn"},
+				{"fid":"staffSn"},
+                {"fid":"staffName",     "table":"", "colName":"CONCAT(b.cName, ' ', b.eName)"},
+                {"fid":"sTimeH"},
+                {"fid":"sTimeM"},
+                {"fid":"eTimeH"},
+                {"fid":"eTimeM"},
+                {"fid":"seTimeHM",      "table":"", "colName":"CONCAT(a.sTimeH, '：', a.sTimeM, '~', a.eTimeH, '：', a.eTimeM)"},
+                {"fid":"jobs"},
+                {"fid":"creator"},
+                {"fid":"createDate"},           
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+			]
+		},
+        {
+            "selectTable": "TimeTableCD [_where] ORDER BY cDate",
+            "updateTable": "TimeTableCD",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"timeTableSn"},
+                {"fid":"cDate"}
+            ]                
+        }
+   ]    
+}

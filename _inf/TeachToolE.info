@@ -1,0 +1,26 @@
+{
+    "dws":[
+        {            
+            "selectTable": "TeachTool a INNER JOIN
+                    TeachCard b ON a.teachCardSn = b.sn INNER JOIN
+                    Staff c ON a.staffSn = c.sn",                
+            "updateTable": "TeachTool",
+            "defaultTable": "a",  
+            "items": [
+                {"fid":"sn"},
+				{"fid":"teachCardSn"},
+				{"fid":"cardNo",        "table":"b", "colName":"cardNo"},
+                {"fid":"cardName",      "table":"b", "colName":"cardName"},
+                {"fid":"staffSn"},
+                {"fid":"staffName",     "table":"", "colName":"CONCAT(c.cName, ' ', c.eName)"},
+                {"fid":"cDate"},
+                {"fid":"rDate"},
+                {"fid":"remark"},
+                {"fid":"creator"},
+                {"fid":"createDate"},           
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+			]
+		}			   
+   ]    
+}

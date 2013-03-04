@@ -1,0 +1,30 @@
+﻿# list/query fields
+funcItemSn=名称
+eDate=日期
+seTimeHM=时间
+eLoaction=地点
+attendees=对象
+budget=预算
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# E
+Canvas01=专案内容
+Canvas02=活动流程
+Canvas03=备注
+
+eGoal=目的
+numAttendees=预估人数
+budget=预算
+budgetSource=经费来源
+eventType=型态
+eventType01=室内
+eventType02=户外
+eventType03=教学
+eventType04=非教学
+eventType05=其它
+process=流程
+activities=活动项目
+cDescribe=说明

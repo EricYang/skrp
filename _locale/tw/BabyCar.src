@@ -1,0 +1,29 @@
+﻿# list/query fields
+acaName=學年(期)
+classLeavesSn=班別(級)
+studentName=學生姓名
+babyCarInfoSn=車輛代號 \ 老師 \ 電話
+sLoaction=上學乘坐地點
+eLoaction=放學送達地點
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# E
+CBabyCarInfo=交通車路線資訊
+sTimeHM=預估時間
+parentSnS2=聯絡人
+eTimeHM=預估時間
+parentSnE2=聯絡人
+
+# message
+message01=交通車路線資訊
+
+# Q
+academicYear=學年
+semester=學期
+classInfoSn=班別
+classLeavesSn=班級
+cName=中文姓名
+eName=英文名

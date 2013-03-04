@@ -1,0 +1,11 @@
+﻿# list/query fields
+payItemCode=fee code
+payItemName=fee types
+theAmount=amount
+creator=created by
+createDate=created on
+reviser=modified by
+reviseDate=last modified
+
+# E
+remark=remark

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SparkSkinning\mySkins\MyAlphaButtonSkin.mxml -->
+<s:SparkSkin 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:mx="library://ns.adobe.com/flex/halo" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	minWidth="21" minHeight="21">
+	
+	<fx:Metadata>
+		[HostComponent("spark.components.Button")]
+	</fx:Metadata> 
+	<!-- Specify one state for each SkinState metadata in the host component's class -->
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<s:BitmapImage left="0" right="0" top="0" bottom="0" source="@Embed('skin/save2.png', scaleGridLeft='5', scaleGridTop='5', scaleGridRight='35', scaleGridBottom='15')" fillMode="scale"/>
+	
+	<s:Rect left="0" right="0" top="0" bottom="0" width="69" height="20" radiusX="2" 
+			radiusY="2">
+		<s:stroke>
+			<s:SolidColorStroke color="0x000000" weight="1"/>
+		</s:stroke>
+	</s:Rect>
+	
+	<s:Label id="labelDisplay" 
+			 alpha.up="1"
+			 alpha.down=".1"
+			 alpha.over=".25"
+			 horizontalCenter="0" verticalCenter="1"
+			 left="10" right="10" top="2" bottom="2">
+	</s:Label>
+</s:SparkSkin>

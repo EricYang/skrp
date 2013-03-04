@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application 
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	xmlns:x2="x2.*"	
+	width="100%" height="100%" 
+	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('AccReport')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import spark.components.DataGrid;
+			import spark.components.gridClasses.GridColumn;			
+			import x2.*;
+			import mx.utils.StringUtil;
+			import mx.utils.ObjectUtil
+			
+			[Bindable]
+			public var iR:Object;			
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["academicYear","semester", "usersSn","schoolDSn"]});
+			
+			private function init():void {	
+				trace('report:'+ObjectUtil.toString(iR))
+			}
+			public function AR232():void{				
+				var t_win:AccReport232 = new AccReport232();
+				Fun.openPopup(t_win, this);
+			}
+			public function AR233():void{				
+				var t_win:AccReport233 = new AccReport233();
+				Fun.openPopup(t_win, this);
+			}
+			public function AR234():void{				
+				var t_win:AccReport234 = new AccReport234();
+				Fun.openPopup(t_win, this);
+			}
+			public function AR235():void{				
+				//執行 PDF 資料匯出
+				var fileNameTmp:String = StringUtil.trim('AccReport235_' + String(i_session.schoolDSn) + '_' + String(i_session.usersSn) + '_' + String(new Date().getTime()) + '.pdf');
+				var m_data:Object = {
+					fileNameTmp: fileNameTmp,
+					defaultPdfPath: "../" + Fun2.fPdf				
+				};
+				var ts_result:String = Fun.sync(is_app, "AccReport235", m_data, false) as String;
+				
+				switch (ts_result){
+					case "0":
+						Fun.msg("E", iR.message04);
+						break;
+					case "1":
+						Fun.openFile(Fun.sDirRoot + Fun2.fPdf + fileNameTmp);
+						break;
+				}	
+			}
+			public function AR331():void{				
+				var t_win:AccReport331 = new AccReport331();
+				Fun.openPopup(t_win, this);
+			}
+			public function AR332():void{				
+				var t_win:AccReport332 = new AccReport332();
+				Fun.openPopup(t_win, this);
+			}
+			public function AR333():void{				
+				var t_win:AccReport333 = new AccReport333();
+				Fun.openPopup(t_win, this);
+			}
+			public function AR601():void{				
+				var t_win:AccReport601 = new AccReport601();
+				Fun.openPopup(t_win, this);
+			}
+			public function AR602():void{				
+				var t_win:AccReport602 = new AccReport602();
+				Fun.openPopup(t_win, this);
+			}
+			public function AR603():void{				
+				var t_win:AccReport603 = new AccReport603();
+				Fun.openPopup(t_win, this);
+			}
+			public function AR604():void{				
+				var t_win:AccReport604 = new AccReport604();
+				Fun.openPopup(t_win, this);
+			}
+		]]>
+	</fx:Script>
+
+	<x2:sysBG/>
+	<x2:subFunHead/>
+	
+	<mx:Form x="55" y="87" width="160" height="130" backgroundColor="#F7F7F7" borderColor="#D9D9D9"
+			 borderStyle="solid" cornerRadius="2" dropShadowVisible="true"
+			 horizontalScrollPolicy="off" verticalScrollPolicy="off" click="AR232()" buttonMode="true">		
+		<s:VGroup gap="3" horizontalCenter="0" textAlign="center" verticalCenter="0" horizontalAlign="center" verticalAlign="middle">
+			<s:Image source="image/child/BabyExcuse.png" scaleMode="letterbox" smooth="true" smoothingQuality="high" toolTip="{iR.incomeByDailyForm}"/>
+			<s:Label text="{iR.incomeByDailyForm}" fontWeight="bold" color="#3B5998" fontFamily="Tahoma" fontSize="14"/>
+		</s:VGroup>
+	</mx:Form>
+	
+	<mx:Form x="259" y="87" width="160" height="130" backgroundColor="#F7F7F7" borderColor="#D9D9D9"
+			 borderStyle="solid" cornerRadius="2" dropShadowVisible="true"
+			 horizontalScrollPolicy="off" verticalScrollPolicy="off" click="AR233()" buttonMode="true">
+		<s:VGroup gap="3" horizontalCenter="0" textAlign="center" verticalCenter="0" horizontalAlign="center" verticalAlign="middle">
+			<s:Image source="image/child/BabyExcuse.png" scaleMode="letterbox" smooth="true" smoothingQuality="high" toolTip="{iR.incomeByMonthForm}"/>
+			<s:Label text="{iR.incomeByMonthForm}" fontWeight="bold" color="#3B5998" fontFamily="Tahoma" fontSize="14"/>
+		</s:VGroup>
+	</mx:Form>
+	
+	<mx:Form x="463" y="87" width="160" height="130" backgroundColor="#F7F7F7" borderColor="#D9D9D9"
+			 borderStyle="solid" cornerRadius="2" dropShadowVisible="true"
+			 horizontalScrollPolicy="off" verticalScrollPolicy="off" click="AR234()" buttonMode="true">
+		<s:VGroup gap="3" horizontalCenter="0" textAlign="center" verticalCenter="0" horizontalAlign="center" verticalAlign="middle">
+			<s:Image source="image/child/BabyExcuse.png" scaleMode="letterbox" smooth="true" smoothingQuality="high" toolTip="{iR.receivableByMonthForm}"/>
+			<s:Label text="{iR.receivableByMonthForm}" fontWeight="bold" color="#3B5998" fontFamily="Tahoma" fontSize="14"/>
+		</s:VGroup>
+	</mx:Form>	
+	
+	<mx:Form x="667" y="87" width="160" height="130" backgroundColor="#F7F7F7" borderColor="#D9D9D9"
+			 borderStyle="solid" cornerRadius="2" dropShadowVisible="true"
+			 horizontalScrollPolicy="off" verticalScrollPolicy="off" click="AR235()" buttonMode="true">
+		<s:VGroup gap="3" horizontalCenter="0" textAlign="center" verticalCenter="0" horizontalAlign="center" verticalAlign="middle">
+			<s:Image source="image/child/BabyExcuse.png" scaleMode="letterbox" smooth="true" smoothingQuality="high" toolTip="{iR.receivableFromParentForm}"/>
+			<s:Label text="{iR.receivableFromParentForm}" fontWeight="bold" color="#3B5998" fontFamily="Tahoma" fontSize="14"/>
+		</s:VGroup>
+	</mx:Form>
+	
+	<mx:Form x="55" y="254" width="160" height="130" backgroundColor="#F7F7F7" borderColor="#D9D9D9"
+			 borderStyle="solid" cornerRadius="2" dropShadowVisible="true"
+			 horizontalScrollPolicy="off" verticalScrollPolicy="off" click="AR331()" buttonMode="true">
+		<s:VGroup gap="3" horizontalCenter="0" textAlign="center" verticalCenter="0" horizontalAlign="center" verticalAlign="middle">
+			<s:Image source="image/child/BabyExcuse.png" scaleMode="letterbox" smooth="true" smoothingQuality="high" toolTip="{iR.dateInvoiceForm}"/>
+			<s:Label text="{iR.dateInvoiceForm}" fontWeight="bold" color="#3B5998" fontFamily="Tahoma" fontSize="14"/>
+		</s:VGroup>
+	</mx:Form>
+	
+	<mx:Form x="259" y="254" width="160" height="130" backgroundColor="#F7F7F7" borderColor="#D9D9D9"
+			 borderStyle="solid" cornerRadius="2" dropShadowVisible="true"
+			 horizontalScrollPolicy="off" verticalScrollPolicy="off" click="AR332()" buttonMode="true">
+		<s:VGroup gap="3" horizontalCenter="0" textAlign="center" verticalCenter="0" horizontalAlign="center" verticalAlign="middle">
+			<s:Image source="image/child/BabyExcuse.png" scaleMode="letterbox" smooth="true" smoothingQuality="high" toolTip="{iR.datePayment}"/>
+			<s:Label text="{iR.datePayment}" fontWeight="bold" color="#3B5998" fontFamily="Tahoma" fontSize="14"/>
+		</s:VGroup>
+	</mx:Form>
+	
+	<mx:Form x="463" y="254" width="160" height="130" backgroundColor="#F7F7F7" borderColor="#D9D9D9"
+			 borderStyle="solid" cornerRadius="2" dropShadowVisible="true"
+			 horizontalScrollPolicy="off" verticalScrollPolicy="off" click="AR333()" buttonMode="true">
+		<s:VGroup gap="3" horizontalCenter="0" textAlign="center" verticalCenter="0" horizontalAlign="center" verticalAlign="middle">
+			<s:Image source="image/child/BabyExcuse.png" scaleMode="letterbox" smooth="true" smoothingQuality="high" toolTip="{iR.receivablesOutstandingForm}"/>
+			<s:Label text="{iR.receivablesOutstandingForm}" fontWeight="bold" color="#3B5998" fontFamily="Tahoma" fontSize="14"/>
+		</s:VGroup>
+	</mx:Form>
+	
+	<mx:Form x="55" y="421" width="160" height="130" backgroundColor="#F7F7F7" borderColor="#D9D9D9"
+			 borderStyle="solid" cornerRadius="2" dropShadowVisible="true"
+			 horizontalScrollPolicy="off" verticalScrollPolicy="off" click="AR601()" buttonMode="true">
+		<s:VGroup gap="3" horizontalCenter="0" textAlign="center" verticalCenter="0" horizontalAlign="center" verticalAlign="middle">
+			<s:Image source="image/child/BabyExcuse.png" scaleMode="letterbox" smooth="true" smoothingQuality="high" toolTip="{iR.cashFlowByDaily_Register}"/>
+			<s:Label text="{iR.cashFlowByDaily_Register}" fontWeight="bold" color="#3B5998" fontFamily="Tahoma" fontSize="14"/>
+		</s:VGroup>
+	</mx:Form>
+	
+	<mx:Form x="259" y="421" width="160" height="130" backgroundColor="#F7F7F7" borderColor="#D9D9D9"
+			 borderStyle="solid" cornerRadius="2" dropShadowVisible="true"
+			 horizontalScrollPolicy="off" verticalScrollPolicy="off" click="AR602()" buttonMode="true">
+		<s:VGroup gap="3" horizontalCenter="0" textAlign="center" verticalCenter="0" horizontalAlign="center" verticalAlign="middle">
+			<s:Image source="image/child/BabyExcuse.png" scaleMode="letterbox" smooth="true" smoothingQuality="high" toolTip="{iR.cashFlowByDaily_MonthFee}"/>
+			<s:Label text="{iR.cashFlowByDaily_MonthFee}" fontWeight="bold" color="#3B5998" fontFamily="Tahoma" fontSize="14"/>
+		</s:VGroup>
+	</mx:Form>
+	
+	<mx:Form x="463" y="421" width="160" height="130" backgroundColor="#F7F7F7" borderColor="#D9D9D9"
+			 borderStyle="solid" cornerRadius="2" dropShadowVisible="true"
+			 horizontalScrollPolicy="off" verticalScrollPolicy="off" click="AR603()" buttonMode="true">
+		<s:VGroup gap="3" horizontalCenter="0" textAlign="center" verticalCenter="0" horizontalAlign="center" verticalAlign="middle">
+			<s:Image source="image/child/BabyExcuse.png" scaleMode="letterbox" smooth="true" smoothingQuality="high" toolTip="{iR.cashFlowByMonthForm_Register}"/>
+			<s:Label text="{iR.cashFlowByMonthForm_Register}" fontWeight="bold" color="#3B5998" fontFamily="Tahoma" fontSize="14"/>
+		</s:VGroup>
+	</mx:Form>
+	
+	<mx:Form x="667" y="421" width="160" height="130" backgroundColor="#F7F7F7" borderColor="#D9D9D9"
+			 borderStyle="solid" cornerRadius="2" dropShadowVisible="true"
+			 horizontalScrollPolicy="off" verticalScrollPolicy="off" click="AR604()" buttonMode="true">
+		<s:VGroup gap="3" horizontalCenter="0" textAlign="center" verticalCenter="0" horizontalAlign="center" verticalAlign="middle">
+			<s:Image source="image/child/BabyExcuse.png" scaleMode="letterbox" smooth="true" smoothingQuality="high" toolTip="{iR.cashFlowByDailyFrom_MonthFee}"/>
+			<s:Label text="{iR.cashFlowByDailyFrom_MonthFee}" fontWeight="bold" color="#3B5998" fontFamily="Tahoma" fontSize="14"/>
+		</s:VGroup>
+	</mx:Form>
+</s:Application>

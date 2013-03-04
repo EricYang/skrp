@@ -1,0 +1,33 @@
+{
+    "dws":[
+        {
+            "selectTable": "FireDrill a 
+                            LEFT OUTER JOIN Staff b ON a.staffSnA = b.sn
+                            LEFT OUTER JOIN Staff c ON a.staffSnB = c.sn",
+            "updateTable": "FireDrill",
+            "defaultTable": "a",
+            "items": [
+                {"fid":"sn"}, 
+                {"fid":"academicYear"},
+                {"fid":"semester"},
+                {"fid":"acaName",       "table":"", "colName":"CONCAT(a.academicYear, ' - ', a.semester)"},
+                {"fid":"staffSnA"},
+                {"fid":"staffNameA",    "table":"", "colName":"CONCAT(b.cName, ' ', b.eName)"},
+                {"fid":"staffSnB"},
+                {"fid":"staffNameB",    "table":"", "colName":"CONCAT(c.cName, ' ', c.eName)"},
+                {"fid":"cDate"},
+                {"fid":"place"},
+                {"fid":"drillContent"},
+                {"fid":"drillType"},
+                {"fid":"perNum"},
+                {"fid":"fileName"},
+                {"fid":"fileNameB"},
+                {"fid":"remark"},
+                {"fid":"creator"},
+                {"fid":"createDate"},
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+             ]                
+        }
+    ]    
+}

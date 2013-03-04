@@ -1,0 +1,15 @@
+﻿# list/query fields
+acaSetupSn=Year(Semester)
+List1=New Class, Copy to
+List2=Current Year(Semester)
+newAcademicYear=Academic Year
+newSemester=Semester
+cmdOk=Sure
+cmdExit=Exit
+
+# message
+message01=Please select the year(semester).
+message02=Current Year, Error.
+message03=Current Semester, Error.
+message04=Current Year(semester) already exists.
+message05=Copy successfully.  Please log out and re-login.

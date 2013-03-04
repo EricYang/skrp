@@ -1,0 +1,11 @@
+﻿# list/query fields
+theClassCode=class grade code
+theClassName=class grade name
+creator=created by
+createDate=created on
+reviser=modified by
+reviseDate=last modified
+
+# E
+classLeavesCode=class type code
+classLeavesName=class type name

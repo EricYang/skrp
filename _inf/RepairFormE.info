@@ -1,0 +1,26 @@
+{
+    "dws":[
+        {
+            "selectTable": "DamageRepair a INNER JOIN
+                    Fortune b ON a.fortuneSn = b.sn LEFT OUTER JOIN
+                    Staff c ON a.staffSnR = c.sn",          
+            "updateTable": "DamageRepair",
+            "defaultTable": "a",  
+            "items": [
+                {"fid":"sn"},
+                {"fid":"staffSnA"},
+                {"fid":"fortuneSn"},
+                {"fid":"fortuneNo",         "table":"b", "colName":"fortuneNo"},
+                {"fid":"fortuneName",       "table":"b", "colName":"fortuneName"},
+                {"fid":"damageState"},
+                {"fid":"finishDate"},
+                {"fid":"staffSnR"},
+                {"fid":"rName",             "table":"", "colName":"CONCAT(c.cName, ' ', c.eName)"},
+                {"fid":"conTel",            "table":"c", "colName":"conTel"},
+                {"fid":"repairState"},                
+                {"fid":"createDate"},
+                {"fid":"reviseDate"}
+            ]
+        }               
+   ]    
+}

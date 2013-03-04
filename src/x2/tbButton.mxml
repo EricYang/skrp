@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Button xmlns:mx="http://www.adobe.com/2006/mxml" paddingLeft="6" paddingRight="4"
+	fontSize="12" fontWeight="normal" height="24"
+	>
+	
+</mx:Button>

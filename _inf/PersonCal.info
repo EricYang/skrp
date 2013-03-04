@@ -1,0 +1,14 @@
+{
+    "list":{
+		"select": "SELECT *, CONCAT( CAST( timeH AS CHAR ) , '：', CAST( timeM AS CHAR ) ) AS timeHM",
+		"from": "FROM PersonCal 
+                WHERE (staffSn = [staffSn]) 
+                [_where]",
+		"order": "ORDER BY cDate",
+		"items": [
+            {"fid":"staffSn",      "isCond":0},
+            {"fid":"cDate",        "op":"between"},
+            {"fid":"contents",     "op":"like"}    
+      ]
+    }
+}

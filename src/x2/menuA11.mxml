@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:MenuBar xmlns:mx="http://www.adobe.com/2006/mxml">
+	
+	<mx:Script>
+		<![CDATA[
+			
+			
+
+		/**
+		 * recursive call
+		 * @return :
+		 *   n: find item.
+		 *  -1: available folder.
+		 *  -2: not available.
+		 */ 
+		public function filterMenu(p_item:Object):int{
+			if (p_item.children == null){
+				var ts_item:String = p_item.data;
+				for (var i:int=0; i<in_fun; i++){
+					if (ts_item == ids_fun[i].id){
+						/*
+						p_item.funNew = ids_fun[i].funNew;
+						p_item.funQuery = ids_fun[i].funQuery;
+						p_item.funEdit = ids_fun[i].funEdit;
+						p_item.funDelete = ids_fun[i].funDelete;
+						p_item.funPrint = ids_fun[i].funPrint;
+						*/
+						//p_item.appNo = i;
+						return i;
+					}	
+				}
+				
+				//p_item.visible = false;
+				//p_item.filter = true;
+				//p_item.appNo = -1;
+				return -2;
+			}else{
+				//var tb_find:Boolean = false;
+				var tn_appNo:int = -2;
+				//var tn_appNo2:int;
+				var ta_item:Array = p_item.children;
+				for (var j:int=0;j<ta_item.length;j++){
+					ta_item[j].appNo = filterMenu(ta_item[j]); 
+					if (ta_item[j].appNo >= 0){
+						tn_appNo = -1;						
+					}
+				}
+				
+				//p_item.visible = tb_find;
+				p_item.appNo = tn_appNo;					
+				return tn_appNo;
+			}
+		}
+		
+		
+		//write ids_menu[]
+		private function writeMenu(p_item:Object, p_to:Object):void{
+			//test
+			//p_to.t2 = 2;
+			//return;
+			
+			//var tn_len:int;
+			switch (p_item.appNo){
+				case -2:
+					//do nothing.
+					return;
+				case -1:	//menu folder
+					//add menu folder first
+					//tn_len = ;
+					/*
+					var tn_pos:int;
+					if (p_to == null){
+						p_to = {};
+						tn_pos = 0;
+					}else{
+						tn_pos = p_to.length;
+					}
+					// = (p_to == null) ? 0 :
+					*/  
+					p_to.label = p_item.label;
+					p_to.children = [];
+					
+					//temp add
+					//return;
+					
+					//{label: p_item.label};
+					//p_to[tn_pos].children = [];
+					var ta_item:Array = p_item.children;
+					for (var i:int=0;i<ta_item.length;i++){
+						writeMenu(p_item.children[i], p_to.children)
+					}
+					break;
+				default:
+					//tn_len = p_to.length;
+					var tn_ary:int = p_item.appNo;
+					p_to[p_to.length] = {
+						label: p_item.label,
+						data: p_item.data,
+						funNew: ids_fun[tn_ary].funNew,
+						funQuery: ids_fun[tn_ary].funQuery,
+						funEdit: ids_fun[tn_ary].funEdit,
+						funDelete: ids_fun[tn_ary].funDelete,
+						funPrint: ids_fun[tn_ary].funPrint
+					};
+					break;					
+			}			
+		}
+					
+		]]>
+	</mx:Script>
+</mx:MenuBar>

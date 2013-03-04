@@ -1,0 +1,69 @@
+﻿# list/query fields
+cmdData=学生资料汇入
+deleFlag=删除
+acaName=学年(期)
+classLeavesSn=班级别
+stuNo=学号
+studentName=学生姓名
+gender=性别
+birthDate=出生日期
+idNo=身分证号
+address=住址
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# message
+message07=是否确定删除这笔资料 ?
+message08=此笔资料已删除 !
+message09=资料删除完成。
+
+# E
+Canvas01=基本资料
+cName=姓名(中)
+eName=姓名(英)
+enrollFlag=在校
+uploadFiles=照片上传
+tmpFileName=浏览档案
+deleFlag=资料删除
+
+Canvas02=班级(别)
+acaFlag=目前
+academicYear=学年
+semester=学期
+
+Canvas03=身高体重
+cDate=日期
+stature=身高
+weight=体重
+
+Canvas04=经常就诊医疗院所
+urgentFlag=顺序
+unitName=名称
+conTel=电话
+
+Canvas05=曾患疾病
+funcItemSn=病症
+sDescribe=备注
+
+Canvas06=伙食过敏情形
+senCon=过敏项目
+avoidFood=禁吃食物
+
+Canvas07=家庭成员
+relationship=关系
+sePicker=主要接送人
+urConter=紧急连络人
+
+# message
+message01=重复输入学年(期) 班级(别)，请确认。
+message02=家长资料
+message03=如欲更改此笔资料，请将目前的学年期切换至
+message04=。
+message05=开班作业
+message06=档案类型不符, 照片档案必须为(.jpg, .gif, .jpeg, .png) 格式图档
+
+# Q
+classInfoSn=班级
+classLeavesSn=班别

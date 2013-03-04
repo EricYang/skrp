@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TextArea 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	initialize="init()"
+ 	focusIn="focusIn(event)"
+ 	focusOut="focusOut(event)"
+	render="setStatus()"
+	>
+	
+	<fx:Script>
+		<![CDATA[
+			import x2.*;
+		
+			private var i_info:Object;
+
+			private function init():void{
+				i_info = Fun.initDW2Field(this);
+			}
+			
+			private function setStatus():void{				
+				DW2(i_info.dw2).setSubStatus(this);
+			}
+			private function focusIn(p_event:Event):void{
+				DW2(i_info.dw2).fieldFocusIn(p_event);            
+			}
+			private function focusOut(p_event:Event):void{
+				/*
+				if (i_info.box){
+					Object(this.parent).data[i_info.fid] = this.text;
+				}else{
+					this.data[i_info.fid] = this.text;				
+				}				
+				DW2(i_info.dw2).fieldFocusOut(p_event);
+				*/
+				
+				//var ts_text:String;
+				if (i_info.box){
+					if (Object(this.parent).data[i_info.fid] != this.text){
+						Object(this.parent).data[i_info.fid] = this.text;
+						DW2(i_info.dw2).fieldFocusOut(p_event);
+					}
+				}else{
+					if (this.data[i_info.fid] != this.text){
+						this.data[i_info.fid] = this.text
+						DW2(i_info.dw2).fieldFocusOut(p_event);
+					}				
+				}
+			}
+		]]>
+	</fx:Script>
+</mx:TextArea>

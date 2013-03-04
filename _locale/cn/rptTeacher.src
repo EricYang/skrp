@@ -1,0 +1,10 @@
+﻿# list/query fields
+acaName=学年(期)
+deptName=部门名称
+mCount=人数
+
+# Q
+deptSn=部门名称
+
+# message
+message01=合计

@@ -1,0 +1,24 @@
+﻿# list/query fields
+acaName=academic year (semester)
+classLeavesSn=class grade and classification
+studentName=student name
+cDate=date
+tomoCarry=items required for the next day
+teacherUrge=friendly reminders from the teacher
+creator=created by
+createDate=created on
+
+# E
+learnStatus=school performance
+sleepStatus=sleeping state
+toiletStatus=bowel routine
+toiletStatusA=defecate
+toiletStatusB=urinate
+
+# Q
+academicYear=academic year
+semester=sememster
+classInfoSn=class grade
+classLeavesSn=classification
+cName=Chinese name
+eName=English name

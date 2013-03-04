@@ -1,0 +1,46 @@
+﻿# list/query fields
+cmdData=家長資料匯入
+deleFlag=deleted
+cName=Chinese Name	
+gender=gender
+idNo=ID number
+conTel=contact number
+address=address
+creator=created by
+createDate=created on
+reviser=revised by
+reviseDate=revised on
+
+# message
+message04=是否確定刪除這筆資料 ?
+message05=此筆資料已刪除 !
+message06=資料刪除完成。
+
+# E
+Canvas01=Personal Information
+birthDate=Date of Birth
+eMail=e-mail address
+eduExtent=highest degreee
+company=current company
+deleFlag=deleted
+
+Canvas02=Relationship with Child
+relationship=relationship
+stuNo=Student ID number
+eName=English Name
+
+Canvas03=Account Setting
+adeleFlag=Account Status
+loginId=Login ID
+loginPw=password
+loginPw2=confirm password
+roleSn=role
+
+Canvas04=擁有的角色
+roleName=角色名稱
+
+# message
+message00=電子信箱，輸入格式錯誤。
+message01=This login is registered.
+message02=The password you entered is different from the first time.  Please confirm your password.
+message03=Personal Information of Child

@@ -1,0 +1,50 @@
+{
+    "dws":[
+	    {
+			"selectTable": "CleanList a LEFT OUTER JOIN Staff b ON a.staffSnA = b.sn
+                            LEFT OUTER JOIN Staff c ON a.staffSnB = c.sn",
+            "updateTable": "CleanList",
+            "defaultTable": "a",
+			"items": [
+				{"fid":"sn"}, 
+                {"fid":"academicYear"},
+                {"fid":"semester"},                
+                {"fid":"acaName",       "table":"", "colName":"''"},
+                {"fid":"classLeavesSn"},
+                {"fid":"staffSnA"},
+                {"fid":"staffNameA",    "table":"", "colName":"CONCAT(b.cName, ' ', b.eName)"},
+                {"fid":"staffSnB"},
+                {"fid":"staffNameB",    "table":"", "colName":"CONCAT(c.cName, ' ', c.eName)"},
+                {"fid":"cDate"},
+                {"fid":"creator"},
+                {"fid":"createDate"},
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+
+			]								
+	    },
+	    {
+			"selectTable": "CleanListDetail [_where] ORDER BY funcItemSn",
+            "updateTable": "CleanListDetail",
+			"upDW": 0,
+			"items": [
+                {"fid":"sn"},
+	            {"fid":"cleanListSn"},                
+                {"fid":"funcItemSn"},
+                {"fid":"checkSign"},
+                {"fid":"checkFlag"}
+			]				
+	    },
+        {
+            "selectTable": "CleanListGoods [_where] ORDER BY funcItemSn",
+            "updateTable": "CleanListGoods",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"cleanListSn"},                
+                {"fid":"funcItemSn"},
+                {"fid":"checkSign"}
+            ]                
+        }
+    ]    
+}

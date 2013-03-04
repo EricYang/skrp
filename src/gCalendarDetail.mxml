@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="512" height="480" 
+	 	
+	close="closeWin()"
+	title="{theYearMonthDay}"
+	preinitialize="{iR=Fun.getLang('gCalendar')}"
+	>
+	
+	<fx:Script>
+		<![CDATA[
+			
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["usersSn", "userType"]});
+			[Bindable]
+			public var theYearMonthDay:String;			
+			[Bindable]
+			private var ia_staffName:ArrayList = new ArrayList(Fun2.staffListDS(is_app, false));
+			[Bindable]
+			private var ia_jobs:ArrayList = new ArrayList(Fun2.jobsDS(is_app, false));
+			
+			public function init(ps_app:String):void{
+				
+				//個人行事曆
+				var t_data1:Object = {
+					data: "gPersonCalList",
+					ymd: theYearMonthDay
+				};
+				var ta_row1:Array = Fun.readRows(is_app, t_data1);
+				if (ta_row1){					
+					tns.addChild(PersonCal);
+					grid_PersonCal.dataProvider = new ArrayCollection(ta_row1);
+				}else{					
+					tns.removeChild(PersonCal);					
+				}				
+				
+				//年度行事曆
+				var t_data2:Object = {
+					data: "gYearCalList",
+					ymd: theYearMonthDay
+				};
+				var ta_row2:Array = Fun.readRows(is_app, t_data2);
+				if (ta_row2){
+					tns.addChild(YearCal);
+					grid_YearCal.dataProvider = new ArrayCollection(ta_row2);
+				}else{							
+					tns.removeChild(YearCal);
+				}			
+				
+				//待辦事項
+				var t_data3:Object = {
+					data: "gTodoList",
+					ymd: theYearMonthDay
+				};
+				var ta_row3:Array = Fun.readRows(is_app, t_data3);
+				if (ta_row3){
+					tns.addChild(TodoList);
+					grid_TodoList.dataProvider = new ArrayCollection(ta_row3);
+				}else{					
+					tns.removeChild(TodoList);
+				}
+				
+				//伙食表
+				var t_data4:Object = {
+					data: "gFoodTable",
+					ymd: theYearMonthDay
+				};
+				var ta_row4:Array = Fun.readRows(is_app, t_data4);
+				if (ta_row4!=null){
+					tns.addChild(FoodTable);
+					
+					var s1:String = '', s2:String = '', s3:String = '', s4:String = '', s5:String = '';
+					for (var i:int=0; i<ta_row4.length; i++){
+						switch (ta_row4[i].sysType){					
+							case "1":
+								s1 = s1 + ta_row4[i].itemName + ' ';
+								break;
+							case "2":
+								s2 = s2 + ta_row4[i].itemName + ' ';
+								break;
+							case "3":
+								s3 = s3 + ta_row4[i].itemName + ' ';
+								break;
+							case "4":
+								s4 = s4 + ta_row4[i].itemName + ' ';
+								break;
+							case "5":
+								s5 = s5 + ta_row4[i].itemName + ' ';
+								break;
+						}
+					}
+					
+					amSnack.text = s1;
+					noonMeal.text = s2;
+					fruit.text = s3;
+					pmSnack.text = s4;
+					nightSnack.text = s5;
+				}else{					
+					tns.removeChild(FoodTable);
+				}
+
+				var ta_row5:Array;
+				switch (i_session.userType){
+					case "2":
+						ta_row5=[];
+						tns.removeChild(TimeTable);
+						break;
+					case "3":
+					case "4":	
+						//排班表
+						var t_data5:Object = {
+							data: "gTimeTable",
+							ymd: theYearMonthDay
+						};
+						ta_row5 = Fun.readRows(is_app, t_data5);
+						if (ta_row5){
+							tns.addChild(TimeTable);
+							grid_TimeTable.dataProvider = new ArrayCollection(ta_row5);
+						}else{					
+							tns.removeChild(TimeTable);
+						}
+						break;
+				}
+				
+				if(!ta_row1 && !ta_row2 && !ta_row3 && !ta_row4 && !ta_row5){
+					Fun.msg("I", iR.message01);
+					closeWin()
+				}
+			}			
+			
+			private function staffName(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_staffName, p_row[p_column.dataField]);
+			}
+			private function jobs(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_jobs, p_row[p_column.dataField]);
+			}	
+			
+			private function closeWin():void{
+				Fun.closePopup(this);
+			}
+		]]>
+	</fx:Script>	
+	<mx:TabNavigator x="10" y="10" width="478" height="424" id="tns">
+		<mx:Canvas label="{iR.Canvas01}" id="PersonCal">
+			<mx:Form x="10" y="13">
+				<s:DataGrid width="420" alpha="0.7" height="320" id="grid_PersonCal" rowHeight="100" variableRowHeight="true">
+					<s:columns><s:ArrayList>
+						<s:GridColumn headerText="{iR.contents}" dataField="contents"/>							
+					</s:ArrayList></s:columns>
+				</s:DataGrid>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas02}" id="YearCal">
+			<mx:Form x="10" y="13">
+				<s:DataGrid width="420" alpha="0.7" height="320" id="grid_YearCal"
+							 rowHeight="100" variableRowHeight="true">
+					<s:columns><s:ArrayList>
+						<s:GridColumn headerText="{iR.contents}" dataField="contents"/>				
+					</s:ArrayList></s:columns>
+				</s:DataGrid>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas03}" id="TodoList">
+			<mx:Form x="10" y="13">
+				<s:DataGrid width="420" alpha="0.7" height="320" id="grid_TodoList"
+							 rowHeight="100" variableRowHeight="true">
+					<s:columns><s:ArrayList>
+						<s:GridColumn headerText="{iR.subject}" dataField="subject" width="100"/>	
+						<s:GridColumn headerText="{iR.contents}" dataField="contents"/>		
+					</s:ArrayList></s:columns>
+				</s:DataGrid>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas04}" id="FoodTable">
+			<mx:Form x="10" y="13">
+				<mx:FormItem label="{iR.amSnack} :">
+					<mx:TextArea width="300" height="60" id="amSnack" editable="false"/>					
+				</mx:FormItem>
+				<mx:FormItem label="{iR.noonMeal} :">
+					<mx:TextArea width="300" height="60" id="noonMeal" editable="false"/>										
+				</mx:FormItem>
+				<mx:FormItem label="{iR.fruit} :">
+					<mx:TextArea width="300" height="60" id="fruit" editable="false"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.pmSnack} :">
+					<mx:TextArea width="300" height="60" id="pmSnack" editable="false"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.nightSnack} :">
+					<mx:TextArea width="300" height="60" id="nightSnack" editable="false"/>
+				</mx:FormItem>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas05}" id="TimeTable">
+			<mx:Form x="10" y="13">
+				<s:DataGrid width="420" alpha="0.7" height="320" id="grid_TimeTable">
+					<s:columns><s:ArrayList>
+						<s:GridColumn headerText="{iR.staffSn}" dataField="staffSn" labelFunction="staffName"/>
+						<s:GridColumn headerText="{iR.seTimeHM}" dataField="seTimeHM"/>
+						<s:GridColumn headerText="{iR.jobs}" dataField="jobs" labelFunction="jobs"/>
+					</s:ArrayList></s:columns>
+				</s:DataGrid>
+			</mx:Form>
+		</mx:Canvas>
+	</mx:TabNavigator>
+</s:TitleWindow>

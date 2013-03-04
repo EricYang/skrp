@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	width="500" height="180" xmlns:x2="x2.*" 
+	
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('RepairForm')}"
+ 	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			private var is_app:String = Fun.sApp;
+			
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["usersSn","userCName","userEName"]});
+
+			private function doFindFortuneNo():void{
+				Fun2.openFortuneNo(is_app, this, ReturnFortuneNo);
+			}
+			private function ReturnFortuneNo(p_row:Object):void{				
+				Fun.setItem(fortuneNo, p_row.fortuneNo);
+				Fun.setItem(fortuneSn, p_row.sn);			
+			}	
+
+			private function init():void{
+				qry_1.aoItem = [
+					{source:sn,				dataType:"N"},
+					{source:fortuneSn,		dataType:"N"},					
+					{source:staffSnA,		dataType:"N"},
+					{source:createDate,		dataType:"D",	relat:createDate2},
+					{source:createDate2,	dataType:"D"}					
+				];					
+			}
+			
+			private function whenSubmit(p_data:Object):Boolean{
+				Fun.setItem(staffSnA, int(i_session.usersSn));
+				return true;
+			}
+		]]>
+	</fx:Script>
+	<x2:Num1 id="staffSnA" visible="false"/>
+	<x2:Num1 id="fortuneSn" visible="false"/>
+	<mx:Form x="10" y="10" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+		<mx:FormItem label="{iR.sn} :">
+			<s:TextInput id="sn"/>			
+		</mx:FormItem>
+		<mx:FormItem label="{iR.fortuneNo} :">
+			<mx:HBox width="100%">
+				<s:TextInput id="fortuneNo" editable="false" enabled="false" click="doFindFortuneNo()"/>
+				<x2:btnPick id="SchFortuneNo" click="doFindFortuneNo()"/>				
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.createDate} :">
+			<mx:HBox width="100%">
+				<mx:DateField formatString="YYYY/MM/DD" id="createDate" yearNavigationEnabled="true"/>
+				<mx:Label text=" - "/>
+				<mx:DateField formatString="YYYY/MM/DD" id="createDate2" yearNavigationEnabled="true"/>
+			</mx:HBox>
+		</mx:FormItem>
+	</mx:Form>
+	<x2:comQuery x="407" y="10" id="qry_1" fWhenSubmit="whenSubmit">
+	</x2:comQuery>
+</s:TitleWindow>

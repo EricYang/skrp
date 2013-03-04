@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	width="610" height="240" xmlns:x2="x2.*" 
+	
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('Student')}"
+ 	>
+	<fx:Script>
+		<![CDATA[			
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindalbe]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			public var ia_ynFlag:ArrayList = new ArrayList(Fun2.ynFlagDS(is_app, false));
+			
+			private function init():void{
+				qry_1.bEchoExcel = true;
+				qry_1.aoItem = [
+					{source:cName,			dataType:"S"},
+					{source:eName,			dataType:"S"},
+					{source:stuNo,			dataType:"S"},
+					{source:idNo,			dataType:"S"},
+					{source:deleFlag,		dataType:"N"}
+				];
+			}
+		]]>
+	</fx:Script>
+	<mx:Form x="10" y="10" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+		<mx:FormItem label="{iR.stuNo} :">
+			<s:TextInput id="stuNo"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.cName} :">
+			<s:TextInput id="cName"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.eName} :">
+			<s:TextInput id="eName"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.idNo} :">
+			<s:TextInput id="idNo"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.deleFlag} :">
+			<x2:DDL1 id="deleFlag" dataProvider="{ia_ynFlag}"></x2:DDL1>			
+		</mx:FormItem>
+	</mx:Form>
+	<x2:comQuery x="520" y="10" id="qry_1">
+	</x2:comQuery>
+</s:TitleWindow>

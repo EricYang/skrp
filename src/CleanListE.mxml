@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="660" height="600" 	 
+  	creationComplete="init()"	
+	preinitialize="{iR=Fun.getLang('CleanList')}"
+	>
+	<fx:Script>
+		<![CDATA[
+
+			
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			[Bindable]
+			private var iR:Object;
+			[Bindalbe]
+			private var idw_master:DW;
+			[Bindalbe]
+			private var idw_CleanListDetail:DW2;
+			[Bindalbe]
+			private var idw_CleanListGoods:DW2;
+			[Bindalbe]
+			private var is_app:String = Fun.sApp;			
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["academicYear","semester","usersSn","userCName","userEName"]});
+			[Bindable]
+			public var ia_itemName:ArrayList = new ArrayList(Fun2.itemNameDS(is_app, 7, true));
+			[Bindable]
+			public var ia_itemName8:ArrayList = new ArrayList(Fun2.itemNameDS(is_app, 8, true));
+			[Bindable]
+			public var ia_checkSign:ArrayList = new ArrayList(Fun2.checkSignDS(is_app, true));
+			[Bindable]
+			public var ia_checkFlag:ArrayList = new ArrayList(Fun2.checkFlagDS(is_app, true));
+			[Bindable]			
+			public var ia_classInfoStartConb:ArrayList = new ArrayList(Fun2.classInfoStartConbDS(is_app, true));
+			[Bindale]
+			private var ia_data:Array = [];	
+			
+			private function init():void{				
+				//dw1: CleanList
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					mapping: true,
+					items: [
+						{source:sn,				dataType:"N",	inputType:"I"}, 
+						{source:academicYear,	dataType:"N",	init:int(i_session.academicYear)}, 
+						{source:semester,		dataType:"N",	init:int(i_session.semester)},
+						{source:acaName,						update:false,	inputType:"R"},
+						{source:classLeavesSn,	dataType:"N"},						
+						{source:staffSnA, 		dataType:"N",	init:int(i_session.usersSn)},
+						{source:staffNameA,						update:false,	inputType:"R"},
+						{source:staffSnB,		dataType:"N"},
+						{source:staffNameB,						update:false,	inputType:"R"},
+						{source:cDate,			dataType:"D"},
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"D",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"D",	inputType:"R"}
+					]				
+				}; 			
+				
+				//dw2: CleanListDetail
+				edit_1.aoDW[1] = new DW2();				
+				idw_CleanListDetail = edit_1.aoDW[1]; 
+				idw_CleanListDetail.xTool = tb_CleanListDetail;
+				idw_CleanListDetail.oConfig = {					
+					grid: grid_CleanListDetail,
+					//upDW: idw_master,
+					//upQKeys: ["sn"],
+					//qKeys: ["cleanListSn"],
+					//
+					upEditDW: idw_master,
+					upEKeys: ["sn"],
+					eKeys: ["cleanListSn"],
+					//
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"cleanListSn", 	dataType:"N", 	inputType:"2"},						
+						{fid:"funcItemSn",		dataType:"N"},
+						{fid:"checkSign",		dataType:"S"},
+						{fid:"checkFlag",		dataType:"S"}
+					]				
+				};
+				
+				//dw2: CleanListGoods
+				edit_1.aoDW[2] = new DW2();				
+				idw_CleanListGoods = edit_1.aoDW[2]; 
+				idw_CleanListGoods.xTool = tb_CleanListGoods;
+				idw_CleanListGoods.oConfig = {					
+					grid: grid_CleanListGoods,
+					upEditDW: idw_master,
+					upEKeys: ["sn"],
+					eKeys: ["cleanListSn"],					
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"cleanListSn", 	dataType:"N", 	inputType:"2"},						
+						{fid:"funcItemSn",		dataType:"N"},
+						{fid:"checkSign",		dataType:"S"}
+					]				
+				};
+			}
+			
+			//找職員
+			private var i_col1:Object, i_col2:Object;			
+			private function doFindStaff(p_col1:Object, p_col2:Object):void{				
+				i_col1 = p_col1;
+				i_col2 = p_col2;
+				Fun2.openStaff(is_app, this, ReturnStaff);
+			}
+			private function ReturnStaff(p_row:Object):void{				
+				Fun.setItem(i_col1, p_row.cName + " " + p_row.eName);
+				idw_master.setItem(i_col2, p_row.sn, true);
+			}	
+			
+			private function funcItemName(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_itemName, p_row[p_column.dataField]);
+			}
+			private function funcItemName8(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_itemName8, p_row[p_column.dataField]);
+			}
+			
+			private function checkFlagName(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_checkFlag, p_row[p_column.dataField]);
+			}
+			
+			private function afterOpen(p_data:Object):void{				
+				
+				var theCheckItemNum:String;
+				
+				switch (p_data.fun){
+					case "C":
+						idw_master.setItem(staffNameA, i_session.userCName + " " + i_session.userEName, true);
+						
+						var t_data:Object ={
+							data: "CleanListDetail",
+							cuEvent: String(p_data.fun)
+						};						
+						var ta_data:Array = Fun.readRows(is_app, t_data);
+						if (ta_data){							
+							for (var i:int=0; i<ta_data.length; i++){								
+								idw_CleanListDetail.addRow(ta_data[i]);								
+							}
+						}
+						theCheckItemNum = String(ta_data.length);
+						
+						var g_data:Object ={
+							data: "CleanListGoods",
+							cuEvent: String(p_data.fun)
+						};						
+						var ga_data:Array = Fun.readRows(is_app, g_data);
+						if (ga_data){							
+							for (var k:int=0; k<ga_data.length; k++){								
+								idw_CleanListGoods.addRow(ga_data[k]);								
+							}
+						}						
+												
+						break;
+					case "V":
+					case "U":
+						/*
+						if (int(Fun.getItem(staffSnB))){							
+							idw_master.setMode("V");
+							idw_CleanListDetail.setMode("V");
+						}
+						*/
+						var u_data:Object ={
+							data: "CleanListDetail",
+							cuEvent: String(p_data.fun),
+							sn: int(Fun.getItem(sn))
+						};						
+						var ua_data:Array = Fun.readRows(is_app, u_data);
+						if (ua_data){
+							//自動點按新增
+							for (var j:int=0; j<ua_data.length; j++){
+								idw_CleanListDetail.addRow(ua_data[j]);
+								if (String(ua_data[j].checkSign) != ""){
+									idw_CleanListDetail.setDirtyRow("U", j, ua_data[j]);									
+								}							
+							}
+						}
+						theCheckItemNum = String(ua_data.length);
+						
+						var f_data:Object ={
+							data: "CleanListGoods",
+							cuEvent: String(p_data.fun),
+							sn: int(Fun.getItem(sn))
+						};						
+						var fa_data:Array = Fun.readRows(is_app, f_data);
+						if (fa_data){
+							//自動點按新增
+							for (var x:int=0; x<fa_data.length; x++){
+								idw_CleanListGoods.addRow(fa_data[x]);
+								if (String(fa_data[x].checkSign) != ""){
+									idw_CleanListGoods.setDirtyRow("U", x, fa_data[x]);									
+								}							
+							}
+						}
+						break;
+				}				
+				checkItemNum.text = iR.message01 + theCheckItemNum + iR.message02;
+			}
+			
+			private function whenSave(p_data:Object):Boolean{
+				if (p_data.fun != "D"){
+					//為了讓儲存時, 也能同時更新顯示的頁面, 所以要特別給予值
+					Fun.setItem(acaName, String(Fun.getItem(academicYear))+ ' - '+String(Fun.getItem(semester)));
+					
+					switch (p_data.fun){
+						case "C":
+						case "U":
+							var ta_row:Array = ArrayCollection(grid_CleanListDetail.dataProvider).source;
+							for (var i:int=ta_row.length - 1; i>=0; i--){
+								if (String(ta_row[i].checkSign) == "" || int(ta_row[i].checkSign) == 0){									
+									idw_CleanListDetail.deleteRow(i, false);									
+								}						
+							}
+							
+							var tg_row:Array = ArrayCollection(grid_CleanListGoods.dataProvider).source;
+							for (var y:int=tg_row.length - 1; y>=0; y--){
+								if (String(tg_row[y].checkSign) == "" || int(tg_row[y].checkSign) == 0){									
+									idw_CleanListGoods.deleteRow(y, false);									
+								}						
+							}
+							break;
+						case "V":						
+							break;
+					}										
+				}
+				return true;
+			}
+			private function serialNoLabelFunc(p_row:Object, p_column:GridColumn):String {
+				var index:int = p_column.grid.dataProvider.getItemIndex(p_row);
+				if (index > -1) {
+					return (index + 1).toString();
+				}
+				return "";
+			}
+		]]>
+	</fx:Script>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="academicYear" visible="false"/>
+	<x2:Num1 id="semester" visible="false"/>
+	<s:TextInput id="acaName" visible="false"/>
+	<x2:Num1 id="staffSnA" visible="false"/>
+	<x2:Num1 id="staffSnB" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>	
+	<mx:TabNavigator x="10" y="10" width="629" height="514">
+		<mx:Canvas label="{iR.Canvas01}">
+			<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+				<mx:FormItem label="{iR.classLeavesSn} :" required="true">
+					<x2:DDL1 id="classLeavesSn" dataProvider="{ia_classInfoStartConb}"></x2:DDL1>			
+				</mx:FormItem>
+				<mx:FormItem label="{iR.cDate} :" required="true">
+					<mx:DateField id="cDate" formatString="YYYY/MM/DD" yearNavigationEnabled="true"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.staffNameA} :" required="true">
+					<mx:HBox x="72" y="1" width="100%">
+						<s:TextInput id="staffNameA" enabled="false" editable="false"/>
+					</mx:HBox>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.staffNameB} :">
+					<mx:HBox x="72" y="1" width="100%">
+						<s:TextInput id="staffNameB" enabled="false" editable="false"/>
+					</mx:HBox>
+				</mx:FormItem>
+				
+				<x2:TBar2 id="tb_CleanListGoods" visible="false">
+				</x2:TBar2>
+				<x2:DG2 width="570" alpha="0.7" height="260" id="grid_CleanListGoods">
+					<x2:columns><s:ArrayList>		
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="cleanListSn" visible="false"/>
+						<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+						<s:GridColumn headerText="{iR.funcItemSnA}" dataField="funcItemSn" labelFunction="funcItemName8"/>
+						<s:GridColumn headerText="{iR.checkSignB}" dataField="checkSign" width="60">
+							<s:itemRenderer>
+								<fx:Component><x2:irCenterVH>
+									<x2:Check2 />
+								</x2:irCenterVH></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>						
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+				
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas02}">
+			<mx:Form x="9" y="29">
+				<x2:DG2 width="570" alpha="0.7" height="400" id="grid_CleanListDetail">
+					<x2:columns><s:ArrayList>		
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="cleanListSn" visible="false"/>
+						<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+						<s:GridColumn headerText="{iR.funcItemSnA}" dataField="funcItemSn" labelFunction="funcItemName"/>
+						<s:GridColumn headerText="{iR.checkSignB}" dataField="checkSign" width="60">
+							<s:itemRenderer>
+								<fx:Component><x2:irCenterVH>
+									<x2:Check2 />
+								</x2:irCenterVH></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.checkFlag}" dataField="checkFlag" labelFunction="checkFlagName" width="100"/>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>			
+			<x2:TBar2 x="336" y="4" id="tb_CleanListDetail" visible="false">
+			</x2:TBar2>			
+			<mx:Label x="432" y="6" id="checkItemNum" color="#0000FF"/>
+		</mx:Canvas>
+	</mx:TabNavigator>
+	<x2:comEdit x="10" y="529" id="edit_1" fWhenSave="whenSave" fAfterOpen="afterOpen">
+	</x2:comEdit>
+</s:TitleWindow>

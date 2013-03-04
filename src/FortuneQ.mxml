@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	width="490" height="174" xmlns:x2="x2.*" 
+	
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('Fortune')}"
+ 	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;			
+			
+			[Bindable]
+			private var iR:Object;			
+			private var is_app:String = Fun.sApp;
+			
+			private var i_col1:Object, i_col2:Object;
+			
+			private function doFindStaff(p_col1:Object, p_col2:Object):void{				
+				i_col1 = p_col1;
+				i_col2 = p_col2;
+				Fun2.openStaff(is_app, this, ReturnStaff);
+			}
+			private function ReturnStaff(p_row:Object):void{				
+				Fun.setItem(i_col1, p_row.cName + " " + p_row.eName);
+				Fun.setItem(i_col2, p_row.sn);				
+			}
+			private function init():void{
+				qry_1.aoItem = [
+					{source:fortuneNo},
+					{source:fortuneName},
+					{source:staffSnU}
+				];					
+			}			
+		]]>
+	</fx:Script>
+	<x2:comQuery x="395" y="10" id="qry_1">
+	</x2:comQuery>	
+	<x2:Num1 id="staffSnU" visible="false"/>
+	<mx:Form x="6" y="10" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+		<mx:FormItem label="{iR.fortuneNo} :">
+			<s:TextInput id="fortuneNo"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.fortuneName} :">
+			<s:TextInput id="fortuneName"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.uName} :">
+			<mx:HBox width="100%">
+				<s:TextInput id="uName" editable="false" enabled="false" click="doFindStaff(uName, staffSnU)"/>
+				<x2:btnPick id="SchStaffU" click="doFindStaff(uName, staffSnU)"/>				
+			</mx:HBox>
+		</mx:FormItem>
+	</mx:Form>
+</s:TitleWindow>

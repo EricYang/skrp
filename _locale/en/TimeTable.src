@@ -1,0 +1,12 @@
+﻿# list/query fields
+staffName=Staff
+seDate=Date
+seTimeHM=Time
+jobs=Job Item
+creator=Created by
+createDate=Created on
+reviser=Revised by
+reviseDate=Revised on
+
+# Q
+cDate=Date

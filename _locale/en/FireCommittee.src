@@ -1,0 +1,36 @@
+﻿# list/query fields
+acaName=學年(期)
+cDate=填寫日期
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# message
+
+
+# E
+Canvas01=基本資料
+acaName=學年(期)
+cDate=填寫日期
+Canvas02=防火管理委員會編組
+fireTitles=任務編組職稱
+titlesSn=職稱
+cName=姓名(中)
+remark=備考
+Canvas03=火災預防管理編組
+fireTitles=任務編組職稱
+pfPerson=防火負責人
+place=場所
+fsPerson=火源責任者
+Canvas04=一般注意事項
+
+# message
+
+
+# Q
+academicYear=學年
+semester=學期
+cDate=填寫日期
+
+# message

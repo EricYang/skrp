@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	width="490" height="174" xmlns:x2="x2.*" 
+	
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('TimeTable')}"
+ 	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;		
+			
+			[Bindable]
+			private var iR:Object;
+			private var idw_master:DW;
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var ia_jobs:ArrayList = new ArrayList(Fun2.jobsDS(is_app, false));
+			
+			private var i_col1:Object, i_col2:Object;			
+			private function doFindStaff(p_col1:Object, p_col2:Object):void{				
+				i_col1 = p_col1;
+				i_col2 = p_col2;
+				Fun2.openStaff(is_app, this, ReturnStaff);
+			}
+			private function ReturnStaff(p_row:Object):void{				
+				Fun.setItem(i_col1, p_row.cName + " " + p_row.eName);
+				Fun.setItem(i_col2, p_row.sn);				
+			}
+			private function init():void{
+				qry_1.aoItem = [
+					{source:staffSn},
+					{source:jobs,			dataType:"S"}
+				];					
+			}			
+		]]>
+	</fx:Script>
+	<x2:comQuery x="395" y="10" id="qry_1">
+	</x2:comQuery>
+	<x2:Num1 id="staffSn" visible="false"/>
+	<mx:Form x="6" y="10" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+		<mx:FormItem label="{iR.staffName} :">
+			<mx:HBox x="72" y="1" width="100%">
+				<s:TextInput id="staffName" editable="false" enabled="false" click="doFindStaff(staffName, staffSn)"/>
+				<x2:btnPick id="SchStaff" click="doFindStaff(staffName, staffSn)"/>				
+			</mx:HBox>
+		</mx:FormItem>
+		<!--
+		<mx:FormItem label="{iR.cDate} :">			
+			<mx:HBox x="94" y="2" width="100%">
+				<mx:DateField formatString="YYYY/MM/DD" id="cDate" yearNavigationEnabled="true"/>
+				<mx:Label text=" - "/>
+				<mx:DateField formatString="YYYY/MM/DD" id="cDate2" yearNavigationEnabled="true"/>				
+			</mx:HBox>
+		</mx:FormItem>
+		-->
+		<mx:FormItem label="{iR.jobs} :">
+			<!--請參考 _code_tw 的 jobs -->
+			<x2:DDL1 id="jobs" dataProvider="{ia_jobs}"></x2:DDL1>			
+		</mx:FormItem>
+	</mx:Form>
+</s:TitleWindow>

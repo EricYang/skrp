@@ -1,0 +1,30 @@
+{
+    "dws":[
+        {            
+            "selectTable": "YearEdu",
+            "items": [
+                {"fid":"sn"},
+                {"fid":"academicYear"},
+                {"fid":"semester"},
+                {"fid":"acaName",         "table":"", "colName":"CONCAT(academicYear, ' - ', semester)"},
+                {"fid":"sDate"},
+                {"fid":"eDate"},
+                {"fid":"creator"},
+                {"fid":"createDate"},           
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+            ]
+        },
+        {
+            "selectTable": "YearCal",
+            "updateTable": "YearCal",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"yearEduSn"},                
+                {"fid":"cDate"},
+                {"fid":"contents"}
+            ]                
+        }
+   ]    
+}

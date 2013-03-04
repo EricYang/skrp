@@ -1,0 +1,19 @@
+﻿# list/query fields
+openFileDG=開啟檔案
+funcItemSn=檔案類別
+filesAlias=檔案名稱
+description=備註
+createDate=建檔日期
+reviseDate=修檔日期
+
+# message
+message01=無權限開啟此檔案
+message02=下載日期紀錄失敗，請重新點選檔案。
+
+# E
+
+# message
+
+# Q
+
+# message

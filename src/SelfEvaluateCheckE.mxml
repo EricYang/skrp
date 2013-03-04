@@ -1,0 +1,743 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="900" height="600" 
+	 
+  	creationComplete="init()"	
+	preinitialize="{iR=Fun.getLang('SelfEvaluateCheck')}"
+	>
+	<fx:Script>
+		<![CDATA[
+
+			import mx.utils.StringUtil;
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			[Bindable]
+			private var iR:Object;
+			[Bindalbe]
+			private var idw_master:DW;
+			[Bindalbe]
+			private var idw_SelfEvaluateCheckA:DW2, idw_SelfEvaluateCheckB:DW2, idw_SelfEvaluateCheckC:DW2, idw_SelfEvaluateCheckD:DW2, idw_SelfEvaluateCheckE:DW2;
+			[Bindalbe]
+			private var is_app:String = Fun.sApp;			
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["academicYear","semester","usersSn","schoolDSn","userCName","userEName"]});
+			
+			private function init():void{				
+				//dw1: SelfEvaluateCheck
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					mapping: true,
+					items: [
+						{source:sn, 				dataType:"N",	inputType:"I"},
+						{source:academicYear,		dataType:"N",	init:int(i_session.academicYear)}, 
+						{source:semester,			dataType:"N",	init:int(i_session.semester)},
+						{source:acaName,							update:false,	inputType:"R"},
+						{source:staffSn,			dataType:"N"},
+						{source:staffName,							update:false,	inputType:"R",	required:true},
+						{source:cDate,				dataType:"D"},						
+						{source:creator,			dataType:"S",	inputType:"R"}, 
+						{source:createDate,			dataType:"DT",	inputType:"R"}, 
+						{source:reviser,			dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,			dataType:"DT",	inputType:"R"}
+					]				
+				}; 			
+							
+				//dw2: SelfEvaluateCheckA
+				edit_1.aoDW[1] = new DW2();				
+				idw_SelfEvaluateCheckA = edit_1.aoDW[1]; 
+				idw_SelfEvaluateCheckA.xTool = tb_SelfEvaluateCheckA;
+				idw_SelfEvaluateCheckA.oConfig = {					
+					grid: grid_SelfEvaluateCheckA,
+					upEditDW: idw_master,
+					upEKeys: ["sn"],
+					eKeys: ["selfEvaluateCheckSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 						dataType:"N", 	inputType:"I"},
+						{fid:"selfEvaluateCheckSn", 	dataType:"N", 	inputType:"2"},
+						{fid:"sysType",					dataType:"N",	init:1},
+						{fid:"selfEvaluateSn",			update:false,	inputType:"R"},
+						{fid:"selfEvaluateDetailSn",	dataType:"N"},
+						{fid:"itemName",				update:false,	inputType:"R"},
+						{fid:"contents",				update:false,	inputType:"R"},
+						{fid:"score",					dataType:"N"},
+						{fid:"remark",					dataType:"S"}
+					]				
+				};
+				
+				//dw2: SelfEvaluateCheckB
+				edit_1.aoDW[2] = new DW2();				
+				idw_SelfEvaluateCheckB = edit_1.aoDW[2]; 
+				idw_SelfEvaluateCheckB.xTool = tb_SelfEvaluateCheckB;
+				idw_SelfEvaluateCheckB.oConfig = {					
+					grid: grid_SelfEvaluateCheckB,
+					upEditDW: idw_master,
+					upEKeys: ["sn"],
+					eKeys: ["selfEvaluateCheckSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 						dataType:"N", 	inputType:"I"},
+						{fid:"selfEvaluateCheckSn", 	dataType:"N", 	inputType:"2"},
+						{fid:"sysType",					dataType:"N",	init:2},
+						{fid:"selfEvaluateSn",			update:false,	inputType:"R"},
+						{fid:"selfEvaluateDetailSn",	dataType:"N"},
+						{fid:"itemName",				update:false,	inputType:"R"},
+						{fid:"contents",				update:false,	inputType:"R"},					
+						{fid:"score",					dataType:"N"},
+						{fid:"remark",					dataType:"S"}
+					]				
+				};
+				
+				//dw3: SelfEvaluateCheckC
+				edit_1.aoDW[3] = new DW2();				
+				idw_SelfEvaluateCheckC = edit_1.aoDW[3]; 
+				idw_SelfEvaluateCheckC.xTool = tb_SelfEvaluateCheckC;
+				idw_SelfEvaluateCheckC.oConfig = {					
+					grid: grid_SelfEvaluateCheckC,
+					upEditDW: idw_master,
+					upEKeys: ["sn"],
+					eKeys: ["selfEvaluateCheckSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 						dataType:"N", 	inputType:"I"},
+						{fid:"selfEvaluateCheckSn", 	dataType:"N", 	inputType:"2"},
+						{fid:"sysType",					dataType:"N",	init:3},
+						{fid:"selfEvaluateSn",			update:false,	inputType:"R"},
+						{fid:"selfEvaluateDetailSn",	dataType:"N"},
+						{fid:"itemName",				update:false,	inputType:"R"},
+						{fid:"contents",				update:false,	inputType:"R"},					
+						{fid:"score",					dataType:"N"},
+						{fid:"remark",					dataType:"S"}
+					]				
+				};
+				
+				//dw4: SelfEvaluateCheckD
+				edit_1.aoDW[4] = new DW2();				
+				idw_SelfEvaluateCheckD = edit_1.aoDW[4]; 
+				idw_SelfEvaluateCheckD.xTool = tb_SelfEvaluateCheckD;
+				idw_SelfEvaluateCheckD.oConfig = {					
+					grid: grid_SelfEvaluateCheckD,
+					upEditDW: idw_master,
+					upEKeys: ["sn"],
+					eKeys: ["selfEvaluateCheckSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 						dataType:"N", 	inputType:"I"},
+						{fid:"selfEvaluateCheckSn", 	dataType:"N", 	inputType:"2"},
+						{fid:"sysType",					dataType:"N",	init:4},
+						{fid:"selfEvaluateSn",			update:false,	inputType:"R"},
+						{fid:"selfEvaluateDetailSn",	dataType:"N"},
+						{fid:"itemName",				update:false,	inputType:"R"},
+						{fid:"contents",				update:false,	inputType:"R"},						
+						{fid:"score",					dataType:"N"},
+						{fid:"remark",					dataType:"S"}
+					]				
+				};
+				
+				//dw5: SelfEvaluateCheckE
+				edit_1.aoDW[5] = new DW2();				
+				idw_SelfEvaluateCheckE = edit_1.aoDW[5]; 
+				idw_SelfEvaluateCheckE.xTool = tb_SelfEvaluateCheckE;
+				idw_SelfEvaluateCheckE.oConfig = {					
+					grid: grid_SelfEvaluateCheckE,
+					upEditDW: idw_master,
+					upEKeys: ["sn"],
+					eKeys: ["selfEvaluateCheckSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 						dataType:"N", 	inputType:"I"},
+						{fid:"selfEvaluateCheckSn", 	dataType:"N", 	inputType:"2"},
+						{fid:"sysType",					dataType:"N",	init:5},
+						{fid:"selfEvaluateSn",			update:false,	inputType:"R"},
+						{fid:"selfEvaluateDetailSn",	dataType:"N"},
+						{fid:"itemName",				update:false,	inputType:"R"},
+						{fid:"contents",				update:false,	inputType:"R"},						
+						{fid:"score",					dataType:"N"},
+						{fid:"remark",					dataType:"S"}
+					]				
+				};
+				
+			}
+			
+			//找職員
+			private var i_col1:Object, i_col2:Object;			
+			private function doFindStaff(p_col1:Object, p_col2:Object):void{				
+				i_col1 = p_col1;
+				i_col2 = p_col2;
+				Fun2.openStaff(is_app, this, ReturnStaff);
+			}
+			private function ReturnStaff(p_row:Object):void{				
+				Fun.setItem(i_col1, p_row.cName + " " + p_row.eName);
+				idw_master.setItem(i_col2, p_row.sn, true);
+			}
+			
+			private function afterOpen(p_data:Object):void{				
+				
+				var theCheckItemNumA:String, theCheckItemNumB:String, theCheckItemNumC:String, theCheckItemNumD:String, theCheckItemNumE:String;								
+				switch (p_data.fun){
+					case "C":
+						//outputPdf.visible = false;
+						//基礎評鑑
+						var c_a_data:Object ={
+							data: "SelfEvaluateCheck",
+							cuEvent: String(p_data.fun),
+							sysType: 1
+						};						
+						var tc_a_data:Array = Fun.readRows(is_app, c_a_data);
+						if (tc_a_data){							
+							for (var i_a:int=0; i_a<tc_a_data.length; i_a++){								
+								idw_SelfEvaluateCheckA.addRow(tc_a_data[i_a]);								
+							}
+						}
+						theCheckItemNumA = String(tc_a_data.length);
+						
+						//行政組織與經營管理
+						var c_b_data:Object ={
+							data: "SelfEvaluateCheck",
+							cuEvent: String(p_data.fun),
+							sysType: 2
+						};						
+						var tc_b_data:Array = Fun.readRows(is_app, c_b_data);
+						if (tc_b_data){							
+							for (var i_b:int=0; i_b<tc_b_data.length; i_b++){								
+								idw_SelfEvaluateCheckB.addRow(tc_b_data[i_b]);								
+							}
+						}
+						theCheckItemNumB = String(tc_b_data.length);
+						
+						//教保活動
+						var c_c_data:Object ={
+							data: "SelfEvaluateCheck",
+							cuEvent: String(p_data.fun),
+							sysType: 3
+						};						
+						var tc_c_data:Array = Fun.readRows(is_app, c_c_data);
+						if (tc_c_data){							
+							for (var i_c:int=0; i_c<tc_c_data.length; i_c++){								
+								idw_SelfEvaluateCheckC.addRow(tc_c_data[i_c]);								
+							}
+						}
+						theCheckItemNumC = String(tc_c_data.length);
+
+						//衛生保健與環境安全
+						var c_d_data:Object ={
+							data: "SelfEvaluateCheck",
+							cuEvent: String(p_data.fun),
+							sysType: 4
+						};						
+						var tc_d_data:Array = Fun.readRows(is_app, c_d_data);
+						if (tc_d_data){							
+							for (var i_d:int=0; i_d<tc_d_data.length; i_d++){								
+								idw_SelfEvaluateCheckD.addRow(tc_d_data[i_d]);								
+							}
+						}
+						theCheckItemNumD = String(tc_d_data.length);
+						
+						//機構特色
+						var c_e_data:Object ={
+							data: "SelfEvaluateCheck",
+							cuEvent: String(p_data.fun),
+							sysType: 5
+						};						
+						var tc_e_data:Array = Fun.readRows(is_app, c_e_data);
+						if (tc_e_data){							
+							for (var i_e:int=0; i_e<tc_e_data.length; i_e++){								
+								idw_SelfEvaluateCheckE.addRow(tc_e_data[i_e]);								
+							}
+						}
+						theCheckItemNumE = String(tc_e_data.length);						
+						
+						break;
+					case "V":
+					case "U":						
+						//outputPdf.visible = true;
+						//基礎評鑑
+						var vu_a_data:Object ={
+							data: "SelfEvaluateCheck",
+							cuEvent: String(p_data.fun),
+							sn: int(Fun.getItem(sn)),
+							sysType: 1
+						};						
+						var tvu_a_data:Array = Fun.readRows(is_app, vu_a_data);
+						if (tvu_a_data){
+							for (var j_a:int=0; j_a<tvu_a_data.length; j_a++){
+								idw_SelfEvaluateCheckA.addRow(tvu_a_data[j_a]);
+								if (String(tvu_a_data[j_a].score) != ""){
+									idw_SelfEvaluateCheckA.setDirtyRow("U", j_a, tvu_a_data[j_a]);									
+								}							
+							}
+						}
+						theCheckItemNumA = String(tvu_a_data.length);
+						
+						//行政組織與經營管理
+						var vu_b_data:Object ={
+							data: "SelfEvaluateCheck",
+							cuEvent: String(p_data.fun),
+							sn: int(Fun.getItem(sn)),
+							sysType: 2
+						};						
+						var tvu_b_data:Array = Fun.readRows(is_app, vu_b_data);
+						if (tvu_b_data){
+							for (var j_b:int=0; j_b<tvu_b_data.length; j_b++){
+								idw_SelfEvaluateCheckB.addRow(tvu_b_data[j_b]);
+								if (String(tvu_b_data[j_b].score) != ""){
+									idw_SelfEvaluateCheckB.setDirtyRow("U", j_b, tvu_b_data[j_b]);									
+								}							
+							}
+						}
+						theCheckItemNumB = String(tvu_b_data.length);
+						
+						//教保活動
+						var vu_c_data:Object ={
+							data: "SelfEvaluateCheck",
+							cuEvent: String(p_data.fun),
+							sn: int(Fun.getItem(sn)),
+							sysType: 3
+						};						
+						var tvu_c_data:Array = Fun.readRows(is_app, vu_c_data);
+						if (tvu_c_data){
+							for (var j_c:int=0; j_c<tvu_c_data.length; j_c++){
+								idw_SelfEvaluateCheckC.addRow(tvu_c_data[j_c]);
+								if (String(tvu_c_data[j_c].score) != ""){
+									idw_SelfEvaluateCheckC.setDirtyRow("U", j_c, tvu_c_data[j_c]);									
+								}							
+							}
+						}
+						theCheckItemNumC = String(tvu_c_data.length);
+						
+						//衛生保健與環境安全
+						var vu_d_data:Object ={
+							data: "SelfEvaluateCheck",
+							cuEvent: String(p_data.fun),
+							sn: int(Fun.getItem(sn)),
+							sysType: 4
+						};						
+						var tvu_d_data:Array = Fun.readRows(is_app, vu_d_data);
+						if (tvu_d_data){
+							for (var j_d:int=0; j_d<tvu_d_data.length; j_d++){
+								idw_SelfEvaluateCheckD.addRow(tvu_d_data[j_d]);
+								if (String(tvu_d_data[j_d].score) != ""){
+									idw_SelfEvaluateCheckD.setDirtyRow("U", j_d, tvu_d_data[j_d]);									
+								}							
+							}
+						}
+						theCheckItemNumD = String(tvu_d_data.length);
+						
+						//機構特色
+						var vu_e_data:Object ={
+							data: "SelfEvaluateCheck",
+							cuEvent: String(p_data.fun),
+							sn: int(Fun.getItem(sn)),
+							sysType: 5
+						};						
+						var tvu_e_data:Array = Fun.readRows(is_app, vu_e_data);
+						if (tvu_e_data){
+							for (var j_e:int=0; j_e<tvu_e_data.length; j_e++){
+								idw_SelfEvaluateCheckE.addRow(tvu_e_data[j_e]);
+								if (String(tvu_e_data[j_e].score) != ""){
+									idw_SelfEvaluateCheckE.setDirtyRow("U", j_e, tvu_e_data[j_e]);									
+								}							
+							}
+						}
+						theCheckItemNumE = String(tvu_e_data.length);
+						
+						break;
+				}				
+				
+				var dispSenA:String = iR.message03;
+				var dispSenB:String = iR.message04;
+				
+				checkItemNumA.text = dispSenA + theCheckItemNumA + dispSenB;
+				checkItemNumB.text = dispSenA + theCheckItemNumB + dispSenB;
+				checkItemNumC.text = dispSenA + theCheckItemNumC + dispSenB;
+				checkItemNumD.text = dispSenA + theCheckItemNumD + dispSenB;
+				checkItemNumE.text = dispSenA + theCheckItemNumE + dispSenB;
+			}
+			
+			private function whenSave(p_data:Object):Boolean{
+				if (p_data.fun != "D"){
+					Fun.setItem(acaName, String(Fun.getItem(academicYear))+ ' - '+String(Fun.getItem(semester)));
+					
+					switch (p_data.fun){
+						case "C":
+						case "U":
+							//基礎評鑑
+							var t_a_row:Array = ArrayCollection(grid_SelfEvaluateCheckA.dataProvider).source;
+							for (var k_a:int=t_a_row.length - 1; k_a>=0; k_a--){								
+								if (String(t_a_row[k_a].score) == ""){
+									idw_SelfEvaluateCheckA.deleteRow(k_a, false);									
+								}						
+							}
+							
+							//行政組織與經營管理
+							var t_b_row:Array = ArrayCollection(grid_SelfEvaluateCheckB.dataProvider).source;
+							for (var k_b:int=t_b_row.length - 1; k_b>=0; k_b--){								
+								if (String(t_b_row[k_b].score) == ""){
+									idw_SelfEvaluateCheckB.deleteRow(k_b, false);									
+								}						
+							}
+							
+							//教保活動
+							var t_c_row:Array = ArrayCollection(grid_SelfEvaluateCheckC.dataProvider).source;
+							for (var k_c:int=t_c_row.length - 1; k_c>=0; k_c--){								
+								if (String(t_c_row[k_c].score) == ""){
+									idw_SelfEvaluateCheckC.deleteRow(k_c, false);									
+								}						
+							}
+							
+							//衛生保健與環境安全
+							var t_d_row:Array = ArrayCollection(grid_SelfEvaluateCheckD.dataProvider).source;
+							for (var k_d:int=t_d_row.length - 1; k_d>=0; k_d--){								
+								if (String(t_d_row[k_d].score) == ""){
+									idw_SelfEvaluateCheckD.deleteRow(k_d, false);									
+								}						
+							}
+							
+							//機構特色
+							var t_e_row:Array = ArrayCollection(grid_SelfEvaluateCheckE.dataProvider).source;
+							for (var k_e:int=t_e_row.length - 1; k_e>=0; k_e--){								
+								if (String(t_e_row[k_e].score) == ""){
+									idw_SelfEvaluateCheckE.deleteRow(k_e, false);									
+								}						
+							}
+							
+							break;
+						case "V":						
+							break;
+					}										
+				}
+				return true;
+			}
+			private function serialNoLabelFunc(p_row:Object, p_column:GridColumn):String {
+				var index:int = p_column.grid.dataProvider.getItemIndex(p_row);
+				if (index > -1) {
+					return (index + 1).toString();
+				}
+				return "";
+			}
+			
+			public function fnClick(pn_SelfEvaluateSn:int):void{
+				if (int(pn_SelfEvaluateSn)){
+					var t_win:SelfEvaluateE = new SelfEvaluateE();
+					var t_data:Object = {
+						win: t_win,
+						fun: "V",
+						row: {sn:pn_SelfEvaluateSn}
+					};
+					Fun.openPopup(t_win, this);				
+					var t_edit:comEdit = t_win.edit_1; 
+					t_edit.sApp = is_app;
+					t_edit.sInf = "SelfEvaluateE";
+					t_edit.sTitle = iR.message05;				
+					t_edit.init(t_data);
+					t_win.tns.removeChild(t_win.canvasLabel1);
+					t_win.tb_SelfEvaluateDetail.visible = false;					
+				}				
+			}
+		]]>
+	</fx:Script>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="academicYear" visible="false"/>
+	<x2:Num1 id="semester" visible="false"/>
+	<s:TextInput id="acaName" visible="false"/>
+	<x2:Num1 id="staffSn" visible="false"/>	
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+	<mx:TabNavigator x="10" y="10" width="870" height="514">
+		<mx:Canvas label="{iR.Canvas01}">
+			<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+				<mx:FormItem label="{iR.staffName} :" required="true">
+					<mx:HBox x="72" y="1" width="100%">
+						<s:TextInput id="staffName" click="doFindStaff(staffName, staffSn)"/>
+						<x2:btnPick id="SchStaff" click="doFindStaff(staffName, staffSn)"/>						
+					</mx:HBox>
+				</mx:FormItem>				
+				<mx:FormItem label="{iR.cDate} :" required="true">
+					<mx:DateField id="cDate" formatString="YYYY/MM/DD" yearNavigationEnabled="true"/>
+				</mx:FormItem>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas02}">
+			<mx:Form x="9" y="29">
+				<x2:DG2 width="813" alpha="0.7" rowHeight="50"
+						 height="400" id="grid_SelfEvaluateCheckA">
+					<x2:columns><s:ArrayList>			
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="selfEvaluateCheckSn" visible="false"/>
+						<s:GridColumn dataField="sysType" visible="false"/>
+						<s:GridColumn dataField="selfEvaluateSn" visible="false"/>
+						<s:GridColumn dataField="selfEvaluateDetailSn" visible="false"/>
+						<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+						<s:GridColumn headerText="{iR.itemName}" dataField="itemName" width="100">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:TextArea2 editable="false"/>																	
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.contents}" dataField="contents">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:TextArea2 editable="false"/>																	
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.desc}" width="50">
+							<s:itemRenderer><fx:Component><x2:irCenterVH>
+								 <x2:btnPick click="outerDocument.fnClick(data.selfEvaluateSn)"/>
+							</x2:irCenterVH></fx:Component></s:itemRenderer>											
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.score}" dataField="score" width="50">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:Text2 restrict="0-9"/>						
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.remark}" dataField="remark" width="150">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:TextArea2/>						
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>			
+			<x2:TBar2 x="336" y="4" id="tb_SelfEvaluateCheckA" visible="false">
+			</x2:TBar2>			
+			<mx:Label x="654" y="6" id="checkItemNumA" color="#0000FF"/>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas03}">
+			<mx:Form x="9" y="29">
+				<x2:DG2 width="813" alpha="0.7" rowHeight="50"
+						 height="400" id="grid_SelfEvaluateCheckB">
+					<x2:columns><s:ArrayList>				
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="selfEvaluateCheckSn" visible="false"/>
+						<s:GridColumn dataField="sysType" visible="false"/>
+						<s:GridColumn dataField="selfEvaluateSn" visible="false"/>
+						<s:GridColumn dataField="selfEvaluateDetailSn" visible="false"/>
+						<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+						<s:GridColumn headerText="{iR.itemName}" dataField="itemName" width="100">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:TextArea2 editable="false"/>																	
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.contents}" dataField="contents">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:TextArea2 editable="false"/>																	
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.desc}" width="50">
+							<s:itemRenderer><fx:Component><x2:irCenterVH>
+							  <x2:btnPick click="outerDocument.fnClick(data.selfEvaluateSn)"/>
+							</x2:irCenterVH></fx:Component></s:itemRenderer>											
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.score}" dataField="score" width="50">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:Text2 restrict="0-9"/>						
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.remark}" dataField="remark" width="150">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:TextArea2/>						
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>			
+			<x2:TBar2 x="336" y="4" id="tb_SelfEvaluateCheckB" visible="false">
+			</x2:TBar2>			
+			<mx:Label x="654" y="6" id="checkItemNumB" color="#0000FF"/>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas04}">
+			<mx:Form x="9" y="29">
+				<x2:DG2 width="813" alpha="0.7" rowHeight="50"
+						 height="400" id="grid_SelfEvaluateCheckC">
+					<x2:columns><s:ArrayList>			
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="selfEvaluateCheckSn" visible="false"/>
+						<s:GridColumn dataField="sysType" visible="false"/>
+						<s:GridColumn dataField="selfEvaluateSn" visible="false"/>
+						<s:GridColumn dataField="selfEvaluateDetailSn" visible="false"/>
+						<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+						<s:GridColumn headerText="{iR.itemName}" dataField="itemName" width="100">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:TextArea2 editable="false"/>
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.contents}" dataField="contents">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:TextArea2 editable="false"/>																	
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.desc}" width="50">
+							<s:itemRenderer><fx:Component><x2:irCenterVH>
+							  <x2:btnPick click="outerDocument.fnClick(data.selfEvaluateSn)"/>
+							</x2:irCenterVH></fx:Component></s:itemRenderer>											
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.score}" dataField="score" width="50">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:Text2 restrict="0-9"/>						
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.remark}" dataField="remark" width="150">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:TextArea2/>						
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>			
+			<x2:TBar2 x="336" y="4" id="tb_SelfEvaluateCheckC" visible="false">
+			</x2:TBar2>			
+			<mx:Label x="654" y="6" id="checkItemNumC" color="#0000FF"/>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas05}">
+			<mx:Form x="9" y="29">
+				<x2:DG2 width="813"
+						 
+						 
+						 alpha="0.7"		
+						 		 
+						 
+						 
+						 rowHeight="50"
+						 height="400" id="grid_SelfEvaluateCheckD">
+					<x2:columns><s:ArrayList>			
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="selfEvaluateCheckSn" visible="false"/>
+						<s:GridColumn dataField="sysType" visible="false"/>
+						<s:GridColumn dataField="selfEvaluateSn" visible="false"/>
+						<s:GridColumn dataField="selfEvaluateDetailSn" visible="false"/>
+						<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+						<s:GridColumn headerText="{iR.itemName}" dataField="itemName" width="100">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:TextArea2 editable="false"/>																	
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.contents}" dataField="contents">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:TextArea2 editable="false"/>																	
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.desc}" width="50">
+							<s:itemRenderer><fx:Component><x2:irCenterVH>
+							  <x2:btnPick click="outerDocument.fnClick(data.selfEvaluateSn)"/>
+							</x2:irCenterVH></fx:Component></s:itemRenderer>											
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.score}" dataField="score" width="50">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:Text2 restrict="0-9"/>						
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.remark}" dataField="remark" width="150">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:TextArea2/>						
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>			
+			<x2:TBar2 x="336" y="4" id="tb_SelfEvaluateCheckD" visible="false">
+			</x2:TBar2>			
+			<mx:Label x="654" y="6" id="checkItemNumD" color="#0000FF"/>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas06}">
+			<mx:Form x="9" y="29">
+				<x2:DG2 width="813"
+						 
+						 
+						 alpha="0.7"		
+						 		 
+						 
+						 
+						 rowHeight="50"
+						 height="400" id="grid_SelfEvaluateCheckE">
+					<x2:columns><s:ArrayList>		
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="selfEvaluateCheckSn" visible="false"/>
+						<s:GridColumn dataField="sysType" visible="false"/>
+						<s:GridColumn dataField="selfEvaluateSn" visible="false"/>
+						<s:GridColumn dataField="selfEvaluateDetailSn" visible="false"/>
+						<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+						<s:GridColumn headerText="{iR.itemName}" dataField="itemName" width="100">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:TextArea2 editable="false"/>																	
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.contents}" dataField="contents">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:TextArea2 editable="false"/>																	
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.desc}" width="50">
+							<s:itemRenderer><fx:Component><x2:irCenterVH>
+								<x2:btnPick click="outerDocument.fnClick(data.selfEvaluateSn)"/>
+							</x2:irCenterVH></fx:Component></s:itemRenderer>											
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.score}" dataField="score" width="50">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:Text2 restrict="0-9"/>						
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.remark}" dataField="remark" width="150">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:TextArea2/>						
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>			
+			<x2:TBar2 x="336" y="4" id="tb_SelfEvaluateCheckE" visible="false">
+			</x2:TBar2>			
+			<mx:Label x="654" y="6" id="checkItemNumE" color="#0000FF"/>
+		</mx:Canvas>
+	</mx:TabNavigator>
+	<x2:comEdit x="10" y="529" id="edit_1" fWhenSave="whenSave" fAfterOpen="afterOpen">
+	</x2:comEdit>
+	<!--
+	<x2:BtnPdf x="723" y="529" id="outputPdf" click="openPdfFiles()"/>
+	-->
+</s:TitleWindow>

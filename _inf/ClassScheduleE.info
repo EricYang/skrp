@@ -1,0 +1,38 @@
+{
+    "dws":[
+	    {
+			"selectTable": "ClassSchedule a INNER JOIN
+                            ClassLeaves b ON a.classLeavesSn = b.sn INNER JOIN
+                            ClassInfo c ON b.classInfoSn = c.sn",
+            "updateTable": "ClassSchedule",
+            "defaultTable": "a",
+			"items": [
+				{"fid":"sn"}, 
+                {"fid":"academicYear"},
+                {"fid":"semester"},                
+                {"fid":"acaName",         "table":"", "colName":"CONCAT(a.academicYear, ' - ', a.semester)"},
+				{"fid":"classLeavesSn"},
+                {"fid":"remark"},
+                {"fid":"creator"},
+                {"fid":"createDate"},
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+
+			]								
+	    },
+	    {
+			"selectTable": "ClassScheduleDetail",
+			"upDW": 0,
+			"items": [
+                {"fid":"sn"},
+	            {"fid":"classScheduleSn"},
+                {"fid":"process"},
+                {"fid":"theMonday"},
+                {"fid":"theTuesday"},
+                {"fid":"theWednesday"},
+                {"fid":"theThursday"},
+                {"fid":"theFriday"}
+			]				
+	    }
+    ]    
+}

@@ -1,0 +1,21 @@
+﻿# list/query fields
+createDate=Date of Message
+acaName=Year(Semester)
+classLeavesSn=Class
+studentName=Name of Student
+subject=Subject
+reviseDate=Reply Time
+staffName=Staff Name
+
+# E
+leaveCon=Content of Message
+replyCon=Content of Reply
+
+# message
+message01=Send
+
+# Q
+academicYear=Academic Year
+semester=Semester
+cName=Chinese Name
+eName=English Name

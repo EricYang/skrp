@@ -1,0 +1,22 @@
+﻿# list/query fields
+acaName=學年(期)
+classLeavesSn=班別(級)
+studentName=學生姓名
+cDate=日期
+senCon=過敏項目
+avoidFood=禁吃食物
+creator=建檔人員
+createDate=建檔日期
+
+# E
+Canvas01=基本資料
+Canvas02=禁吃食物
+itemName=項目
+
+# Q
+academicYear=學年
+semester=學期
+classInfoSn=班別
+classLeavesSn=班級
+cName=中文姓名
+eName=英文名

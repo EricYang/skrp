@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*" 
+	 
+	
+	 
+	width="100%" height="100%"
+	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('SickSum')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			private function init():void {
+				list_1.wQuery = new SickSumQ();							
+				list_1.gList = grid_1;
+				list_1.init();
+				
+				list_1.btnCreate.visible = false;				
+				list_1.btnUpdate.visible = false;
+				list_1.btnDelete.visible = false;
+				list_1.btnView.visible = false;
+				list_1.btnPrint.visible = false;
+				list_1.btnExport.visible = false;
+				
+				list_1.btnCreate.width = 0;
+				list_1.btnUpdate.width = 0;
+				list_1.btnDelete.width = 0;
+				list_1.btnView.width = 0;
+				list_1.btnPrint.width = 0;
+				list_1.btnExport.width = 0;
+			}
+			private function catchFun(p_data:Object):Boolean {				
+				if (p_data.fun == "U"){
+					return true;
+				}else{
+					return false;
+				}
+			}
+		]]>
+	</fx:Script>
+	<x2:sysBG/>
+	<x2:subFunHead/>
+
+	<x2:comList x="81" y="59" id="list_1" fCatchFun="catchFun">
+	</x2:comList>	
+	<s:DataGrid id="grid_1" x="55" y="87" width="92%" height="80%" alpha="0.7">
+		<s:columns>
+			<s:ArrayList>
+				<s:GridColumn headerText="{iR.itemName}" dataField="itemName" width="100"/>
+				<s:GridColumn headerText="{iR.M1}" dataField="M1"/>
+				<s:GridColumn headerText="{iR.M2}" dataField="M2"/>
+				<s:GridColumn headerText="{iR.M3}" dataField="M3"/>
+				<s:GridColumn headerText="{iR.M4}" dataField="M4"/>
+				<s:GridColumn headerText="{iR.M5}" dataField="M5"/>
+				<s:GridColumn headerText="{iR.M6}" dataField="M6"/>
+				<s:GridColumn headerText="{iR.M7}" dataField="M7"/>
+				<s:GridColumn headerText="{iR.M8}" dataField="M8"/>
+				<s:GridColumn headerText="{iR.M9}" dataField="M9"/>
+				<s:GridColumn headerText="{iR.M10}" dataField="M10"/>
+				<s:GridColumn headerText="{iR.M11}" dataField="M11"/>
+				<s:GridColumn headerText="{iR.M12}" dataField="M12"/>			
+				<s:GridColumn headerText="{iR.mSumAll}" dataField="mSumAll"/>
+			</s:ArrayList>
+		</s:columns>
+	</s:DataGrid>
+</s:Application>

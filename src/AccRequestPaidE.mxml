@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="1100" height="510" 	 
+  	creationComplete="init()"  	 
+	preinitialize="{iR=Fun.getLang('AccRequestPaid')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.ArrayList;
+			
+			import x2.*;			
+			[Bindable]
+			private var iR:Object;	
+			[Bindable]
+			private var idw_master:DW;
+			[Bindalbe]
+			private var idw_AccRequestPaid:DW2;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			
+			private function init():void{	
+				//dw1: AccRequestPaidDT
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {	
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					mapping: true,
+					items: [
+						{source:sn,					dataType:"N",	inputType:"I"},
+						{source:serialNo,			dataType:"S"},
+						{source:cDate,				dataType:"D"},
+						{source:creator,			dataType:"S",	inputType:"R"}, 
+						{source:createDate,			dataType:"DT",	inputType:"R"}, 
+						{source:reviser,			dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,			dataType:"DT",	inputType:"R"}
+					]				
+				}; 			
+				
+				//dw1: AccRequestPaid
+				edit_1.aoDW[1] = new DW2();				
+				idw_AccRequestPaid = edit_1.aoDW[1]; 
+				idw_AccRequestPaid.xTool = tb_AccRequestPaid;
+				idw_AccRequestPaid.oConfig = {				
+					autos: ["creator","createDate","reviser","reviseDate"],
+					upDW: idw_master,
+					grid: grid_AccRequestPaid,
+					upQKeys: ["sn"],
+					qKeys: ["accRequestPaidDTSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 					dataType:"N", 	inputType:"I"},
+						{fid:"accRequestPaidDTSn", 	dataType:"N", 	inputType:"2"},
+						{fid:"accRequestPaymentSn", dataType:"N"},
+						{fid:"serialNo",			update:false,	inputType:"R",	required:true},
+						{fid:"cDate",				update:false,	inputType:"R"},
+						{fid:"pExcerpt",			update:false,	inputType:"R"},
+						{fid:"cAmounts",			update:false,	inputType:"R"},
+						{fid:"amounts",				dataType:"N"},
+						{fid:"creator",				dataType:"S",	inputType:"R"}, 
+						{fid:"createDate",			dataType:"DT",	inputType:"R"}, 
+						{fid:"reviser",				dataType:"S",	inputType:"R"}, 
+						{fid:"reviseDate",			dataType:"DT",	inputType:"R"}
+					]				
+				};
+				idw_AccRequestPaid.fAfterFun = sumOfMo;
+				
+			}				
+			private function serialNoLabelFunc(p_row:Object, p_column:GridColumn):String {
+				var index:int = p_column.grid.dataProvider.getItemIndex(p_row);
+				if (index > -1) {
+					return (index + 1).toString();
+				}
+				return "";
+			}
+			private function afterOpen(p_data:Object):void{				
+				serialNoFI.visible = true;
+				sumOfMoney.text = "";
+
+				grid_query.dataProvider = new ArrayCollection();				
+				
+				switch (p_data.fun){
+					case "C":						
+						serialNoFI.visible = false;
+						break;
+					case "U":
+					case "V":
+						sumOfMo(p_data);
+						break;
+				}
+				
+				SelFun0.visible = true;
+				SelFun1.visible = true;
+				SelFun2.visible = true;
+				grid_query.visible = true;				
+				btnDelete.visible = true;
+				switch (p_data.fun){
+					case "V":
+						SelFun0.visible = false;
+						SelFun1.visible = false;
+						SelFun2.visible = false;
+						grid_query.visible = false;
+						btnDelete.visible = false;
+						break;
+				}
+			}
+			private function whenSave(p_data:Object):Boolean{
+				switch (p_data.fun){
+					case "C":
+						var t_data:Object = {
+							data: "AccSerialNo",
+							accSysN: "AccRequestPaidDT",
+							accSysC: "E"
+						};
+						t_data = Fun.readRow(is_app, t_data);
+						if (t_data){
+							idw_master.setItem(serialNo, t_data.serialNo, true);
+						}
+						break;
+				}
+				
+				//更新已繳費
+				/*
+				var ia_data:Array = (grid_AccRequestPaid.dataProvider as ArrayCollection).source;
+				if (ia_data){
+					for (var i:int=0; i<ia_data.length; i++){
+						var t_data1:Object = {	
+							tableName: "AccRequestPayment",
+							columnName: "amounts",
+							theValue: ia_data[i].amounts,
+							type: "type4", columnKeyName: "sn",
+							keyValue: ia_data[i].accRequestPaymentSn												
+						};					
+						Fun.updateDB(is_app, t_data1);
+					}
+				}
+				*/
+				
+				return true;
+			}
+			public function sumOfM(p_event:Event):void{
+				var tn_row:int = grid_AccRequestPaid.selectedIndex;
+				
+				var gmCount:int = 0;
+				var ia_data:Array = [];				
+				ia_data = (grid_AccRequestPaid.dataProvider as ArrayCollection).source;
+				if (ia_data){					
+					for (var i:int=0; i<ia_data.length; i++){
+						if (i!=tn_row){
+							gmCount = gmCount + int(ia_data[i].amounts);	
+						}												
+					}					
+				}
+				sumOfMoney.text = String(gmCount + int(p_event.target.text));
+			}
+			
+			public function sumOfMo(p_data:Object):void{				
+				var gmCount:int = 0;
+				var ia_data:Array = [];				
+				ia_data = (grid_AccRequestPaid.dataProvider as ArrayCollection).source;
+				if (ia_data){					
+					for (var i:int=0; i<ia_data.length; i++){
+						gmCount = gmCount + int(ia_data[i].amounts);											
+					}					
+				}
+				sumOfMoney.text = String(gmCount);
+			}
+			//選取資料到右邊 datagrid
+			private function selectRows():void{
+				var tb_findOld:Boolean = false;
+				var ta_old:Array = ArrayCollection(grid_AccRequestPaid.dataProvider).source;
+				var tn_len:int = 0;
+				var tan_pos:Array = [];
+				var ta_row:Array = ArrayCollection(grid_query.dataProvider).source;
+				for (var i:int=0; i<ta_row.length; i++){
+					if (ta_row[i].selected != 1){
+						continue;
+					}
+					/*else if(AR.find(ta_old, "accRequestPaymentSn", ta_row[i].accRequestPaymentSn) != -1){
+						tb_findOld = true;
+						continue;
+					}
+					*/
+					//記錄位置
+					tan_pos[tn_len] = i;
+					tn_len++;					
+
+					var amp_data:Object = {
+						accRequestPaymentSn: ta_row[i].accRequestPaymentSn,
+						serialNo: ta_row[i].serialNo, 
+						cDate: ta_row[i].cDate,
+						pExcerpt: ta_row[i].pExcerpt,
+						cAmounts: ta_row[i].cAmounts,
+						amounts: int(ta_row[i].cAmounts) - int(ta_row[i].amounts)
+					};
+					
+					//寫入右邊清單
+					idw_AccRequestPaid.addRow(amp_data);
+				}
+				
+				//判斷
+				if (tn_len == 0){
+					if (tb_findOld){
+						Fun.msg("I", iR.errSelected);
+					}else{
+						Fun.msg("I", iR.errNoSelect);						
+					}
+					return;
+				}
+				
+				//刪除左邊資料 step -1
+				var ta_query:ArrayCollection = ArrayCollection(grid_query.dataProvider);
+				for (i=tn_len-1; i>=0; i--){
+					ta_query.removeItemAt(tan_pos[i]);
+				}
+			}
+			
+			private function keyEnter(p_event:KeyboardEvent):void{
+				if (p_event.keyCode == 13){
+					findAccMTI();
+				}	    	
+			}
+			
+			private function findAccMTI():void {
+				if (Fun.isFieldEmpty(serialNoSch) && Fun.isFieldEmpty(cDate1) && Fun.isFieldEmpty(cDate2)) {
+					Fun.msg("I", iR.Emessage01);
+					return;					
+				}
+				
+				var ta_cond:Array = [["accType","N",1],["serialNo","S",Fun.getItem(serialNoSch)]];
+				if (!Fun.isFieldsEmpty([cDate1,cDate2])){
+					ta_cond[2] = ["cDate","D",Fun.getItem(cDate1) + "," + Fun.getItem(cDate2)];
+				}
+				var t_data:Object = {
+					fun: "QueryList",
+					app: is_app, 
+					inf: "FindAccRequestPayment",					
+					data: ta_cond
+					//data:[["accType","N",1],["serialNo","S",Fun.getItem(serialNoSch)],["cDate","D",Fun.getItem(cDate1) + "," + Fun.getItem(cDate2)]]
+				};
+				
+				Fun.async(is_app, Fun.sService, t_data, findAccMTI2);
+			}
+			
+			private function findAccMTI2(p_data:Object):void {
+				if (Fun.catchResult(p_data, true, true)){
+					return;
+				}
+				
+				var ta_row:Array = p_data as Array;
+				grid_query.dataProvider = new ArrayCollection(ta_row);
+				Fun.msg("I", ST.format(Fun.R.findRow, [ta_row.length]));
+			}
+
+			public var fAfterSave:Function;
+			private function afterSave(p_data:Object):void {
+				//更新已繳金額
+				var ia_data:Array = (grid_AccRequestPaid.dataProvider as ArrayCollection).source;
+				if (ia_data){
+					var m_data:Object = {
+						arpData: ia_data
+					};				
+					Fun.sync(is_app, "AccRequestPaid", m_data, false)
+				}
+				
+				fAfterSave(p_data);
+			}
+		]]>
+		
+		
+	</fx:Script>
+	<x2:Num1 id="sn" visible="false"/>	
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+	<s:Form x="10" y="10" width="96%">
+		<s:layout> 
+			<s:FormLayout gap="-8"/>
+		</s:layout>
+		<s:FormItem label="{iR.serialNos} :" id="serialNoFI">
+			<s:Label id="serialNo" width="100%" color="#0000FF"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.cDate}" required="true">			
+			<x2:Date1 formatString="YYYY/MM/DD" id="cDate" yearNavigationEnabled="true"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.sumOfMoney} :">
+			<s:Label id="sumOfMoney" width="100%" color="#FF0000"/>
+		</s:FormItem>
+	</s:Form>
+	
+	<x2:btnDeleteRow id="btnDelete" x="469" y="104" click="idw_AccRequestPaid.deleteRow();"/>
+	<x2:TBar2 id="tb_AccRequestPaid" width="0" visible="false">
+	</x2:TBar2>
+	<x2:DG2 id="grid_AccRequestPaid" x="10" y="132" width="566" height="306">
+		<x2:columns><s:ArrayList>
+			<s:GridColumn dataField="sn" visible="false"/>
+			<s:GridColumn dataField="accRequestPaidDTSn" visible="false"/>
+			<s:GridColumn dataField="accRequestPaymentSn" visible="false"/>			
+			<s:GridColumn dataField="creator" visible="false"/>
+			<s:GridColumn dataField="createDate" visible="false"/>
+			<s:GridColumn dataField="reviser" visible="false"/>
+			<s:GridColumn dataField="reviseDate" visible="false"/>
+			<s:GridColumn headerText="No." labelFunction="serialNoLabelFunc" width="40"/>
+			<s:GridColumn headerText="{iR.paidSno}" dataField="serialNo"/>
+			<s:GridColumn headerText="{iR.paidDate}" dataField="cDate" width="100"/>
+			<s:GridColumn headerText="{iR.expensesSummary}" dataField="pExcerpt" width="115"/>
+			<s:GridColumn headerText="{iR.paidSum}" dataField="cAmounts" width="75"/>
+			<s:GridColumn headerText="{iR.expensesSum}" dataField="amounts" width="80">
+			<s:itemRenderer>
+				<fx:Component><s:GridItemRenderer>
+					<x2:Text2 restrict="0-9" change="outerDocument.sumOfM(event)"/>						
+				</s:GridItemRenderer></fx:Component>
+			</s:itemRenderer>        		         
+			</s:GridColumn>			
+		</s:ArrayList></x2:columns>
+	</x2:DG2>
+	
+	<s:Button id="SelFun0" x="584" y="157" width="44" height="105" label="&lt;&lt;" click="selectRows()" fontWeight="bold" buttonMode="true"/>
+	
+	<s:Form x="636" y="35" width="325" id="SelFun1">
+		<s:layout> 
+			<s:FormLayout gap="-10"/>
+		</s:layout>
+		<s:FormItem label="{iR.paidSno}:">
+			<s:TextInput id="serialNoSch" width="100%"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.paidDate}:">
+			<s:HGroup>
+				<x2:Date1 formatString="YYYY/MM/DD" id="cDate1" yearNavigationEnabled="true"/>
+				<s:Label text=" - "/>
+				<x2:Date1 formatString="YYYY/MM/DD" id="cDate2" yearNavigationEnabled="true"/>
+			</s:HGroup>		
+		</s:FormItem>		
+	</s:Form>
+	<x2:btnRead id="SelFun2" x="994" y="85" width="82" height="25" click="findAccMTI()" toolTip="{iR.SelFun2}"/>
+	
+	<s:DataGrid id="grid_query"  x="636" y="132" width="450" height="306" requestedRowCount="4" horizontalScrollPolicy="off">			
+		<s:columns><s:ArrayList>
+			<s:GridColumn dataField="accRequestPaymentSn" visible="false"/>
+			<s:GridColumn headerText="{iR.selected}" dataField="selected" width="50">
+				<s:itemRenderer><fx:Component><x2:irCenterVH>
+					<x2:Check2 label=""/>
+				</x2:irCenterVH></fx:Component></s:itemRenderer>
+			</s:GridColumn>
+		   <s:GridColumn headerText="{iR.paidSno}" dataField="serialNo" width="100"/>
+		   <s:GridColumn headerText="{iR.paidDate}" dataField="cDate" width="100"/>
+		   <s:GridColumn headerText="{iR.expensesSummary}" dataField="pExcerpt" width="115"/>
+		   <s:GridColumn headerText="{iR.paidSum}" dataField="cAmounts"/>
+		   <s:GridColumn headerText="{iR.paidOff}" dataField="amounts"/>
+		</s:ArrayList></s:columns>
+	</s:DataGrid>
+
+	<x2:comEdit x="10" y="440" id="edit_1" fAfterOpen="afterOpen" fWhenSave="whenSave" fAfterSave="afterSave">
+	</x2:comEdit>	
+</s:TitleWindow>

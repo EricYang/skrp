@@ -1,0 +1,17 @@
+﻿# list/query fields
+carCode=vehicle code
+route=route 
+carNumber=license plate number
+driverStaffCName=driver's name
+driverTel=driver's phone number
+venStaffCName=chaperon's name
+vehTeacherTel=chaperon's phone number
+vehTel=chaperon's vehicle number
+creator=created by
+createDate=created on
+reviser=modified by
+reviseDate=last modified
+
+# E
+driverStaffName=driver's name
+venStaffName=chaperon's name

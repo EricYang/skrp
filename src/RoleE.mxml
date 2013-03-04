@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="810" height="520" 
+	 
+  	creationComplete="init()"  
+	preinitialize="{iR=Fun.getLang('Role')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;			
+			[Bindalbe]
+			private var is_app:String = Fun.sApp;
+			[Bindalbe]
+			public var bShowColumn:Boolean = true;
+			[Bindalbe]
+			private var idw_master:DW;
+			[Bindalbe]
+			private var idw_RoleAca:DW2, idw_RoleUser:DW2;
+			[Bindable]
+			public var ia_range:ArrayList = new ArrayList(Fun2.funRangeDS(is_app, true));
+			[Bindable]
+			private var ia_gender:ArrayList = new ArrayList(Fun2.genderDS(is_app, true));
+			[Bindable]
+			private var ia_userTypeSearch:ArrayList = new ArrayList(Fun2.userTypeSearchDS(is_app, true));
+			
+			private function init():void{	
+				//dw0: Role
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					mapping: true,
+					items: [
+						{source:sn, 		inputType:"I", dataType:"N"}, 
+						{source:roleName}, 
+						{source:description}, 
+						{source:creator,	inputType:"R"}, 
+						{source:createDate,	inputType:"R"}, 
+						{source:reviser,	inputType:"R"}, 
+						{source:reviseDate,	inputType:"R"} 
+					]				
+				};
+				
+				//dw1: RoleAca
+				edit_1.aoDW[1] = new DW2();
+				idw_RoleAca = edit_1.aoDW[1]; 
+				idw_RoleAca.xTool = tb_prog;
+				idw_RoleAca.oConfig = {			
+					upDW: idw_master,
+					grid: grid_prog,
+					upQKeys: ["sn"],
+					qKeys: ["roleSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 			dataType:"N", 	inputType:"I"},
+						{fid:"roleSn", 		dataType:"N", 	inputType:"2"},
+						{fid:"programSn", 	dataType:"N"},
+						{fid:"sysCodeName",	update:false},
+						{fid:"insertFunc", 	dataType:"N",	init:0},
+						{fid:"updateFunc",	dataType:"N",	init:0},
+						{fid:"deleteFunc", 	dataType:"N",	init:0},
+						{fid:"searchFunc", 	dataType:"N",	init:0},
+						{fid:"viewFunc", 	dataType:"N",	init:0},
+						{fid:"reportFunc", 	dataType:"N",	init:0},
+						{fid:"exportFunc", 	dataType:"N",	init:0}
+					]					
+				};
+				
+				//dw2: RoleUser
+				edit_1.aoDW[2] = new DW2();
+				idw_RoleUser = edit_1.aoDW[2]; 
+				idw_RoleUser.xTool = tb_RoleUser;
+				idw_RoleUser.oConfig = {			
+					upDW: idw_master,
+					grid: grid_RoleUser,
+					upQKeys: ["sn"],
+					qKeys: ["roleSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 			dataType:"N", 	inputType:"I"},
+						{fid:"roleSn", 		dataType:"N", 	inputType:"2"},
+						{fid:"userType", 	dataType:"N"},
+						{fid:"userSn", 		dataType:"N"},
+						{fid:"userNo",		update:false},
+						{fid:"userName",	update:false},
+						{fid:"gender",		update:false}
+					]					
+				};
+				
+				tb_prog.cmdAdd.visible = false;
+				tb_prog.cmdAdd.width = 0;
+
+				tb_RoleUser.cmdAdd.visible = false;
+				tb_RoleUser.cmdAdd.width = 0;				
+			}
+			
+			public function fnClickProgram(pn_sn:int):void{				
+				var t_win:FindProgram = new FindProgram();
+				Fun.openPopup(t_win, this);			
+				
+				t_win.qry_1.fSelectRow = fSelectRow;				
+				t_win.qry_1.bCloseAfterQuery = false;
+				t_win.fAfterOk = fSelectRow;
+			}
+			
+			private function fSelectRow(p_row:Object):void{
+				var tn_row:int = grid_prog.selectedIndex;
+				
+				var t_row:Object = grid_prog.selectedItem;				
+				t_row.sysCodeName = p_row.sysCode + ' ' + p_row.sysName;
+				
+				idw_RoleAca.setItemByFid("programSn", p_row.sn, true, tn_row);
+				Fun.refreshGrid(grid_prog, tn_row);
+			}
+			/*
+			//教職員
+			public function fnClickRoleUser(pn_sn:int):void{
+				if (bShowColumn){
+					var t_win:FindUser = new FindUser();
+					Fun.openPopup(t_win, this);				
+					
+					t_win.qry_1.fSelectRow = fSelectRowStaff;
+					t_win.qry_1.bCloseAfterQuery = false;
+					t_win.fAfterOk = fSelectRowStaff;
+				}
+			}			
+			private function fSelectRowStaff(p_row:Object):void{
+				var tn_row:int = grid_RoleUser.selectedIndex;
+				
+				var t_row:Object = grid_RoleUser.selectedItem;				
+				t_row.userType = p_row.userType;
+				t_row.userNo = p_row.userNo;
+				t_row.userName = p_row.userName;
+				t_row.gender = p_row.gender;
+				
+				idw_RoleUser.setItemByFid("userSn", p_row.sn, true, tn_row);
+				idw_RoleUser.setItemByFid("userType", p_row.userType, true, tn_row);
+				Fun.refreshGrid(grid_RoleUser, tn_row);
+			}
+			*/
+			private function userTypeFlag(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_userTypeSearch, p_row[p_column.dataField]);
+			}			
+			private function gender(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_gender, p_row[p_column.dataField]);
+			}
+			private function afterOpen(p_data:Object):void{	
+				//相關隱藏顯示設定
+				FunID1.visible = true;
+				FunID2.visible = true;
+				
+				switch (p_data.fun){					
+					case "C":
+					case "U":						
+						bShowColumn = true;
+						break;
+					case "V":
+						FunID1.visible = false;
+						FunID2.visible = false;
+						bShowColumn = false;			
+						break;
+				}
+				
+			}
+			//多選系統			
+			public function fnClickMPG():void{				
+				Fun2.bGlobal = ArrayCollection(grid_prog.dataProvider);
+				Fun2.aGlobal = [];
+				
+				var t_win:FindProgramOpt = new FindProgramOpt();
+				Fun.openPopup(t_win, this);
+				
+				t_win.qry_1.bCloseAfterQuery = false;
+				t_win.fAfterOk = fSelectRowPG;
+			}			
+			private function fSelectRowPG():void{
+				if (Fun2.aGlobal.length!=0){					
+					for (var i:int=Fun2.aGlobal.length - 1; i>=0; i--){
+						var idw_data:Object = {
+							programSn: Fun2.aGlobal[i].sn,
+							sysCodeName: Fun2.aGlobal[i].sysCode + ' ' + Fun2.aGlobal[i].sysName,
+							insertFunc: 1,
+							updateFunc: 1,
+							deleteFunc: 1,
+							searchFunc: 1,
+							viewFunc: 1,
+							reportFunc: 1,
+							exportFunc: 1							
+						};
+						idw_RoleAca.addRow(idw_data);
+					}
+				}
+			}
+			//多選人員			
+			public function fnClickMRU():void{				
+				Fun2.bGlobal = ArrayCollection(grid_RoleUser.dataProvider);
+				Fun2.aGlobal = [];
+				
+				var t_win:FindUserOpt = new FindUserOpt();
+				Fun.openPopup(t_win, this);
+				
+				t_win.qry_1.bCloseAfterQuery = false;
+				t_win.fAfterOk = fSelectRowStaff;
+			}			
+			private function fSelectRowStaff():void{
+				if (Fun2.aGlobal.length!=0){					
+					for (var i:int=Fun2.aGlobal.length - 1; i>=0; i--){
+						var idw_data:Object = {
+							userSn: Fun2.aGlobal[i].userSn,
+							userType: Fun2.aGlobal[i].userType,
+							userNo: Fun2.aGlobal[i].userNo,
+							userName: Fun2.aGlobal[i].userName,
+							gender: Fun2.aGlobal[i].gender
+						};
+						idw_RoleUser.addRow(idw_data);						
+					}
+				}
+			}
+		]]>
+	</fx:Script>
+	<x2:Num1 id="sn" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+
+	<mx:TabNavigator x="10" y="10" width="780" height="430" id="tns">
+		<mx:Canvas label="{iR.Canvas01}">
+			<mx:Form x="10" y="10">
+				<mx:FormItem label="{iR.roleName} :" required="true">
+					<s:TextInput id="roleName" width="250"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.description} :">
+					<mx:TextArea id="description" width="597" height="37"/>
+				</mx:FormItem>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas02}" id="canvasLabel2">
+			<mx:HBox x="492" y="4" id="FunID1">				
+				<!--<x2:TBar2v id="tb_prog"/>-->
+				<x2:BtnIBar id="cmdInsertPG" click="fnClickMPG()"/>
+				<x2:btnDeleteRow id="btnDelete1" click="idw_RoleAca.deleteRow();"/>
+				<x2:TBar2 id="tb_prog" width="0" visible="false"/>		
+			</mx:HBox>			
+			<mx:Form x="10" y="29">				
+				<x2:DG2 width="725" alpha="0.7" height="324" id="grid_prog" x="23" y="140">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="roleSn" visible="false"/>
+						<s:GridColumn dataField="programSn" visible="false"/>
+						<s:GridColumn dataField="reportFunc" visible="false"/>
+						<s:GridColumn dataField="exportFunc" visible="false"/>
+						<s:GridColumn headerText="{iR.sysCodeName}" dataField="sysCodeName"/>
+						<!--
+						<s:GridColumn width="40">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:btnPick click="outerDocument.fnClickProgram(data.sn)"/>									
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						-->
+						<s:GridColumn headerText="{iR.insertFunc}" dataField="insertFunc" width="60">
+							<s:itemRenderer>
+								<fx:Component><x2:irCenterVH>
+									<x2:Check2 />
+								</x2:irCenterVH></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.updateFunc}" dataField="updateFunc" width="70">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:DDL2 dataProvider="{outerDocument.ia_range}"/>
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.deleteFunc}" dataField="deleteFunc" width="70">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:DDL2 dataProvider="{outerDocument.ia_range}"/>
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.searchFunc}" dataField="searchFunc" width="70">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:DDL2 dataProvider="{outerDocument.ia_range}"/>
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.viewFunc}" dataField="viewFunc" width="70">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:DDL2 dataProvider="{outerDocument.ia_range}"/>
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<!--
+						<s:GridColumn headerText="{iR.reportFunc}" dataField="reportFunc" width="70">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:DDL2 dataProvider="{outerDocument.ia_range}"/>
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.exportFunc}" dataField="exportFunc">
+							<s:itemRenderer>
+								<fx:Component><x2:irCenterVH>
+									<x2:Check2 />
+								</x2:irCenterVH></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						-->
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>	
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas03}">
+			<mx:HBox x="492" y="4" id="FunID2">				
+				<!--<x2:TBar2v id="tb_RoleUser"/>-->
+				<x2:BtnIBar id="cmdInsertRU" click="fnClickMRU()"/>
+				<x2:btnDeleteRow id="btnDelete2" click="idw_RoleUser.deleteRow();"/>
+				<x2:TBar2 id="tb_RoleUser" width="0" visible="false"/>		
+			</mx:HBox>			
+			<mx:Form x="10" y="29">
+				<x2:DG2 width="725" alpha="0.7" height="324" x="10.5" y="144" id="grid_RoleUser">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="roleSn" visible="false"/>
+						<s:GridColumn dataField="userSn" visible="false"/>
+						<s:GridColumn headerText="{iR.userType}" dataField="userType" labelFunction="userTypeFlag"/>
+						<s:GridColumn headerText="{iR.userNo}" dataField="userNo"/>
+						<s:GridColumn headerText="{iR.userName}" dataField="userName"/>
+						<s:GridColumn headerText="{iR.gender}" dataField="gender" labelFunction="gender"/>
+						<!--
+						<s:GridColumn width="40">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:btnPick click="outerDocument.fnClickRoleUser(data.sn)"/>									
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						-->
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>
+		</mx:Canvas>	
+	</mx:TabNavigator>
+	<x2:comEdit x="10" y="448" id="edit_1" fAfterOpen="afterOpen">
+	</x2:comEdit>
+</s:TitleWindow>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	width="420" height="174" xmlns:x2="x2.*" 
+	
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('TeachCard')}"
+ 	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			
+			private function init():void{
+				qry_1.aoItem = [
+					{source:cardNo},
+					{source:cardName}
+				];					
+			}			
+		]]>
+	</fx:Script>
+	<mx:Form x="6" y="10" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+		<mx:FormItem label="{iR.cardNo} :">
+			<s:TextInput id="cardNo"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.cardName} :">
+			<s:TextInput id="cardName"/>
+		</mx:FormItem>
+	</mx:Form>
+	<x2:comQuery x="329" y="10" id="qry_1">
+	</x2:comQuery>
+</s:TitleWindow>

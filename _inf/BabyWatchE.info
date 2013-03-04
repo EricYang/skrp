@@ -1,0 +1,29 @@
+{
+    "dws":[
+        {
+            "selectTable": "BabyWatch a INNER JOIN Student b ON a.studentSn = b.sn",   
+            "updateTable": "BabyWatch",
+            "defaultTable": "a",
+            "items": [
+                {"fid":"sn"}, 
+                {"fid":"academicYear"},
+                {"fid":"semester"},
+                {"fid":"acaName",     "table":"", "colName":"CONCAT(a.academicYear, ' - ', a.semester)"},
+                {"fid":"classLeavesSn"},
+                {"fid":"studentSn"},
+                {"fid":"studentName", "table":"", "colName":"CONCAT(b.cName, ' ', b.eName)"},
+                {"fid":"funcItemSn"},
+                {"fid":"cDate"},
+                {"fid":"timeH"},
+                {"fid":"timeM"},
+                {"fid":"watchTime",   "table":"", "colName":"CONCAT(a.timeH, '：', a.timeM)"},
+                {"fid":"behavior"},
+                {"fid":"assay"},
+                {"fid":"advice"},
+                {"fid":"observeRef"},
+                {"fid":"creator"},
+                {"fid":"createDate"}
+             ]                
+        }
+    ]    
+}

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	用在: (1).多筆編輯畫面, (2).dataGrid checkBox
+-->
+<x2:Check1 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:x2="x2.*"
+	creationComplete="init()"
+	change="change(event)"
+	value="{i_info.row.data[i_info.fid]}"
+	>
+	
+	<!--
+	必須加上以下這一行, 否則無法正確顯示checkbox 狀態
+	value="{i_info.row.data[i_info.fid]}"
+	
+	<s:layout>
+		<s:VerticalLayout horizontalAlign="center"/>
+	</s:layout>
+	-->
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			//import mx.binding.utils.*;		
+
+			
+			//[Bindable("dataChange")]
+			
+			//[Bindable]	
+			//public var oRow:Object;		//用來對應 datagrid.data
+			
+			//public var i_value:Object;	//必須宣告成 public, 在 DataGrid 類別會用到這個屬性, 否則會發生錯誤 !!
+			[Bindable]
+			private var i_info:Object;
+
+			//[Bindable]
+			//private var i_value:Object;
+			
+			
+			private function init(p_event:Event=null):void{
+				//initialize datagridcolumn			
+				i_info = Fun.initDW2Field(this);
+				//i_value = i_info.row.data[i_info.fid];
+				
+				//spark gridColumn 沒有這個屬性 !!			
+				//i_info.col.editorDataField = "i_value";
+				
+				if (i_info.dw2 != null){
+					this.setStyle("paddingLeft", 3);
+					this.addEventListener(Event.RENDER, setStatus);
+				}
+				
+				//var t_bind:ChangeWatcher = BindingUtils.bindSetter(bindValue, this, "value");							
+			}
+			
+			/*
+			private function bindValue(p_value:String):void {
+				this.value = i_info.row.data[i_info.fid];
+			}
+			*/
+			
+			/*
+			override public function get value(): Object{
+				return (this.selected) ? gYes : gNo;
+			}
+			
+			
+			//for provide value property
+			override public function set value(p_value:Object): void {
+				this.selected = (p_value == gYes);
+			}
+			*/
+			
+			
+			//set status
+			private function setStatus(p_event:Event=null):void{
+				DW2(i_info.dw2).setSubStatus(this);
+			}
+			
+			
+			//user change value.
+			private function change(p_event:Event=null):void{
+				//i_value = (this.selected) ? gYes : gNo;
+				//this.data[i_info.fid] = i_value;
+				/*
+				if (i_info.box){
+				(this.parent as Object).data[i_info.fid] = i_value;
+				}else{
+				this.data[i_info.fid] = i_value;				
+				}				
+				*/
+				i_info.row.data[i_info.fid] = this.value;
+				
+				//if (gbEdit){
+				if (i_info.dw2 != null){
+					DW2(i_info.dw2).checkField(i_info.col);
+				} 
+			}	   
+			
+			
+			//一筆資料的欄位值改變時會觸發這個事件
+			//Dispatched when the data property changes.		
+			/*
+			private function dataChange(p_event:Event=null):void{
+				//var t_data:Object = (i_info.box) ? (this.parent as Object).data : this.data;			
+				var t_data:Object = i_info.row.data;			
+				//if (this.data != null){
+				if (t_data != null){
+					i_value = t_data[i_info.fid];
+					this.selected = (i_value == gYes) ? true : false;
+				}
+			}
+			*/
+		]]>
+	</fx:Script>
+</x2:Check1>

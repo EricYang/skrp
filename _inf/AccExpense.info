@@ -1,0 +1,24 @@
+{
+    "list":{    
+        "select": "SELECT b.sn,
+                          CONCAT(a.accMainCode, ' - ', b.accTitleCode) AS accTitleCodeTmp, 
+                          CONCAT(a.accMainName, ' - ', b.accTitleName) AS accTitleNameTmp, 
+                          b.accTitleType, 
+                          CONCAT(a.accMainCode, ' - ', b.accTitleCode, ' - ', c.accIocCode) AS accIocCodeTmp, 
+                          CONCAT(a.accMainName, ' - ', b.accTitleName, ' - ', c.accIocName) AS accIocNameTmp,
+                          c.creator, c.createDate, c.reviser, c.reviseDate",
+        "from": "FROM AccMain a INNER JOIN
+                      AccTitle b ON a.sn = b.accMainSn LEFT OUTER JOIN
+                      AccIoc c ON b.sn = c.accTitleSn
+                WHERE (a.accMainType = 2)
+                [_where]",
+        "order": "ORDER BY a.accMainCode, b.accTitleCode, c.accIocCode",
+        "items": [                        
+            {"fid":"accTitleCode",  "table":"b",         "op":"like"},
+            {"fid":"accTitleName",  "table":"b",         "op":"like"},
+            {"fid":"accTitleType",  "table":"b"},
+            {"fid":"accIocCode",    "table":"c",         "op":"like"},
+            {"fid":"accIocName",    "table":"c",         "op":"like"}            
+        ]
+    }
+}

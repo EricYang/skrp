@@ -1,0 +1,11 @@
+{
+    "list":{
+        "select": "SELECT *",
+        "from":   "FROM BabyCostItem",
+        "order":  "ORDER BY payItemCode",
+        "items": [
+            {"fid":"payItemCode",  "op":"like"},
+            {"fid":"payItemName",  "op":"like"}
+      ]
+    }
+}

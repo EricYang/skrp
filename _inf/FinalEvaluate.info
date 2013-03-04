@@ -1,0 +1,11 @@
+{
+    "list":{    
+        "select": "SELECT *",
+        "from": "FROM FinalEvaluate 
+                [_where]",
+        "order": "ORDER BY sn",
+        "items": [                        
+            {"fid":"targetName",         "op":"like"}
+        ]
+    }
+}

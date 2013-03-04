@@ -1,0 +1,25 @@
+{
+    "dws":[
+	    {
+			"selectTable": "SafeControl",
+			"items": [
+				{"fid":"sn"}, 
+				{"fid":"controlItem"},
+                {"fid":"creator"},
+                {"fid":"createDate"},
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+
+			]								
+	    },
+	    {
+			"selectTable": "SafeControlDetail",
+			"upDW": 0,
+			"items": [
+                {"fid":"sn"},
+	            {"fid":"safeControlSn"},
+                {"fid":"contents"}
+			]				
+	    }
+    ]    
+}

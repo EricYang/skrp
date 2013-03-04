@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	width="400" height="176" xmlns:x2="x2.*" 
+	
+  	creationComplete="init()"
+	
+ 	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			private var is_app:String = Fun.sApp;
+			
+			[Bindable]
+			public var ia_test:Array;			
+
+			private function init():void{
+				qry_1.aoItem = [
+					{source:sysCode},
+					{source:sysName}
+				];	
+			}			
+		]]>
+	</fx:Script>
+	<mx:Form x="10" y="10" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+		<mx:FormItem label="系統代碼 :">
+			<s:TextInput id="sysCode"/>
+		</mx:FormItem>
+		<mx:FormItem label="系統名稱 :">
+			<s:TextInput id="sysName"/>										
+		</mx:FormItem>
+	</mx:Form>
+	<x2:comQuery x="302" y="10" id="qry_1">
+	</x2:comQuery>
+</s:TitleWindow>

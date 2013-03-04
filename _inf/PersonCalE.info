@@ -1,0 +1,18 @@
+{
+    "dws":[
+	    {
+			"selectTable": "PersonCal",   
+			"items": [
+                {"fid":"sn"},
+                {"fid":"staffSn"},
+                {"fid":"cDate"},
+                {"fid":"timeH"},
+                {"fid":"timeM"},
+                {"fid":"timeHM", "colName":"''"},
+                {"fid":"contents"},                
+                {"fid":"createDate"},
+                {"fid":"reviseDate"}
+            ]				
+	    }
+    ]    
+}

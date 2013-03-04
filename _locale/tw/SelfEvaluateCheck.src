@@ -1,0 +1,39 @@
+﻿# list/query fields
+acaName=學年(期)
+staffName=自評者
+cDate=日期
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# message
+message01=請先選取一筆資料。
+message02=匯出 PDF 失敗！查無資料，請重新點選。
+
+# E
+Canvas01=基本資料
+staffName=自評者
+cDate=日期
+Canvas02=基礎評鑑
+itemName=評鑑項目
+contents=評鑑內容
+desc=說明
+score=評分
+remark=備註
+Canvas03=行政組織與經營管理
+Canvas04=教保活動
+Canvas05=衛生保健與環境安全
+Canvas06=機構特色
+
+# message
+message03=※ 評鑑項目共計：
+message04= 項。
+message05=評鑑自評項目
+
+# Q
+academicYear=學年
+semester=學期
+cDate=日期
+
+# message

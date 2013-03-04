@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="600" height="440" 	 
+  	creationComplete="init()"  	 
+	preinitialize="{iR=Fun.getLang('ParentMsg')}"
+	>
+	<fx:Script>
+		<![CDATA[			
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			
+			private var is_app:String = Fun.sApp;
+			private var idw_master:DW;
+			
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["usersSn","academicYear","semester"]});
+			
+			private function init():void{
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {					
+					mapping: true,
+					autos: ["","createDate","",""],					
+					keys: ["sn"],
+					items: [
+						{source:sn,				dataType:"N",	inputType:"I"},
+						{source:academicYear,	dataType:"N",	init:int(i_session.academicYear)}, 
+						{source:semester,		dataType:"N",	init:int(i_session.semester)},
+						{source:acaName,						update:false,	inputType:"R"},
+						{source:classLeavesSn,	dataType:"N"},
+						{source:parentSn,		dataType:"N",	init:int(i_session.usersSn)},						
+						{source:studentSn,		dataType:"N"},						
+						{source:studentName,					update:false,	inputType:"R"},
+						{source:subject,		dataType:"S"},
+						{source:leaveCon,		dataType:"S"},
+						{source:staffSn,						update:false,	inputType:"R"},
+						{source:staffName,						update:false,	inputType:"R"},
+						{source:replyCon,						update:false,	inputType:"R"},
+						{source:createDate,		dataType:"DT",					inputType:"R"},
+						{source:reviseDate,						update:false,	inputType:"R"}
+					]				
+				}; 
+			}
+			private function closeWin():void{
+				Fun.closePopup(this);
+			}
+		]]>
+	</fx:Script>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="academicYear" visible="false"/>
+	<x2:Num1 id="semester" visible="false"/>
+	<s:TextInput id="acaName" visible="false"/>
+	<x2:Num1 id="classLeavesSn" visible="false"/>
+	<x2:Num1 id="studentSn" visible="false"/>
+	<x2:Num1 id="parentSn" visible="false"/>	
+	<x2:Num1 id="staffSn" visible="false"/>	
+	<s:TextInput id="createDate" visible="false"/>
+	<s:Form x="10" y="10">
+		<s:layout> 
+			<s:FormLayout gap="-8"/>
+		</s:layout>
+		<s:FormItem label="{iR.studentName} :">
+			<s:Label id="studentName"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.subject} :">
+			<s:Label id="subject"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.leaveCon} :">
+			<s:TextArea id="leaveCon" width="394" height="86" borderAlpha="0"
+						contentBackgroundAlpha="0" editable="false"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.reviseDate} :">
+			<s:Label id="reviseDate"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.staffName} :">
+			<s:Label id="staffName"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.replyCon} :">			
+			<s:TextArea width="394" height="86" id="replyCon" borderAlpha="0"
+						contentBackgroundAlpha="0" editable="false"/>
+		</s:FormItem>
+	</s:Form>
+	<x2:comEdit id="edit_1" visible="false">
+	</x2:comEdit>
+	<mx:Button x="10" y="368" click="closeWin()" icon="@Embed(source='x2/image/close.png')" id="cmdExit" label="離開" buttonMode="true"/>
+</s:TitleWindow>

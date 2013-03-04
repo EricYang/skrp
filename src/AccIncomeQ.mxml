@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	width="470" height="280" xmlns:x2="x2.*" 
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('AccIncome')}"
+ 	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;	
+			[Bindable]
+			private var iR:Object;	
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			public var ia_accTitleType:ArrayList = new ArrayList(Fun2.accTitleTypeDS(is_app, true));
+			private function init():void{
+				qry_1.aoItem = [
+					{source:accTitleCode},
+					{source:accTitleName},
+					{source:accTitleType},
+					{source:accIocCode},
+					{source:accIocName}
+				];					
+			}			
+		]]>
+	</fx:Script>
+	<s:Form x="10" y="10" width="364">
+		<s:layout> 
+			<s:FormLayout gap="-8"/>
+		</s:layout>
+		<s:FormItem label="{iR.accTitleCode} :">
+			<s:TextInput id="accTitleCode" width="100%"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.accTitleName} :">
+			<s:TextInput id="accTitleName" width="100%"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.accTitleType} :">
+			<x2:DDL1 id="accTitleType" dataProvider="{ia_accTitleType}"></x2:DDL1>
+		</s:FormItem>
+		<s:FormItem label="{iR.accIocCode} :">
+			<s:TextInput id="accIocCode" width="100%"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.accIocName} :">
+			<s:TextInput id="accIocName" width="100%"/>
+		</s:FormItem>
+	</s:Form>
+	<x2:comQuery x="382" y="10" id="qry_1">
+	</x2:comQuery>
+</s:TitleWindow>

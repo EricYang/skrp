@@ -1,0 +1,29 @@
+﻿# list/query fields
+deleFlag=删除
+multiSysType=项目类别
+itemName=项目名称
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# message
+message01=是否确定删除这笔资料 ?
+message02=此笔资料已删除 !
+message03=资料删除完成。
+
+# E
+multiSysType=项目类别
+itemName=项目名称
+deleFlag=资料删除
+Canvas01=细​​项内容
+contents=细项内容
+
+# message
+
+
+# Q
+multiSysType=项目类别
+itemName=项目名称
+
+# message

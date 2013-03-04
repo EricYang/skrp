@@ -1,0 +1,19 @@
+﻿# list/query fields
+label=项目
+data=笔数
+allCount=※ 总笔数
+desc=◎ 笔数 ( 百分比 % )
+cmdExit=离开
+
+# message
+message01=※ 总笔数：
+message02= 笔。
+message03= 笔 (
+
+# E
+
+# message
+
+# Q
+
+# message

@@ -1,0 +1,14 @@
+{
+   "list":{
+        "select": "SELECT c.sn AS accIocSn, c.accIocCode, c.accIocName",
+        "from": "FROM AccMain a INNER JOIN
+                    AccTitle b ON a.sn = b.accMainSn INNER JOIN
+                    AccIoc c ON b.sn = c.accTitleSn
+                    WHERE (a.accMainType = [accType]) [_where]",
+        "items": [
+                {"fid":"accIocCode",    "table":"c",    "op":"like"},
+                {"fid":"accIocName",    "table":"c",    "op":"like"},
+                {"fid":"accType",       "isCond":0}
+        ]
+   }
+}

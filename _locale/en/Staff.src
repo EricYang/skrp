@@ -1,0 +1,76 @@
+﻿# list/query fields
+cmdData=教職員資料匯入
+deleFlag=deleted
+empNo=Employee Number
+cName=Name
+deptSn=Department
+gender=Gender
+birthDate=Birthdate
+idNo=ID number
+conTel=Contact Number
+address=Address
+takeOfficeDate=Take Office Date
+creator=Created by
+createDate=Created on
+reviser=Revised by
+reviseDate=Revised on
+
+# message
+message03=是否確定刪除這筆資料 ?
+message04=此筆資料已刪除 !
+message05=資料刪除完成。
+
+# E
+Canvas01=Basic Information A
+cName=Chinese Name
+eName=English Name
+eMail=E-Mail
+titlesSn=Title of Position
+tmpFileName=照片上傳
+fileName=瀏覽檔案
+deleFlag=資料刪除
+dutyFlag=Work Status
+Canvas02=Basic Information B
+birthplace=Place of Birth
+maritalStatus=Marital Status
+bloodType=Blood Type
+stature=Height
+weight=Weight
+urgentName=Emergency Contact Person
+urgentTel=Emergency Contact Number
+Canvas03=education
+school=學校名稱
+degree=學位
+department=科系名稱
+sDate02=就學期間(起)
+eDate02=就學期間(迄)
+studyStatus=狀態
+Canvas04=working experiences
+company=公司名稱
+titles=職務名稱
+sDate03=任職期間(起)
+sDate03=任職期間(迄)
+jobContent=工作內容
+Canvas05=licenses
+funcItemSn=駕照名稱
+theFiles=相關檔案
+openFilesDG=開啟檔案
+licenseName=證照名稱
+upload=上傳
+Canvas06=Account Setting
+adeleFlag=Account Status
+loginId=User ID
+loginPw=Password
+loginPw2=Confirm Password
+roleSn=Role Setting
+Canvas07=limits of authority
+roleName=角色名稱
+
+# message
+message00=電子信箱，輸入格式錯誤。
+message01=The log in ID is registered.
+message02=The passwords don't match.  Please confirm your password.
+message06=檔案類型不符, 照片檔案必須為 (.jpg, .gif, .jpeg, .png) 格式圖檔
+message07=上傳檔案成功！
+message08=檔案類型不符, 檔案必須為 (.pdf, .xls, .xlsx, .doc, .docx, .ppt, .jpg, .gif, .jpeg, .png) 格式
+message09=尚未上傳檔案！

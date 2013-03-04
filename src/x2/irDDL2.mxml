@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:GridItemRenderer
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+ 	xmlns:s="library://ns.adobe.com/flex/spark"
+ 	xmlns:mx="library://ns.adobe.com/flex/mx"
+ 	xmlns:x2="x2.*"
+ 	>
+	
+	<s:layout>
+		<s:VerticalLayout verticalAlign="middle" horizontalAlign="center"/>
+	</s:layout>	
+	<x2:DDL1 id="ddl" fontWeight="normal" width ="98%" height="98%" dataProvider="{aRow}"
+		creationComplete="init()" value="{data[i_info.fid]}" 
+		focusIn="focusIn(event)" focusOut="focusOut(event)" change="change(event)">
+	</x2:DDL1>
+	<fx:Script source="irCombo2Fun.as"/>
+	
+	<!--
+	change="change(event)" 
+	value="{i_info.row.data[i_info.fid]}"
+	-->
+</s:GridItemRenderer>

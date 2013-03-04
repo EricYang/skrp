@@ -1,0 +1,20 @@
+﻿# list/query fields
+acaName=Year(Semester)
+classLeavesSn=Class Name
+subject=Subject
+cDate=Date
+creator=Created by
+createDate=Created on
+reviser=Revised by
+reviseDate=Revised on
+
+# E
+process=Procedure
+activities=Activity
+teachMater=Teaching Material
+
+# Q
+academicYear=Academic Year
+semester=Semester
+classInfoSn=Class
+classLeavesSn=Class Name

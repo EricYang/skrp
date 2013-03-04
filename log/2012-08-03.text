@@ -1,0 +1,42 @@
+; 127.0.0.1; 10:49:33; _Service2(GetLang)
+; 127.0.0.1; 10:49:38; _Service2(GetLang)
+; 127.0.0.1; 10:49:39; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:49:42; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 10:49:42; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1343962182)
+Supervisor; 127.0.0.1; 10:49:42; Login; Supervisor
+Supervisor; 127.0.0.1; 10:49:43; _Main(getMain)
+Supervisor; 127.0.0.1; 10:49:45; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:49:47; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:49:52; _Service2(GetLang)
+; 127.0.0.1; 10:50:58; _Service2(GetLang)
+; 127.0.0.1; 10:51:01; _Service2(GetLang)
+; 127.0.0.1; 10:51:02; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:51:06; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 10:51:06; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1343962266)
+Supervisor; 127.0.0.1; 10:51:06; Login; Supervisor
+Supervisor; 127.0.0.1; 10:51:07; _Main(getMain)
+Supervisor; 127.0.0.1; 10:51:08; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:51:10; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:51:16; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:52:09; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:52:13; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:52:14; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:52:16; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 10:52:16; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1343962336)
+Supervisor; 127.0.0.1; 10:52:16; Login; Supervisor
+Supervisor; 127.0.0.1; 10:52:17; _Main(getMain)
+Supervisor; 127.0.0.1; 10:52:18; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:52:20; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:52:26; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:52:38; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:52:47; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:54:51; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:55:36; _Service2(GetLang)
+; 127.0.0.1; 16:13:53; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:13:56; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 16:13:56; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1343981636)
+Supervisor; 127.0.0.1; 16:13:56; Login; Supervisor
+Supervisor; 127.0.0.1; 16:13:57; _Main(getMain)
+Supervisor; 127.0.0.1; 16:13:58; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:14:00; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:14:07; _Service2(GetLang)

@@ -1,0 +1,39 @@
+﻿# list/query fields
+acaName=学年(期)
+classLeavesSn=班级(别)
+studentName=学生姓名
+cDate=日期
+cTime=时间
+leagalInfectItemSn=通报项目
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# message
+
+
+# E
+studentName=学生姓名
+cDate=日期
+cTime=时间
+publicDeptName=就诊医院名称
+leagalInfectItemSn=通报项目
+mainCon=主要症狀
+checkSign=请打V
+funcItemSn=症狀
+conDescribe=症狀说明
+
+# message
+
+
+# Q
+academicYear=学年
+semester=学期
+classInfoSn=班级
+classLeavesSn=班别
+cName=中文姓名
+eName=英文名
+leagalInfectItemSn=通报项目
+
+# message

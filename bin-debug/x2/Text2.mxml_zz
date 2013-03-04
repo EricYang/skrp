@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TextInput 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx">	
+	
+	<fx:Script>
+		<![CDATA[
+			/* temp remark
+			initialize="init()"
+			focusIn="focusIn(event)"
+			focusOut="focusOut(event)"
+			render="setStatus()"
+			
+			*/
+			
+			//change="change(event)"
+			//=== same for TextInput2, NumericInput2, DateField2 fields begin ===
+			import flash.events.Event;
+			import x2.*;
+			
+			private var i_info:Object;
+			//private var i_dw2:DW2;		//access DW2 directly for more effective !!
+			//private var is_fid:String;
+			
+			
+			private function init():void{
+			i_info = Fun.initDW2Field(this);
+			//i_dw2 = t_info.dw2;
+			//is_fid = t_info.fid;
+			}
+			
+			
+			//set status
+			private function setStatus():void{
+			DW2(i_info.dw2).setSubStatus(this);
+			}
+			
+			//private function change(p_event:Event):void{
+			//	(i_info.dw2 as DW2).changeText(p_event);    
+			//}
+			
+			private function focusIn(p_event:Event):void{
+				DW2(i_info.dw2).fieldFocusIn(p_event);            
+			}
+			
+			
+			//will triggerred twice, filter out one !		
+			private function focusOut(p_event:Event):void{
+			//update field value to dataProvider, important !!
+			
+			//if (i_info.box){
+			//Object(this.parent).data[i_info.fid] = this.text;
+			//}else{
+			////temp remark
+			////this.data[i_info.fid] = this.text;	
+			//}
+			
+			i_info.row[i_info.fid] = this.text;
+			DW2(i_info.dw2).fieldFocusOut(p_event);
+			}
+			
+			//=== end ===
+		]]>
+	</fx:Script>
+	
+</s:TextInput>

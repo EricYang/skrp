@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application 
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	xmlns:x2="x2.*"	
+	width="100%" height="100%" 
+	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('LearnProParent')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import spark.components.DataGrid;
+			import spark.components.gridClasses.GridColumn;			
+			import x2.*;
+			
+			[Bindable]
+			public var iR:Object;			
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			public var is_dir1:String = Fun.sDirRoot + Fun2.fLearnPro;
+			[Bindable]
+			private var ia_list:ArrayCollection = new ArrayCollection();
+			
+			private function init():void {				
+				doFindPStuListAll();
+			}
+			private function doFindPStuListAll():void{
+				Fun2.openPStuListALL(is_app, this, ReturnPStuListALL);				
+			}
+			private function ReturnPStuListALL(p_row:Object):void{
+				var t_data:Object = {
+					data: "LearnProParent",
+					academicYear: p_row.academicYear,
+					semester: p_row.semester,
+					classLeavesSn: p_row.classLeavesSn,
+					studentSn: p_row.sn,
+					defaultImgPath: is_dir1
+				};				 
+				var ta_row:Array = Fun.readRows(is_app, t_data);
+				if (ta_row){
+					ia_list = new ArrayCollection(ta_row);
+					
+					Fun.setItem(studentName, p_row.acaName + " / " + p_row.classInfoName + " / " + p_row.cName + " " + p_row.eName);
+					Fun.setItem(academicYear, p_row.academicYear);
+					Fun.setItem(semester, p_row.semester);
+					Fun.setItem(classLeavesSn, p_row.classLeavesSn);
+					Fun.setItem(studentSn, p_row.sn);
+				}else{
+					Fun.msg("I", iR.message01+ p_row.acaName + " / " + p_row.classInfoName + " / " + p_row.cName + " " + p_row.eName +iR.message02);
+				}
+			}
+			
+			public function DispImagesLBFun(pn_sn:int):void{
+				var t_win:DispImagesLB = new DispImagesLB();
+				t_win.learnProSn = pn_sn;
+				t_win.academicYear = int(Fun.getItem(academicYear));
+				t_win.semester = int(Fun.getItem(semester));
+				t_win.classLeavesSn = int(Fun.getItem(classLeavesSn));
+				t_win.studentSn = int(Fun.getItem(studentSn));
+				Fun.openPopup(t_win, this);
+			}
+		]]>
+	</fx:Script>
+
+	<x2:sysBG/>
+	<x2:subFunHead/>
+	
+	<s:FormItem label="{iR.studentName} :" required="true" x="81" y="59">					
+		<s:HGroup>						
+			<s:TextInput id="studentName" width="500" editable="false" enabled="false"/>
+			<x2:btnPick id="SchStu" click="doFindPStuListAll()"/>			
+		</s:HGroup>					
+	</s:FormItem>
+	<x2:Num1 id="academicYear" visible="false"/>
+	<x2:Num1 id="semester" visible="false"/>
+	<x2:Num1 id="classLeavesSn" visible="false"/>
+	<x2:Num1 id="studentSn" visible="false"/>
+	
+	<s:List id="tile1" y="107" height="92%" width="92%" alpha="1" borderVisible="false"
+			contentBackgroundAlpha="0" dataProvider="{ia_list}" focusColor="#000000"
+			horizontalCenter="0" rollOverColor="#000000" selectionColor="#000000"
+			symbolColor="#000000">
+		<s:layout>
+			<s:TileLayout horizontalAlign="center" verticalAlign="middle" horizontalGap="25" verticalGap="25"/>
+		</s:layout>
+		<s:itemRenderer>
+			<fx:Component><x2:irCenterVH><s:ItemRenderer click="outerDocument.DispImagesLBFun(data.sn)" buttonMode="true">
+				<mx:Form backgroundColor="#F7F7F7" borderColor="#D9D9D9" borderStyle="solid" width="100%" height="190" verticalScrollPolicy="off" horizontalScrollPolicy="off" cornerRadius="2" dropShadowVisible="true">				
+					<s:VGroup gap="3" horizontalCenter="0" textAlign="center" verticalCenter="0" horizontalAlign="center" verticalAlign="middle">
+						<s:Label text="{data.yearEduName}" fontWeight="bold" color="#3B5998" fontFamily="Tahoma" fontSize="14"/>
+						<s:Image source="{data.imageSource}" width="120" height="120" scaleMode="letterbox" smooth="true" smoothingQuality="high" toolTip="{data.subject}"/>
+						<s:Label text="{data.subject}" color="#808080"/>
+						<s:Label text="{data.picNum} photo{data.picNum>1 ? 's':''}" color="#808080" />						
+					</s:VGroup>
+				</mx:Form>
+			</s:ItemRenderer></x2:irCenterVH></fx:Component>
+		</s:itemRenderer>			
+	</s:List>
+</s:Application>

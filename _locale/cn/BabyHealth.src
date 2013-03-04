@@ -1,0 +1,36 @@
+﻿# list/query fields
+acaName=学年(期)
+classLeavesSn=班级别
+studentName=学生姓名
+funcItemSn=健康筛检项目
+cDate=筛检日期
+cHealthResult=筛检结果
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# E
+cDescribe=异常说明
+rDate=复检日期
+rHealthResult=复检结果
+rDescribe=复检说明
+textFilesName=开启复检报告
+tmpFileNameUpload=复检报告上传
+tmpFileName=浏览档案
+
+# message
+message01=异常说明 尚未填写
+message02=复检日期不可以早于筛检日期
+message03=复检结果 尚未填写
+message04=复检说明 尚未填写
+message05=复检日期尚未填写
+message06=档案类型不符, 档案必须为(.pdf, .xls, .xlsx, .doc, .docx, .ppt, .jpg, .gif, .jpeg, .png) 格式
+
+# Q
+academicYear=学年
+semester=学期
+classInfoSn=班级
+classLeavesSn=班别
+cName=中文姓名
+eName=英文名

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="600" height="480" 
+	 
+  	creationComplete="init()"  	
+	preinitialize="{iR=Fun.getLang('FindPublicDept')}"
+	close="closeWin()">
+	
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			public var fAfterOk:Function;
+			
+			[Bindable]
+			private var iR:Object;			
+			[Bindalbe]
+			private var is_app:String = Fun.sApp;	
+			[Bindable]
+			public var ia_infoCategory:ArrayList = new ArrayList(Fun2.infoCategoryDS(is_app, false));
+
+			public var infoCategoryValue:int;
+			
+			private function init():void{				
+				qry_1.sApp = is_app;
+				qry_1.sInf = "FindPublicDept";
+				qry_1.gList = grid_1;
+				qry_1.aoItem = [
+					{source:infoCategory,	init:infoCategoryValue},
+					{source:unitName}
+				];
+				qry_1.init();
+			}
+			
+			private function closeWin():void{
+				Fun.closePopup(this);
+			}
+		]]>
+	</fx:Script>	
+	<x2:Num1 id="infoCategory" visible="false"/>
+	<mx:Form x="10" y="10">
+		<mx:Label text="{iR.sTitle}：" fontWeight="bold"/>
+		<mx:FormItem label="{iR.unitName} :">
+			<s:TextInput id="unitName" width="320"/>
+		</mx:FormItem>
+	</mx:Form>
+	<x2:comQuery id="qry_1" x="491" y="10" height="58">
+	</x2:comQuery>
+	<mx:Form x="10.5" y="112">
+		<mx:HBox width="100%" verticalAlign="bottom">
+			<mx:Label text="{iR.sList}：" fontWeight="bold"/>
+			<mx:HBox horizontalAlign="right" width="100%">
+				<mx:Button click="qry_1.selectRow()" label="{iR.select}" width="75" icon="@Embed(source='x2/image/checked.gif')" />
+			</mx:HBox>
+		</mx:HBox>
+		<s:DataGrid id="grid_1" alpha="0.7"	 click="qry_1.selectRow()"					 
+					  height="260" width="540">
+			<s:columns><s:ArrayList>
+				<s:GridColumn headerText="{iR.unitName}" dataField="unitName" width="150"/>
+				<s:GridColumn headerText="{iR.conTel}" dataField="conTel" width="120"/>
+				<s:GridColumn headerText="{iR.address}" dataField="address"/>
+			</s:ArrayList></s:columns>
+		</s:DataGrid>			
+	</mx:Form>
+	<mx:HRule x="28" y="104" width="535"/>
+</s:TitleWindow>

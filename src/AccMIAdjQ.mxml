@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	width="770" height="280" xmlns:x2="x2.*" 
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('AccMIAdj')}"
+ 	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;	
+			[Bindable]
+			private var iR:Object;	
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var ia_class:ArrayList;
+			[Bindable]			
+			public var ia_classInfoStart:ArrayList = new ArrayList(Fun2.classInfoStartDS(is_app, false));	
+
+			private function init():void{
+				qry_1.aoItem = [
+					{source:serialNo,		dataType:"S"},
+					{source:classInfoSn,	dataType:"N"},
+					{source:classLeavesSn,	dataType:"N"},
+					{source:cName,			dataType:"S"},
+					{source:eName,			dataType:"S"},
+					{source:cYear,			dataType:"N"},
+					{source:cMonth,			dataType:"N"}
+				];				
+
+				var t_date:Date = new Date();
+				Fun.setItem(cYear, t_date.fullYear);
+				Fun.setItem(cMonth, t_date.month + 1);
+			}			
+			private function getClassLeaves():void{			
+				var t_data:Object = {
+					type: "classLeavesStart",
+					classInfoSn: int(Fun.getItem(classInfoSn))					
+				};								
+				ia_class = new ArrayList(Fun.comboDS2(is_app, t_data, true));				
+				classLeavesSn.validateNow();
+			}
+			private function whenSubmit(p_data:Object):Boolean{
+				if (Fun.getItem(cYear) != null && (int(Fun.getItem(cYear))<1900 || int(Fun.getItem(cYear)) > 3000)){					
+					Fun.msg("E", iR.Emessage01);
+					Fun.focusField(cYear);
+					return false;
+				}
+				if (Fun.getItem(cMonth) != null && (int(Fun.getItem(cMonth))<1 || int(Fun.getItem(cMonth)) > 12)){
+					Fun.msg("E", iR.Emessage02);
+					Fun.focusField(cMonth);
+					return false;
+				}
+
+				return true;
+			}
+		]]>
+	</fx:Script>
+	<s:Form x="10" y="10">
+		<s:layout> 
+			<s:FormLayout gap="-8"/>
+		</s:layout>
+		<s:FormItem label="{iR.serialNos} :">
+			<s:TextInput id="serialNo" width="100%"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.classInfoSn} :">
+			<mx:HBox width="100%">
+				<x2:DDL1 id="classInfoSn" dataProvider="{ia_classInfoStart}" change="getClassLeaves()"></x2:DDL1>				
+				<mx:FormItem label="{iR.classLeavesSn} :">
+					<x2:DDL1 id="classLeavesSn" dataProvider="{ia_class}"></x2:DDL1>					
+				</mx:FormItem>
+			</mx:HBox>			
+		</s:FormItem>
+		<s:FormItem label="{iR.cName} :">
+			<s:TextInput id="cName"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.eName} :">
+			<s:TextInput id="eName"/>
+		</s:FormItem>
+		<s:FormItem label="{iR.cYearMonth} :">
+			<s:HGroup>
+				<x2:Num1 id="cYear"/>				
+				<mx:Label text=" /"/>
+				<x2:Num1 id="cMonth"/>
+			</s:HGroup>
+		</s:FormItem>
+	</s:Form>
+	<x2:comQuery x="680" y="10" id="qry_1" fWhenSubmit="whenSubmit">
+	</x2:comQuery>
+</s:TitleWindow>

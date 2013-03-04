@@ -1,0 +1,17 @@
+﻿# list/query fields
+acaName=acadamic year (semester)
+classLeavesSn=class grade and classification
+studentName=student name
+cDate=date
+senCon=allergen list
+avoidFood=food to be avoided
+creator=created by
+createDate=created on
+
+# Q
+academicYear=academic year
+semester=semester
+classInfoSn=class grade
+classLeavesSn=classification
+cName=Chinese name
+eName=English name

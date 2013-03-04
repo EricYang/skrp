@@ -1,0 +1,29 @@
+{
+    "dws":[
+	    {
+			"selectTable": "ParentTalk a INNER JOIN 
+                            Student b ON a.studentSn = b.sn INNER JOIN
+                            Parent c ON a.parentSn = c.sn",
+            "updateTable": "ParentTalk",
+            "defaultTable": "a",
+			"items": [
+                {"fid":"sn"}, 
+                {"fid":"academicYear"},
+                {"fid":"semester"},
+                {"fid":"acaName",         "table":"", "colName":"CONCAT(a.academicYear, ' - ', a.semester)"},
+                {"fid":"classLeavesSn"},
+                {"fid":"parentSn"},
+                {"fid":"parentSn2",       "table":"a", "colName":"parentSn"},
+                {"fid":"parentName",      "table":"", "colName":"CONCAT(c.cName, c.idNo)"},
+                {"fid":"studentSn"},
+                {"fid":"studentName",     "table":"", "colName":"CONCAT(b.cName, ' ', b.eName)"},
+                {"fid":"cDate"},
+                {"fid":"timeH"},
+                {"fid":"timeM"},
+                {"fid":"conRecord"},
+                {"fid":"creator"},
+                {"fid":"createDate"}
+             ]				
+	    }
+    ]    
+}

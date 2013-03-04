@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="880" height="530" 
+	 
+  	creationComplete="init()"	
+	preinitialize="{iR=Fun.getLang('MedicineTicket')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindalbe]
+			private var is_app:String = Fun.sApp;
+			[Bindalbe]
+			private var idw_master:DW;
+			[Bindalbe]
+			private var idw_MedicineRecord:DW2;
+			[Bindalbe]
+			public var bShowColumn:Boolean = true;
+			
+			[Bindable]			
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["academicYear", "semester", "usersSn", "userType"]});
+			[Bindable]
+			public var ia_medTime:ArrayList = new ArrayList(Fun2.medTimeDS(is_app, true));
+			
+			private function doFindStu():void{
+				Fun2.openStudent(is_app, this, ReturnStu, false);
+			}
+			
+			private function ReturnStu(p_row:Object):void{				
+				Fun.setItem(studentName,p_row.cName + " " + p_row.eName);
+				idw_master.setItem(studentSn, p_row.sn, true);
+				idw_master.setItem(classLeavesSn, p_row.classLeavesSn, true);
+			}
+			
+			private function init():void{
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					mapping: true,
+					autos: ["creator","createDate","reviser","reviseDate"],					
+					keys: ["sn"],
+					items: [
+						{source:sn, 			dataType:"N",	inputType:"I"}, 
+						{source:academicYear,	dataType:"N",	init:int(i_session.academicYear)}, 
+						{source:semester,		dataType:"N",	init:int(i_session.semester)},
+						{source:acaName,						update:false,	inputType:"R"},
+						{source:userType,		dataType:"N",	init:int(i_session.userType)},
+						{source:userSn,			dataType:"N",	init:int(i_session.usersSn)},
+						{source:selfFlag,						update:false,	inputType:"R"},
+						{source:classLeavesSn,	dataType:"N"},
+						{source:studentSn,		dataType:"N"},
+						{source:studentName,					update:false,	inputType:"R",	required:true},
+						{source:cDate,			dataType:"D"},												 
+						{source:disease01,		dataType:"N"},
+						{source:disease02,		dataType:"N"},
+						{source:disease03,		dataType:"N"},
+						{source:disease04,		dataType:"N"},
+						{source:disease05,		dataType:"N"},
+						{source:diseaseCon,		dataType:"S"},
+						{source:inMed01,		dataType:"N"},
+						{source:inMed02,		dataType:"N"},
+						{source:inMed03,		dataType:"N"},
+						{source:inMed04,		dataType:"N"},						
+						{source:inMed01Con,		dataType:"S"},
+						{source:inMed02Con,		dataType:"S"},
+						{source:inMed03Con,		dataType:"S"},
+						{source:inMed04Con,		dataType:"S"},
+						{source:exMed,			dataType:"S"},
+						{source:exMedCon,		dataType:"S"},
+						{source:remark01,		dataType:"N"},
+						{source:remark02,		dataType:"N"},
+						{source:remark03,		dataType:"N"},
+						{source:remark01Con,	dataType:"S"},
+						{source:remark03Con,	dataType:"S"},
+						{source:eventRec,		dataType:"S"},
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"DT",	inputType:"R"},
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"DT",	inputType:"R"}
+					]				
+				};
+				
+				//dw2: MedicineRecord
+				edit_1.aoDW[1] = new DW2();				
+				idw_MedicineRecord = edit_1.aoDW[1]; 
+				idw_MedicineRecord.xTool = tb_MedicineRecord;
+				idw_MedicineRecord.oConfig = {					
+					upDW: idw_master,
+					grid: grid_MedicineRecord,
+					upQKeys: ["sn"],
+					qKeys: ["medicineTicketSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"medicineTicketSn",dataType:"N", 	inputType:"2"},
+						{fid:"medTime",			dataType:"N"},
+						{fid:"medTimeCon",		dataType:"S"},
+						{fid:"medTimeH",		dataType:"N"},
+						{fid:"medTimeM",		dataType:"N"},
+						{fid:"inMedType",		dataType:"S"},
+						{fid:"staffSn",			dataType:"N"},						
+						{fid:"ceName",			update:false}						
+					]				
+				};
+			}
+			
+			//餵藥者
+			public function fnClickStaff(pn_sn:int):void{
+				if (bShowColumn){
+					if (Fun.getItem(studentSn)){
+						Fun2.openClassTeacherList(is_app, this, fSelectRowStaff, int(Fun.getItem(classLeavesSn)));				
+					}else{
+						Fun.msg("E", iR.message01);
+					}
+				}
+			}	
+			private function fSelectRowStaff(p_row:Object):void{
+				var tn_row:int = grid_MedicineRecord.selectedIndex;
+				
+				var t_row:Object = grid_MedicineRecord.selectedItem;
+				t_row.ceName = p_row.cName +' '+ p_row.eName;				
+				
+				idw_MedicineRecord.setItemByFid("staffSn", p_row.sn, true, tn_row);
+				Fun.refreshGrid(grid_MedicineRecord, tn_row);
+			}			
+			
+			private function afterOpen(p_data:Object):void{				
+				switch (p_data.fun){
+					case "C":
+						bShowColumn = true;
+						SchStu.visible = true;
+						break;
+					case "U":
+						bShowColumn = true;
+						SchStu.visible = true;
+						break;
+					case "V":
+						bShowColumn = false;
+						SchStu.visible = false; //檢視模是不顯示搜尋按鈕
+						break;
+				}
+
+				cDate.enabled = true;
+				
+				disease01.enabled = true;
+				disease02.enabled = true;
+				disease03.enabled = true;
+				disease04.enabled = true;
+				disease05.enabled = true;
+				diseaseCon.enabled = true;
+				
+				inMed01.enabled = true;
+				inMed01Con.enabled = true;
+				inMed02.enabled = true;
+				inMed02Con.enabled = true;
+				inMed03.enabled = true;
+				inMed03Con.enabled = true;
+				inMed04.enabled = true;
+				inMed04Con.enabled = true;
+				
+				exMed.enabled = true;
+				exMedCon.enabled = true;
+				remark01.enabled = true;
+				remark02.enabled = true;
+				remark03.enabled = true;
+				remark01Con.enabled = true;
+				remark03Con.enabled = true;
+				eventRec.enabled = true;
+				
+				tb_MedicineRecord.visible = true;
+				
+				//1 學生, 2 家長, 3 職員, 4 管理者
+				switch (Fun.getItem(userType)){
+					case 2:						
+						SchStu.visible = false;
+						cDate.enabled = false;
+						
+						disease01.enabled = false;
+						disease02.enabled = false;
+						disease03.enabled = false;
+						disease04.enabled = false;
+						disease05.enabled = false;
+						diseaseCon.enabled = false;
+						
+						inMed01.enabled = false;
+						inMed01Con.enabled = false;
+						inMed02.enabled = false;
+						inMed02Con.enabled = false;
+						inMed03.enabled = false;
+						inMed03Con.enabled = false;
+						inMed04.enabled = false;
+						inMed04Con.enabled = false;
+						
+						exMed.enabled = false;
+						exMedCon.enabled = false;
+						remark01.enabled = false;
+						remark02.enabled = false;
+						remark03.enabled = false;
+						remark01Con.enabled = false;
+						remark03Con.enabled = false;
+						eventRec.enabled = false;
+						
+						tb_MedicineRecord.visible = false;						
+						
+						break;
+				}	
+
+			}
+			private function whenSave(p_data:Object):Boolean{
+				if (p_data.fun != "D"){
+					Fun.setItem(acaName, String(Fun.getItem(academicYear))+ ' - '+String(Fun.getItem(semester)));
+				}				
+				return true;
+			}
+			
+			/*
+			fAfterClose="afterClose"
+			public var fAfterClose:Function;
+			private function afterClose(p_data:Object):void{
+				if (fAfterClose != null){
+					fAfterClose(p_data);
+				}
+			}
+			*/
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10" y="457" id="edit_1" fAfterOpen="afterOpen" fWhenSave="whenSave">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="academicYear" visible="false"/>
+	<x2:Num1 id="semester" visible="false"/>
+	<s:TextInput id="acaName" visible="false"/>
+	<x2:Num1 id="userType" visible="false"/>
+	<x2:Num1 id="userSn" visible="false"/>
+	<s:TextInput id="selfFlag" visible="false"/>	
+	<x2:Num1 id="classLeavesSn" visible="false"/>
+	<x2:Num1 id="studentSn" visible="false"/>	
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+	<mx:TabNavigator x="10" y="10" width="850" height="440">
+		<mx:Canvas label="{iR.Canvas01}" id="Canvas1">
+			<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+				<mx:FormItem label="{iR.studentName} :" required="true">
+					<mx:HBox x="72" y="1" width="100%">
+						<s:TextInput id="studentName" editable="false"/>
+						<x2:btnPick id="SchStu" click="doFindStu()"/>						
+					</mx:HBox>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.cDate} :" required="true">
+					<mx:DateField id="cDate" formatString="YYYY/MM/DD" yearNavigationEnabled="true"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.disease} :">
+					<mx:HBox x="67" y="4" width="100%">
+						<x2:Check1 label="{iR.disease01}" id="disease01"/>
+						<x2:Check1 label="{iR.disease02}" id="disease02"/>
+						<x2:Check1 label="{iR.disease03}" id="disease03"/>
+					</mx:HBox>
+					<mx:HBox x="67" y="4" width="100%">
+						<x2:Check1 label="{iR.disease04}" id="disease04"/>
+						<x2:Check1 label="{iR.disease05}" id="disease05"/>
+						<s:TextInput id="diseaseCon"/>
+					</mx:HBox>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.inMed} :">
+					<mx:HBox x="67" y="1" width="100%">
+						<x2:Check1 label="{iR.inMed01}：" id="inMed01"/>
+						<s:TextInput id="inMed01Con"/>
+						<x2:Check1 label="{iR.inMed02}：" id="inMed02"/>
+						<s:TextInput id="inMed02Con"/>
+					</mx:HBox>
+				</mx:FormItem>
+				<mx:FormItem>
+					<mx:HBox x="67" y="1" width="100%">
+						<x2:Check1 label="{iR.inMed03}：" id="inMed03"/>
+						<s:TextInput id="inMed03Con"/>
+						<x2:Check1 label="{iR.inMed04}：" id="inMed04"/>
+						<s:TextInput id="inMed04Con"/>
+					</mx:HBox>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.exMed} :">
+					<mx:HBox x="67" y="1" width="100%">
+						<s:TextInput id="exMed"/>
+						<mx:Label text="{iR.exMedCon}："/>
+						<s:TextInput id="exMedCon"/>
+					</mx:HBox>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.remark} :">
+					<mx:HBox x="65" y="3" width="100%">
+						<x2:Check1 label="{iR.remark01}" id="remark01"/>
+						<s:TextInput id="remark01Con"/>
+						<x2:Check1 label="{iR.remark02}" id="remark02"/>
+					</mx:HBox>
+					<mx:HBox x="65" y="3" width="100%">
+						<x2:Check1 label="{iR.remark03}" id="remark03"/>
+						<s:TextInput id="remark03Con"/>
+					</mx:HBox>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.eventRec} :">
+					<mx:TextArea width="547" id="eventRec"/>
+				</mx:FormItem>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas02}">
+			<x2:TBar2 x="562" y="4" id="tb_MedicineRecord">
+			</x2:TBar2>
+			<mx:Form x="10" y="29">				
+				<x2:DG2 width="795"
+						 
+						 
+						 alpha="0.7"		
+						 		 
+						 
+						 
+						 height="300" x="10.5" y="143" id="grid_MedicineRecord">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>						
+						<s:GridColumn dataField="medicineTicketSn" visible="false"/>
+						<s:GridColumn dataField="staffSn" visible="false"/>
+						<s:GridColumn headerText="{iR.medTime}" dataField="medTime" width="120">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:DDL2 dataProvider="{outerDocument.ia_medTime}"/>
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>												
+						<s:GridColumn headerText="{iR.medTimeCon}" dataField="medTimeCon">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:Text2/>						
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.medTimeH}" dataField="medTimeH" width="80">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:Text2 restrict="0-9"/>
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.medTimeM}" dataField="medTimeM" width="80">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:Text2 restrict="0-9"/>						
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.inMedType}" dataField="inMedType">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:Text2/>						
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>						
+						<s:GridColumn headerText="{iR.ceName}" dataField="ceName" width="120"/>						
+						<s:GridColumn width="40">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:btnPick click="outerDocument.fnClickStaff(data.sn)"/>									
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>
+		</mx:Canvas>
+	</mx:TabNavigator>
+</s:TitleWindow>

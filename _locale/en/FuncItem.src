@@ -1,0 +1,13 @@
+﻿# list/query fields
+deleFlag=deleted
+sysType=selection type
+itemName=selection specification
+creator=created by
+createDate=created on
+reviser=modified by
+reviseDate=last modified
+
+# message
+message01=是否確定刪除這筆資料 ?
+message02=此筆資料已刪除 !
+message03=資料刪除完成。

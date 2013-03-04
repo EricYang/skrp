@@ -1,0 +1,29 @@
+{
+    "list":{    
+        "select": "SELECT c.classLeavesSn, '[aDate]' AS cDate, CONCAT(a.theClassName, ' ', b.classLeavesName) AS classInfoName, COUNT(e.sn) AS M1, 
+                    COUNT(f.sn) AS M2, 
+                    COUNT(e.sn) - COUNT(f.sn) AS M3, 
+                    CASE g.excuse WHEN '1' THEN COUNT(g.sn) ELSE 0 END AS M4,
+                    CASE g.excuse WHEN '2' THEN COUNT(g.sn) ELSE 0 END AS M5,
+                    CASE g.excuse WHEN '9' THEN COUNT(g.sn) ELSE 0 END AS M6,
+                    0 AS mSumAll
+                    ",
+        "from": "FROM ClassInfo a INNER JOIN
+                    ClassLeaves b ON a.sn = b.classInfoSn INNER JOIN
+                    StartClass c ON b.sn = c.classLeavesSn INNER JOIN
+                    StudentStatus d ON c.sn = d.startClassSn INNER JOIN
+                    Student e ON d.studentSn = e.sn LEFT OUTER JOIN
+                    BabyCheck f ON e.sn = f.studentSn AND f.attendFlag = 1 AND f.cDate = '[aDate]'
+                    AND c.academicYear = f.academicYear AND c.semester = f.semester AND c.classLeavesSn = f.classLeavesSn
+                    LEFT OUTER JOIN BabyExcuse g ON e.sn = g.studentSn AND g.exDate = '[aDate]'
+                    AND c.academicYear = g.academicYear AND c.semester = g.semester AND c.classLeavesSn = g.classLeavesSn
+                    WHERE (c.academicYear = [ss:academicYear] AND c.semester = [ss:semester]) 
+                    AND (c.classType IN (0, 1)) AND (e.enrollFlag = 1) AND (e.deleFlag = 0)",
+        "order": "GROUP BY c.classLeavesSn
+                    ORDER BY a.theClassCode, b.classLeavesCode",
+        "items": [
+            {"fid":"classLeavesSn", "table":"c"},
+            {"fid":"aDate",         "isCond":0}
+        ]
+    }
+}

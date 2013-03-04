@@ -1,0 +1,17 @@
+{
+    "list":{    
+        "select": "SELECT *, CONCAT(cName, ' ', eName) AS studentName",
+        "from": "FROM Student [_where]",
+        "order": "ORDER BY stuNo, cName",
+        "items": [
+            {"fid":"cName", "op":"like"},
+            {"fid":"eName", "op":"like"},
+            {"fid":"stuNo", "op":"like"},
+            {"fid":"idNo", "op":"like"},
+            {"fid":"deleFlag"}
+        ]
+    },    
+    "progRange": 1,
+    "aFOwner": "creator",
+    "aFOwnerType": "L"
+}

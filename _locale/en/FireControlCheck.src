@@ -1,0 +1,31 @@
+﻿# list/query fields
+acaName=學年(期)
+staffName=檢查者
+cDate=檢查日期
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# message
+
+
+# E
+Canvas01=基本資料
+staffName=檢查者
+cDate=檢查日期
+Canvas2=安全檢核
+itemName=檢核項目
+contents=安全檢應注意事項
+checkSign=符合規定
+
+# message
+message01=※ 檢核項目共計：
+message02= 項。
+
+# Q
+academicYear=學年
+semester=學期
+cDate=檢查日期
+
+# message

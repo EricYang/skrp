@@ -1,0 +1,21 @@
+﻿# list/query fields
+acaName=學年(期)
+classLeavesSn=班別(級)
+studentName=學生姓名
+parentSn=家長姓名
+cDate=日期
+conRecord=通聯紀錄
+creator=建檔人員
+createDate=建檔日期
+
+# E
+parentSn2=家長姓名
+timeHM=時間
+
+# Q
+academicYear=學年
+semester=學期
+classInfoSn=班別
+classLeavesSn=班級
+cName=中文姓名
+eName=英文名

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*" 
+	 
+	
+	 
+	width="100%" height="100%"
+	preinitialize="{iR=Fun.getLang('ToDoList')}"
+ 	creationComplete="init()"
+ 	>
+	<fx:Script>
+		<![CDATA[		
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			import mx.formatters.DateFormatter;
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var ia_staffName:ArrayList = new ArrayList(Fun2.staffListDS(is_app, false));
+			[Bindable]
+			public var ia_processFlag:ArrayList = new ArrayList(Fun2.processFlagDS(is_app, false));
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["usersSn"]});
+
+			private function init():void {			
+				list_1.wQuery = new ToDoListQ();
+				list_1.wEdit = new ToDoListE();			
+				list_1.gList = grid_1;
+				list_1.init();
+				
+				var t_data:Object ={
+					data: "listToDoList"
+				};
+				grid_1.dataProvider = new ArrayCollection(Fun.readRows(is_app, t_data));
+			}					
+			
+			private function staffName(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_staffName, p_row[p_column.dataField]);
+			}
+			private function processFlag(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_processFlag, p_row[p_column.dataField]);
+			}
+			private function catchFun(p_data:Object):Boolean {
+				switch (p_data.fun){					
+					case "C":
+						var docNo:DateFormatter = new DateFormatter();
+						docNo.formatString = "YYYYMMDDJJNNSS";
+
+						ToDoListE(list_1.wEdit).docNoaTemp = String(docNo.format(new Date())) + String(i_session.usersSn) ;
+						ToDoListE(list_1.wEdit).docNobTemp = "1" ;
+						ToDoListE(list_1.wEdit).subjectTemp = "" ;
+						ToDoListE(list_1.wEdit).contentsTemp = "" ;
+
+						break;
+				}
+				return false;
+			}
+		]]>
+	</fx:Script>
+	<x2:sysBG/>
+	<x2:subFunHead/>
+
+	<x2:comList x="81" y="59" id="list_1" fCatchFun="catchFun">
+	</x2:comList>
+	<s:DataGrid id="grid_1" x="55" y="87" width="92%" height="80%" alpha="0.7">
+		<s:columns>
+			<s:ArrayList>
+				<s:GridColumn dataField="sn" visible="false"/>
+				<s:GridColumn headerText="{iR.docNoa}" dataField="docNoa"/>
+				<s:GridColumn headerText="{iR.docNob}" dataField="docNob" width="80" />
+				<s:GridColumn headerText="{iR.cDate}" dataField="cDate" width="120"/>
+				<s:GridColumn headerText="{iR.subject}" dataField="subject"/>
+				<s:GridColumn headerText="{iR.staffSnA}" dataField="staffSnA" width="100" labelFunction="staffName"/>
+				<s:GridColumn headerText="{iR.staffSnB}" dataField="staffSnB" width="100" labelFunction="staffName"/>
+				<s:GridColumn headerText="{iR.staffSnC}" dataField="staffSnC" width="100" labelFunction="staffName"/>
+				<s:GridColumn headerText="{iR.proFlag}" dataField="proFlag" width="100" labelFunction="processFlag"/>
+				<s:GridColumn headerText="{iR.creator}" dataField="creator" width="80"/>
+				<s:GridColumn headerText="{iR.createDate}" dataField="createDate" width="130"/>
+				<s:GridColumn headerText="{iR.reviser}" dataField="reviser" width="80"/>
+				<s:GridColumn headerText="{iR.reviseDate}" dataField="reviseDate" width="130"/>
+			</s:ArrayList>
+		</s:columns>
+	</s:DataGrid>
+</s:Application>

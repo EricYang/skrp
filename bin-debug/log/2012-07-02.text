@@ -1,0 +1,118 @@
+; 127.0.0.1; 16:56:05; _Service2(GetLang)
+; 127.0.0.1; 17:29:20; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:29:23; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 17:29:24; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341221363)
+Supervisor; 127.0.0.1; 17:29:24; Login; Supervisor
+Supervisor; 127.0.0.1; 17:29:25; _Main(getMain)
+Supervisor; 127.0.0.1; 17:29:26; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:29:28; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:29:34; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:29:55; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 17:29:56; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 17:29:57; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:29:57; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 17:30:08; _Service2(GetLang)
+; 127.0.0.1; 17:31:31; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:31:34; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 17:31:34; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341221494)
+Supervisor; 127.0.0.1; 17:31:34; Login; Supervisor
+Supervisor; 127.0.0.1; 17:31:34; _Main(getMain)
+Supervisor; 127.0.0.1; 17:31:35; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:31:37; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:31:44; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:32:00; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 17:32:01; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 17:32:02; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:32:02; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 17:32:14; _Service2(GetLang)
+; 127.0.0.1; 17:34:10; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:34:12; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 17:34:12; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341221652)
+Supervisor; 127.0.0.1; 17:34:12; Login; Supervisor
+Supervisor; 127.0.0.1; 17:34:13; _Main(getMain)
+Supervisor; 127.0.0.1; 17:34:14; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:34:16; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:34:22; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:34:39; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 17:34:40; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 17:34:41; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:34:41; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 17:34:48; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:35:06; _Service2(GetLang)
+; 127.0.0.1; 17:36:37; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:36:40; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 17:36:40; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341221800)
+Supervisor; 127.0.0.1; 17:36:40; Login; Supervisor
+Supervisor; 127.0.0.1; 17:36:41; _Main(getMain)
+Supervisor; 127.0.0.1; 17:36:42; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:36:44; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:36:50; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:37:04; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 17:37:05; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 17:37:06; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:37:06; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 17:37:12; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:37:25; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:38:30; _Service2(GetLang)
+; 127.0.0.1; 17:39:09; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:39:11; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 17:39:11; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341221951)
+Supervisor; 127.0.0.1; 17:39:11; Login; Supervisor
+Supervisor; 127.0.0.1; 17:39:12; _Main(getMain)
+Supervisor; 127.0.0.1; 17:39:13; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:39:15; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:39:22; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:40:05; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 17:40:06; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 17:40:07; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:40:07; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 17:40:15; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:40:38; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:41:34; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:42:10; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:44:16; _Service2(GetLang)
+; 127.0.0.1; 17:50:28; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:50:36; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 17:50:36; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341222636)
+Supervisor; 127.0.0.1; 17:50:36; Login; Supervisor
+Supervisor; 127.0.0.1; 17:50:37; _Main(getMain)
+Supervisor; 127.0.0.1; 17:50:38; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:50:40; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:50:45; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:51:00; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 17:51:01; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 17:51:02; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:51:02; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 17:51:33; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:51:46; _Service2(GetLang)
+; 127.0.0.1; 17:52:38; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:52:44; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 17:52:44; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341222764)
+Supervisor; 127.0.0.1; 17:52:44; Login; Supervisor
+Supervisor; 127.0.0.1; 17:52:45; _Main(getMain)
+Supervisor; 127.0.0.1; 17:52:46; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:52:48; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:52:54; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:53:46; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 17:53:47; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 17:53:48; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:53:48; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 17:53:54; _Service2(GetLang)
+Supervisor; 127.0.0.1; 17:54:05; _Service2(GetLang)
+; 127.0.0.1; 18:17:40; _Service2(GetLang)
+Supervisor; 127.0.0.1; 18:17:58; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 18:17:58; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1341224278)
+Supervisor; 127.0.0.1; 18:17:58; Login; Supervisor
+Supervisor; 127.0.0.1; 18:17:59; _Main(getMain)
+Supervisor; 127.0.0.1; 18:18:00; _Service2(GetLang)
+Supervisor; 127.0.0.1; 18:18:02; _Service2(GetLang)
+Supervisor; 127.0.0.1; 18:18:08; _Service2(GetLang)
+Supervisor; 127.0.0.1; 18:18:22; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 18:18:23; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 18:18:24; _Service2(GetLang)
+Supervisor; 127.0.0.1; 18:18:24; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 18:18:30; _Service2(GetLang)
+Supervisor; 127.0.0.1; 18:18:43; _Service2(GetLang)
+Supervisor; 127.0.0.1; 18:19:09; _Service2(GetLang)
+Supervisor; 127.0.0.1; 18:19:57; _Service2(GetLang)
+Supervisor; 127.0.0.1; 18:20:12; _Service2(GetLang)

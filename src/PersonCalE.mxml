@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="600" height="285" 
+	 
+	preinitialize="{iR=Fun.getLang('PersonCal')}"
+  	creationComplete="init()"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var idw_master:DW;
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["usersSn","userCName","userEName"]});
+			
+			private function init():void{				
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					mapping: true,
+					autos: ["","createDate","","reviseDate"],
+					keys: ["sn"],
+					items: [
+						{source:sn, 			dataType:"N",	inputType:"I"},
+						{source:staffSn,		dataType:"N",	init:int(i_session.usersSn)},
+						{source:cDate,			dataType:"D"},
+						{source:timeH,			dataType:"N"},
+						{source:timeM,			dataType:"N"},
+						{source:timeHM,							update:false,	inputType:"R"},
+						{source:contents,		dataType:"S"},						 
+						{source:createDate,		dataType:"DT",	inputType:"R"},						 
+						{source:reviseDate,		dataType:"DT",	inputType:"R"}
+					]				
+				};
+			}
+			private function whenSave(p_data:Object):Boolean{
+				if (p_data.fun != "D"){					
+					Fun.setItem(timeHM, String(Fun.getItem(timeH))+ '：'+String(Fun.getItem(timeM)));
+				}
+				return true;
+			}
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10.5" y="215" id="edit_1" fWhenSave="whenSave">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="staffSn" visible="false"/>
+	<s:TextInput id="timeHM" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>	
+	<s:TextInput id="reviseDate" visible="false"/>	
+	<mx:Form x="10" y="10">
+		<mx:FormItem label="{iR.cDate} :" required="true">		
+			<mx:DateField formatString="YYYY/MM/DD" id="cDate" yearNavigationEnabled="true"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.timeHM} :" required="true">
+			<mx:HBox x="69" y="3" width="100%">
+				<mx:NumericStepper maximum="24" id="timeH"/>
+				<mx:Label text="："/>
+				<mx:NumericStepper maximum="59" id="timeM"/>
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.contents} :" required="true">
+			<mx:TextArea width="426" height="101" id="contents"/>
+		</mx:FormItem>
+	</mx:Form>
+</s:TitleWindow>

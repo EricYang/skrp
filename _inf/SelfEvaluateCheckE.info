@@ -1,0 +1,102 @@
+{
+    "dws":[
+        {            
+            "selectTable": "SelfEvaluateCheck a INNER JOIN Staff b ON a.staffSn = b.sn",
+            "updateTable": "SelfEvaluateCheck",
+            "defaultTable": "a",
+            "items": [
+                {"fid":"sn"},
+                {"fid":"academicYear"},
+                {"fid":"semester"},
+                {"fid":"acaName",         "table":"", "colName":"CONCAT(a.academicYear, ' - ', a.semester)"},                
+                {"fid":"staffSn"},
+                {"fid":"staffName",       "table":"", "colName":"CONCAT(b.cName, ' ', b.eName)"},
+                {"fid":"cDate"},                
+                {"fid":"creator"},
+                {"fid":"createDate"},           
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+            ]
+        },
+        {
+            "selectTable": "SelfEvaluateCheckDetail WHERE sysType = 1",
+            "updateTable":"SelfEvaluateCheckDetail",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"selfEvaluateCheckSn"},
+                {"fid":"sysType"},
+                {"fid":"selfEvaluateSn",        "table":"",    "colName":"''"},
+                {"fid":"selfEvaluateDetailSn"},
+                {"fid":"itemName",              "table":"",    "colName":"''"},
+                {"fid":"contents",              "table":"",    "colName":"''"},
+                {"fid":"score"},
+                {"fid":"remark"}
+            ]                
+        },
+        {
+            "selectTable": "SelfEvaluateCheckDetail WHERE sysType = 2",
+            "updateTable":"SelfEvaluateCheckDetail",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"selfEvaluateCheckSn"},
+                {"fid":"sysType"},
+                {"fid":"selfEvaluateSn",        "table":"",    "colName":"''"},
+                {"fid":"selfEvaluateDetailSn"},
+                {"fid":"itemName",              "table":"",    "colName":"''"},
+                {"fid":"contents",              "table":"",    "colName":"''"},
+                {"fid":"score"},
+                {"fid":"remark"}
+            ]                
+        },
+        {
+            "selectTable": "SelfEvaluateCheckDetail WHERE sysType = 3",
+            "updateTable":"SelfEvaluateCheckDetail",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"selfEvaluateCheckSn"},
+                {"fid":"sysType"},
+                {"fid":"selfEvaluateSn",        "table":"",    "colName":"''"},
+                {"fid":"selfEvaluateDetailSn"},
+                {"fid":"itemName",              "table":"",    "colName":"''"},
+                {"fid":"contents",              "table":"",    "colName":"''"},
+                {"fid":"score"},
+                {"fid":"remark"}
+            ]                
+        },
+        {
+            "selectTable": "SelfEvaluateCheckDetail WHERE sysType = 4",
+            "updateTable":"SelfEvaluateCheckDetail",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"selfEvaluateCheckSn"},
+                {"fid":"sysType"},
+                {"fid":"selfEvaluateSn",        "table":"",    "colName":"''"},
+                {"fid":"selfEvaluateDetailSn"},
+                {"fid":"itemName",              "table":"",    "colName":"''"},
+                {"fid":"contents",              "table":"",    "colName":"''"},
+                {"fid":"score"},
+                {"fid":"remark"}
+            ]                
+        },
+        {
+            "selectTable": "SelfEvaluateCheckDetail WHERE sysType = 5",
+            "updateTable":"SelfEvaluateCheckDetail",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"selfEvaluateCheckSn"},
+                {"fid":"sysType"},
+                {"fid":"selfEvaluateSn",        "table":"",    "colName":"''"},
+                {"fid":"selfEvaluateDetailSn"},
+                {"fid":"itemName",              "table":"",    "colName":"''"},
+                {"fid":"contents",              "table":"",    "colName":"''"},
+                {"fid":"score"},
+                {"fid":"remark"}
+            ]                
+        }
+   ]    
+}

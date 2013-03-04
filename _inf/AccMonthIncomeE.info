@@ -1,0 +1,46 @@
+{
+    "dws":[
+	    {
+		"selectTable": "AccMIncomeStu a INNER JOIN Student b ON a.studentSn = b.sn",
+                "updateTable": "AccMIncomeStu",
+                "defaultTable": "a",
+		"items": [
+                    {"fid":"sn"},
+                    {"fid":"serialNo"},
+                    {"fid":"classLeavesSn"},
+                    {"fid":"studentSn"},
+                    {"fid":"studentName", "table":"", "colName":"CONCAT(b.cName, ' ', b.eName)"},
+                    {"fid":"cYear"},
+                    {"fid":"cMonth"},
+                    {"fid":"cYearMonth", "table":"", "colName":"CONCAT(a.cYear, ' / ', a.cMonth)"},
+                    {"fid":"paidFlag"},
+                    {"fid":"creator"},
+                    {"fid":"createDate"},
+                    {"fid":"reviser"},
+                    {"fid":"reviseDate"}
+		]								
+	    },
+	    {
+		"selectTable": "AccMIncome a INNER JOIN
+                                AccIoc b ON a.accIocSn = b.sn INNER JOIN
+                                AccTitle c ON b.accTitleSn = c.sn INNER JOIN
+                                AccMain d ON c.accMainSn = d.sn AND d.accMainType = 1
+                                [_where] ORDER BY a.sn",
+                "updateTable": "AccMIncome",
+                "defaultTable": "a",
+		"upDW": 0,
+		"items": [
+                    {"fid":"sn"},
+	            {"fid":"accMIncomeStuSn"},
+                    {"fid":"accIocSn"},
+                    {"fid":"accIocCode", "table":"b"},
+                    {"fid":"accIocName", "table":"b"},
+                    {"fid":"amounts"},
+                    {"fid":"creator"},
+                    {"fid":"createDate"},
+                    {"fid":"reviser"},
+                    {"fid":"reviseDate"}
+		]				
+	    }
+    ]    
+}

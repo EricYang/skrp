@@ -1,0 +1,60 @@
+{
+    "dws":[
+        {            
+            "selectTable": "UploadMeeting a LEFT OUTER JOIN
+                    Staff b ON a.chairmanStaffSn = b.sn LEFT OUTER JOIN
+                    Staff c ON a.recorderStaffSn = c.sn",
+            "updateTable": "UploadMeeting",
+            "defaultTable": "a",  
+            "items": [
+                {"fid":"sn"},
+                {"fid":"cDate"},
+                {"fid":"sTimeH"},
+                {"fid":"sTimeM"},
+                {"fid":"eTimeH"},
+                {"fid":"eTimeM"},
+                {"fid":"location"},                
+                {"fid":"chairmanStaffSn"},
+                {"fid":"chairmanStaffName",     "table":"", "colName":"CONCAT(b.cName, ' ', b.eName)"},
+                {"fid":"conferee"},
+                {"fid":"recorderStaffSn"},
+                {"fid":"recorderStaffName",     "table":"", "colName":"CONCAT(c.cName, ' ', c.eName)"},
+                {"fid":"subject"},
+                {"fid":"meetingRecords"},
+                {"fid":"resolution"},
+                {"fid":"creator"},
+                {"fid":"createDate"},           
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+			]
+        },
+        {
+            "selectTable": "TodoList a INNER JOIN Staff b ON a.staffSnA = b.sn AND a.sysType = 1",
+            "updateTable":"TodoList",
+            "defaultTable":"a",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"correlSn"},
+                {"fid":"sysType"},
+                {"fid":"docNoa"},
+                {"fid":"docNob"},
+                {"fid":"subject"},
+                {"fid":"staffSnA"},
+                {"fid":"staffSn",   "colName":"staffSnA"},
+                {"fid":"titlesSn",  "table":"b"},
+                {"fid":"cName",     "table":"b"},
+                {"fid":"eName",     "table":"b"},
+                {"fid":"cDate"},
+                {"fid":"contents"},
+                {"fid":"staffSnC"},
+                {"fid":"sncDate"},
+                {"fid":"proFlagReply"},
+                {"fid":"creator"},
+                {"fid":"createDate"},           
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+            ]                
+        }        
+   ]    
+}

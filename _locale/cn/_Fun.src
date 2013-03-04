@@ -1,0 +1,92 @@
+﻿# command button
+create=新增
+read=查询
+update=修改
+delete2=删除
+view=检视
+report=报表
+print=列印
+export=汇出
+help=说明
+clear=清除
+previous=上一步
+next=下一步
+complete=完成
+save=储存
+save2=储存后继续新增资料
+exit=离开
+ok=确定
+cancel=取消
+close=关闭
+updCombo=更新 ComboBox 栏位内容
+addRow=新增一列
+deleteRow=删除一列
+toMain=回主画面
+btnPdfLabel=汇出
+btnPdfTip=汇出PDF
+
+# button or image tip
+tipCreate=新增加一笔空白的资料
+tipRead=开启查询画面
+tipUpdate=修改目前这笔资料
+tipDelete=删除目前这笔资料
+tipView=以唯读的方式开启目前这笔资料
+tipReport=Report
+tipPrint=输出目前这笔资料的报表
+tipExport=汇出资料到 Excel 档案
+tipHelp=开启线上说明文件
+tipSave=储存资料, 并且关闭画面
+tipSave2=储存资料, 但是不关闭画面
+tipExit=关闭这个画面
+tipPre=回到上一个步骤
+tipNext=到下一个步骤
+tipImageRead=开启查询画面
+tipImageCreate=新增加这个栏位的资料
+tipNewRow=这是一笔新资料
+tipUpdated=此笔资料已被修改
+tipAddRow=新增加一列空白的资料。
+tipDeleteRow=从画面上移除目前这一列资料。
+tipRunRead=开始查询资料
+tipClear=清除画面上的查询条件
+tipOpenFile=开启档案
+tipDeleteFile=删除档案
+
+# message
+information=讯息
+error=错误
+question=问题
+sureExit=是否确定离开这个画面 ?
+sureDelete=是否确定删除这笔资料 ?
+reSave=请重新储存资料。
+jobOk=资料{0}完成。
+noQuote=不可包含引号
+inputWrong=输入错误 !
+between=输入错误, 必须介于2数之间 !
+notEmpty=不可空白 !
+sysError=程式发生错误, 请连络管理者 !
+noChange=无任何资料异动 。
+selectRow=请先选取一笔资料。
+noRight=权限不足, 无法{0}此笔资料 !
+qItemsEmpty=输入条件不可全部空白 !
+findRow=找到 {0} 笔资料。
+noRow=此条件下无任何资料 !
+yes=是
+notUpload=档案尚未上传到主机, 无法开启 !
+
+# fields
+creator=建档人员
+created=建档日期
+reviser=修改人员
+revised=修改日期
+
+# others
+dataList=资料清单
+
+# calendar
+day0=周日 Sun.
+day1=周一 Mon.
+day2=周二 Tues.
+day3=周三 Wed.
+day4=周四 Thur.
+day5=周五 Fri.
+day6=周六 Sat.

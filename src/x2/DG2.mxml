@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:DataGrid 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	rowHeight="28"
+	>
+	
+	<fx:Script>
+		<![CDATA[
+			/* old prop
+			editable="false"
+			sortableColumns="false"
+			rowHeight="28"
+			*/
+			
+	//itemClick="itemClick(event)"
+		
+		public var gDW2:DW2;		//DW2 which own this Datagrid	
+		
+		//private var in_index:int = -1;
+		
+		/*
+	    override public function get selectedIndex():int{
+	    	return in_index;
+	    }
+	    */
+	    
+	    //flex bug, cannot set selectIndex, did not work !!
+	    override public function set selectedIndex(pn_index:int):void{
+	    	//super.selectedIndex = pn_index;
+	    	//in_index = pn_index;
+			
+			//temp remark
+	    	//this.selectedIndices = [pn_index];
+	    }
+		
+		/*
+		private function itemClick(p_event:Event):void{
+			in_index = this.selectedIndex;
+		}
+		*/
+		
+		/*
+		//will remark below fn.
+		//called by field changed
+		public function checkField(p_field:Object, pn_row:int=0):void{
+			gDW2.checkField(p_field, this.selectedIndex);
+		}
+			
+		//called by field changed
+		public function changeText(p_event:Event):void{
+			gDW2.changeText(p_event);
+		}
+			
+		//for textInput, numericInput 	
+		public function fieldFocusIn(p_event:Event):void{
+			gDW2.fieldFocusIn(p_event);			
+		}
+			
+		//for textInput, numericInput 	
+		public function fieldFocusOut(p_event:Event):void{
+			gDW2.fieldFocusOut(p_event);			
+		}
+		*/
+		
+		
+		]]>
+	</fx:Script>
+</s:DataGrid>

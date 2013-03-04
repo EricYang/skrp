@@ -1,0 +1,16 @@
+{
+    "dws":[
+        {
+            "selectTable": "Titles",   
+            "items": [
+                {"fid":"sn"},
+				{"fid":"titlesCode"},
+				{"fid":"titlesName"},
+                {"fid":"creator"},
+                {"fid":"createDate"},           
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+			]
+		}			   
+   ]    
+}

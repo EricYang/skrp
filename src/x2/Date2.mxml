@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<x2:Date1 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*" 
+	creationComplete="init()"
+ 	focusIn="focusIn(event)"
+ 	focusOut="focusOut(event)"
+	text="{i_info.row.data[i_info.fid]}"
+	render="setStatus()" 	
+	>
+
+	<fx:Script>
+		<![CDATA[
+		
+	/*	
+			initialize="init()"
+			change="change(event)"
+	formatString = "{x2.Fun.dateFormat}" 
+	yearNavigationEnabled = "true" 
+	editable="true"
+	*/
+			
+	//implements = "mx.controls.listClasses.IListItemRenderer"
+	//labelFunction = "labelFun"
+	//parseFunction = "parseFun"
+ 	
+		//[Bindable]	
+		//public var oRow:Object;		//用來對應 datagrid.data
+	
+		//import mx.controls.dataGridClasses.DataGridListData;
+		//import mx.controls.listClasses.BaseListData;
+		
+					
+		//=== same for TextInput2, NumericInput2, DateField2 fields begin ===
+		import mx.controls.DateField;	//spark no DateField !!
+		
+		import x2.*;
+		
+		//private var i_dw2:DW2;		//access DW2 directly for more effective !!
+		//private var is_fid:String;
+		[Bindable]
+		private var i_info:Object;
+				
+		private function init():void{
+			i_info = Fun.initDW2Field(this);
+		}
+		
+		/*	
+		private function change(p_event:Event):void{
+			DW2(i_info.dw2).changeText(p_event);    
+		}
+		*/
+			
+		private function focusIn(p_event:Event):void{
+			DW2(i_info.dw2).fieldFocusIn(p_event);            
+		}
+			
+		//will triggerred twice, filter out one !		
+		private function focusOut(p_event:Event):void{
+			
+			//this.data[i_info.fid] = this.text;		
+			var ts_date:String = this.text;
+			if (ts_date != "" && ts_date.indexOf("/") < 0){
+				ts_date = ts_date.substr(0,4)+"/"+ts_date.substr(4,2)+"/"+ts_date.substr(6,2);
+				//this.text = ts_date;
+				this.selectedDate = DateField.stringToDate(ts_date, this.formatString);
+				//this.validateNow();
+			}
+			
+
+			/*
+			if (i_info.box){
+				Object(this.parent).data[i_info.fid] = ts_date;
+			}else{
+				this.data[i_info.fid] = ts_date;				
+			}	
+			*/
+			i_info.row.data[i_info.fid] = ts_date;
+			
+			DW2(i_info.dw2).fieldFocusOut(p_event); 
+			//this.validateNow();
+		}
+
+		//set status
+		private function setStatus():void{
+			DW2(i_info.dw2).setSubStatus(this);
+		}
+		
+		//=== end ===
+
+
+		/*
+		import mx.formatters.DateFormatter;
+		private function labelFun(p_date:Date):String {
+			var t_df:DateFormatter = new DateFormatter();
+			t_df.formatString = Fun2.dateFormat;
+			return t_df.format(p_date);
+		}
+		
+		//public function parseFun(ps_date:String, ts_format:String="{Fun2.dateFormat}"):Date{
+		private function parseFun(ps_date:String, ts_format:String="YYYY/MM/DD"):Date{
+			if (ps_date == null || ps_date == "") {
+				return null;
+			}                        
+                        
+			var tn_year:Number = Number(ps_date.substr(0,4));
+			var tn_month:Number = Number(ps_date.substr(5,2)) - 1;
+			var tn_day:Number = Number(ps_date.substr(8,2));
+			var t_date:Date = new Date(tn_year, tn_month, tn_day);
+			return t_date;		
+		}
+		*/
+		
+		//=== for convert string <-> date begin ===
+		private var i_row:Object;						
+		override public function set data(p_row:Object):void{
+			if (listData){
+				//if (i_row == null){
+					i_row = p_row;
+				//}
+				
+				try{
+					//if (i_row[is_fid] == null){
+					//	i_row[is_fid] = "";
+					//}
+					this.selectedDate = DateField.stringToDate(i_row[i_info.fid], this.formatString);
+				}catch(e:Error){
+					return;
+				}
+			}
+		}
+				
+				
+		override public function get data():Object{
+			if (listData){
+				i_row[i_info.fid] = DateField.dateToString(this.selectedDate, this.formatString);
+			}			
+			return i_row;
+		}		
+		//=== end ===
+				
+		]]>
+	</fx:Script>
+
+</x2:Date1>

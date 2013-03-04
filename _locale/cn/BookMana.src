@@ -1,0 +1,16 @@
+﻿# list/query fields
+bookNo=书籍编号
+bookName=书籍名称
+staffName=借书人员
+cDate=借书日期
+rDate=归还日期
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# E
+remark=备注
+
+# message
+message01=归还日期不可以早于借书日期

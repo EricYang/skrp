@@ -1,0 +1,38 @@
+﻿# list/query fields
+devAgeName=檢核年齡別名
+ageScope=年齡範圍
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# message
+
+# E
+Canvas01=檢核對象
+devAgeName=檢核年齡別名
+ageScope=年齡範圍
+sAge=歲
+sMonth=個月
+sDay=天
+eAge=歲
+eMonth=個月
+eDay=天
+remark=備註
+Canvas02=發展里程檢核
+controlItem=檢核項目
+answer=答案
+Canvas03=上傳圖檔
+fileName=瀏覽檔案
+
+# message
+message01=歲
+message02=個月
+message03=天 ~ 
+message04=歲
+message05=個月
+message06=天
+message07=檔案類型不符, 照片檔案必須為 (.jpg, .gif, .jpeg, .png) 格式圖檔
+
+# Q
+devAgeName=檢核年齡別名

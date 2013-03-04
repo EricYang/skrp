@@ -1,0 +1,31 @@
+﻿# list/query fields
+cDate=日期
+remark=备注
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# message
+
+
+# E
+Canvas01=基本资料
+cDate=日期
+remark=备注
+Canvas02=早餐
+itemName=项目
+Canvas03=营养午餐
+Canvas04=水果
+Canvas05=下午点心
+Canvas06=晚上延托点心
+
+# message
+message01=幼儿基本资料
+
+
+# Q
+
+
+# message
+message02=汇出 PDF 失败！查无资料，请重新点选。

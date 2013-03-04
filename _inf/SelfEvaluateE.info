@@ -1,0 +1,28 @@
+{
+    "dws":[
+	    {
+			"selectTable": "SelfEvaluate",
+			"items": [
+				{"fid":"sn"}, 
+				{"fid":"selfEvaluateItem"},
+                {"fid":"itemName"},
+                {"fid":"remark"},
+                {"fid":"deleFlag"},
+                {"fid":"creator"},
+                {"fid":"createDate"},
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+
+			]								
+	    },
+	    {
+			"selectTable": "SelfEvaluateDetail",
+			"upDW": 0,
+			"items": [
+                {"fid":"sn"},
+	            {"fid":"selfEvaluateSn"},
+                {"fid":"contents"}
+			]				
+	    }
+    ]    
+}

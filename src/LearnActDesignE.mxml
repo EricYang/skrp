@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="630" height="360"
+	 
+  	creationComplete="init()"  	 	
+	preinitialize="{iR=Fun.getLang('LearnActDesign')}"
+	>
+	<fx:Script>
+		<![CDATA[			
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			import mx.utils.StringUtil;
+			
+			private var idw_master:DW;
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["usersSn","academicYear","semester","schoolDSn"]});
+			
+			private function init():void{
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					mapping: true,
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					items: [
+						{source:sn, 			dataType:"N",	inputType:"I"}, 
+						{source:actScope,		dataType:"S"},
+						{source:unitName,		dataType:"S"},
+						{source:suitAge,		dataType:"S"},
+						{source:cDescribe,		dataType:"S"},
+						{source:fileName,		dataType:"S"}, 
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"DT",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"DT",	inputType:"R"}
+					]				
+				};			
+			}
+			private var fileNames:String;
+			private function afterOpen(p_data:Object):void{
+				tmpFileName.text = "";
+				textFilesName.visible = false;
+				switch (p_data.fun){
+					case "V":
+					case "U":
+						fileNames = StringUtil.trim(Fun.getItem(fileName) as String);
+						if (fileNames!=""){
+							textFilesName.visible = true;
+						}
+						break;
+				}				
+			}
+			
+			private var i_file:FileReference;
+			private function fnUpload():void {
+				if (Fun.getItem(actScope)!=""){
+					i_file = new FileReference();
+					i_file.addEventListener(Event.SELECT, getFile);
+					i_file.browse();
+				}else{
+					Fun.msg("I", iR.message01);
+				}				
+			}
+			private function getFile(p_event:Event):void {				
+				var fileTypeTmp:String = String(p_event.target.type).toLowerCase();				
+				switch (fileTypeTmp){
+					case ".pdf":
+					case ".xls":
+					case ".xlsx":
+					case ".doc":
+					case ".docx":
+					case ".ppt":
+					case ".jpg":
+					case ".gif":
+					case ".jpeg":
+					case ".png":
+						var fileNameTmp:String = StringUtil.trim('LearnActDesign_' + String(i_session.schoolDSn) + '_' + String(i_session.usersSn) + '_' + String(new Date().getTime()) + fileTypeTmp);
+						
+						var t_file:Object = {};
+						t_file[Fun.csFile] = i_file;
+						t_file[Fun.csFilePath] = Fun2.fTeachers + fileNameTmp;
+						FL.upload(this, is_app, [t_file]);
+						
+						Fun.setItem(tmpFileName, p_event.target.name);
+						idw_master.setItem(fileName, fileNameTmp, true);					
+						
+						fileNames = fileNameTmp;
+						textFilesName.visible = true;
+						
+						break;					
+					default:					
+						Fun.msg("E", iR.message02);
+						break;
+				}
+			}
+			private function openFiles():void {				
+				Fun.openFile(Fun.sDirRoot + Fun2.fTeachers + fileNames);
+			}			
+		]]>
+	</fx:Script>	
+	<x2:comEdit x="10" y="285" id="edit_1" fAfterOpen="afterOpen">
+	</x2:comEdit>	
+	<x2:Num1 id="sn" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>	
+	<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+		<mx:FormItem label="{iR.actScope} :" required="true">			
+			<s:TextInput id="actScope" width="375"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.unitName} :" required="true">
+			<s:TextInput id="unitName" width="375"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.suitAge} :" required="true">
+			<s:TextInput id="suitAge"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.cDescribe} :">
+			<mx:TextArea id="cDescribe" width="375"/>
+		</mx:FormItem>		
+		<mx:FormItem id="textFilesName">
+			<x2:btnTBar buttonMode="true" label="{iR.textFilesName}" icon="@Embed(source='x2/image/star.gif')" click="openFiles()" toolTip="{iR.textFilesName}"/>
+		</mx:FormItem>		
+		<mx:FormItem label="{iR.tmpFileNameUpload}  :">
+			<mx:HBox>			
+				<s:TextInput id="tmpFileName" editable="false" enabled="false"/>
+				<mx:Button label="{iR.tmpFileName}" click="fnUpload()"/>
+			</mx:HBox>			
+			<s:TextInput id="fileName" visible="false"/>
+		</mx:FormItem>		
+	</mx:Form>
+</s:TitleWindow>

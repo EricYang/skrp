@@ -1,0 +1,7 @@
+﻿# list/query fields
+searchClass=class grade(classification) list (please select)
+select=select
+academicYear=academic year
+semester=semester
+theClassName=class grade
+classLeavesName=class type

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx"	
+	xmlns:x2="x2.*"
+	 
+	
+	 
+	width="100%" height="100%" 
+ 	creationComplete="init()"	
+	preinitialize="{iR=Fun.getLang('SchoolInfo')}"
+ 	>
+	<fx:Script>
+		<![CDATA[		
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			import mx.utils.StringUtil;
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindalbe]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["usersSn","schoolDSn","userEName"]});
+			[Bindable]
+			private var idw_master:DW;
+			
+			private function init():void{
+				edit_1.sApp = is_app;	
+				edit_1.sInf = is_app;
+				
+				//dw0: ManaInfo.SchoolD
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					items: [						
+						{source:sn, 			dataType:"N",	inputType:"I"},
+						{source:schoolCode,		dataType:"S",	inputType:"R"},
+						{source:schoolName,		dataType:"S"},
+						{source:fileName,		dataType:"S"},
+						{source:webSiteUrl,		dataType:"S"},
+						{source:conTel,			dataType:"S"},
+						{source:address,		dataType:"S"},
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"DT",	inputType:"R"}
+					]
+				};
+				
+				var t_data:Object = {win:this};				
+				var u_data:Object ={
+					data: "SchoolInfo"
+				};				
+				var t_row:Object = Fun.readRow(is_app, u_data);
+				if (t_row == null){
+					edit_1.enabled = false;
+					Fun.msg("E", iR.message01);
+				}else{					
+					t_data.fun = "U";
+					t_data.row = t_row;
+				}
+				
+				edit_1.init(t_data);
+			}
+			
+			private var i_file:FileReference;
+			private function fnUpload():void {
+				i_file = new FileReference();
+				i_file.addEventListener(Event.SELECT, getFile);
+				i_file.addEventListener(Event.COMPLETE, onComplete);				
+				i_file.browse();
+			}			
+			
+			private function getFile(p_event:Event):void {
+				
+				var fileTypeTmp:String = String(p_event.target.type).toLowerCase();				
+				switch (fileTypeTmp){
+					case ".jpg":
+					case ".gif":
+					case ".jpeg":
+					case ".png":
+						var fileNameTmp:String = StringUtil.trim('SchoolInfo_' + String(i_session.schoolDSn) + '_' + String(i_session.usersSn) + '_' + String(new Date().getTime()) + fileTypeTmp);
+						
+						var t_file:Object = {};
+						t_file[Fun.csFile] = i_file;
+						t_file[Fun.csFilePath] = Fun2.fImages + fileNameTmp;
+						FL.upload(this, is_app, [t_file]);
+						
+						Fun.setItem(tmpFileName, p_event.target.name);
+						idw_master.setItem(fileName, fileNameTmp, true);						
+						
+						is_file = Fun.sDirRoot + Fun2.fImages + fileNameTmp;
+						
+						break;					
+					default:					
+						Fun.msg("E", iR.message02);
+						break;
+				}
+				
+			}
+			
+			private var is_file:String;
+			private function onComplete(p_event:Event):void {				
+				var loader:Loader = new Loader();				
+				var request:URLRequest=new URLRequest(is_file);				
+				loader.contentLoaderInfo.addEventListener(Event.COMPLETE,function():void {					
+					imageName.source = loader.content;
+					loader.contentLoaderInfo.removeEventListener(Event.COMPLETE, arguments.callee);
+				});
+				loader.load(request);
+			}
+			
+			private function afterOpen(p_data:Object):void{
+				//載圖
+				tmpFileName.text = "";				
+				var fileNames:String = StringUtil.trim(Fun.getItem(fileName) as String);
+				
+				if (fileNames==""){
+					fileNames="images.jpg";						
+				}
+				imageName.source = Fun.sDirRoot + Fun2.fImages + fileNames;
+			}			
+		]]>
+	</fx:Script>
+	<x2:sysBG/>
+	<x2:subFunHead/>
+
+	<x2:comEdit x="81" y="59" id="edit_1" visible="false" fAfterOpen="afterOpen">
+	</x2:comEdit>	
+	<x2:btnTBar x="81" y="59" buttonMode="true" label="{Fun.R.update}" id="cmdUpdate" icon="@Embed(source='x2/image/update.gif')" click="edit_1.btnSaveClick(event)" toolTip="{Fun.R.tipUpdate}"/>
+
+	<s:TextInput id="sn" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+	<mx:Form x="55" y="87"
+			 verticalScrollPolicy="off" 
+			 horizontalScrollPolicy="off" verticalGap="12" 
+			 backgroundColor="#FFFFFF" alpha="0.9" cornerRadius="5" 
+			 borderStyle="solid" borderColor="#BEC7CC"  
+			  width="92%" height="80%">
+		<mx:FormItem label="{iR.schoolCode} :" required="true">
+			<mx:Label id="schoolCode"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.schoolName} :" required="true">
+			<s:TextInput id="schoolName" width="350"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.imageName} :" required="true">					
+			<mx:Image id="imageName" height="110" autoLoad="true" scaleContent="true" smoothBitmapContent="true"/>
+			<mx:FormItem id="uploadFiles">
+				<mx:HBox>
+					<s:TextInput id="tmpFileName" editable="false" enabled="false" width="200"/>										
+					<mx:Button label="{iR.tmpFileName}" click="fnUpload()"/><s:TextInput id="fileName" visible="false" width="0"/>						
+				</mx:HBox>
+			</mx:FormItem>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.webSiteUrl} :" required="true">
+			<s:TextInput id="webSiteUrl" width="350"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.conTel} :" required="true">
+			<s:TextInput id="conTel"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.address} :" required="true">
+			<s:TextInput id="address" width="350"/>
+		</mx:FormItem>		
+	</mx:Form>
+</s:Application>

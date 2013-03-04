@@ -1,0 +1,7 @@
+﻿# list/query fields
+deptCode=部門代碼
+deptName=部門名稱
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期

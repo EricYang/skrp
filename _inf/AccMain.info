@@ -1,0 +1,20 @@
+{
+    "list":{    
+        "select": "SELECT a.*, 
+                    CONCAT(a.accMainCode, ' - ', b.accTitleCode) AS accTitleCode, 
+                    CONCAT(a.accMainName, ' - ', b.accTitleName) AS accTitleName,
+                    b.accTitleType",
+        "from": "FROM AccMain a LEFT OUTER JOIN
+                    AccTitle b ON a.sn = b.accMainSn
+                    [_where]",
+        "order": "ORDER BY a.accMainCode, b.accTitleCode",
+        "items": [                        
+            {"fid":"accMainCode",   "table":"a",    "op":"like"},
+            {"fid":"accMainName",   "table":"a",    "op":"like"},
+            {"fid":"accMainType",   "table":"a"},
+            {"fid":"accTitleCode",  "table":"b",    "op":"like"},
+            {"fid":"accTitleName",  "table":"b",    "op":"like"},
+            {"fid":"accTitleType",  "table":"b"}
+        ]
+    }
+}

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="500" height="480" 
+	 
+  	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('FindRole')}"
+	close="closeWin()">
+	
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			public var fAfterOk:Function;
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindable]
+			private var is_app:String = Fun.sApp;			
+
+			private function init():void{
+				qry_1.sApp = is_app;
+				qry_1.sInf = "FindRole";
+				qry_1.gList = grid_1;
+				qry_1.aoItem = [
+					{source:roleName}
+				];
+				qry_1.init();				
+			}
+			public function fnRoleClick(pn_sn:int):void{
+				if (int(pn_sn)){
+					var t_win:RoleE = new RoleE();
+					var t_data:Object = {
+						win: t_win,
+						fun: "V",
+						row: {sn:pn_sn}
+					};
+					Fun.openPopup(t_win, this);				
+					var t_edit:comEdit = t_win.edit_1; 
+					t_edit.sApp = is_app;
+					t_edit.sInf = "RoleE";
+					t_edit.sTitle = iR.message01;				
+					t_edit.init(t_data);
+					t_win.tns.removeChild(t_win.canvasLabel2);					
+				}				
+			}
+			private function closeWin():void{
+				Fun.closePopup(this);
+			}
+			
+		]]>
+	</fx:Script>	
+	<mx:Form x="10" y="10">
+		<mx:Label text="{iR.search}：" fontWeight="bold"/>
+		<mx:FormItem label="{iR.roleName} :">
+			<s:TextInput id="roleName"/>
+		</mx:FormItem>
+	</mx:Form>
+	<mx:HRule x="10" y="104" width="470"/>
+	<mx:Form x="10.5" y="112">
+		<mx:HBox width="100%" verticalAlign="bottom">
+			<mx:Label text="{iR.sList}：" fontWeight="bold"/>
+			<mx:HBox horizontalAlign="right" width="100%">
+				<mx:Button click="qry_1.selectRow()" label="{iR.select}" width="75" icon="@Embed(source='x2/image/checked.gif')" />
+			</mx:HBox>
+		</mx:HBox>		
+		<s:DataGrid id="grid_1" width="439" alpha="0.7" height="262">
+			<s:columns><s:ArrayList>				
+				<s:GridColumn headerText="{iR.roleName}" dataField="roleName">					
+					<s:itemRenderer>
+						<fx:Component><s:GridItemRenderer>
+							<s:Label text="{data.roleName}" useHandCursor="true" mouseChildren="false" buttonMode="true" textDecoration="underline" color="#0000FF" click="outerDocument.fnRoleClick(data.sn)"/>															
+						</s:GridItemRenderer></fx:Component>
+					</s:itemRenderer>        		         
+				</s:GridColumn>
+				<s:GridColumn headerText="{iR.select}" width="100">					
+					<s:itemRenderer>
+						<fx:Component><s:GridItemRenderer>
+							<mx:Label text="V" useHandCursor="true" mouseChildren="false" buttonMode="true" />															
+						</s:GridItemRenderer></fx:Component>
+					</s:itemRenderer>        		         
+				</s:GridColumn>				
+			</s:ArrayList></s:columns>
+		</s:DataGrid>			
+	</mx:Form>
+	<x2:comQuery id="qry_1" x="390" y="9" height="58">
+	</x2:comQuery>
+</s:TitleWindow>

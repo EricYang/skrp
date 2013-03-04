@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="660" height="600" 
+	 
+  	creationComplete="init()"	
+	preinitialize="{iR=Fun.getLang('CarCheck')}"
+	>
+	<fx:Script>
+		<![CDATA[
+
+			
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			[Bindable]
+			private var iR:Object;	
+			[Bindalbe]
+			private var idw_master:DW;
+			[Bindalbe]
+			private var idw_CarCheckItem:DW2;
+			[Bindalbe]
+			private var is_app:String = Fun.sApp;			
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["academicYear","semester","usersSn","userCName","userEName"]});
+			[Bindable]
+			public var ia_babyCarInfo:ArrayList = new ArrayList(Fun2.babyCarInfoDS(is_app, true));
+			[Bindable]
+			public var ia_itemName:ArrayList = new ArrayList(Fun2.itemNameDS(is_app, 11, true));
+			
+			private function init():void{				
+				//dw1: CarCheck
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					mapping: true,
+					items: [
+						{source:sn,				dataType:"N",	inputType:"I"}, 
+						{source:academicYear,	dataType:"N",	init:int(i_session.academicYear)}, 
+						{source:semester,		dataType:"N",	init:int(i_session.semester)},
+						{source:acaName,						update:false,	inputType:"R"},						
+						{source:babyCarInfoSn,	dataType:"N"},						
+						{source:staffSn, 		dataType:"N",	init:int(i_session.usersSn)},
+						{source:staffName,						update:false,	inputType:"R",	required:true},
+						{source:cDate,			dataType:"D"},
+						{source:sMileage,		dataType:"N"},
+						{source:eMileage,		dataType:"N"},
+						{source:remark,			dataType:"S"},
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"D",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"D",	inputType:"R"}
+					]				
+				};
+				
+				//dw2: CarCheckItem
+				edit_1.aoDW[1] = new DW2();				
+				idw_CarCheckItem = edit_1.aoDW[1]; 
+				idw_CarCheckItem.xTool = tb_CarCheckItem;
+				idw_CarCheckItem.oConfig = {					
+					grid: grid_CarCheckItem,
+					upEditDW: idw_master,
+					upEKeys: ["sn"],
+					eKeys: ["carCheckSn"],					
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"carCheckSn", 		dataType:"N", 	inputType:"2"},						
+						{fid:"funcItemSn",		dataType:"N"},
+						{fid:"checkSign",		dataType:"S"}
+					]				
+				};
+			}
+			
+			//找職員
+			private var i_col1:Object, i_col2:Object;			
+			private function doFindStaff(p_col1:Object, p_col2:Object):void{				
+				i_col1 = p_col1;
+				i_col2 = p_col2;
+				Fun2.openStaff(is_app, this, ReturnStaff);
+			}
+			private function ReturnStaff(p_row:Object):void{				
+				Fun.setItem(i_col1, p_row.cName + " " + p_row.eName);
+				idw_master.setItem(i_col2, p_row.sn, true);
+			}
+			
+			private function funcItemName(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_itemName, p_row[p_column.dataField]);
+			}
+			
+			private function afterOpen(p_data:Object):void{				
+				
+				var theCheckItemNum:String;
+				
+				switch (p_data.fun){
+					case "C":						
+						var t_data:Object ={
+							data: "CarCheckItem",
+							cuEvent: String(p_data.fun)
+						};						
+						var ta_data:Array = Fun.readRows(is_app, t_data);
+						if (ta_data){							
+							for (var i:int=0; i<ta_data.length; i++){								
+								idw_CarCheckItem.addRow(ta_data[i]);								
+							}
+						}
+						theCheckItemNum = String(ta_data.length);												
+						break;
+					case "V":
+					case "U":
+						var u_data:Object ={
+							data: "CarCheckItem",
+							cuEvent: String(p_data.fun),
+							sn: int(Fun.getItem(sn))
+						};						
+						var ua_data:Array = Fun.readRows(is_app, u_data);
+						if (ua_data){
+							//自動點按新增
+							for (var j:int=0; j<ua_data.length; j++){
+								idw_CarCheckItem.addRow(ua_data[j]);
+								if (String(ua_data[j].checkSign) != ""){
+									idw_CarCheckItem.setDirtyRow("U", j, ua_data[j]);									
+								}							
+							}
+						}
+						theCheckItemNum = String(ua_data.length);
+						break;
+				}				
+				checkItemNum.text = iR.message01 + theCheckItemNum + iR.message02;
+			}
+			
+			private function whenSave(p_data:Object):Boolean{
+				if (p_data.fun != "D"){
+					//為了讓儲存時, 也能同時更新顯示的頁面, 所以要特別給予值
+					Fun.setItem(acaName, String(Fun.getItem(academicYear))+ ' - '+String(Fun.getItem(semester)));
+					
+					switch (p_data.fun){
+						case "C":
+						case "U":
+							var ta_row:Array = ArrayCollection(grid_CarCheckItem.dataProvider).source;
+							for (var i:int=ta_row.length - 1; i>=0; i--){
+								if (String(ta_row[i].checkSign) == "" || int(ta_row[i].checkSign) == 0){									
+									idw_CarCheckItem.deleteRow(i, false);									
+								}						
+							}
+							break;
+						case "V":						
+							break;
+					}										
+				}
+				return true;
+			}
+			private function serialNoLabelFunc(p_row:Object, p_column:GridColumn):String {
+				var index:int = p_column.grid.dataProvider.getItemIndex(p_row);
+				if (index > -1) {
+					return (index + 1).toString();
+				}
+				return "";
+			}
+		]]>
+	</fx:Script>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="academicYear" visible="false"/>
+	<x2:Num1 id="semester" visible="false"/>
+	<s:TextInput id="acaName" visible="false"/>
+	<x2:Num1 id="staffSn" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>	
+	<mx:TabNavigator x="10" y="10" width="629" height="514">
+		<mx:Canvas label="{iR.Canvas01}">
+			<mx:Form x="10" y="10" horizontalScrollPolicy="off">
+				<mx:FormItem label="{iR.babyCarInfoSn} :" required="true">
+					<x2:DDL1 id="babyCarInfoSn" dataProvider="{ia_babyCarInfo}"></x2:DDL1>			
+				</mx:FormItem>
+				<mx:FormItem label="{iR.staffName} :" required="true">
+					<mx:HBox x="72" y="1" width="100%">
+						<s:TextInput id="staffName" click="doFindStaff(staffName, staffSn)"/>
+						<x2:btnPick id="SchStaff" click="doFindStaff(staffName, staffSn)"/>						
+					</mx:HBox>			
+				</mx:FormItem>				
+				<mx:FormItem label="{iR.cDate} :" required="true">
+					<mx:DateField id="cDate" formatString="YYYY/MM/DD" yearNavigationEnabled="true"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.seMileage} :" required="true">					
+					<mx:FormItem label="{iR.sMileage} :">					
+						<mx:NumericStepper maximum="9999999" id="sMileage"/>
+					</mx:FormItem>
+				</mx:FormItem>
+				<mx:FormItem>					
+					<mx:FormItem label="{iR.eMileage} :">					
+						<mx:NumericStepper maximum="9999999" id="eMileage"/>
+					</mx:FormItem>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.remark} :" required="true">
+					<mx:TextArea id="remark" width="403" height="58"/>
+				</mx:FormItem>				
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas02}">
+			<mx:Label id="checkItemNum" color="#0000FF" x="406" y="5"/>
+			<mx:Form x="10" y="33" horizontalScrollPolicy="off">				
+				<x2:DG2 width="570"
+						 
+						 
+						 alpha="0.7"		
+						 		 
+						 
+						 
+						 height="350" id="grid_CarCheckItem">
+					<x2:columns><s:ArrayList>						
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="carCheckSn" visible="false"/>
+						<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+						<s:GridColumn headerText="{iR.funcItemSn}" dataField="funcItemSn" labelFunction="funcItemName"/>
+						<s:GridColumn headerText="{iR.checkSign}" dataField="checkSign" width="60">
+							<s:itemRenderer>
+								<fx:Component><x2:irCenterVH>
+									<x2:Check2 />
+								</x2:irCenterVH></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>						
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+				<x2:TBar2 id="tb_CarCheckItem" visible="false">
+				</x2:TBar2>
+			</mx:Form>
+		</mx:Canvas>
+	</mx:TabNavigator>
+	<x2:comEdit x="10" y="529" id="edit_1" fWhenSave="whenSave" fAfterOpen="afterOpen">
+	</x2:comEdit>
+</s:TitleWindow>

@@ -1,0 +1,7 @@
+﻿# list/query fields
+teacherList=老師列表(請點選)
+select=選取
+cTitles=教師別
+cName=姓名(中)
+eName=姓名(英)
+gender=性別

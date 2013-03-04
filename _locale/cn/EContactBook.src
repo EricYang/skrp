@@ -1,0 +1,25 @@
+﻿# list/query fields
+acaName=学年(期)
+classLeavesSn=班级别
+studentName=学生姓名
+cDate=日期
+tomoCarry=明日需携带物品
+teacherUrge=老师爱的叮咛
+creator=建档人员
+createDate=建档日期
+
+# E
+dinesStatus=用餐情况
+learnStatus=学习表现
+sleepStatus=午睡情况
+toiletStatus=如厕情况
+toiletStatusA=大便
+toiletStatusB=小便
+
+# Q
+academicYear=学年
+semester=学期
+classInfoSn=班级
+classLeavesSn=班别
+cName=中文姓名
+eName=英文名

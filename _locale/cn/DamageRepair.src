@@ -1,0 +1,17 @@
+﻿# list/query fields
+sn=报修单号
+createDate=报修时间
+aName=报修人
+fortuneName=损坏物品
+finishDate=维修完成日期
+rName=维修人
+reviseDate=维修回覆时间
+
+# message
+message01=回覆
+
+# E
+conTel=联络电话
+fortuneNo=财产编号
+damageState=损坏情形
+repairState=维修情形

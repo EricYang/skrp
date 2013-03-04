@@ -1,0 +1,19 @@
+﻿# list/query fields
+openFileDG=开启档案
+funcItemSn=档案类别
+filesAlias​​=档案名称
+description=备注
+createDate=建档日期
+reviseDate=修档日期
+
+# message
+message01=无权限开启此档案
+message02=下载日期纪录失败，请重新点选档案。
+
+# E
+
+# message
+
+# Q
+
+# message

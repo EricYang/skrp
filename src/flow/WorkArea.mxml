@@ -1,0 +1,889 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!---
+	WorkArea 是流程引擎(WorkFlow Engine) 子元件的容器, 子元件有: 程序, 流程線(Line)<br>
+	其中程序又可細分為3種: Process(一般程序), AutoProc(自動程序), EndProc(結束程序)<br>
+	Process 為主要的元件, 通常對應到一個資料維護畫面.<br>
+	AutoProc 是一個自動執行的程式, 當工作送到這個關卡時, 系統會自動判斷是否把工作送到下一關.<br>
+	EndProc 用來表示這個流程已經結束.<br>
+	Line 用來連結 2 個程序.<br>
+	子元件的 z-index: Node, Process, Line
+-->
+
+<!--
+	使用 BorderContainer 或 Group, 會有一些問題, 所以改用 halo.Canvas !!
+-->
+<mx:Canvas
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	width="400" height="300"
+	horizontalScrollPolicy="auto"
+	verticalScrollPolicy="auto"
+	click="click(event)"
+	>
+	
+	<!--	
+	dragDrop="onDragDrop(event)"
+	dragEnter="onDragEnter(event)"
+	<mx:Label x="10" y="10" id="lab_base" visible="false"/>
+	-->
+	
+	<fx:Metadata>
+		//clipContent="false"
+		//creatingContentPane="false"
+		
+		/**
+		 * 使用者改變 Process 的文字後觸發此事件, 此文字表示程序名稱.
+		 */ 
+		//[Event(name="geChgProcText")]
+		
+		/**
+		 * 使用者刪除 Process 後觸發此事件.
+		 */ 
+		//[Event(name="geDeleteProc")]
+		
+		/**
+		 * 使用者移動 Process 的位置之後, 觸發此事件.
+		 */ 
+		//[Event(name="geMoveProc")]
+		
+		/**
+		 * 使用者移動 Line (流程線) 的位置後觸發此事件.
+		 */ 
+		//[Event(name="geMoveLine")]
+
+		/**
+		 * 使用者改變 Process 的大小後觸發此事件, 當使用者改變 Process 文字時, 會同時影響其大小.
+		 */ 
+		//[Event(name="geResizeProc")]
+				
+		//[Event(name="zz_ueLineNodeMove")]
+	</fx:Metadata>
+	
+	<fx:Script>
+		<![CDATA[			
+		
+	//mouseDown="onMouseDown(event)"
+		import flash.display.DisplayObject;
+		import flash.display.Sprite;
+		import flash.geom.Point;
+		
+		//import mx.containers.Canvas;
+		//import mx.controls.*;
+		import mx.core.*;
+		import mx.core.DragSource;
+		import mx.events.DragEvent;
+		import mx.managers.CursorManager;
+		import mx.managers.DragManager;
+		import spark.components.*;
+		import x2.*;
+
+		
+		
+		/**
+		 * Process(Process, AutoProc, EndProc)
+		 */ 
+		public static const csProc:String = "P";
+		
+		/**
+		 * Line
+		 */ 
+		public static const csLine:String = "L";
+
+		/**
+		 * Node(ie LineNode).
+		 */ 
+		public static const csNode:String = "N";
+
+		
+		/**
+		 * 使用者目前選取的物件, Process or Line or null.
+		 */ 
+		public var xNowItem:Object;
+						
+		/**
+		 * 使用者目前選取的物件種類, P(Process), L(Line)
+		 */ 
+		public var sNowType:String;
+				
+		/**
+		 * 使用者目前拖曳(drag)的物件: Process, Line, LineNode, null
+		 */ 
+		public var xDragItem:Object; 		
+
+		/**
+		 * 使用者目前拖曳(drag)的物件種類: P(Process), L(Line), N(LineNode)
+		 */ 
+		public var sDragType:String;
+
+		/**
+		 * 使用者目前 drop 的 Process(Process, AutoProc, EndProc)
+		 */ 
+		//public var gDropProc:Process = null;
+			
+		/**
+		 * 使用者目前 drop 的 ProcNode 物件
+		 */ 
+		public var xDropProcNode:ProcNode = null;
+			
+		/**
+		 * 捲軸位置
+		 */ 
+		public var nScrollPosH:int, nScrollPosV:int;
+			
+		/**
+		 * 新元件的起始 x 座標.
+		 */ 
+		public var nBeginX:int = 20;
+
+		/**
+		 * 新元件的起始 y 座標.
+		 */ 
+		public var nBeginY:int = 20;		
+						
+		/**
+		 * 新 Process 的 width
+		 */ 
+		//public var nProcWidth:int = Process.cnInitWidth;
+		
+		/**
+		 * 新 Process 的 height
+		 */ 
+		//public var nProcHeight:int = Process.cnInitHeight;
+			
+		/**
+		 * 預設 Process Name.
+		 */ 
+		public var sProcName:String="程序";		//default process name
+		
+		/**
+		 * background color.(auto)
+		 */ 
+		public var nBgColor:uint;
+				
+		/**
+		 * 移動物件時自動對齊的 pixel 數.
+		 */ 
+		public var nSnap:int=10;
+
+			
+		//======== function begin ==========	
+		/**
+		 * 使用者選取某個物件後觸發此事件
+		 * 參數為 (type, object, {})
+		 */ 
+		public var fSelectItem:Function;
+
+		/**
+		 * 使用者新增 Process 的屬性後觸發此事件
+		 * 參數為 (Process, {屬性清單})
+		 */ 
+		public var fCreateProc:Function;
+			
+
+		/**
+		 * 使用者改變 Process 的屬性後觸發此事件, 此文字表示程序名稱.
+		 * 參數為 (Process, {被修改的屬性清單})
+		 */ 
+		public var fUpdateProc:Function;
+		
+		/**
+		 * 使用者刪除 Process 後觸發此事件.
+		 * 參數為 (Process, {})
+		 */ 
+		public var fDeleteProc:Function;
+		
+		/**
+		 * 使用者移動 Process 的位置之後, 觸發此事件.
+		 * 參數為 (Process, {})
+		 */ 
+		public var fMoveProc:Function;
+		
+		/**
+		 * 使用者移動 Line (流程線) 的位置後觸發此事件.
+		 * 參數為 (Line, {})
+		 */ 
+		public var fMoveLine:Function;
+		
+			
+		public var fCreateLine:Function;
+			
+		/**
+		 * 使用者刪除 Line 後觸發此事件.
+		 * 參數為 (Line, {})
+		 */ 
+		public var fDeleteLine:Function;
+			
+		//public var fChangeLine:Function;
+			
+		/**
+		 * 改變Line 上面的 LineNode 位置後觸發此事件(移動, 增減lineNode)
+		 * //, 當使用者改變 Process 文字時, 會同時影響其大小.
+		 * 參數為 (Line(不是 LineNode !!), {})
+		 */ 
+		public var fChangeLineNodePos:Function;
+			
+		/**
+		 * 改變 LineNode 的連結狀態
+		 * //, 當使用者改變 Process 文字時, 會同時影響其大小.
+		 * 參數為 (LineNode, {})
+		 */ 
+		public var fChangeLineNodeConnect:Function;
+			
+		/*	
+		public var fLineNodeToProcNode:Function;
+		public var fLineNodeXProcNode:Function;
+		public var fProcNodeToLineNode:Function;
+		public var fProcNodeXLineNode:Function;
+		*/	
+		//======== function begin ==========	
+			
+			
+		//輸出紙張大小, 也是工作區域大小 
+		private var is_paperSize:String="4";	//A4
+			
+			
+		//紙張方向: true(垂直), false(水平) 
+		private var ib_portrait:Boolean=true;
+			
+		/**
+		 * 移動 LineNode 前先儲存 LineNode 的 x,y 座標, 做為 mouseMove event 的計算依據
+		 */ 
+		//public var gnLineNodeX:int, gnLineNodeY:int;
+		//public var gnStageX:int, gnStageY:int, gnStageX2:int, gnStageY2:int; 
+
+			
+		//constant
+		private const cnOffset:int = 10;		//offset position
+		private const cnLineLen:int = 50;		//default line length
+		
+		//instance variables													
+		private var in_newX:int = 0;			//item position for new
+		private var in_newY:int = 0;
+		private var in_procSeq:int = 0;			//new added process, for set default process name
+		private var ia_proc:Array = [];			//process objects
+		private var ia_procType:Array = [];		//process type, P(process),A(auto),E(end)
+		private var ia_line:Array = [];			//line objects
+		private var in_cursor:int;
+		private var in_cursor2:int;
+			
+		private var i_rightDown:Label;
+		//private var i_area:Canvas = area;
+			
+		//private var is_itemType:String;		//current selected item type, P(process)/L(line)
+		//private var i_item:Object = null;		//current selection item(line or process)
+		//private var i_shadow:Sprite = null;	//?? shadow of current selection Sprite		
+		//private var ia_line:Array = [];		//line objects
+			
+        [Bindable]
+        [Embed(source="image/move.png")]
+        private var i_move:Class;
+
+        [Bindable]
+        [Embed(source="image/dragNode.png")]
+        private var i_dragNode:Class;
+
+
+		private function zz_init():void{
+			this.scrollRect = new Rectangle(0, 0, 500, 500);
+		}
+			
+			
+		/**
+		 * 初始化.
+		 */ 		
+		public function init(ps_paperSize:String, pb_portrait:Boolean):void{
+			
+			//攔截 delete key, 在 FlowE 攔截比較好
+			//parent.addEventListener(KeyboardEvent.KEY_DOWN, keyDown_delete);
+			//Fun.setFocus(null, Object(parent).cmdSave, false);
+			
+			
+			//建立一個 label 物件來控制工作區域的大小 !! 
+			i_rightDown = new Label();
+			i_rightDown.x = 0;
+			i_rightDown.y = 0;
+			i_rightDown.text = "+"
+			//i_rightDown.visible = false;
+			//this.addChild(i_rightDown);
+			this.addElement(i_rightDown);
+			
+			
+			//this.scrollRect = new Rectangle(0, 0, 1200, 1000);
+			
+			//set global property
+			FlowFun.gArea = this;
+			
+			//initial variables
+			sNowType = "";
+			xNowItem = null;
+			
+			//workarea can not have bgcolor, there get from parent !!
+			nBgColor = (owner as Object).getStyle("backgroundColor");		
+			
+			//this.removeAllChildren();
+			
+			//reset process
+			var i:int;
+			for (i=0;i<ia_proc.length;i++){
+				//this.rawChildren.removeChild(ia_proc[i]);
+				//this.removeChild(ia_proc[i] as DisplayObject);
+				this.removeElement(ia_proc[i] as IVisualElement);
+			}
+			ia_proc = [];
+			ia_procType = [];
+			
+			//reset line
+			for (i=0;i<ia_line.length;i++){
+				//this.rawChildren.removeChild(ia_line[i]);
+				//this.removeChild(ia_line[i]);
+				this.removeElement(ia_line[i]);
+			}
+			ia_line = [];
+			
+			//set area size
+			setSize(ps_paperSize, pb_portrait);
+						
+			//draw grid line
+			drawGrid();
+			
+		}
+			
+		
+		private function click(p_event:MouseEvent):void{
+			if (p_event.eventPhase == 2){
+				selectItem(null);
+			}			
+		}
+			
+		//draw background grid lines
+		public function drawGrid():void{
+			var tn_size:Number = 20;
+			var tn_width:int = this.width;
+			var tn_height:int = this.height;
+			var t_g:Graphics = this.graphics;
+			t_g.clear();
+			t_g.beginFill(0x000000, 0);
+			t_g.drawRect(0, 0, tn_width, tn_height);
+			t_g.endFill();
+			t_g.lineStyle(1, 0x000000, 0.1);
+			//t_g.lineStyle(1, 0x00FF00, 0.1);
+			var tn_rows:Number = tn_height / tn_size;
+			var tn_cols:Number = tn_width / tn_size;
+			for(var row:Number = 0; row< tn_rows; row++) {
+				t_g.moveTo(0, row * tn_size);
+				t_g.lineTo(tn_width, row * tn_size); 
+			}
+			for(var col:Number = 0; col< tn_cols; col++) {
+				t_g.moveTo(col * tn_size, 0);
+				t_g.lineTo(col * tn_size, tn_height); 
+			}			
+		}
+		
+			
+		//clear grid line, for print
+		public function clearGrid():void{
+			this.graphics.clear();
+		}
+			
+			
+		/**
+		 * 設定紙張的大小和方向 
+		 */ 
+		/*	
+		public function setPaper():void{
+			switch (gsPaperSize){
+				case "Leagle":
+					break;
+				default:	//A4
+					break;
+				
+			}
+		}
+		*/
+			
+			
+		/**
+		 * 設定游標形狀為移動物件(move), 用於 onRollOver event.
+		 * @param p_event 此方法由子元件的 onRollOver Event 觸發, 此參數為必要.
+		 */ 
+		public function setMoveCursor(p_event:Event):void{
+			in_cursor = CursorManager.setCursor(i_move, 2, -10, -10);
+		}
+
+
+		/**
+		 * 設定游標形狀為正常.
+		 * @param p_event 此方法由子元件的 onRollOut Event 觸發, 此參數為必要.
+		 */ 
+		public function noMoveCursor(p_event:Event):void{
+			CursorManager.removeCursor(in_cursor);
+		}
+		
+		public function setDragCursor(p_event:MouseEvent):void{
+			in_cursor2 = CursorManager.setCursor(i_dragNode, 1, -10, -10);	//dragNode 的優先權高於 move (第2個參數 0:high, 1:mid, 2:low)
+		}
+			
+		/**
+		 * 設定游標形狀為正常, 必須使用另一個 cursor int !!
+		 * @param p_event 此方法由子元件的 onRollOut Event 觸發, 此參數為必要.
+		 */ 
+		public function noDragCursor(p_event:MouseEvent):void{
+			CursorManager.removeCursor(in_cursor2);
+		}
+
+		/**
+		 * 拖曳物件, 在子元件的 MouseDown Event Handler 呼叫此方法.
+		 * @param ps_dragType 拖曳物件的種類: P(Process), L(Line), N(LineNnode).
+		 * @param p_dragItem 目前拖曳的物件.
+		 * @param p_selectItem 目前選取的物件.
+		 */ 
+		public function initDrag(ps_dragType:String, p_dragItem:Object, p_selectItem:Object):void{
+		//public function dragItem(p_event:MouseEvent, ps_dragType:String, p_selectItem:Object, p_dragItem:Object):void{
+			
+			//if (p_event.eventPhase != (ps_dragType=="P"?3:2)){
+			//if (p_event.eventPhase != 2){
+			//	return;
+		//	}			
+			
+
+			//var t_target:Object = p_event.currentTarget;
+			
+			if (p_selectItem == p_dragItem){	//Process or Line
+				//gsSelecType = ps_dragType;
+				//gNowItem = p_selectItem;
+				selectItem(p_selectItem, ps_dragType);
+			}
+			
+			if (p_dragItem != null){
+				sDragType = ps_dragType;
+				xDragItem = p_dragItem;
+			}
+			
+            //var t_drag:UIComponent = UIComponent(p_event.target);
+			//p_dragItem.startDrag();
+			return;	
+            
+            /*
+			//save offset
+			var t_target:Object = p_event.target;
+            FlowFun.gnOffsetX = t_target.mouseX; 
+            FlowFun.gnOffsetY = t_target.mouseY; 
+			FlowFun.gLabel.text = FlowFun.gnOffsetX+","+FlowFun.gnOffsetY;
+			
+			//set dragsource
+            
+            var t_ds:DragSource = new DragSource();
+            //t_ds.addData(1, 'value');
+            //var t_drag:UIComponent = UIComponent(p_event.target);
+            
+            //drag			
+            //if (pb_proxy){            
+				// Create a copy of the coin image to use as a drag proxy.
+                //var t_proxy:Image = new Image();
+                //t_proxy.source = t_target.source;
+                
+                            	    
+	            //Add proxy image for UIComponent
+			    //var t_bd:BitmapData = new BitmapData(t_drag.width, t_drag.height);   
+	            var t_rect2:Rectangle = t_drag.getRect(t_drag);
+	            var t_rect:Rectangle = (ps_dragType == "P") ? t_drag.getRect(t_drag) : p_selectItem.getRect2();
+	            //t_rect.x = 0;
+	            //t_rect.y = 0;
+	            //t_rect.x = t_rect.x - Node.ic_size;
+	            //t_rect.y = t_rect.y - Node.ic_size;
+			    var t_bd:BitmapData = new BitmapData(t_rect.width, t_rect.height);    
+			    var t_m:Matrix = new Matrix();    
+			    //t_m.translate(20, 20);
+			    t_bd.draw(t_drag, t_m);
+			    //
+	            var t_proxy:Image = new Image();
+	            t_proxy.source = new Bitmap(t_bd);
+	            
+	            
+            	DragManager.doDrag(t_drag, t_ds, p_event, t_proxy, 0, 0, 0.35);
+            	//DragManager.doDrag(t_drag, t_ds, p_event);
+            //}else{
+            //	t_ds.addData(t_drag, "img");
+            //	DragManager.doDrag(t_drag, t_ds, p_event);            	
+            //}
+            */
+		}					
+
+		
+		/** 
+		 * initial event handler, strange here, when run removeEventListener, 
+		 * canvas can not receive mouseDown event !! 
+		 * called by 
+		 *  1.constructor
+		 *  2.process.mouseUp event
+		 */ 	
+		//public function initEvent():void{
+		//	//this.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);			
+		//}
+
+ 
+		private function onMouseDown(p_event:MouseEvent):void{
+			//trace("canvas mouse down");
+			
+			if (p_event.eventPhase == 2 && xNowItem != null){
+				xNowItem.select(false);
+				sNowType = "";
+				xNowItem = null;
+			}			
+		}
+		
+		/*
+		private function zz_onDragEnter(p_event:MouseEvent):void{
+			//check
+			if (xDragItem == null){
+				return;
+			}
+			
+            var t_target:Canvas = p_event.currentTarget as Canvas;
+            //if (event.dragSource.hasFormat('value')){
+                DragManager.acceptDragDrop(t_target)	
+            //}		
+		}
+		*/
+		
+		//停止拖曳動作, (stopDrag為保留字, 不可使用!!)	
+		public function noDrag():void{
+			sDragType = "";
+			xDragItem = null;
+			xDropProcNode = null;
+		}
+		
+		/*
+		private function zz_onDragDrop(p_event:DragEvent):void{
+			//check
+			if (FlowFun.goDragItem == null){
+				return;
+			}
+			
+			p_event.dragInitiator.x = Canvas(p_event.currentTarget).mouseX - FlowFun.gnOffsetX;
+			p_event.dragInitiator.y = Canvas(p_event.currentTarget).mouseY - FlowFun.gnOffsetY;
+			//p_event.dragInitiator.x = Canvas(p_event.currentTarget).mouseX;
+			//p_event.dragInitiator.y = Canvas(p_event.currentTarget).mouseY;
+		}
+		*/
+			
+
+		//=== get/set begin ===
+		/*
+		//get current item
+		public function getItem():Object{
+			return i_item;
+		}
+
+		//get current item type
+		public function getItemType():String{
+			return is_itemType;
+		}
+		*/
+		
+		
+		//get process record no, called by outside
+		//public function getProcessNo(p_process:Object=null):int{
+		public function getItemNo(ps_type:String, p_item:Object):int{
+			var ta_item:Array = (ps_type == "P") ? ia_proc : ia_line;
+			for (var i:int=0;i<ta_item.length;i++){
+				if (ta_item[i] == p_item){
+					return i;
+				}
+			}
+			
+			//case of not found
+			return -1;
+		}
+		
+
+		//get item by row no
+		public function getItem(ps_type:String, pn_item:int):Object{
+			return (ps_type == "P") ? ia_proc[pn_item] : ia_line[pn_item];
+		}
+
+			
+		/*	
+		//get line record no, called by outside
+		public function getLineNo(p_line:Object=null):int{
+			for (var i:int=0;i<ia_line.length;i++){
+				if (ia_line[i] == p_line){
+					return i;
+				}
+			}
+			
+			//case of not found
+			return -1;
+		}
+		*/
+			
+
+		//set in_procSeq, called by outside app
+		public function setProcSeq(pn_seq:int):void{
+			in_procSeq = pn_seq;			
+		}
+		
+		
+		//get process object by processSeq
+		public function seqToProc(pn_seq:int):Process{
+			for (var i:int=0;i<ia_proc.length;i++){
+				if (pn_seq == ia_proc[i].getSeq()){
+					return ia_proc[i];
+				}
+			}
+			
+			//case of not found
+			return null;
+		}
+
+		
+		//set in_newX, in_newY
+		private function setNewXY():void{
+			if (in_newX >= cnOffset * 5){
+				in_newX = 0;
+				in_newY = 0;
+			}
+			
+			in_newX += cnOffset;
+			in_newY += cnOffset;			
+		}
+		//=== get/set end ===
+		
+		
+		/**
+		 * add one flowLine to this canvas
+		 * @param {object} p_data 座標資訊
+		 */ 	
+		public function addLine(p_data:Object=null, pb_select:Boolean=true):Line{
+			var tb_moveNode:Boolean = false;
+			if (p_data == null){	//使用預設的位置和大小 
+				tb_moveNode = true;
+				p_data = {};
+				p_data.points = [{x:0, y:0}, {x:0, y:cnLineLen}];
+				
+				setNewXY();
+				p_data.posX = nBeginX + in_newX;
+				p_data.posY = nBeginY + in_newY;
+			}
+			
+			var tn_len:int = ia_line.length;
+			ia_line[tn_len] = new Line(p_data, tb_moveNode);
+			var t_line:Line = ia_line[tn_len];
+			//this.rawChildren.addChildAt(t_line, 0);
+			//this.addChildAt(t_line, 0);
+			this.addElementAt(t_line, 0);
+			//var tn_order:int = this.getChildIndex(t_line);
+			var tn_order:int = this.getElementIndex(t_line);
+			t_line.setOrder(tn_order);
+			
+			if (pb_select){
+				selectItem(t_line, "L");				
+			}
+			
+			return t_line;
+		}
+		
+		//@param p_row 從資料庫讀出來的記錄	
+		public function addLineByRow(p_row:Object, pb_select:Boolean=true):Line{
+			var ts_list:String = p_row.nodeList;
+  			var ta_xy:Array = ts_list.split(/[,]/);
+  			var j:int = 0;
+  			p_row.points = [];
+			for (var i:int=0;i<ta_xy.length;i+=2){
+				p_row.points[j] = new Point(ta_xy[i], ta_xy[i+1]);
+				j++;
+			}
+			
+			return addLine(p_row, pb_select);			
+		}
+
+
+		//add one node to someone flowLine
+		public function addLineNode():void{
+			if (sNowType == csLine){
+				var t_line:Line = Line(xNowItem);
+				if (t_line.addNode() != null && fChangeLineNodePos != null){
+					fChangeLineNodePos(t_line, null);
+				}
+			}
+		}
+
+
+		//delete one node from someone flowLine
+		public function deleteLineNode():void{
+			if (sNowType == csLine){
+				if (Line(xNowItem).deleteNode() && fChangeLineNodePos != null){
+					fChangeLineNodePos(Line(xNowItem), null);
+				}
+			}			
+		}
+		
+		
+		/**
+		 * add one process to this canvas
+		 * @param ps_type: P(process), E(end process)
+		 */ 
+		public function addProc(ps_type:String, p_data:Object=null, pb_select:Boolean=true):Process{
+			if (p_data == null){
+				p_data = {};
+				in_procSeq++;
+				p_data.procSeq = in_procSeq;
+				p_data.procName = sProcName + in_procSeq.toString();
+				
+				setNewXY();
+				p_data.posX = nBeginX + in_newX;
+				p_data.posY = nBeginY + in_newY;
+				/*
+				if (ps_type == "P"){
+					p_data.width = nProcWidth;
+					p_data.height = nProcHeight;
+				}
+				*/
+			}
+			
+			var tn_len:int = ia_proc.length;
+			var t_proc:Process;
+			t_proc = new Process(ps_type, p_data);
+			/*
+			if (ps_type == Process.csEndProc){
+				t_proc = new EndProc(ps_type, p_data);
+			}else{	//Process or AutoProc !!
+				t_proc = new Process(ps_type, p_data);
+			}
+			*/
+			
+			//var t_proc:Process = ia_proc[tn_len]; 
+			ia_proc[tn_len] = t_proc
+			ia_procType[tn_len] = ps_type;
+			//this.rawChildren.addChild(t_proc);
+			//this.addChild(t_proc);
+			this.addElement(t_proc);
+			//var tn_order:int = this.getChildIndex(t_proc);
+			var tn_order:int = this.getElementIndex(t_proc);
+			t_proc.setOrder(tn_order);
+			
+			if (pb_select){
+				selectItem(t_proc, "P");
+			}
+			
+			return t_proc;
+		}
+		
+
+		//instead of delete it, hide current selected item
+		//coz child item equal to ds record !!
+		public function deleteNowItem():void{
+			if (xNowItem == null){
+				return;
+			}
+			
+			//selectItem(null);
+			//i_item.visible = false;
+			//i_item = null;
+			
+			//delete item
+			//??
+			
+			//trigger function first
+			var tn_item:int = getItemNo(sNowType, xNowItem);
+			if (sNowType == "P"){
+				if (fDeleteProc != null){
+					fDeleteProc(xNowItem, {});
+				}
+				
+				Process(xNowItem).breakLineNodes();
+				ia_proc.splice(tn_item, 1);
+			}else if (sNowType == "L"){
+				if (fDeleteLine != null){
+					fDeleteLine(xNowItem, {});
+				}
+				
+				Line(xNowItem).breakProcNodes();
+				ia_line.splice(tn_item, 1);				
+			}
+				
+			//this.rawChildren.removeChild(xNowItem as DisplayObject);			
+			this.removeChild(xNowItem as DisplayObject);			
+			xNowItem = null;
+			sNowType = "";
+				
+			//var t_event:Event = new Event("geProcDelete");
+			//this.dispatchEvent(t_event);						
+		}
+		
+		
+		//set current selected item
+		public function selectItem(p_item:Object, ps_type:String=""):void{
+			//un select now item if any.
+			if (xNowItem != null){
+				xNowItem.select(false);
+				//var tn_order:int = i_item.getOrder();
+				//this.setChildIndex(xNowItem as DisplayObject, xNowItem.getOrder());
+				this.setElementIndex(xNowItem as IVisualElement, xNowItem.getOrder());
+			}
+
+			//set global variables
+			sNowType = ps_type;
+			xNowItem = p_item;
+			
+			//select item and set z-index
+			if (p_item != null){
+				//this.setChildIndex(xNowItem as DisplayObject, 0);
+				this.setElementIndex(xNowItem as IVisualElement, 0);
+				xNowItem.select(true);
+			}
+							
+			//trigger function 
+			if (fSelectItem != null){
+				fSelectItem(ps_type, p_item, null);
+			}
+		}
+
+
+		public function getPaperSize():Object{
+			var tn_width:int, tn_height:int;
+			switch (is_paperSize){
+				case "L":	//Letter (215.9 x 279.4)
+					tn_width = 710;
+					tn_height = 910;
+					break;
+				default:	//A4 (210 x 297)
+					is_paperSize = "4";	//A4
+					tn_width = 690;
+					tn_height = 970;
+					break;
+			}
+			
+			//swap width/height and set title window size if need
+			if (!ib_portrait){
+				var tn_mid:int;
+				tn_mid = tn_width;
+				tn_width = tn_height;
+				tn_height = tn_mid;
+			}
+			
+			return {width:tn_width, height:tn_height};
+		}
+			
+			
+		public function setSize(ps_paperSize:String, pb_portrait:Boolean):void{
+			//update instance variables
+			is_paperSize = ps_paperSize;
+			ib_portrait = pb_portrait;
+			
+			//get paper width/height
+			var t_size:Object = getPaperSize();
+			
+			//move i_rightDown
+			i_rightDown.x = t_size.width - i_rightDown.width;
+			i_rightDown.y = t_size.height - i_rightDown.height;
+			
+			//set measure size
+			this.measuredWidth = t_size.width;
+			this.measuredHeight = t_size.height;
+		}
+			
+		]]>
+	</fx:Script>
+</mx:Canvas>

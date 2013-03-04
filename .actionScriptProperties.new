@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<actionScriptProperties analytics="false" mainApplicationPath="Main.mxml" projectUUID="19213c71-5ad7-46c7-8fdd-2c89e6467820" version="10">
+  <compiler additionalCompilerArguments="-locale en_US" autoRSLOrdering="true" copyDependentFiles="true" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="true" htmlHistoryManagement="true" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin-debug" removeUnusedRSL="true" rootURL="http://localhost/skrp/" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="false" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
+    <compilerSourcePath/>
+    <libraryPath defaultLinkType="0">
+      <libraryPathEntry kind="4" path="">
+        <excludedEntries>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/flex.swc" useDefaultLinkType="false"/>
+        </excludedEntries>
+      </libraryPathEntry>
+      <libraryPathEntry kind="1" linkType="1" path="libs"/>
+    </libraryPath>
+    <sourceAttachmentPath/>
+  </compiler>
+  <applications>
+    <application path="BabyCar.mxml"/>
+    <application path="BabyCarE.mxml"/>
+    <application path="BabyHealthE.mxml"/>
+    <application path="BabyEnsure.mxml"/>
+    <application path="BabyCostItemQ.mxml"/>
+    <application path="BabyCarRec.mxml"/>
+    <application path="BabyExcuseQ.mxml"/>
+    <application path="BabyWatchE.mxml"/>
+    <application path="BabyCar.mxml"/>
+    <application path="Parent.mxml"/>
+    <application path="BabyExcuseE.mxml"/>
+    <application path="BabyCarRecE.mxml"/>
+    <application path="Main.mxml"/>
+    <application path="BabyCarInfo.mxml"/>
+    <application path="SelfEvaluateCheck.mxml"/>
+    <application path="BabyWatch.mxml"/>
+    <application path="BabyEnsureQ.mxml"/>
+    <application path="BabyCarRecQ.mxml"/>
+    <application path="BabyCheckItem.mxml"/>
+    <application path="BabyCarList.mxml"/>
+    <application path="BabyCheck.mxml"/>
+    <application path="BabyExcuse.mxml"/>
+    <application path="BabyCostItemE.mxml"/>
+    <application path="BabyHealthQ.mxml"/>
+    <application path="BabyCheckE.mxml"/>
+    <application path="BabyRestParentQ.mxml"/>
+    <application path="BabyCarE.mxml"/>
+    <application path="BabyRestParent.mxml"/>
+    <application path="BabyCarInfoE.mxml"/>
+    <application path="BabyWatchQ.mxml"/>
+    <application path="BabyCarQ.mxml"/>
+    <application path="BabyEnsureE.mxml"/>
+    <application path="BabyHealth.mxml"/>
+  </applications>
+  <modules/>
+  <buildCSSFiles/>
+  <flashCatalyst validateFlashCatalystCompatibility="false"/>
+</actionScriptProperties>

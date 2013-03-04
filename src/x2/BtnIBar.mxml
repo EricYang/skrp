@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Button 
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:mx="library://ns.adobe.com/flex/mx"	
+	height="26" fontWeight="normal"
+	buttonMode="true"
+	label="新增資料"
+	icon="@Embed(source='image/addRow.png')"
+	toolTip="新增資料"	
+	>
+	<!--disabledIcon="@Embed(source='image/create0.gif')"-->
+</s:Button>

@@ -1,0 +1,29 @@
+﻿# list/query fields
+acaName=学年(期)
+cDate=日期
+creator=建档人员
+createDate=建档日期
+reviser=修档人员
+reviseDate=修档日期
+
+# message
+
+
+# E
+Canvas01=基本资料
+cDate=上传日期
+textFilesName=开启档案
+fileUploadLabel=流程档案上传
+tmpFileName=浏览档案
+Canvas02=备注
+
+# message
+message01=日期尚未填写
+message02=档案类型不符, 档案必须为(.pdf, .xls, .xlsx, .doc, .docx, .ppt, .jpg, .gif, .jpeg, .png) 格式
+
+# Q
+academicYear=学年
+semester=学期
+cDate=日期
+
+# message

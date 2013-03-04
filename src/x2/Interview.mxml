@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="772" height="642" fontSize="12" fontFamily="Arial" xmlns:ns1="x2.*"
+	 title="諮商" showCloseButton="true" headerHeight="25" close="edit_1.exitClick(event)">
+		
+	<ns1:comEdit x="10" y="567" width="732" id="edit_1">
+	</ns1:comEdit>
+	
+	<mx:Script>
+		<![CDATA[		
+		import x2.*;
+		
+
+		public function init(ps_processName:String):void{
+			
+			//initialize edit component 
+			//edit_1.x2b_retrieve = true;
+			
+			/*
+			//dw1
+			edit_1.gDWs[0] = new DW();
+			edit_1.gDWs[0].gConfig = {
+				keys: [buildingSeq],
+				items: [
+					{source:buildingSeq, 	inputType:"I", mapping:true, dataType:"N"}, 
+					{source:buildingName, 	inputType:"E", canEmpty:false, mapping:true, msg:"建物名稱"}, 
+					{source:buildingEngName,inputType:"E", msg:"建物英文名稱"}, 
+					{source:note, 			inputType:"E"}, 
+					{source:engNote, 		inputType:"E"}, 
+					//{source:campusId, 		inputType:"E", mapping:true, init:1}, 
+					{source:startFloor, 	inputType:"E", mapping:true}, 
+					{source:endFloor,		inputType:"E", mapping:true} 
+					//{source:rowStatus,		inputType:"E", mapping:true, init:"正常"}
+				]				
+			};
+			*/ 			
+			
+			this.title = ps_processName;
+		}
+					
+		]]>
+	</mx:Script>
+	<mx:Form x="32" y="10" width="694" verticalGap="4" paddingTop="5" paddingBottom="5" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+		<mx:FormItem label="學號 :" width="507">
+			<mx:HBox width="100%">
+				<ns1:Num1 id="buildingSeq" width="117"/>
+				<mx:Spacer width="108" height="100%"/>
+				<mx:FormItem label="身份證號 :" required="true">
+					<mx:TextInput id="buildingName"/>
+				</mx:FormItem>
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="方式 :">
+			<mx:HBox width="100%">
+				<mx:ComboBox width="117"></mx:ComboBox>
+				<mx:Spacer width="108" height="100%"/>
+				<mx:FormItem label="日期時間 :">
+					<mx:TextInput id="note"/>
+				</mx:FormItem>
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="會談對象 :">
+			<mx:HBox width="100%">
+				<mx:CheckBox label="1.本人"/>
+				<mx:CheckBox label="2.父母"/>
+				<mx:CheckBox label="3.師長"/>
+				<mx:CheckBox label="4.朋友"/>
+				<mx:CheckBox label="5.其他"/>
+				<mx:TextInput width="86"/>
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="本次晤談主訴問題 :" borderThickness="1" borderStyle="solid" width="632">
+			<mx:Tile  width="466" height="127" verticalGap="0">
+				<mx:CheckBox label="1.人生意義"/>
+				<mx:CheckBox label="2.自我了解成長"/>
+				<mx:CheckBox label="3.學校適應"/>
+				<mx:CheckBox label="4.住宿環境"/>
+				<mx:CheckBox label="5.轉系問題"/>
+				<mx:CheckBox label="6.職業生涯規畫"/>
+				<mx:CheckBox label="7.人際關係"/>
+				<mx:CheckBox label="8.師生關係"/>
+				<mx:CheckBox label="9.學習問題"/>
+				<mx:CheckBox label="10.考試焦慮"/>
+				<mx:CheckBox label="11.感情問題"/>
+				<mx:CheckBox label="12.家庭問題"/>
+				<mx:CheckBox label="13.情緒困擾"/>
+				<mx:CheckBox label="14.身心諮詢"/>
+				<mx:CheckBox label="15.飲食問題"/>
+				<mx:CheckBox label="16.睡眠問題"/>
+				<mx:CheckBox label="17.人身安全"/>
+				<mx:CheckBox label="18.其他(請註明)"/>
+				<mx:TextInput width="86"/>
+			</mx:Tile>
+		</mx:FormItem>
+		<mx:FormItem label="個案類別 :">
+			<mx:HBox width="100%">
+				<mx:RadioButton label="一般個案"/>
+				<mx:RadioButton label="高關懷個案"/>
+				<mx:RadioButton label="危機個案"/>
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="特殊個案類別 :" borderStyle="solid" width="631">
+			<mx:Tile  width="466" height="106" verticalGap="0">
+				<mx:CheckBox label="1.疑似精神病"/>
+				<mx:CheckBox label="2.疑似精神官能症"/>
+				<mx:CheckBox label="3.憂鬱症或憂鬱狀態"/>
+				<mx:CheckBox label="4.飲食疾患"/>
+				<mx:CheckBox label="5.自傷危險"/>
+				<mx:CheckBox label="6.傷人危險"/>
+				<mx:CheckBox label="7.疑似性騷擾"/>
+				<mx:CheckBox label="8.性侵害"/>
+				<mx:CheckBox label="9.性傾向與性認同"/>
+				<mx:CheckBox label="10.其他"/>
+				<mx:TextInput width="86"/>
+			</mx:Tile>
+		</mx:FormItem>
+		<mx:FormItem label="處理 :" verticalGap="2" borderStyle="solid">
+			<mx:VBox height="100%" verticalGap="2">
+				<mx:HBox width="100%">
+					<mx:RadioButton label="1.自行接案"/>
+					<mx:RadioButton label="2.轉介測驗"/>
+				</mx:HBox>
+				<mx:HBox width="100%" verticalScrollPolicy="off">
+					<mx:RadioButton label="3.轉介"/>
+					<mx:Tile  width="482" height="130" verticalGap="1" verticalScrollPolicy="off" borderStyle="solid">
+						<mx:HBox width="100%">
+							<mx:RadioButton label="1.醫療單位"/>
+							<mx:TextInput width="86"/>
+						</mx:HBox>
+						<mx:HBox width="100%">
+							<mx:RadioButton label="2.系所或導師    "/>
+							<mx:TextInput width="86"/>
+						</mx:HBox>
+						<mx:HBox width="100%">
+							<mx:RadioButton label="3.教務單位"/>
+							<mx:TextInput width="86"/>
+						</mx:HBox>
+						<mx:HBox width="100%">
+							<mx:RadioButton label="4.其他學務單位"/>
+							<mx:TextInput width="86"/>
+						</mx:HBox>
+						<mx:HBox width="100%">
+							<mx:RadioButton label="5.專任/兼任輔導老師"/>
+							<mx:TextInput width="86"/>
+						</mx:HBox>
+						<mx:HBox width="100%">
+							<mx:RadioButton label="6.團體暨工作坊"/>
+							<mx:TextInput width="86"/>
+						</mx:HBox>
+						<mx:HBox width="100%">
+							<mx:RadioButton label="7.校外諮商輔導機構 "/>
+							<mx:TextInput width="86"/>
+						</mx:HBox>
+						<mx:HBox width="100%">
+							<mx:RadioButton label="8.其他"/>
+							<mx:TextInput width="86"/>
+						</mx:HBox>
+						<mx:RadioButton label="9.社會福利機構或單位"/>
+					</mx:Tile>
+				</mx:HBox>
+				<mx:HBox width="100%">
+					<mx:RadioButton label="4.結案"/>
+				</mx:HBox>
+			</mx:VBox>
+		</mx:FormItem>
+	</mx:Form>
+
+</mx:TitleWindow>

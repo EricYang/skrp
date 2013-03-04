@@ -1,0 +1,24 @@
+{
+    "list":{
+        "select": "SELECT a.*, 
+                    CASE WHEN a.userType = 2 THEN '★' ELSE '' END AS selfFlag,
+                    CONCAT(a.academicYear, ' - ', a.semester) AS acaName, 
+                    CONCAT(b.cName, ' ', b.eName) AS studentName",
+        "from": "FROM BabyExcuse a INNER JOIN
+                Student b ON a.studentSn = b.sn INNER JOIN
+                ClassLeaves c ON a.classLeavesSn = c.sn
+                [_where]",
+        "order": "ORDER BY a.exDate",
+        "items": [
+            {"fid":"csDataTemp",        "table":"a",     "colName":"classLeavesSn",    "op":"in"},
+            {"fid":"academicYear",      "table":"a"},
+            {"fid":"semester",          "table":"a"},
+            {"fid":"classInfoSn",       "table":"c"},
+            {"fid":"classLeavesSn",     "table":"a"},
+            {"fid":"cName",             "table":"b",    "op":"like"},
+            {"fid":"eName",             "table":"b",    "op":"like"},
+            {"fid":"excuse",            "table":"a"},
+            {"fid":"exDate",            "table":"a",    "op":"between"}
+      ]
+    }
+}

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application 	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark"  
+				xmlns:mx="library://ns.adobe.com/flex/mx"			
+				xmlns:x2="x2.*"				
+				creationComplete="init()"
+				preinitialize="{iR=Fun.getLang('BabyCheck')}"
+				>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>	
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.formatters.DateFormatter;
+			
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var ia_child:Array = [];
+			[Bindable]
+			private var iR:Object;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var ia_class:ArrayList;
+			[Bindable]
+			public var is_dir1:String = Fun.sDirRoot + Fun2.fStudents;
+			
+			[Bindable]			
+			public var ia_classInfoStartConb:ArrayList = new ArrayList(Fun2.classInfoStartConbDS(is_app, false));
+			
+			private function init():void {
+				var theDate:Date=new Date();
+				var thefm:DateFormatter=new DateFormatter();				
+				thefm.formatString="YYYY/MM/DD";
+				cDate.text=thefm.format(theDate);				
+			}		
+			
+			private function fnQuery():void{
+				var g_date:String = String(Fun.getItem(cDate));
+				if (!g_date){
+					Fun.msg("E",iR.message01);					
+				}else{
+					var t_data:Object = {
+						data: "BabyCheck",
+						cDate: g_date,
+						classInfoSn: int(Fun.getItem(classLeavesSn)),
+						defaultImgPath: is_dir1
+					};					
+					ia_child = Fun.readRows(is_app, t_data);
+					if (ia_child){						
+						tile1.dataProvider = ia_child;
+						remark.text = "";
+					}else{						
+						tile1.dataProvider = new ArrayList();
+						remark.text = classLeavesSn.selectedItem.label + "，尚無學生。";
+						//Fun.msg("I", classLeavesSn.selectedItem.label + "，尚無學生。");
+					}					
+				}
+			}
+			
+			private function fnSelect():void{
+				var i:int=0;
+				switch (Fun.getItem(checkAllFlag)){
+					case "0":
+						for (i; i<ia_child.length; i++){
+							ia_child[i].attendFlag = 1;					
+						}
+						tile1.dataProvider = ia_child;
+						
+						checkAllFlag.text = "1";
+						checkAllFun.label = iR.message02;						
+						break;
+					case "1":
+						for (i; i<ia_child.length; i++){
+							ia_child[i].attendFlag = 0;					
+						}
+						tile1.dataProvider = ia_child;
+						
+						checkAllFlag.text = "0";
+						checkAllFun.label = iR.message03;
+						break;					
+				}
+			}
+			private function fnSave():void{
+				var g_classLeavesSn:int = int(Fun.getItem(classLeavesSn));
+				var g_date:String = String(Fun.getItem(cDate));				
+				
+				for (var i:int=0; i<ia_child.length; i++){
+					//將資料傳至  _app/BabyCheck.php
+					var t_data:Object = "";
+					t_data = {
+						sn: int(ia_child[i].sn),
+						ieFlag: String(ia_child[i].ieFlag),
+						classLeavesSn: g_classLeavesSn,
+						studentSn: int(ia_child[i].studentSn),
+						cDate: g_date,
+						attendFlag: int(ia_child[i].attendFlag)
+					};				
+					Fun.sync(is_app, "BabyCheck", t_data, true);
+					
+					//將狀況變成編輯, 防二次點名又新增
+					ia_child[i].ieFlag = "E";
+				}				
+				Fun.msg("I",iR.message04);
+			}
+			
+		]]>
+	</fx:Script>
+	<x2:sysBG/>
+	<x2:subFunHead/>
+	
+	<s:TextInput id="checkAllFlag" text="0" visible="false"/>
+	<mx:HBox x="81" y="59" width="100%" verticalAlign="middle">		
+		<mx:Label text="{iR.cDate} :"/>
+		<mx:DateField showToday="true" formatString="YYYY/MM/DD" id="cDate" yearNavigationEnabled="true" change="fnQuery()" width="120"/>
+		<x2:DDL1 id="classLeavesSn" dataProvider="{ia_classInfoStartConb}" change="fnQuery()" width="300"></x2:DDL1>
+		<!--
+		<mx:FormItem label="{iR.classLeavesSn} :" width="300">						
+		</mx:FormItem>
+		-->
+		<mx:Label id="remark" color="#FF0000" fontWeight="bold"/>
+		<mx:Button label="{iR.searchData}" icon="@Embed(source='x2/image/read.gif')" click="fnQuery()" buttonMode="true" visible="false"/>
+		<mx:Button label="{iR.checkAllFun}" icon="@Embed(source='x2/image/read.gif')" click="fnSelect()" id="checkAllFun" buttonMode="true"/>
+		<mx:Button label="{iR.saveData}" icon="@Embed(source='x2/image/save.gif')" click="fnSave()" buttonMode="true"/>
+		<!--<mx:Button label="列印空白點名單" icon="@Embed(source='x2/image/report.gif')" click="fnPrint()" buttonMode="true"/>-->		
+	</mx:HBox>
+	
+	<mx:TileList id="tile1" x="55" y="87" width="92%" height="80%" borderStyle="solid"
+				 dataProvider="{ia_child}"
+				 itemRenderer="BabyCheckItem"
+				 columnWidth="145"
+				 rowHeight="170"
+				 columnCount="8"
+				 verticalScrollPolicy="on"
+				 borderColor="#FFFFFF"
+				 >
+	</mx:TileList>
+	
+</s:Application>
+

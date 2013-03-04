@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="830" height="444" 
+	 
+  	creationComplete="init()"  	 		
+	preinitialize="{iR=Fun.getLang('BabyWatch')}"
+	>
+	<fx:Script>
+		<![CDATA[
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			private var is_app:String = Fun.sApp;
+			private var idw_master:DW;
+			
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["academicYear","semester"]});
+			[Bindable]
+			private var ia_subjectWatch:ArrayList = new ArrayList(Fun2.subjectWatchDS(is_app, true));
+			[Bindable]
+			public var ia_itemName:ArrayList = new ArrayList(Fun2.itemNameDS(is_app, 6, true));
+			
+			private function doFindStu():void{
+				Fun2.openStudent(is_app, this, ReturnStu, false);
+			}
+			
+			private function ReturnStu(p_row:Object):void{				
+				Fun.setItem(studentName, p_row.cName + " " + p_row.eName);
+				idw_master.setItem(studentSn, p_row.sn, true);
+				idw_master.setItem(classLeavesSn, p_row.classLeavesSn, true);
+			}
+			
+			private function init():void{
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					mapping: true,
+					autos: ["creator","createDate"],
+					keys: ["sn"],
+					items: [
+						{source:sn, 			dataType:"N",	inputType:"I"}, 
+						{source:academicYear,	dataType:"N",	init:int(i_session.academicYear)}, 
+						{source:semester,		dataType:"N",	init:int(i_session.semester)},
+						{source:acaName,						update:false,	inputType:"R"},
+						{source:classLeavesSn,	dataType:"N"},
+						{source:studentSn,		dataType:"N"},
+						{source:studentName,					update:false,	inputType:"R",	required:true},
+						{source:funcItemSn,		dataType:"N"},
+						{source:cDate,			dataType:"D"},
+						{source:timeH,			dataType:"N"},
+						{source:timeM,			dataType:"N"},
+						{source:watchTime,						update:false,	inputType:"R"},
+						{source:behavior,		dataType:"S"},
+						{source:assay,			dataType:"S"},
+						{source:advice,			dataType:"S"},
+						{source:observeRef,		dataType:"S"},
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"DT",	inputType:"R"}					
+					]				
+				};
+			}
+			
+			private function afterOpen(p_data:Object):void{
+				if (p_data.fun == "U" || p_data.fun == "V"){					
+					if (p_data.fun == "V") {
+						SchStu.visible = false; //檢視模是不顯示搜尋按鈕
+					}
+				}
+			}
+			private function whenSave(p_data:Object):Boolean{
+				if (p_data.fun != "D"){
+					Fun.setItem(acaName, String(Fun.getItem(academicYear))+ ' - '+String(Fun.getItem(semester)));
+					Fun.setItem(watchTime, String(Fun.getItem(timeH))+ '：'+String(Fun.getItem(timeM)));
+				}
+				return true;
+			}
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10" y="372" id="edit_1" fAfterOpen="afterOpen" fWhenSave="whenSave">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="academicYear" visible="false"/>
+	<x2:Num1 id="semester" visible="false"/>
+	<s:TextInput id="acaName" visible="false"/>
+	<x2:Num1 id="classLeavesSn" visible="false"/>
+	<x2:Num1 id="studentSn" visible="false"/>
+	<s:TextInput id="watchTime" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>	
+	<mx:Form x="10" y="10">
+		<mx:FormItem label="{iR.studentName} :" required="true">
+			<mx:HBox x="72" y="1" width="100%">
+				<s:TextInput id="studentName" editable="false"/>
+				<x2:btnPick id="SchStu" click="doFindStu()"/>				
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.funcItemSn} :" required="true">
+			<x2:DDL1 id="funcItemSn" dataProvider="{ia_itemName}"></x2:DDL1>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.cDate} :" required="true">
+			<mx:DateField id="cDate" formatString="YYYY/MM/DD" yearNavigationEnabled="true"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.timeHM} :" required="true">
+			<mx:HBox x="69" y="3" width="100%">
+				<mx:NumericStepper maximum="24" id="timeH"/>
+				<mx:Label text="："/>
+				<mx:NumericStepper maximum="59" id="timeM"/>
+			</mx:HBox>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.behavior} :">
+			<mx:TextArea width="560" id="behavior"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.assay} :">
+			<mx:TextArea width="560" id="assay"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.advice} :">
+			<mx:TextArea width="560" id="advice"/>
+		</mx:FormItem>
+		<mx:FormItem label="{iR.observeRef} :">
+			<mx:TextArea width="560" id="observeRef"/>
+		</mx:FormItem>
+	</mx:Form>
+</s:TitleWindow>

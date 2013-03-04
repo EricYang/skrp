@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx"	
+	xmlns:x2="x2.*" 
+	width="100%" height="100%" 
+	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('Parent')}"
+	creationPolicy="all"
+	>
+	<fx:Script>
+		<![CDATA[		
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;			
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["userType"]});
+			
+			private function init():void{
+				if (i_session.userType!="2"){
+					Fun.msg("E", "非家長不得進入");
+					Fun2.showMain();
+				}else{					
+					var t_data:Object = {win:this};				
+					var u_data:Object ={
+						data: "ParentSelf"
+					};				
+					var t_row:Object = Fun.readRow(is_app, u_data);
+					if (t_row == null){						
+						Fun.msg("E", "查無資料");
+						Fun2.showMain();
+					}else{
+						loginId.text = t_row.loginId; 
+						loginPw.text = t_row.loginPw;
+						cName.text = t_row.cName;
+						gender.text = t_row.gender; 
+						birthDate.text = t_row.birthDate; 
+						idNo.text = t_row.idNo;
+						conTel.text = t_row.conTel; 
+						address.text = t_row.address; 
+						eMail.text = t_row.eMail;
+						eduExtent.text = t_row.eduExtent; 
+						company.text = t_row.company;						
+
+						Fun.setItem(sn, t_row.sn);
+						Fun.setItem(userSn, t_row.userSn);
+						Fun.setItem(loginPw2, loginPw.text);
+						Fun.setItem(loginPw3, loginPw.text);
+						
+						//列出伙食過敏情形
+						var t_datafs:Object = {
+							data: "ListParentSelf"
+						};
+						var tafs_row:Array = Fun.readRows(is_app, t_datafs);
+						grid_Student.dataProvider = new ArrayCollection(tafs_row);
+					}
+				}	
+			}
+			private function okClick():void{
+				if (Fun.getItem(loginPw)!=Fun.getItem(loginPw2)){
+					Fun.msg("E", iR.message02);
+					focusManager.setFocus(loginPw2);
+				}else{
+					if (Fun.getItem(loginPw)!=Fun.getItem(loginPw3)){
+						var t_md5:MD5 = new MD5();
+						var ts_code:String = t_md5.encrypt(String(Fun.getItem(loginPw)));
+						t_md5 = null;
+						
+						var m_data:Object = {
+							sn: int(Fun.getItem(sn)),
+							userSn: int(Fun.getItem(userSn)),
+							loginPw: ts_code
+						};
+						var ts_result:String = Fun.sync(is_app, "ParentSelf", m_data, false) as String;
+						switch (ts_result){
+							case "0":
+								Fun.msg("E", "修改失敗 !");
+								break;
+							case "1":
+								Fun.setItem(loginPw, ts_code);
+								Fun.setItem(loginPw2, ts_code);
+								Fun.setItem(loginPw3, ts_code);
+								Fun.msg("I", "修改成功 !");								
+								break;
+						}
+					}
+				}
+			}
+			
+			public function fnStuClick(pn_StuSn:int):void{
+				if (int(pn_StuSn)){
+					var t_win:StudentE = new StudentE();
+					var t_data:Object = {
+						win: t_win,
+						fun: "V",
+						row: {sn:pn_StuSn}
+					};
+					Fun.openPopup(t_win, this);				
+					var t_edit:comEdit = t_win.edit_1; 
+					t_edit.sApp = is_app;
+					t_edit.sInf = "StudentE";
+					t_edit.sTitle = iR.message03;				
+					t_edit.init(t_data);					
+				}				
+			}
+		]]>
+	</fx:Script>
+	<x2:sysBG/>
+	<x2:subFunHead/>
+	
+	<mx:TabNavigator x="55" y="87" width="92%" height="80%" cornerRadius="5" borderColor="#BEC7CC" alpha="0.9">
+		<mx:Canvas label="{iR.Canvas03}" width="100%" height="100%" id="canvasLabel3">
+			<s:Form x="10" y="10" width="500">
+				<s:layout> 
+					<s:FormLayout gap="3"/>
+				</s:layout>
+				<s:FormItem label="{iR.loginId} :">
+					<s:Label id="loginId"/>					
+				</s:FormItem>
+				<s:FormItem label="{iR.loginPw} :">
+					<s:TextInput id="loginPw" maxChars="20" displayAsPassword="true" width="100%"/>
+				</s:FormItem>				
+				<s:FormItem label="{iR.loginPw2} :" id="loginPw2Form">
+					<s:TextInput id="loginPw2" maxChars="20" displayAsPassword="true" width="100%"/>
+				</s:FormItem>				
+				<mx:Button id="cmdOk" label="修改後儲存" buttonMode="true" click="okClick()"
+						   icon="@Embed(source='x2/image/checked.gif')"/>
+				<s:TextInput id="sn" visible="false"/>
+				<s:TextInput id="userSn" visible="false"/>
+				<s:TextInput id="loginPw3" visible="false"/>
+			</s:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas01}" width="100%" height="100%" id="canvasLabel1">
+			<s:Form x="10" y="10">
+				<s:layout> 
+					<s:FormLayout gap="3"/>
+				</s:layout>
+				<s:FormItem label="{iR.cName} :">
+					<s:Label id="cName"/>
+				</s:FormItem>
+				<s:FormItem label="{iR.gender} :">
+					<s:Label id="gender"/>
+				</s:FormItem>
+				<s:FormItem label="{iR.birthDate} :">
+					<s:Label id="birthDate"/>
+				</s:FormItem>
+				<s:FormItem label="{iR.idNo} :">
+					<s:Label id="idNo"/>
+				</s:FormItem>
+				<s:FormItem label="{iR.conTel} :">
+					<s:Label id="conTel"/>
+				</s:FormItem>
+				<s:FormItem label="{iR.address} :">
+					<s:Label id="address"/>
+				</s:FormItem>
+				<s:FormItem label="{iR.eMail} :">
+					<s:Label id="eMail"/>
+				</s:FormItem>
+				<s:FormItem label="{iR.eduExtent} :">
+					<s:Label id="eduExtent"/>
+				</s:FormItem>
+				<s:FormItem label="{iR.company} :">
+					<s:Label id="company"/>
+				</s:FormItem>
+			</s:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas02}" width="100%" height="100%" id="canvasLabel2">
+			<mx:Form x="10" y="10" width="100%" height="292">
+				<x2:DG2 width="100%" alpha="0.7" height="249" id="grid_Student">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn headerText="{iR.relationship}" dataField="relationship" width="100"/>
+						<s:GridColumn headerText="{iR.stuNo}" dataField="stuNo"/>
+						<s:GridColumn headerText="{iR.cName}" dataField="cName">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<s:Label text="{data.cName}" useHandCursor="true" mouseChildren="false" buttonMode="true" textDecoration="underline" color="#0000FF" click="outerDocument.fnStuClick(data.sn)"/>															
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>						
+						<s:GridColumn headerText="{iR.eName}" dataField="eName"/>
+						<s:GridColumn headerText="{iR.gender}" dataField="gender"/>
+						<s:GridColumn headerText="{iR.birthDate}" dataField="birthDate"/>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>
+		</mx:Canvas>
+	</mx:TabNavigator>	
+</s:Application>

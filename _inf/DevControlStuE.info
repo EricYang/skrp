@@ -1,0 +1,36 @@
+{
+    "dws":[
+        {            
+            "selectTable": "DevControlStu a INNER JOIN Student b ON a.studentSn = b.sn",
+            "updateTable": "DevControlStu",
+            "defaultTable": "a",
+            "items": [
+                {"fid":"sn"},
+		{"fid":"academicYear"},
+                {"fid":"semester"},
+                {"fid":"acaName",         "table":"", "colName":"CONCAT(a.academicYear, ' - ', a.semester)"},
+                {"fid":"classLeavesSn"},
+                {"fid":"studentSn"},
+                {"fid":"studentName",     "table":"", "colName":"CONCAT(b.cName, ' ', b.eName)"},
+                {"fid":"devControlSn"},
+                {"fid":"controlResult"},
+                {"fid":"creator"},
+                {"fid":"createDate"},           
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+            ]
+		},
+        {
+            "selectTable": "DevControlStuDetail [_where] ORDER BY sn",
+            "updateTable": "DevControlStuDetail",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"devControlStuSn"},                
+                {"fid":"devControlDetailSn"},
+                {"fid":"checkSign"},
+                {"fid":"answer",     "table":"",    "colName":"''"}
+            ]                
+        }
+   ]    
+}

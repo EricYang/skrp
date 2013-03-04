@@ -1,0 +1,13 @@
+{
+    "list":{
+        "select": "SELECT *, CONCAT(sAge, '歲', sMonth, '個月', sDay, '天 ~ ', eAge, '歲', eMonth, '個月', eDay, '天') AS ageScope",
+        "from":   "FROM DevControl [_where]",
+        "order":  "ORDER BY sAge, sMonth, sDay",
+        "items": [            
+            {"fid":"devAgeName",    "op":"like"}
+      ]
+    },    
+    "progRange": 1,
+    "aFOwner": "creator",
+    "aFOwnerType": "L"
+}

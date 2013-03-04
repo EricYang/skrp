@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="650" height="485" 
+	 
+  	creationComplete="init()" 
+	preinitialize="{iR=Fun.getLang('FilesMana')}"
+	>
+	<fx:Script>
+		<![CDATA[
+
+			import mx.utils.StringUtil;
+			
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			[Bindable]
+			private var iR:Object;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["usersSn","academicYear","semester","schoolDSn"]});
+			[Bindable]
+			private var idw_master:DW;
+			[Bindalbe]
+			private var idw_FilesRole:DW2, idw_FilesUsed:DW2;
+			[Bindable]
+			public var ia_itemName:ArrayList = new ArrayList(Fun2.itemNameDS(is_app, 20, true));
+			[Bindable]
+			private var ia_gender:ArrayList = new ArrayList(Fun2.genderDS(is_app, true));
+			[Bindable]
+			private var ia_userTypeSearch:ArrayList = new ArrayList(Fun2.userTypeSearchDS(is_app, true));
+			[Bindable]
+			private var ia_ynFlag:ArrayList = new ArrayList(Fun2.ynFlagDS(is_app, true));
+			
+			private function init():void{				
+				//dw1: FilesMana
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					mapping: true,
+					items: [						
+						{source:sn, 			dataType:"N",	inputType:"I"},
+						{source:funcItemSn,		dataType:"N"},						
+						{source:filesAlias,		dataType:"S"},
+						{source:description,	dataType:"S"},
+						{source:fileName,		dataType:"S"},
+						{source:deleFlag,		dataType:"N"},
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"DT",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"DT",	inputType:"R"}
+					]
+				}; 			
+				
+				//dw1: FilesRole
+				edit_1.aoDW[1] = new DW2();
+				idw_FilesRole = edit_1.aoDW[1]; 
+				idw_FilesRole.xTool = tb_FilesRole;
+				idw_FilesRole.oConfig = {			
+					upDW: idw_master,
+					grid: grid_FilesRole,
+					upQKeys: ["sn"],
+					qKeys: ["filesManaSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 			dataType:"N", 	inputType:"I"},
+						{fid:"filesManaSn",	dataType:"N", 	inputType:"2"},
+						{fid:"roleSn", 		dataType:"N"},
+						{fid:"roleName",	update:false}
+					]					
+				};
+				
+				//dw2: FilesUsed
+				edit_1.aoDW[2] = new DW2();
+				idw_FilesUsed = edit_1.aoDW[2]; 
+				idw_FilesUsed.xTool = tb_FilesUsed;
+				idw_FilesUsed.oConfig = {			
+					upDW: idw_master,
+					grid: grid_FilesUsed,
+					upQKeys: ["sn"],
+					qKeys: ["filesManaSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 			dataType:"N", 	inputType:"I"},
+						{fid:"filesManaSn",	dataType:"N", 	inputType:"2"},
+						{fid:"userType", 	dataType:"N"},
+						{fid:"userSn", 		dataType:"N"},
+						{fid:"dDate", 		dataType:"D"},
+						{fid:"userNo",		update:false},
+						{fid:"userName",	update:false},
+						{fid:"gender",		update:false}
+					]					
+				};
+			}
+			
+			private var fileNames:String;
+			private function afterOpen(p_data:Object):void{	
+				tmpFileName.text = "";
+				textFilesName.visible = false;
+				switch (p_data.fun){
+					case "C":
+						tns.removeChild(FilesUsed);						
+						break;
+					case "V":
+					case "U":
+						tns.addChild(FilesUsed);
+						
+						fileNames = StringUtil.trim(Fun.getItem(fileName) as String);
+						if (fileNames!=""){
+							textFilesName.visible = true;
+						}
+						break;
+				}				
+			}
+			
+			private var i_file:FileReference;
+			private function fnUpload():void {
+				if (Fun.getItem(filesAlias)!=""){
+					i_file = new FileReference();
+					i_file.addEventListener(Event.SELECT, getFile);
+					i_file.browse();
+				}else{
+					Fun.msg("I", iR.message04);
+				}				
+			}
+			private function getFile(p_event:Event):void {				
+				var fileTypeTmp:String = String(p_event.target.type).toLowerCase();				
+				switch (fileTypeTmp){
+					case ".pdf":
+					case ".xls":
+					case ".xlsx":
+					case ".doc":
+					case ".docx":
+					case ".ppt":
+					case ".jpg":
+					case ".gif":
+					case ".jpeg":
+					case ".png":
+						var fileNameTmp:String = StringUtil.trim('FilesMana_' + String(i_session.schoolDSn) + '_' + String(i_session.usersSn) + '_' + String(new Date().getTime()) + fileTypeTmp);
+						
+						var t_file:Object = {};
+						t_file[Fun.csFile] = i_file;
+						t_file[Fun.csFilePath] = Fun2.fMana + fileNameTmp;
+						FL.upload(this, is_app, [t_file]);
+						
+						Fun.setItem(tmpFileName, p_event.target.name);
+						idw_master.setItem(fileName, fileNameTmp, true);					
+						
+						fileNames = fileNameTmp;
+						textFilesName.visible = true;
+						
+						break;					
+					default:					
+						Fun.msg("E", iR.message05);
+						break;
+				}
+			}
+			private function openFiles():void {				
+				Fun.openFile(Fun.sDirRoot + Fun2.fMana + fileNames);
+			}
+			//角色群組
+			public function fnClickFilesRole(pn_sn:int):void{
+				var t_win:FindRole = new FindRole();
+				Fun.openPopup(t_win, this);				
+				t_win.qry_1.fSelectRow = fSelectRowStaff;				
+				
+				t_win.qry_1.bCloseAfterQuery = false;
+				t_win.fAfterOk = fSelectRowStaff;
+			}			
+			private function fSelectRowStaff(p_row:Object):void{
+				var tn_row:int = grid_FilesRole.selectedIndex;
+				
+				var t_row:Object = grid_FilesRole.selectedItem;				
+				t_row.roleName = p_row.roleName;
+				
+				idw_FilesRole.setItemByFid("roleSn", p_row.sn, true, tn_row);				
+				Fun.refreshGrid(grid_FilesRole, tn_row);
+			}
+			public function fnRoleClick(pn_sn:int):void{
+				if (int(pn_sn)){
+					var t_win:RoleE = new RoleE();
+					var t_data:Object = {
+						win: t_win,
+						fun: "V",
+						row: {sn:pn_sn}
+					};
+					Fun.openPopup(t_win, this);				
+					var t_edit:comEdit = t_win.edit_1; 
+					t_edit.sApp = is_app;
+					t_edit.sInf = "RoleE";
+					t_edit.sTitle = iR.message06;				
+					t_edit.init(t_data);
+					t_win.tns.removeChild(t_win.canvasLabel2);					
+				}				
+			}
+			private function userTypeFlag(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_userTypeSearch, p_row[p_column.dataField]);
+			}			
+			private function gender(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_gender, p_row[p_column.dataField]);
+			}
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10" y="415" id="edit_1" fAfterOpen="afterOpen">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+	<mx:TabNavigator x="10" y="10" width="620" height="400" id="tns">		
+		<mx:Canvas label="{iR.Canvas01}">
+			<mx:Form x="10" y="10">
+				<mx:FormItem label="{iR.funcItemSn} :" required="true">			
+					<x2:DDL1 id="funcItemSn" dataProvider="{ia_itemName}"></x2:DDL1>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.filesAlias} :" required="true">
+					<s:TextInput id="filesAlias" width="412"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.description} :">
+					<mx:TextArea id="description" width="412" height="76"/>
+				</mx:FormItem>
+				<mx:FormItem id="textFilesName">
+					<x2:btnTBar buttonMode="true" label="{iR.textFilesName}" icon="@Embed(source='x2/image/star.gif')" click="openFiles()" toolTip="{iR.textFilesName}"/>
+				</mx:FormItem>		
+				<mx:FormItem label="{iR.tmpFileName}  :">
+					<mx:HBox width="100%">				
+						<s:TextInput id="tmpFileName" editable="false" enabled="false" width="121"/>										
+						<mx:Button label="{iR.fileName}" click="fnUpload()"/>				
+						<s:TextInput id="fileName" visible="false" width="0"/>				
+					</mx:HBox>			
+				</mx:FormItem>
+				<mx:Label/>
+				<mx:FormItem label="{iR.deleFlag} :">
+					<x2:DDL1 id="deleFlag" dataProvider="{ia_ynFlag}"></x2:DDL1>			
+				</mx:FormItem>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas02}">
+			<x2:TBar2 x="327" y="4" id="tb_FilesRole">
+			</x2:TBar2>
+			<mx:Form x="10" y="29">
+				<x2:DG2 width="560"
+						 
+						 
+						 alpha="0.7"		
+						 		 
+						 
+						 
+						 height="291" x="10.5" y="144" id="grid_FilesRole">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="filesManaSn" visible="false"/>
+						<s:GridColumn dataField="roleSn" visible="false"/>
+						<s:GridColumn width="20">
+							<s:itemRenderer><fx:Component><x2:irCenterVH>
+								<s:Image source="@Embed(source='x2/image/view.png')" scaleMode="letterbox" smooth="true" smoothingQuality="high" buttonMode="true" toolTip="View ..." click="outerDocument.fnRoleClick(data.roleSn)"/>
+							</x2:irCenterVH></fx:Component></s:itemRenderer>											
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.roleName}" dataField="roleName"/>
+						<!-- 卡
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<mx:Label useHandCursor="true" mouseChildren="false" buttonMode="true" textDecoration="underline" color="#0000FF" click="outerDocument.fnRoleClick(data.roleSn)"/>															
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						-->
+						<s:GridColumn width="40">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:btnPick click="outerDocument.fnClickFilesRole(data.sn)"/>									
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas03}" id="FilesUsed">
+			<x2:TBar2 x="267" y="4" id="tb_FilesUsed" visible="false">
+			</x2:TBar2>
+			<mx:Form x="10" y="29">
+				<x2:DG2 width="560"
+						 
+						 
+						 alpha="0.7"		
+						 		 
+						 
+						 
+						 sortableColumns="true"
+						 height="291" x="10.5" y="144" id="grid_FilesUsed">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="filesManaSn" visible="false"/>						
+						<s:GridColumn dataField="userSn" visible="false"/>
+						<s:GridColumn headerText="{iR.dDate}" dataField="dDate" width="145"/>
+						<s:GridColumn headerText="{iR.userType}" dataField="userType" labelFunction="userTypeFlag" width="50"/>
+						<s:GridColumn headerText="{iR.userNo}" dataField="userNo"/>
+						<s:GridColumn headerText="{iR.userName}" dataField="userName"/>
+						<s:GridColumn headerText="{iR.gender}" dataField="gender" labelFunction="gender" width="50"/>								
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+			</mx:Form>
+		</mx:Canvas>
+	</mx:TabNavigator>	
+</s:TitleWindow>

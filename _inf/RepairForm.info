@@ -1,0 +1,15 @@
+{
+    "list":{
+        "select": "SELECT a.*, b.fortuneNo, b.fortuneName, CONCAT(c.cName, ' ', c.eName) AS rName",
+        "from":   "FROM DamageRepair a INNER JOIN
+                    Fortune b ON a.fortuneSn = b.sn AND a.staffSnA = [staffSnA] LEFT OUTER JOIN
+                    Staff c ON a.staffSnR = c.sn [_where]",
+        "order":  "ORDER BY a.createDate",
+        "items": [
+            {"fid":"sn",            "table":"a",      "op":"like"},
+            {"fid":"fortuneSn",     "table":"a"},            
+            {"fid":"staffSnA",      "isCond":0},
+            {"fid":"createDate",    "table":"a",      "op":"between"}
+      ]
+    }
+}

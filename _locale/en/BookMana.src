@@ -1,0 +1,16 @@
+﻿# list/query fields
+bookNo=book number
+bookName=book name
+staffName=librarian
+cDate=borrowing date
+rDate=book return date
+creator=created by
+createDate=created on
+reviser=modified by
+reviseDate=last modified
+
+# E
+remark=remark
+
+# message
+message01=the book return date, can't be earlier than,  Checkout date.

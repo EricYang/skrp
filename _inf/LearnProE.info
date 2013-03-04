@@ -1,0 +1,60 @@
+{
+    "dws":[
+        {
+            "selectTable": "LearnPro a INNER JOIN YearEdu b ON a.yearEduSn = b.sn",
+            "updateTable": "LearnPro",
+            "defaultTable": "a",
+            "items": [
+                    {"fid":"sn"}, 
+                    {"fid":"acaName",         "table":"", "colName":"CONCAT(b.academicYear, ' - ', b.semester)"},
+                    {"fid":"classLeavesSn"},
+                    {"fid":"yearEduSn"},
+                    {"fid":"yearEduName",     "table":"", "colName":"CONCAT(b.sDate, ' ~ ', b.eDate)"},
+                    {"fid":"subject"},
+                    {"fid":"creator"},
+                    {"fid":"createDate"},
+                    {"fid":"reviser"},
+                    {"fid":"reviseDate"}
+            ]
+        },
+        {
+            "selectTable": "LearnProPT [_where] ORDER BY createDate",
+            "updateTable": "LearnProPT",
+            "upDW": 0,
+            "items": [
+                    {"fid":"sn"},
+                    {"fid":"learnProSn"},
+                    {"fid":"fileType"},
+                    {"fid":"fileName"},
+                    {"fid":"fileCon"},
+                    {"fid":"creator"},
+                    {"fid":"createDate"},
+                    {"fid":"reviser"},
+                    {"fid":"reviseDate"}
+            ]
+        },
+        {
+            "selectTable": "LearnProTG a 
+                INNER JOIN LearnProPT b ON a.learnProPTSn = b.sn 
+                LEFT OUTER JOIN Student c ON a.studentSn = c.sn 
+                [_where] ORDER BY c.stuNo",
+            "defaultTable": "a",
+            "updateTable": "LearnProTG",
+            "upDW": 0,
+            "upEditDW": 1,
+            "items": [
+                    {"fid":"sn"},
+                    {"fid":"learnProSn",   "table":"b"},
+                    {"fid":"learnProPTSn"},
+                    {"fid":"academicYear"},
+                    {"fid":"semester"},
+                    {"fid":"classLeavesSn"},
+                    {"fid":"studentSn"},
+                    {"fid":"cName",     "table":"c"},
+                    {"fid":"eName",     "table":"c"},
+                    {"fid":"gender",    "table":"c"},
+                    {"fid":"tagCon"}
+            ]                
+        }        
+    ]    
+}

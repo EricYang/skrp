@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*" 
+	 
+	
+	 
+	width="100%" height="100%" 
+ 	creationComplete="init()"
+	preinitialize="{iR=Fun.getLang('PublicDept')}"
+ 	>
+	<fx:Script>
+		<![CDATA[		
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;			
+			[Bindalbe]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			public var ia_infoCategory:ArrayList = new ArrayList(Fun2.infoCategoryDS(is_app, false));
+
+			private function init():void {			
+				list_1.wQuery = new PublicDeptQ();
+				list_1.wEdit = new PublicDeptE();			
+				list_1.gList = grid_1;
+				list_1.init();			
+			}						
+			private function infoCategory(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_infoCategory, p_row[p_column.dataField]);
+			}
+		]]>
+	</fx:Script>
+	<x2:sysBG/>
+	<x2:subFunHead/>
+
+	<x2:comList x="81" y="59" id="list_1">
+	</x2:comList>
+	<s:DataGrid id="grid_1" x="55" y="87" width="92%" height="80%" alpha="0.7">
+		<s:columns>
+			<s:ArrayList>
+				<s:GridColumn dataField="sn" visible="false"/>
+				<s:GridColumn headerText="{iR.infoCategory}" dataField="infoCategory" width="100" labelFunction="infoCategory"/>
+				<s:GridColumn headerText="{iR.unitName}" dataField="unitName" width="150"/>
+				<s:GridColumn headerText="{iR.contactName}" dataField="contactName" width="100"/>
+				<s:GridColumn headerText="{iR.conTel}" dataField="conTel" width="100"/>
+				<s:GridColumn headerText="{iR.fax}" dataField="fax" width="100"/>
+				<s:GridColumn headerText="{iR.address}" dataField="address"/>
+				<s:GridColumn headerText="{iR.webSite}" dataField="webSite"/>			
+				<s:GridColumn headerText="{iR.creator}" dataField="creator" width="80"/>
+				<s:GridColumn headerText="{iR.createDate}" dataField="createDate" width="130"/>
+				<s:GridColumn headerText="{iR.reviser}" dataField="reviser" width="80"/>
+				<s:GridColumn headerText="{iR.reviseDate}" dataField="reviseDate" width="130"/>
+			</s:ArrayList>
+		</s:columns>
+	</s:DataGrid>
+</s:Application>

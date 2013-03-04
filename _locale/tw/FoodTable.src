@@ -1,0 +1,31 @@
+﻿# list/query fields
+cDate=日期
+remark=備註
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# message
+
+
+# E
+Canvas01=基本資料
+cDate=日期
+remark=備註
+Canvas02=早餐
+itemName=項目
+Canvas03=營養午餐
+Canvas04=水果
+Canvas05=下午點心
+Canvas06=晚上延托點心
+
+# message
+message01=幼兒基本資料
+
+
+# Q
+
+
+# message
+message02=匯出 PDF 失敗！查無資料，請重新點選。

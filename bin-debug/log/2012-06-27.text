@@ -1,0 +1,670 @@
+; 127.0.0.1; 9:46:59; _Service2(GetLang)
+Supervisor; 127.0.0.1; 9:47:03; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 9:47:03; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340761623)
+Supervisor; 127.0.0.1; 9:47:03; Login; Supervisor
+Supervisor; 127.0.0.1; 9:47:04; _Main(getMain)
+Supervisor; 127.0.0.1; 9:47:05; _Service2(GetLang)
+Supervisor; 127.0.0.1; 9:47:07; _Service2(GetLang)
+Supervisor; 127.0.0.1; 9:47:25; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 9:47:26; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 9:47:27; _Service2(GetLang)
+Supervisor; 127.0.0.1; 9:47:27; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 9:47:41; _Service2(GetLang)
+; 127.0.0.1; 10:49:38; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:49:41; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 10:49:41; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340765381)
+Supervisor; 127.0.0.1; 10:49:41; Login; Supervisor
+Supervisor; 127.0.0.1; 10:49:43; _Main(getMain)
+Supervisor; 127.0.0.1; 10:49:44; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:49:46; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:49:58; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 10:49:59; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 10:50:00; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:50:00; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+; 127.0.0.1; 10:57:36; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:57:38; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 10:57:38; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340765858)
+Supervisor; 127.0.0.1; 10:57:38; Login; Supervisor
+Supervisor; 127.0.0.1; 10:57:39; _Main(getMain)
+Supervisor; 127.0.0.1; 10:57:40; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:57:42; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:57:57; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 10:57:58; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 10:57:59; _Service2(GetLang)
+Supervisor; 127.0.0.1; 10:57:59; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+; 127.0.0.1; 11:01:20; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:01:24; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 11:01:24; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340766084)
+Supervisor; 127.0.0.1; 11:01:24; Login; Supervisor
+Supervisor; 127.0.0.1; 11:01:25; _Main(getMain)
+Supervisor; 127.0.0.1; 11:01:26; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:01:28; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:01:43; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:01:44; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:01:45; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:01:45; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+; 127.0.0.1; 11:08:21; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:10:46; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 11:10:46; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340766646)
+Supervisor; 127.0.0.1; 11:10:46; Login; Supervisor
+Supervisor; 127.0.0.1; 11:10:47; _Main(getMain)
+Supervisor; 127.0.0.1; 11:10:48; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:10:50; _Service2(GetLang)
+; 127.0.0.1; 11:13:48; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:13:51; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 11:13:51; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340766831)
+Supervisor; 127.0.0.1; 11:13:51; Login; Supervisor
+Supervisor; 127.0.0.1; 11:13:52; _Main(getMain)
+Supervisor; 127.0.0.1; 11:13:53; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:13:55; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:14:09; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:14:10; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:14:11; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:14:11; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+; 127.0.0.1; 11:19:58; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:20:01; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 11:20:01; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340767201)
+Supervisor; 127.0.0.1; 11:20:01; Login; Supervisor
+Supervisor; 127.0.0.1; 11:20:02; _Main(getMain)
+Supervisor; 127.0.0.1; 11:20:03; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:20:05; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:20:18; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:20:19; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:20:20; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:20:20; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+; 127.0.0.1; 11:21:02; _Service2(GetLang)
+; 127.0.0.1; 11:21:08; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:21:10; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 11:21:10; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340767270)
+Supervisor; 127.0.0.1; 11:21:10; Login; Supervisor
+Supervisor; 127.0.0.1; 11:21:11; _Main(getMain)
+Supervisor; 127.0.0.1; 11:21:12; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:21:14; _Service2(GetLang)
+; 127.0.0.1; 11:25:04; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:25:06; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 11:25:06; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340767506)
+Supervisor; 127.0.0.1; 11:25:06; Login; Supervisor
+Supervisor; 127.0.0.1; 11:25:07; _Main(getMain)
+Supervisor; 127.0.0.1; 11:25:08; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:25:10; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:25:38; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:25:39; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:25:40; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:25:40; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+; 127.0.0.1; 11:30:56; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:30:58; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 11:30:59; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340767858)
+Supervisor; 127.0.0.1; 11:30:59; Login; Supervisor
+Supervisor; 127.0.0.1; 11:31:00; _Main(getMain)
+Supervisor; 127.0.0.1; 11:31:01; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:31:03; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:31:17; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:31:18; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:31:19; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:31:19; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+; 127.0.0.1; 11:31:47; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:31:49; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 11:31:49; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340767909)
+Supervisor; 127.0.0.1; 11:31:49; Login; Supervisor
+Supervisor; 127.0.0.1; 11:31:50; _Main(getMain)
+Supervisor; 127.0.0.1; 11:31:51; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:31:53; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:32:11; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:32:12; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:32:13; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:32:13; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+; 127.0.0.1; 11:33:22; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:33:31; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 11:33:31; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340768011)
+Supervisor; 127.0.0.1; 11:33:31; Login; Supervisor
+Supervisor; 127.0.0.1; 11:33:32; _Main(getMain)
+Supervisor; 127.0.0.1; 11:33:33; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:33:35; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:33:50; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:33:51; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:33:52; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:33:52; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+; 127.0.0.1; 11:34:19; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:34:29; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 11:34:29; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340768069)
+Supervisor; 127.0.0.1; 11:34:29; Login; Supervisor
+Supervisor; 127.0.0.1; 11:34:30; _Main(getMain)
+Supervisor; 127.0.0.1; 11:34:31; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:34:33; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:35:43; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:35:44; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:35:45; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:35:45; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+; 127.0.0.1; 11:37:14; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:37:38; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 11:37:38; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340768258)
+Supervisor; 127.0.0.1; 11:37:38; Login; Supervisor
+Supervisor; 127.0.0.1; 11:37:39; _Main(getMain)
+Supervisor; 127.0.0.1; 11:37:40; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:37:42; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:38:24; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:38:25; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 11:38:25; _Service2(GetLang)
+Supervisor; 127.0.0.1; 11:38:25; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+; 127.0.0.1; 12:59:31; _Service2(GetLang)
+Supervisor; 127.0.0.1; 12:59:34; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 12:59:34; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340773174)
+Supervisor; 127.0.0.1; 12:59:34; Login; Supervisor
+Supervisor; 127.0.0.1; 12:59:35; _Main(getMain)
+Supervisor; 127.0.0.1; 12:59:36; _Service2(GetLang)
+Supervisor; 127.0.0.1; 12:59:38; _Service2(GetLang)
+Supervisor; 127.0.0.1; 12:59:51; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 12:59:52; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 12:59:53; _Service2(GetLang)
+Supervisor; 127.0.0.1; 12:59:53; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+; 127.0.0.1; 13:01:55; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:01:57; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 13:01:57; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340773317)
+Supervisor; 127.0.0.1; 13:01:57; Login; Supervisor
+Supervisor; 127.0.0.1; 13:01:58; _Main(getMain)
+Supervisor; 127.0.0.1; 13:01:59; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:02:01; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:02:15; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 13:02:16; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 13:02:17; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:02:17; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+; 127.0.0.1; 13:03:20; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:03:25; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 13:03:25; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340773405)
+Supervisor; 127.0.0.1; 13:03:25; Login; Supervisor
+Supervisor; 127.0.0.1; 13:03:25; _Main(getMain)
+Supervisor; 127.0.0.1; 13:03:26; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:03:28; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:04:37; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 13:04:38; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 13:04:39; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:04:39; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+; 127.0.0.1; 13:45:59; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:46:06; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 13:46:06; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340775966)
+Supervisor; 127.0.0.1; 13:46:06; Login; Supervisor
+Supervisor; 127.0.0.1; 13:46:07; _Main(getMain)
+Supervisor; 127.0.0.1; 13:46:08; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:46:10; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:46:25; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 13:46:26; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 13:46:27; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:46:27; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 13:46:40; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:47:56; _Service2(GetLang)
+; 127.0.0.1; 13:50:21; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:50:24; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 13:50:24; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340776224)
+Supervisor; 127.0.0.1; 13:50:24; Login; Supervisor
+Supervisor; 127.0.0.1; 13:50:24; _Main(getMain)
+Supervisor; 127.0.0.1; 13:50:25; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:50:28; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:50:40; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 13:50:41; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 13:50:42; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:50:42; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 13:50:50; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:51:30; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:51:40; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 13:51:41; _Service2(CheckSession)
+; 127.0.0.1; 13:52:05; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:52:19; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 13:52:19; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340776339)
+Supervisor; 127.0.0.1; 13:52:19; Login; Supervisor
+Supervisor; 127.0.0.1; 13:52:20; _Main(getMain)
+Supervisor; 127.0.0.1; 13:52:21; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:52:23; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:52:54; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 13:52:55; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 13:52:56; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:52:56; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 13:53:05; _Service2(GetLang)
+; 127.0.0.1; 13:55:17; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:55:20; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 13:55:20; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340776520)
+Supervisor; 127.0.0.1; 13:55:20; Login; Supervisor
+Supervisor; 127.0.0.1; 13:55:21; _Main(getMain)
+Supervisor; 127.0.0.1; 13:55:22; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:55:24; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:56:03; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 13:56:04; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 13:56:05; _Service2(GetLang)
+Supervisor; 127.0.0.1; 13:56:05; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 13:57:19; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:02:30; _Service2(GetLang)
+; 127.0.0.1; 14:02:49; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:02:54; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 14:02:54; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340776974)
+Supervisor; 127.0.0.1; 14:02:54; Login; Supervisor
+Supervisor; 127.0.0.1; 14:02:55; _Main(getMain)
+Supervisor; 127.0.0.1; 14:02:56; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:02:58; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:03:15; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:03:16; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:03:17; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:03:17; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 14:03:24; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:03:42; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:04:47; _Service2(GetLang)
+; 127.0.0.1; 14:05:22; _Service2(GetLang)
+; 127.0.0.1; 14:05:28; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:05:31; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 14:05:31; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340777131)
+Supervisor; 127.0.0.1; 14:05:31; Login; Supervisor
+Supervisor; 127.0.0.1; 14:05:32; _Main(getMain)
+Supervisor; 127.0.0.1; 14:05:33; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:05:35; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:06:00; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:06:01; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:06:02; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:06:02; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 14:06:09; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:06:23; _Service2(GetLang)
+; 127.0.0.1; 14:07:18; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:07:20; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 14:07:20; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340777240)
+Supervisor; 127.0.0.1; 14:07:20; Login; Supervisor
+Supervisor; 127.0.0.1; 14:07:21; _Main(getMain)
+Supervisor; 127.0.0.1; 14:07:22; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:07:24; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:08:01; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:08:02; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:08:03; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:08:03; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 14:08:18; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:08:41; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:09:12; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:09:16; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:09:18; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:09:23; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:09:25; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:09:55; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:09:57; LearnPro(QueryList)
+Supervisor; 127.0.0.1; 14:10:19; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:10:20; LearnPro(QueryList)
+Supervisor; 127.0.0.1; 14:10:38; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 14:10:40; LearnPro(C)
+Winter; 127.0.0.1; 14:10:50; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 14:10:50; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340777450)
+Winter; 127.0.0.1; 14:10:50; Login; Winter
+Winter; 127.0.0.1; 14:10:51; _Main(getMain)
+Winter; 127.0.0.1; 14:10:52; _Service2(GetLang)
+Winter; 127.0.0.1; 14:10:54; _Service2(GetLang)
+Winter; 127.0.0.1; 14:10:59; _Service2(GetLang)
+; 127.0.0.1; 14:28:59; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:29:01; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 14:29:01; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340778541)
+Supervisor; 127.0.0.1; 14:29:01; Login; Supervisor
+Supervisor; 127.0.0.1; 14:29:02; _Main(getMain)
+Supervisor; 127.0.0.1; 14:29:02; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:29:04; _Service2(GetLang)
+Winter; 127.0.0.1; 14:29:35; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 14:29:35; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340778575)
+Winter; 127.0.0.1; 14:29:35; Login; Winter
+Winter; 127.0.0.1; 14:29:36; _Main(getMain)
+Winter; 127.0.0.1; 14:29:37; _Service2(GetLang)
+Winter; 127.0.0.1; 14:29:39; _Service2(GetLang)
+Winter; 127.0.0.1; 14:29:53; _Service2(GetLang)
+Winter; 127.0.0.1; 14:31:00; _Service2(GetLang)
+; 127.0.0.1; 14:33:39; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:33:42; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 14:33:42; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340778822)
+Supervisor; 127.0.0.1; 14:33:42; Login; Supervisor
+Supervisor; 127.0.0.1; 14:33:43; _Main(getMain)
+Supervisor; 127.0.0.1; 14:33:44; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:33:47; _Service2(GetLang)
+Winter; 127.0.0.1; 14:34:02; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 14:34:02; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340778842)
+Winter; 127.0.0.1; 14:34:02; Login; Winter
+Winter; 127.0.0.1; 14:34:03; _Main(getMain)
+Winter; 127.0.0.1; 14:34:04; _Service2(GetLang)
+Winter; 127.0.0.1; 14:34:07; _Service2(GetLang)
+Winter; 127.0.0.1; 14:34:12; _Service2(GetLang)
+; 127.0.0.1; 14:43:53; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:43:57; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 14:43:57; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340779437)
+Supervisor; 127.0.0.1; 14:43:57; Login; Supervisor
+Supervisor; 127.0.0.1; 14:43:58; _Main(getMain)
+Supervisor; 127.0.0.1; 14:43:59; _Service2(GetLang)
+Supervisor; 127.0.0.1; 14:44:01; _Service2(GetLang)
+Winter; 127.0.0.1; 14:44:08; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 14:44:08; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340779448)
+Winter; 127.0.0.1; 14:44:08; Login; Winter
+Winter; 127.0.0.1; 14:44:09; _Main(getMain)
+Winter; 127.0.0.1; 14:44:10; _Service2(GetLang)
+Winter; 127.0.0.1; 14:44:12; _Service2(GetLang)
+Winter; 127.0.0.1; 14:44:32; _Service2(GetLang)
+; 127.0.0.1; 14:47:12; _Service2(GetLang)
+Winter; 127.0.0.1; 14:47:21; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 14:47:21; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340779641)
+Winter; 127.0.0.1; 14:47:21; Login; Winter
+Winter; 127.0.0.1; 14:47:22; _Main(getMain)
+Winter; 127.0.0.1; 14:47:23; _Service2(GetLang)
+Winter; 127.0.0.1; 14:47:25; _Service2(GetLang)
+Winter; 127.0.0.1; 14:47:32; _Service2(GetLang)
+; 127.0.0.1; 14:52:59; _Service2(GetLang)
+Winter; 127.0.0.1; 14:53:06; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 14:53:06; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340779986)
+Winter; 127.0.0.1; 14:53:06; Login; Winter
+Winter; 127.0.0.1; 14:53:07; _Main(getMain)
+Winter; 127.0.0.1; 14:53:08; _Service2(GetLang)
+Winter; 127.0.0.1; 14:53:10; _Service2(GetLang)
+Winter; 127.0.0.1; 14:53:15; _Service2(GetLang)
+; 127.0.0.1; 15:12:23; _Service2(GetLang)
+Winter; 127.0.0.1; 15:12:30; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 15:12:30; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340781150)
+Winter; 127.0.0.1; 15:12:30; Login; Winter
+Winter; 127.0.0.1; 15:12:31; _Main(getMain)
+Winter; 127.0.0.1; 15:12:32; _Service2(GetLang)
+Winter; 127.0.0.1; 15:12:34; _Service2(GetLang)
+Winter; 127.0.0.1; 15:12:44; _Service2(GetLang)
+; 127.0.0.1; 15:15:31; _Service2(GetLang)
+Winter; 127.0.0.1; 15:15:36; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 15:15:36; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340781336)
+Winter; 127.0.0.1; 15:15:36; Login; Winter
+Winter; 127.0.0.1; 15:15:37; _Main(getMain)
+Winter; 127.0.0.1; 15:15:38; _Service2(GetLang)
+Winter; 127.0.0.1; 15:15:40; _Service2(GetLang)
+Winter; 127.0.0.1; 15:15:45; _Service2(GetLang)
+Winter; 127.0.0.1; 15:15:53; _Service2(GetLang)
+Winter; 127.0.0.1; 15:16:00; _Service2(GetLang)
+; 127.0.0.1; 15:23:05; _Service2(GetLang)
+Winter; 127.0.0.1; 15:23:23; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 15:23:23; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340781803)
+Winter; 127.0.0.1; 15:23:23; Login; Winter
+Winter; 127.0.0.1; 15:23:24; _Main(getMain)
+Winter; 127.0.0.1; 15:23:25; _Service2(GetLang)
+Winter; 127.0.0.1; 15:23:27; _Service2(GetLang)
+Winter; 127.0.0.1; 15:23:32; _Service2(GetLang)
+Winter; 127.0.0.1; 15:23:43; _Service2(GetLang)
+Winter; 127.0.0.1; 15:24:15; _Service2(GetLang)
+Winter; 127.0.0.1; 15:24:38; _Service2(GetLang)
+; 127.0.0.1; 15:31:37; _Service2(GetLang)
+Winter; 127.0.0.1; 15:31:42; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 15:31:42; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340782302)
+Winter; 127.0.0.1; 15:31:42; Login; Winter
+Winter; 127.0.0.1; 15:31:42; _Main(getMain)
+Winter; 127.0.0.1; 15:31:43; _Service2(GetLang)
+Winter; 127.0.0.1; 15:31:45; _Service2(GetLang)
+Winter; 127.0.0.1; 15:31:54; _Service2(GetLang)
+Winter; 127.0.0.1; 15:32:08; _Service2(GetLang)
+Winter; 127.0.0.1; 15:32:46; _Service2(GetLang)
+Winter; 127.0.0.1; 15:33:00; _Service2(GetLang)
+Winter; 127.0.0.1; 15:33:03; _Service2(GetLang)
+; 127.0.0.1; 15:38:56; _Service2(GetLang)
+Winter; 127.0.0.1; 15:39:25; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 15:39:25; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340782765)
+Winter; 127.0.0.1; 15:39:25; Login; Winter
+Winter; 127.0.0.1; 15:39:26; _Main(getMain)
+Winter; 127.0.0.1; 15:39:27; _Service2(GetLang)
+Winter; 127.0.0.1; 15:39:29; _Service2(GetLang)
+Winter; 127.0.0.1; 15:39:36; _Service2(GetLang)
+Winter; 127.0.0.1; 15:39:45; _Service2(GetLang)
+Winter; 127.0.0.1; 15:41:12; _Service2(GetLang)
+; 127.0.0.1; 15:42:06; _Service2(GetLang)
+Winter; 127.0.0.1; 15:42:11; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 15:42:11; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340782931)
+Winter; 127.0.0.1; 15:42:11; Login; Winter
+Winter; 127.0.0.1; 15:42:12; _Main(getMain)
+Winter; 127.0.0.1; 15:42:13; _Service2(GetLang)
+Winter; 127.0.0.1; 15:42:15; _Service2(GetLang)
+Winter; 127.0.0.1; 15:42:20; _Service2(GetLang)
+Winter; 127.0.0.1; 15:43:45; _Service2(GetLang)
+; 127.0.0.1; 15:45:00; _Service2(GetLang)
+Winter; 127.0.0.1; 15:45:04; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 15:45:04; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340783104)
+Winter; 127.0.0.1; 15:45:04; Login; Winter
+Winter; 127.0.0.1; 15:45:05; _Main(getMain)
+Winter; 127.0.0.1; 15:45:06; _Service2(GetLang)
+Winter; 127.0.0.1; 15:45:08; _Service2(GetLang)
+Winter; 127.0.0.1; 15:45:13; _Service2(GetLang)
+Winter; 127.0.0.1; 15:45:22; _Service2(GetLang)
+; 127.0.0.1; 15:46:23; _Service2(GetLang)
+Winter; 127.0.0.1; 15:46:29; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 15:46:29; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340783189)
+Winter; 127.0.0.1; 15:46:29; Login; Winter
+Winter; 127.0.0.1; 15:46:30; _Main(getMain)
+Winter; 127.0.0.1; 15:46:31; _Service2(GetLang)
+Winter; 127.0.0.1; 15:46:33; _Service2(GetLang)
+Winter; 127.0.0.1; 15:46:38; _Service2(GetLang)
+Winter; 127.0.0.1; 15:46:52; _Service2(GetLang)
+; 127.0.0.1; 15:49:36; _Service2(GetLang)
+Winter; 127.0.0.1; 15:49:41; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 15:49:41; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340783381)
+Winter; 127.0.0.1; 15:49:41; Login; Winter
+Winter; 127.0.0.1; 15:49:42; _Main(getMain)
+Winter; 127.0.0.1; 15:49:43; _Service2(GetLang)
+Winter; 127.0.0.1; 15:49:45; _Service2(GetLang)
+Winter; 127.0.0.1; 15:49:54; _Service2(GetLang)
+Winter; 127.0.0.1; 15:50:02; _Service2(GetLang)
+Winter; 127.0.0.1; 15:51:02; _Service2(GetLang)
+Winter; 127.0.0.1; 15:51:20; _Service2(GetLang)
+; 127.0.0.1; 15:56:16; _Service2(GetLang)
+Winter; 127.0.0.1; 15:56:34; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 15:56:34; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340783794)
+Winter; 127.0.0.1; 15:56:34; Login; Winter
+Winter; 127.0.0.1; 15:56:35; _Main(getMain)
+Winter; 127.0.0.1; 15:56:36; _Service2(GetLang)
+Winter; 127.0.0.1; 15:56:38; _Service2(GetLang)
+Winter; 127.0.0.1; 15:56:43; _Service2(GetLang)
+Winter; 127.0.0.1; 15:56:54; _Service2(GetLang)
+Winter; 127.0.0.1; 15:57:04; _Service2(GetLang)
+Winter; 127.0.0.1; 15:57:37; _Service2(GetLang)
+Winter; 127.0.0.1; 15:57:47; _Service2(GetLang)
+; 127.0.0.1; 15:58:23; _Service2(GetLang)
+Winter; 127.0.0.1; 15:58:27; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 15:58:27; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340783907)
+Winter; 127.0.0.1; 15:58:27; Login; Winter
+Winter; 127.0.0.1; 15:58:28; _Main(getMain)
+Winter; 127.0.0.1; 15:58:29; _Service2(GetLang)
+Winter; 127.0.0.1; 15:58:31; _Service2(GetLang)
+Winter; 127.0.0.1; 15:58:35; _Service2(GetLang)
+Winter; 127.0.0.1; 15:58:44; _Service2(GetLang)
+Winter; 127.0.0.1; 15:59:12; _Service2(GetLang)
+Winter; 127.0.0.1; 15:59:27; _Service2(GetLang)
+; 127.0.0.1; 15:59:52; _Service2(GetLang)
+Winter; 127.0.0.1; 15:59:56; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 15:59:56; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340783996)
+Winter; 127.0.0.1; 15:59:56; Login; Winter
+Winter; 127.0.0.1; 15:59:57; _Main(getMain)
+Winter; 127.0.0.1; 15:59:58; _Service2(GetLang)
+Winter; 127.0.0.1; 16:00:00; _Service2(GetLang)
+Winter; 127.0.0.1; 16:00:05; _Service2(GetLang)
+Winter; 127.0.0.1; 16:00:14; _Service2(GetLang)
+; 127.0.0.1; 16:02:27; _Service2(GetLang)
+Winter; 127.0.0.1; 16:02:30; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 16:02:30; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340784150)
+Winter; 127.0.0.1; 16:02:30; Login; Winter
+Winter; 127.0.0.1; 16:02:31; _Main(getMain)
+Winter; 127.0.0.1; 16:02:32; _Service2(GetLang)
+Winter; 127.0.0.1; 16:02:34; _Service2(GetLang)
+Winter; 127.0.0.1; 16:02:39; _Service2(GetLang)
+Winter; 127.0.0.1; 16:02:49; _Service2(GetLang)
+; 127.0.0.1; 16:08:16; _Service2(GetLang)
+Winter; 127.0.0.1; 16:08:26; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 16:08:26; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340784506)
+Winter; 127.0.0.1; 16:08:26; Login; Winter
+Winter; 127.0.0.1; 16:08:27; _Main(getMain)
+Winter; 127.0.0.1; 16:08:28; _Service2(GetLang)
+Winter; 127.0.0.1; 16:08:30; _Service2(GetLang)
+Winter; 127.0.0.1; 16:09:20; _Service2()
+; 127.0.0.1; 16:09:34; _Service2(GetLang)
+Winter; 127.0.0.1; 16:09:38; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 16:09:38; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340784578)
+Winter; 127.0.0.1; 16:09:38; Login; Winter
+Winter; 127.0.0.1; 16:09:39; _Main(getMain)
+Winter; 127.0.0.1; 16:09:40; _Service2(GetLang)
+Winter; 127.0.0.1; 16:09:42; _Service2(GetLang)
+Winter; 127.0.0.1; 16:09:46; _Service2(GetLang)
+Winter; 127.0.0.1; 16:09:55; _Service2(GetLang)
+Winter; 127.0.0.1; 16:10:07; _Service2(GetLang)
+Winter; 127.0.0.1; 16:10:22; _Service2(GetLang)
+Winter; 127.0.0.1; 16:10:38; _Service2(GetLang)
+Winter; 127.0.0.1; 16:10:42; _Service2(GetLang)
+; 127.0.0.1; 16:12:22; _Service2(GetLang)
+Winter; 127.0.0.1; 16:12:44; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 16:12:44; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340784764)
+Winter; 127.0.0.1; 16:12:44; Login; Winter
+Winter; 127.0.0.1; 16:12:45; _Main(getMain)
+Winter; 127.0.0.1; 16:12:46; _Service2(GetLang)
+Winter; 127.0.0.1; 16:12:48; _Service2(GetLang)
+Winter; 127.0.0.1; 16:12:53; _Service2(GetLang)
+Winter; 127.0.0.1; 16:13:32; _Service2(GetLang)
+; 127.0.0.1; 16:15:48; _Service2(GetLang)
+Winter; 127.0.0.1; 16:16:05; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 16:16:05; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340784965)
+Winter; 127.0.0.1; 16:16:05; Login; Winter
+Winter; 127.0.0.1; 16:16:06; _Main(getMain)
+Winter; 127.0.0.1; 16:16:07; _Service2(GetLang)
+Winter; 127.0.0.1; 16:16:09; _Service2(GetLang)
+Winter; 127.0.0.1; 16:16:58; _Service2(GetLang)
+Winter; 127.0.0.1; 16:18:05; _Service2(GetLang)
+; 127.0.0.1; 16:18:28; _Service2(GetLang)
+Winter; 127.0.0.1; 16:18:41; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 16:18:41; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340785121)
+Winter; 127.0.0.1; 16:18:41; Login; Winter
+Winter; 127.0.0.1; 16:18:42; _Main(getMain)
+Winter; 127.0.0.1; 16:18:43; _Service2(GetLang)
+Winter; 127.0.0.1; 16:18:45; _Service2(GetLang)
+Winter; 127.0.0.1; 16:18:54; _Service2(GetLang)
+Winter; 127.0.0.1; 16:19:19; _Service2(GetLang)
+Winter; 127.0.0.1; 16:19:30; _Service2(GetLang)
+; 127.0.0.1; 16:22:50; _Service2(GetLang)
+Winter; 127.0.0.1; 16:22:53; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 16:22:53; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340785373)
+Winter; 127.0.0.1; 16:22:53; Login; Winter
+Winter; 127.0.0.1; 16:22:54; _Main(getMain)
+Winter; 127.0.0.1; 16:22:55; _Service2(GetLang)
+Winter; 127.0.0.1; 16:22:57; _Service2(GetLang)
+Winter; 127.0.0.1; 16:23:02; _Service2(GetLang)
+Winter; 127.0.0.1; 16:23:16; _Service2(GetLang)
+Winter; 127.0.0.1; 16:23:25; _Service2(GetLang)
+Winter; 127.0.0.1; 16:23:30; _Service2(GetLang)
+Winter; 127.0.0.1; 16:23:39; _Service2(GetLang)
+; 127.0.0.1; 16:26:50; _Service2(GetLang)
+Winter; 127.0.0.1; 16:26:55; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 16:26:55; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340785615)
+Winter; 127.0.0.1; 16:26:55; Login; Winter
+Winter; 127.0.0.1; 16:26:56; _Main(getMain)
+Winter; 127.0.0.1; 16:26:57; _Service2(GetLang)
+Winter; 127.0.0.1; 16:26:59; _Service2(GetLang)
+Winter; 127.0.0.1; 16:27:04; _Service2(GetLang)
+Winter; 127.0.0.1; 16:27:13; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:27:40; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 16:27:40; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340785660)
+Supervisor; 127.0.0.1; 16:27:40; Login; Supervisor
+Supervisor; 127.0.0.1; 16:27:41; _Main(getMain)
+Supervisor; 127.0.0.1; 16:27:42; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:27:44; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:28:13; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:28:14; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 16:28:15; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:28:15; C:\Project3\SKRP\_locale/tw/MateSub.src did not Exist!
+Supervisor; 127.0.0.1; 16:28:18; LearnPro(QueryEdit)
+Supervisor; 127.0.0.1; 16:28:27; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:28:33; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:28:36; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:28:45; _Service2(GetLang)
+Supervisor; 127.0.0.1; 16:28:51; _Service2(GetLang)
+Winter; 127.0.0.1; 16:29:00; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 16:29:00; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340785740)
+Winter; 127.0.0.1; 16:29:00; Login; Winter
+Winter; 127.0.0.1; 16:29:00; _Main(getMain)
+Winter; 127.0.0.1; 16:29:01; _Service2(GetLang)
+Winter; 127.0.0.1; 16:29:03; _Service2(GetLang)
+Winter; 127.0.0.1; 16:30:13; _Service2(GetLang)
+Winter; 127.0.0.1; 16:30:29; _Service2(GetLang)
+; 127.0.0.1; 16:31:32; _Service2(GetLang)
+Winter; 127.0.0.1; 16:31:36; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 16:31:36; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340785896)
+Winter; 127.0.0.1; 16:31:36; Login; Winter
+Winter; 127.0.0.1; 16:31:37; _Main(getMain)
+Winter; 127.0.0.1; 16:31:38; _Service2(GetLang)
+Winter; 127.0.0.1; 16:31:40; _Service2(GetLang)
+Winter; 127.0.0.1; 16:31:45; _Service2(GetLang)
+Winter; 127.0.0.1; 16:31:54; _Service2(GetLang)
+Winter; 127.0.0.1; 16:32:48; _Service2(GetLang)
+; 127.0.0.1; 18:07:42; _Service2(GetLang)
+Supervisor; 127.0.0.1; 18:07:45; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 18:07:45; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340791665)
+Supervisor; 127.0.0.1; 18:07:45; Login; Supervisor
+Supervisor; 127.0.0.1; 18:07:46; _Main(getMain)
+Supervisor; 127.0.0.1; 18:07:47; _Service2(GetLang)
+Supervisor; 127.0.0.1; 18:07:49; _Service2(GetLang)
+; 127.0.0.1; 18:08:34; _Service2(GetLang)
+Supervisor; 127.0.0.1; 18:08:36; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 18:08:36; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340791716)
+Supervisor; 127.0.0.1; 18:08:36; Login; Supervisor
+Supervisor; 127.0.0.1; 18:08:37; _Main(getMain)
+Supervisor; 127.0.0.1; 18:08:38; _Service2(GetLang)
+Supervisor; 127.0.0.1; 18:08:40; _Service2(GetLang)
+Supervisor; 127.0.0.1; 18:08:58; _Service2(GetLang)
+Supervisor; 127.0.0.1; 18:09:08; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 18:09:09; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 18:09:10; _Service2(GetLang)
+Supervisor; 127.0.0.1; 18:09:11; Role(QueryEdit)
+Supervisor; 127.0.0.1; 18:09:21; _Service2(CheckSession)
+Supervisor; 127.0.0.1; 18:09:23; Role(U)
+Supervisor; 127.0.0.1; 18:09:23; _UpdateDB; delete from RoleUser where sn=45
+; 127.0.0.1; 18:09:32; _Service2(GetLang)
+Winter; 127.0.0.1; 18:09:37; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 18:09:37; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340791777)
+Winter; 127.0.0.1; 18:09:37; Login; Winter
+Winter; 127.0.0.1; 18:09:38; _Main(getMain)
+Winter; 127.0.0.1; 18:09:39; _Service2(GetLang)
+Winter; 127.0.0.1; 18:09:41; _Service2(GetLang)
+Winter; 127.0.0.1; 18:10:49; _Service2(GetLang)
+Winter; 127.0.0.1; 18:11:08; _Service2(CheckSession)
+Winter; 127.0.0.1; 18:11:09; _Service2(CheckSession)
+Winter; 127.0.0.1; 18:11:10; _Service2(GetLang)
+Winter; 127.0.0.1; 18:11:11; FinalEvaluateStuParent(QueryEdit)
+Winter; 127.0.0.1; 18:11:28; _Service2(GetLang)
+Winter; 127.0.0.1; 18:11:37; _Service2(GetLang)
+Supervisor; 127.0.0.1; 18:12:19; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 18:12:19; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340791939)
+Supervisor; 127.0.0.1; 18:12:19; Login; Supervisor
+Supervisor; 127.0.0.1; 18:12:20; _Main(getMain)
+Supervisor; 127.0.0.1; 18:12:22; _Service2(GetLang)
+Supervisor; 127.0.0.1; 18:12:24; _Service2(GetLang)
+; 127.0.0.1; 18:13:56; _Service2(GetLang)
+Supervisor; 127.0.0.1; 18:13:59; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 18:13:59; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340792039)
+Supervisor; 127.0.0.1; 18:13:59; Login; Supervisor
+Supervisor; 127.0.0.1; 18:14:00; _Main(getMain)
+Supervisor; 127.0.0.1; 18:14:01; _Service2(GetLang)
+Supervisor; 127.0.0.1; 18:14:03; _Service2(GetLang)
+Winter; 127.0.0.1; 18:14:13; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 18:14:13; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340792053)
+Winter; 127.0.0.1; 18:14:13; Login; Winter
+Winter; 127.0.0.1; 18:14:14; _Main(getMain)
+Winter; 127.0.0.1; 18:14:15; _Service2(GetLang)
+Winter; 127.0.0.1; 18:14:17; _Service2(GetLang)
+Supervisor; 127.0.0.1; 18:14:26; _UpdateDB; delete from _UserLogin2 where userId = 'Supervisor'
+Supervisor; 127.0.0.1; 18:14:26; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Supervisor', 1340792066)
+Supervisor; 127.0.0.1; 18:14:26; Login; Supervisor
+Supervisor; 127.0.0.1; 18:14:27; _Main(getMain)
+Supervisor; 127.0.0.1; 18:14:28; _Service2(GetLang)
+Supervisor; 127.0.0.1; 18:14:30; _Service2(GetLang)
+Winter; 127.0.0.1; 18:14:50; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 18:14:50; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340792090)
+Winter; 127.0.0.1; 18:14:50; Login; Winter
+Winter; 127.0.0.1; 18:14:51; _Main(getMain)
+Winter; 127.0.0.1; 18:14:52; _Service2(GetLang)
+Winter; 127.0.0.1; 18:14:54; _Service2(GetLang)
+Winter; 127.0.0.1; 18:15:07; _Service2(GetLang)
+; 127.0.0.1; 18:16:47; _Service2(GetLang)
+Winter; 127.0.0.1; 18:16:51; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 18:16:51; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340792211)
+Winter; 127.0.0.1; 18:16:51; Login; Winter
+Winter; 127.0.0.1; 18:16:52; _Main(getMain)
+Winter; 127.0.0.1; 18:16:53; _Service2(GetLang)
+Winter; 127.0.0.1; 18:16:55; _Service2(GetLang)
+; 127.0.0.1; 18:18:41; _Service2(GetLang)
+Winter; 127.0.0.1; 18:18:45; _UpdateDB; delete from _UserLogin2 where userId = 'Winter'
+Winter; 127.0.0.1; 18:18:45; _UpdateDB; insert into _UserLogin2(userId, loginTime) values('Winter', 1340792325)
+Winter; 127.0.0.1; 18:18:45; Login; Winter
+Winter; 127.0.0.1; 18:18:46; _Main(getMain)
+Winter; 127.0.0.1; 18:18:47; _Service2(GetLang)
+Winter; 127.0.0.1; 18:18:49; _Service2(GetLang)
+Winter; 127.0.0.1; 18:20:05; _Service2(GetLang)
+Winter; 127.0.0.1; 18:20:15; _Service2(GetLang)

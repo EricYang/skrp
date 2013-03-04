@@ -1,0 +1,29 @@
+﻿# list/query fields
+acaName=academic year(semester)
+classLeavesSn=grade and classification
+studentName=student name
+babyCarInfoSn=vehicle code\teacher\phone number
+sLoaction=pick up location
+eLoaction=drop off location
+creator=created by
+createDate=created on
+reviser=modified by
+reviseDate=last modified
+
+# E
+CBabyCarInfo=交通車路線資訊
+sTimeHM=estimated time
+parentSnS2=contact
+eTimeHM=estimiated time
+parentSnE2=contact
+
+# message
+message01=交通車路線資訊
+
+# Q
+academicYear=academic year
+semester=semester
+classInfoSn=class grade
+classLeavesSn=class specification
+cName=Chinese name
+eName=English name

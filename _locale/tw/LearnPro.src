@@ -1,0 +1,34 @@
+﻿# list/query fields
+acaName=學年(期)
+classInfoName=班級(別)
+yearEduName=週期
+subject=主旨
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# message
+message01=無權限刪除
+
+# E
+NavigatorContent01=基本資料
+
+NavigatorContent02=影照片上傳
+fileName=照片預覽
+fileCon=照片主旨
+cName=姓名(中)
+eName=姓名(英)
+gender=性別
+tagCon=評註
+
+# message
+Emessage01=主旨尚未填寫
+Emessage02=班級(別) 尚未選擇
+Emessage03=上一層資料 尚未選擇
+
+# Q
+academicYear=學年
+semester=學期
+classInfoSn=班別
+classLeavesSn=班級

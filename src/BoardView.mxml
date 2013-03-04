@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="850" height="500" 	 
+	close="closeWin()"
+	creationComplete="init()"  	
+	preinitialize="{iR=Fun.getLang('Board')}"
+	title="公佈欄"
+	>
+	<fx:Script>
+		<![CDATA[
+			
+			
+			import mx.collections.ArrayCollection;
+			import mx.collections.ArrayList;
+			
+			import x2.*;
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindalbe]
+			private var is_app:String = Fun.csMain;
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["usersSn", "userType"]});
+			[Bindable]
+			private var ia_gender:ArrayList = new ArrayList(Fun2.genderDS(is_app, false));
+			[Bindable]			
+			public var ia_classInfoStartConb:ArrayList = new ArrayList(Fun2.classInfoStartConbDS(is_app, false));
+			[Bindable]
+			private var ia_child:ArrayList;
+			
+			private function init():void{
+				//1 學生, 2 家長, 3 職員, 4 管理者
+				switch (i_session.userType){
+					case "3":
+					case "4":
+						//讀取個人班級別權限資料				
+						var csDataVal:String = '';
+						if (ia_classInfoStartConb!=null){
+							for (var i:int=0; i<ia_classInfoStartConb.length; i++){
+								csDataVal = csDataVal + ia_classInfoStartConb.source[i].data + ', ';
+							}
+							csDataVal= csDataVal + '0';
+						}else{
+							csDataVal= '0';							
+						}
+						
+						Fun2.gbClassLeaves = csDataVal;
+						break;
+				}				
+				
+				//公佈欄
+				var t_data:Object = {
+					data: "BoardView",
+					keyValue: 1
+				};					
+				ia_child = new ArrayList(Fun.readRows(is_app, t_data));
+				if (ia_child.length == 0){
+					closeWin();
+				}else{
+					grid_1.dataProvider = ia_child;					
+				}	
+			}
+			
+			private function gender(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_gender, p_row[p_column.dataField]);
+			}		
+			
+			public function openFiles(pn_fileName:String):void{
+				var t_row:Object = grid_1.selectedItem;
+				
+				switch (t_row.fileFlag){
+					case "0":
+						Fun.msg("I", iR.messageV01);
+						break;
+					case "1":						
+						Fun.openFile(Fun.sDirRoot + Fun2.fTeachers + pn_fileName);						
+						break;
+				}
+			}
+			private function serialNoLabelFunc(p_row:Object, p_column:GridColumn):String {
+				var index:int = p_column.grid.dataProvider.getItemIndex(p_row);
+				if (index > -1) {
+					return (index + 1).toString();
+				}
+				return "";
+			}
+			private function fnSelect():void{
+				var i:int=0;
+				grid_1.dataProvider = new ArrayList();
+				
+				switch (Fun.getItem(checkAllFlag)){
+					case "0":
+						for (i; i<ia_child.length; i++){
+							ia_child.source[i].checkFlag = 1;					
+						}
+						grid_1.dataProvider = ia_child;
+						
+						checkAllFlag.text = "1";
+						checkAllFun.label = iR.messageV02;						
+						break;
+					case "1":
+						for (i; i<ia_child.length; i++){
+							ia_child.source[i].checkFlag = 0;					
+						}
+						grid_1.dataProvider = ia_child;
+						
+						checkAllFlag.text = "0";
+						checkAllFun.label = iR.messageV03;
+						break;					
+				}
+			}			
+			
+			private function fnSave():void{
+				var k:int = 0;
+				var transData:Array = [];
+				for (var j:int=ia_child.length-1; j>=0; j--){
+					if (ia_child.source[j].checkFlag==1){						
+						transData.push({sn:ia_child.source[j].sn});
+						ia_child.removeItemAt(j);
+						k=k+1;
+					}					
+				}
+				
+				if (k>0){
+					var m_data:Object = {
+						boardSns: transData
+					};				
+					var ts_result:int = Fun.sync(is_app, "BoardRead", m_data, false) as int;					
+					if (ts_result==k){
+						Fun.msg("I", iR.messageV04 + String(k) + iR.messageV05);
+						if (ia_child.length == 0){
+							Fun.msg("I", iR.messageV06);
+							closeWin();
+						}
+					}else{
+						Fun.msg("E", iR.messageV07);
+					}
+				}else{
+					Fun.msg("E", iR.messageV08);
+				}
+			}
+			//離開
+			private function closeWin():void{
+				Fun.closePopup(this);
+			}
+		]]>
+	</fx:Script>
+	<mx:HBox x="10" y="10">		
+		<mx:Button label="{iR.readed}" icon="@Embed(source='x2/image/save.gif')" click="fnSave()" buttonMode="true"/>
+		<mx:Button label="{iR.checkAllFun}" icon="@Embed(source='x2/image/read.gif')" click="fnSelect()" id="checkAllFun" buttonMode="true"/>		
+		<s:TextInput id="checkAllFlag" text="0" visible="false"/>
+	</mx:HBox>
+	<s:DataGrid id="grid_1" x="10" y="43" alpha="0.7" height="400" width="822" sortableColumns="false">
+		<s:columns><s:ArrayList>
+			<s:GridColumn dataField="sn" visible="false"/>
+			<s:GridColumn dataField="fileName" visible="false"/>
+			<s:GridColumn dataField="fileFlag" visible="false"/>
+			<s:GridColumn headerText="No." dataField="serialNo" labelFunction="serialNoLabelFunc" width="40"/>
+			<s:GridColumn headerText="{iR.checkFlag}" width="80" dataField="checkFlag">
+				<s:itemRenderer>
+					<fx:Component><x2:irCenterVH>						
+						<x2:Check2 />
+					</x2:irCenterVH></fx:Component>
+				</s:itemRenderer>        		         
+			</s:GridColumn>
+			<s:GridColumn headerText="{iR.subject}" dataField="subject" width="100"/>
+			<s:GridColumn headerText="{iR.contents}" dataField="contents"/>
+			<s:GridColumn headerText="{iR.seDate}" dataField="seDate" width="150"/>			
+			<s:GridColumn headerText="{iR.viewFilesName}" width="80">
+				<s:itemRenderer>
+					<fx:Component><s:GridItemRenderer>
+						<mx:Button enabled="{data.fileFlag=='1'}" icon="@Embed(source='x2/image/star.gif')" click="outerDocument.openFiles(data.fileName)" buttonMode="true" toolTip="{data.fileFlagTip}"/>
+					</s:GridItemRenderer></fx:Component>
+				</s:itemRenderer>        		         
+			</s:GridColumn>			
+		</s:ArrayList></s:columns>
+	</s:DataGrid>
+</s:TitleWindow>

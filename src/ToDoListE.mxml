@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"  
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*"
+	width="650" height="595"
+	
+	preinitialize="{iR=Fun.getLang('ToDoList')}"
+  	creationComplete="init()"
+	creationPolicy="all"
+	>
+	<fx:Script>
+		<![CDATA[
+			import mx.formatters.DateFormatter;
+			import mx.utils.ObjectUtil;
+
+			
+			import x2.*; import mx.collections.ArrayList; import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var iR:Object;
+			[Bindable]
+			private var is_app:String = Fun.sApp;
+			[Bindable]
+			public var ia_processFlag:ArrayList = new ArrayList(Fun2.processFlagDS(is_app, true));
+			[Bindable]
+			public var ia_proFlagReply:ArrayList = new ArrayList(Fun2.proFlagReplyDS(is_app, true));
+			[Bindable]
+			private var ia_staffName:ArrayList = new ArrayList(Fun2.staffListDS(is_app, true));
+			[Bindable]
+			private var idw_master:DW;
+			[Bindalbe]
+			private var idw_ToDoListRP:DW2;
+			[Bindable]
+			private var i_session:Object = Fun.readJson(is_app, {type:"getSession", sessionName:["usersSn","userCName","userEName"]});
+			
+			public var docNoaTemp:String, docNobTemp:String, subjectTemp:String, contentsTemp:String;			
+			
+			private function init():void{	
+				edit_1.aoDW[0] = new DW();
+				idw_master = edit_1.aoDW[0]; 
+				idw_master.oConfig = {
+					mapping: true,
+					autos: ["creator","createDate","reviser","reviseDate"],
+					keys: ["sn"],
+					items: [
+						{source:sn, 			dataType:"N",	inputType:"I"},
+						{source:docNoa,			dataType:"S"},
+						{source:docNob,			dataType:"S"},
+						{source:subject,		dataType:"S"},
+						{source:staffSnA, 		dataType:"N"},
+						{source:staffNameA,		dataType:"S",	update:false,	inputType:"R",	required:true},
+						{source:staffSnB, 		dataType:"N"},
+						{source:staffNameB,		dataType:"S",	update:false,	inputType:"R",	required:false},
+						{source:cDate,			dataType:"D"},
+						{source:contents,		dataType:"S"},
+						{source:staffSnC, 		dataType:"N"},
+						{source:staffNameC,		dataType:"S",	update:false,	inputType:"R"},
+						{source:sncDate,		dataType:"DT"},
+						{source:proFlag,	 	dataType:"N"},
+						{source:proDate, 		dataType:"DT"},
+						{source:proDescribe, 	dataType:"S"},
+						{source:proFlagReply,	dataType:"N"},
+						{source:proDateReply, 	dataType:"DT"},
+						{source:creator,		dataType:"S",	inputType:"R"}, 
+						{source:createDate,		dataType:"DT",	inputType:"R"}, 
+						{source:reviser,		dataType:"S",	inputType:"R"}, 
+						{source:reviseDate,		dataType:"DT",	inputType:"R"}
+					]			
+				};	
+				
+				//dw1: ToDoListRP
+				edit_1.aoDW[1] = new DW2();
+				idw_ToDoListRP = edit_1.aoDW[1]; 
+				idw_ToDoListRP.xTool = tb_ToDoListRP;
+				idw_ToDoListRP.oConfig = {			
+					upDW: idw_master,
+					grid: grid_ToDoListRP,
+					upQKeys: ["sn"],
+					qKeys: ["toDoListSn"],
+					keys: ["sn"],
+					items: [
+						{fid:"sn", 				dataType:"N", 	inputType:"I"},
+						{fid:"toDoListSn",		dataType:"N", 	inputType:"2"},
+						{fid:"cDate",			dataType:"D"},
+						{fid:"contents",		dataType:"S"}
+					]				
+				};
+			}			
+			
+			private function staffName(p_row:Object, p_column:GridColumn):String {
+				return AR.getListLabel(ia_staffName, p_row[p_column.dataField]);
+			}
+
+			private function fnT1(p_row:Object):void{	
+				Fun.setItem(staffNameA, p_row.cName + " " + p_row.eName);
+				idw_master.setItem(staffSnA, p_row.sn, true);
+				idw_master.setItem(cDate, p_row.TYMD, true);
+			}
+			
+			private function doFindStaffCal(p_col1:Object, p_col2:Object):void{
+				Fun2.oGlobal.fnT1 = fnT1;
+
+				Fun2.openStaffCal(is_app, this, ReturnStaffCal);
+			}
+			private function ReturnStaffCal(p_row:Object):void{
+			}
+			
+			//找職員
+			private var i_col1:Object, i_col2:Object;		
+			private function doFindStaff(p_col1:Object, p_col2:Object):void{				
+				i_col1 = p_col1;
+				i_col2 = p_col2;
+				Fun2.openStaff(is_app, this, ReturnStaff);
+			}
+			private function ReturnStaff(p_row:Object):void{				
+				Fun.setItem(i_col1,p_row.cName + " " + p_row.eName);
+				idw_master.setItem(i_col2, p_row.sn, true);
+			}
+			
+			public function TraceThisCase():void{
+				Fun.ans(iR.message01, 2, DoYNFun);	
+			}
+			
+			private function DoYNFun():void{
+				var c_data:Object = {
+					data: "ToDoListDoc",
+					sn: Fun.getItem(sn)
+				};
+				
+				var ia_data:Object = Fun.readRow(is_app, c_data);				
+				if (ia_data){
+					//設定文件號及版號
+					docNoaTemp = String(ia_data.docNoa);
+					docNobTemp = String(ia_data.docNob);
+					subjectTemp = String(ia_data.subject);
+					contentsTemp = String(ia_data.contents);
+					
+					var tc_data:Object = {
+						win: this,
+						fun: "C",
+						row: {docNoa:docNoaTemp}					
+					};				
+					edit_1.init(tc_data);
+										
+				}else{
+					Fun.msg("E", iR.message02);
+				}				
+			}
+			
+			public function fnToDoListClick(pn_ToDoListSn:int):void{
+				if (int(pn_ToDoListSn)){
+					var t_win:ToDoListE = new ToDoListE();
+					var t_data:Object = {
+						win: t_win,
+						fun: "V",
+						row: {sn:pn_ToDoListSn}
+					};
+					Fun.openPopup(t_win, this);				
+					var t_edit:comEdit = t_win.edit_1; 
+					t_edit.sApp = is_app;
+					t_edit.sInf = "ToDoListE";
+					t_edit.sTitle = iR.message03;				
+					t_edit.init(t_data);
+					t_win.tns.removeChild(t_win.History);					
+				}				
+			}
+			
+			private function afterOpen(p_data:Object):void{
+				
+				var dateFormatter:DateFormatter = new DateFormatter();
+				dateFormatter.formatString = "YYYY-MM-DD JJ:NN:SS";
+
+				docNoa.editable = false;
+				docNob.editable = false;
+				
+				switch (p_data.fun){
+					case "C":
+						Fun.setItem(docNoa, docNoaTemp);
+						Fun.setItem(docNob, docNobTemp);
+						Fun.setItem(subject, subjectTemp);
+						Fun.setItem(contents, contentsTemp);
+						
+						subject.enabled = true;
+						SchStaffA.visible = true;
+						SchStaffB.visible = true;
+						cDate.enabled = false;												
+						contents.editable = true;
+						
+						traceCase.visible = false;
+						
+						Reply.enabled = false;
+						History.enabled = false;
+						
+						Fun.setItem(staffSnC, i_session.usersSn);
+						Fun.setItem(staffNameC, i_session.userCName + " " + i_session.userEName);
+						Fun.setItem(sncDate, dateFormatter.format(new Date()));
+						
+						proStatus.visible = false;
+			
+						break;
+					case "U":
+						//不管是誰, 只要是編輯, 檢視畫面, 原先已填寫的就不能更改
+						subject.enabled = false;
+						SchStaffA.visible = false;
+						SchStaffB.visible = false;
+						cDate.enabled = false;												
+						contents.editable = false;
+
+						Reply.enabled = true;
+						History.enabled = true;
+						
+						if (int(i_session.usersSn) != int(Fun.getItem(staffSnC))){
+							//只有負責人及 協辦人可填寫
+							traceCase.visible = false;
+							proStatus.visible = false;
+							
+							tb_ToDoListRP.visible = true;
+							idw_ToDoListRP.oConfig.editable = true;
+							proFlagReply.enabled = true;
+							proDateReply.enabled = true;
+							
+							Fun.setItem(proDateReply, dateFormatter.format(new Date()));
+						}else{
+							//只有交辦人可以填寫及檢視
+							traceCase.visible = true;
+							proStatus.visible = true;	
+							
+							Fun.setItem(proDate, dateFormatter.format(new Date()));		
+							
+							tb_ToDoListRP.visible = false;			
+							idw_ToDoListRP.oConfig.editable = false;
+							proFlagReply.enabled = false;
+							proDateReply.enabled = false;
+						}						
+						
+						var h_data:Object = {
+							data: "ToDoListHistory",
+							docNoa: Fun.getItem(docNoa)
+						};
+						var h_row:Array = Fun.readRows(is_app, h_data);
+						grid_History.dataProvider = new ArrayCollection(h_row);
+						
+						break;
+					case "V":
+						SchStaffA.visible = false;
+						SchStaffB.visible = false;
+						traceCase.visible = false;
+				
+						Reply.enabled = true;
+						History.enabled = true;
+
+						break;
+				}
+			}
+			private function whenSave(p_data:Object):Boolean{	
+				
+				if (int(i_session.usersSn) == int(Fun.getItem(staffSnC))){
+					idw_master.setItem(proDate, Fun.getItem(proDate), true);
+				}else{
+					idw_master.setItem(proDateReply, Fun.getItem(proDateReply), true);
+				}
+				
+				switch (p_data.fun){					
+					case "C":
+						idw_master.setItem(docNoa, Fun.getItem(docNoa), true);
+						idw_master.setItem(docNob, Fun.getItem(docNob), true);
+						idw_master.setItem(subject, Fun.getItem(subject), true);
+						idw_master.setItem(contents, Fun.getItem(contents), true);
+						
+						idw_master.setItem(staffSnC, Fun.getItem(staffSnC), true);
+						idw_master.setItem(sncDate, Fun.getItem(sncDate), true);
+						
+						if (int(i_session.usersSn) == int(Fun.getItem(staffSnA))){
+							Fun.msg("E", iR.message04);
+							return false;							
+						}
+						if (int(i_session.usersSn) == int(Fun.getItem(staffSnB))){
+							Fun.msg("E", iR.message05);
+							return false;							
+						}
+						if (int(Fun.getItem(staffSnA)) == int(Fun.getItem(staffSnB))){
+							Fun.msg("E", iR.message06);
+							return false;							
+						}
+						break;
+				}				
+				
+				/*
+				//寄信
+				var theSubject:String = '【ToDo】' + String(Fun.getItem(subject));
+				var theBody:String = String(Fun.getItem(contents));
+				var theUser:String = String(Fun.getItem(staffSn));
+				
+				var m_data:Object = "";
+				m_data = {
+					subject: theSubject,
+					body: theBody,
+					receiver: theUser
+				};
+				Fun.sync(is_app, "SendMail", m_data, true);
+				*/
+				
+				return true;
+			}
+		]]>
+	</fx:Script>
+	<x2:comEdit x="10" y="524" id="edit_1" fAfterOpen="afterOpen" fWhenSave="whenSave">
+	</x2:comEdit>
+	<x2:Num1 id="sn" visible="false"/>
+	<x2:Num1 id="staffSnA" visible="false"/>
+	<x2:Num1 id="staffSnB" visible="false"/>
+	<x2:Num1 id="staffSnC" visible="false"/>
+	<s:TextInput id="creator" visible="false"/>
+	<s:TextInput id="createDate" visible="false"/>
+	<s:TextInput id="reviser" visible="false"/>
+	<s:TextInput id="reviseDate" visible="false"/>
+	<mx:TabNavigator x="10" y="10" width="620" height="510" id="tns">
+		<mx:Canvas label="{iR.Canvas01}" id="ToDo">
+			<mx:Form x="10" y="10">
+				<mx:FormItem label="{iR.docNoa} :">
+					<mx:HBox>						
+						<s:TextInput id="docNoa"  borderColor="#FFFFFF" color="#FF0000"/>
+						<mx:Label text="-" />
+						<s:TextInput id="docNob" width="61"  borderColor="#FFFFFF" color="#FF0000"/>						
+						<mx:Label text=" "/>
+						<mx:Button label="{iR.traceCase}" buttonMode="true" toolTip="{iR.traceCase}" id="traceCase" click="TraceThisCase()"/>
+					</mx:HBox>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.subject} :" required="true">
+					<s:TextInput width="403" id="subject"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.staffSnA} :" required="true">
+					<mx:HBox x="72" y="1" width="100%">
+						<s:TextInput id="staffNameA"/>
+						<x2:BtnPickCal id="SchStaffA" click="doFindStaffCal(staffNameA, staffSnA)"/>														
+					</mx:HBox>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.staffSnB} :" required="false">
+					<mx:HBox x="72" y="1" width="100%">
+						<s:TextInput id="staffNameB"/>
+						<x2:btnPick id="SchStaffB" click="doFindStaff(staffNameB, staffSnB)"/>																
+					</mx:HBox>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.cDate} :" required="true">
+					<x2:Date1 id="cDate" formatString="YYYY/MM/DD" editable="false" yearNavigationEnabled="true"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.contents} :" required="true">
+					<mx:TextArea width="403" height="105" id="contents"/>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.staffSnC} :">
+					<mx:HBox>
+						<s:TextInput id="staffNameC" enabled="false" editable="false"/>
+						<mx:FormItem label="{iR.sncDate} :">
+							<s:TextInput id="sncDate" enabled="false" editable="false"/>
+						</mx:FormItem>
+					</mx:HBox>
+				</mx:FormItem>				
+			</mx:Form>
+			<mx:Form x="10" y="351" borderColor="#FF0000" cornerRadius="5" borderStyle="solid" id="proStatus">
+				<mx:FormItem label="{iR.proFlag} :">
+					<mx:HBox>
+						<x2:DDL1 id="proFlag" dataProvider="{ia_processFlag}"></x2:DDL1>
+						<mx:FormItem label="{iR.proDate} :">
+							<s:TextInput id="proDate" enabled="false" editable="false"/>					
+						</mx:FormItem>
+					</mx:HBox>
+				</mx:FormItem>
+				<mx:FormItem label="{iR.proDescribe} :">
+					<mx:TextArea width="403" height="46" id="proDescribe"/>							
+				</mx:FormItem>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas02}" id="Reply">
+			<x2:TBar2 x="330" y="4" id="tb_ToDoListRP">
+			</x2:TBar2>
+			<mx:Form x="10" y="29">
+				<x2:DG2 width="563" alpha="0.7"	rowHeight="100"
+						 height="369" id="grid_ToDoListRP">
+					<x2:columns><s:ArrayList>
+						<s:GridColumn dataField="sn" visible="false"/>
+						<s:GridColumn dataField="toDoListSn" visible="false"/>
+						<s:GridColumn headerText="{iR.rDate}" dataField="cDate" width="120">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:Date2 id="cDate"/>																																			
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+						<s:GridColumn headerText="{iR.rContents}" dataField="contents">
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<x2:TextArea2/>																																			
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>
+					</s:ArrayList></x2:columns>
+				</x2:DG2>
+				<mx:FormItem label="{iR.proFlagReply} :">
+					<mx:HBox>
+						<x2:DDL1 id="proFlagReply" dataProvider="{ia_proFlagReply}"></x2:DDL1>
+						<mx:FormItem label="{iR.proDateReply} :">
+							<s:TextInput id="proDateReply" enabled="false" editable="false"/>					
+						</mx:FormItem>
+					</mx:HBox>
+				</mx:FormItem>
+			</mx:Form>
+		</mx:Canvas>
+		<mx:Canvas label="{iR.Canvas03}" id="History">
+			<mx:Form x="10" y="13">
+				<s:DataGrid width="563" alpha="0.7"	height="415" id="grid_History">
+					<s:columns><s:ArrayList>
+						<s:GridColumn headerText="{iR.docNob}" dataField="docNob" width="40" >
+							<s:itemRenderer>
+								<fx:Component><s:GridItemRenderer>
+									<mx:Label text="{data.docNob}" useHandCursor="true" mouseChildren="false" buttonMode="true" textDecoration="underline" color="#0000FF" click="outerDocument.fnToDoListClick(data.sn)"/>															
+								</s:GridItemRenderer></fx:Component>
+							</s:itemRenderer>        		         
+						</s:GridColumn>						
+						<s:GridColumn headerText="{iR.cDate}" dataField="cDate" width="120"/>
+						<s:GridColumn headerText="{iR.subject}" dataField="subject" width="100"/>
+						<s:GridColumn headerText="{iR.contents}" dataField="contents"/>						
+						<s:GridColumn headerText="{iR.staffSnA}" dataField="staffSnA" width="100" labelFunction="staffName"/>		
+					</s:ArrayList></s:columns>
+				</s:DataGrid>
+			</mx:Form>
+		</mx:Canvas>
+	</mx:TabNavigator>
+
+</s:TitleWindow>

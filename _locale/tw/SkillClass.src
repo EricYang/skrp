@@ -1,0 +1,36 @@
+﻿# list/query fields
+academicYear=學年
+semester=學期
+theClassName=班別名稱
+classLeavesName=班級名稱
+tuition=學費
+classH=上課總時數
+creator=建檔人員
+createDate=建檔日期
+reviser=修檔人員
+reviseDate=修檔日期
+
+# E
+Canvas01=基本資料
+classInfoSn2=班別名稱
+classLeavesSn2=班級名稱
+tuition=學費
+classH=課總時數
+
+Canvas02=帶班老師
+cTitles=教師別
+empNo=員編
+
+Canvas03=學生資料
+cName=姓名(中)
+eName=姓名(英)
+gender=性別
+stuNo=學號
+birthDate=生日
+
+# message
+message01=幼兒基本資料
+
+# Q
+classInfoSn=班別
+classLeavesSn=班級

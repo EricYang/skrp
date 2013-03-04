@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:ns1="x2.*"
+	layout="absolute" width="412" height="200" fontSize="12" 
+	close="closeWin()"
+	preinitialize="getLang()"
+	creationComplete="init()"
+	keyDown="keyEnter(event)"
+	>
+	
+    <fx:Script>
+	    <![CDATA[
+	    /**
+	    * defaultButton did not work for comboBox field !!
+	    * therefore use titleWindow keyDown event !!
+	    */     
+	    
+	    import com.Rijndael;	    
+	    import flash.events.KeyboardEvent;
+	    	    
+			
+		[Bindable]
+		private var iR:Object;
+				    
+		[Bindable]
+		private var ia_lang:Array = [];
+			
+	    //declare property
+		[Bindable]
+		public var bLang:Boolean = false;			//show language field.
+	    public var bStarAccount:Boolean = false;	//show start sign for user account field		
+		public var bExitWhenFail:Boolean = true;	//exit system when login failed.		
+	    public var fAfterLogin:Function;			//function call after login.
+		//public var gsServerApp:String = "_Login";
+	    //public var gbTestMode:Boolean = false;
+	    
+	    //login times
+	    private var in_times:int = 0;
+	    
+	    private function getLang(pb_show:Boolean=false):void{
+	    	iR = Fun.getLang("_Login");
+			
+			//set lang combobox
+			ia_lang = [];
+			var ta_row:Array = String(iR.langList).split(",");
+			var j:int=0;
+			for (var i:int=0; i<ta_row.length; i=i+2){
+				ia_lang[j] = {data:ta_row[i], label:ta_row[i+1]};
+				j++;
+			}
+			
+			if (pb_show){
+				setLang(true);
+			}
+	    }
+			
+			
+		//called by Main app, for control focus !! (did not work)
+		private function init():void{
+			//this.title = Fun2.csLoginTitle;
+			loginID.displayAsPassword = bStarAccount;
+			
+			setLang(true);
+			
+			//set focus 
+			//loginID.setFocus();
+			callLater(Fun.focusField, [null, loginID]);
+			
+			//this.dispatchEvent(new MouseEvent(MouseEvent.CLICK));
+			//loginID.dispatchEvent(new MouseEvent(MouseEvent.CLICK));
+		}
+			
+			
+		private function setLang(pb_langField:Boolean):void{
+			//lang combobox
+			lang.dataProvider = ia_lang;
+			
+			//field label
+			this.title = iR.title;
+			fLoginID.label = iR.loginID;
+			fUserPwd.label = iR.userPwd;
+			fLang.label = iR.lang;
+			cmdOk.label = iR.ok;
+			cmdExit.label = iR.exit;
+			
+			if (pb_langField){
+				Fun.setItem(lang, Fun2.sLang);
+			}
+		}
+
+			
+	    //when user press enter, trigger ok button click
+	    private function keyEnter(p_event:KeyboardEvent):void{
+		    if (p_event.keyCode == Keyboard.ENTER){
+		        okClick();
+		    }	    	
+	    }
+	    
+	    
+	    private function okClick():void{
+	    	//check log times
+			if (in_times >= 3){
+				closeWin();
+			}
+				
+	    	//check input
+	    	var ts_id:String = loginID.text;
+	    	var ts_pwd:String = userPwd.text;	    	
+	    	if (Fun.isEmpty(ts_id)){
+	    		//Fun.msg("E", "使用者帳號不可空白 !");
+				msg(iR.idEmpty);
+	    		return;
+	    	/*	
+	    	}else if(Fun.isEmpty(ts_pwd)){
+	    		Fun.msg("E","使用者密碼不可空白　！");
+	    		return;
+	    	*/	        		
+	    	}
+	    	
+	    	//設定 keyByte, 此時後端尚未傳回 key     	    	
+			//Fun.setKeyByte();
+	    	    	    	
+			//return error msg if any
+			var t_data:Object = {
+				fun: "Login" 
+				//testMode: (gbTestMode) ? "Y" : "N"
+			};
+			t_data[Fun.csLoginID] = ts_id; 
+			t_data[Fun.csPwd] = ts_pwd; 
+			Fun.async("", "_Login", t_data, okClick2, null, false);
+	    }
+	    
+	    //傳回 key
+	    private function okClick2(p_data:Object):void{
+			if (p_data == null){	//no error
+				if (fAfterLogin != null){
+					fAfterLogin({});
+					Fun.closePopup(this);
+				}
+			}else if (p_data.errorCode != null){
+				in_times++;
+	  			msg(iR[p_data.errorCode]+" ("+in_times+")");
+			}
+	    }
+		
+
+		private function msg(ps_msg:String):void{
+			mx.controls.Alert.show(ps_msg, iR.error);
+		}
+		
+			
+		//close application
+		private function closeWin():void{
+			if (bExitWhenFail){
+  				Fun.exitSys();
+			}else{
+				Fun.closePopup(this);
+			}
+		}
+		
+
+		private function chgLang():void{
+			Fun2.sLang = Fun.getItem(lang) as String;
+			getLang(true);
+		}
+			
+		/*    
+	    private function toMainApp(pb_close:Boolean, p_data:Object=null):void{
+			(parentApplication as Object).loginCallback(pb_close, p_data);
+			PopUpManager.removePopUp(this);    	
+	    }
+	    */
+	        
+	    ]]>
+    </fx:Script>
+    <mx:Button x="309" y="40" click="okClick()" width="72" height="25" icon="@Embed(source='x2/image/checked.gif')" id="cmdOk"/>
+    <mx:Button x="309" y="71" click="closeWin()" width="72" height="25" icon="@Embed(source='x2/image/close.png')" id="cmdExit"/>
+    <mx:Form x="33" y="22" height="119" width="268" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+        <mx:FormItem id="fLoginID" label="user name :" required="true">
+            <mx:TextInput id="loginID" width="121" maxChars="20"/>
+        </mx:FormItem>
+        <mx:FormItem id="fUserPwd">
+            <mx:TextInput id="userPwd" width="121" maxChars="20" displayAsPassword="true"/>
+        </mx:FormItem>
+        <mx:FormItem visible="{bLang}" id="fLang">
+            <ns1:Combo1 id="lang" width="121" dataProvider="{ia_lang}" change="chgLang()"/>
+        </mx:FormItem>
+    </mx:Form>
+	
+	<!--
+	在這裡放一個隱藏的 PopupButton, 系統執行 Fun.openPopup()時, 設定 parent=Fun2.wMain 才不會發生錯誤,
+	詳細的原因不知道為什麼!!
+    <mx:PopUpButton x="309" y="120" label="PopUpButton" width="71" visible="false"/>
+	-->
+        
+</mx:TitleWindow>

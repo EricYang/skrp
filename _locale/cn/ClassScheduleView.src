@@ -1,0 +1,8 @@
+﻿# list/query fields
+classLeavesSn=班级(别)
+CTeacher=带班教师
+
+# message
+message01=无
+message02=课程表
+message03=开班作业

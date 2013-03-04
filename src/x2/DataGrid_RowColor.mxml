@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:DataGrid xmlns:mx="http://www.adobe.com/2006/mxml"
+	>
+
+	<!--
+	<mx:Metadata>
+	   [Event(name="ueDrawRowBackground", type="x2.Event2")]
+	</mx:Metadata>
+	-->
+
+	<mx:Script>
+		<![CDATA[
+		//import x2.Event2;
+		//import x2.OtherClass;
+		//import x2.Event2a
+		
+		//public var x2f_drawRowBackground:Function = Fun.dw2DrawRowBackground;
+		public var x2f_drawRowBackground:Function;
+		//public var x2o_dw:Object;
+		
+	
+		/*
+		private function creationComplete():void{
+			if (x2f_drawRowBackground == null){
+				x2f_drawRowBackground = Fun.dw2DrawRowBackground;
+			}	
+		}	
+		*/
+		
+	    override protected function drawRowBackground(s:Sprite, rowIndex:int, y:Number, height:Number, color:uint, dataIndex:int):void{
+	    	//call parent ufDrawRowBackground
+	    	var tn_color:uint = 0;
+	    	try {
+	    		var t_data:Object = {dataIndex:dataIndex};
+	    		//tn_color = (parent as Object).x2f_drawRowBackground(t_data);
+	    		tn_color = x2f_drawRowBackground(t_data);
+	    	}catch (error:Error){
+	    		//do nothing
+	    	}
+	    	
+	    	if (tn_color == 0){
+	    		tn_color = color;
+	    	}
+	    	super.drawRowBackground(s, rowIndex, y, height, tn_color, dataIndex);
+	    	
+	    	/*
+			//call ueDrawRowBackground event;
+			var t_event:Event2 = new Event2("ueDrawRowBackground");
+			//var t_event:Event2 = new flash.events.Event("ueDrawRowBackground"); 
+			//flash.Event2("ueDrawRowBackground");
+			var t_data:Object = t_event.data;
+			t_data.s = s;
+			t_data.rowIndex = rowIndex;
+			t_data.y = y;
+			t_data.color = color;
+			t_data.dataIndex = dataIndex;
+		    dispatchEvent(t_event);
+		    */
+
+			/*	    	
+	    	if( this.rowColorFunction != null )
+	    	{
+	    		if( dataIndex < (this.dataProvider as ArrayCollection).length )
+	    		{
+		    		var item:Object = (this.dataProvider as ArrayCollection).getItemAt(dataIndex);
+		    		color = this.rowColorFunction.call(this, item, color);
+	    		}
+	    	}
+	    	
+	    	super.drawRowBackground(s, rowIndex, y, height, color, dataIndex);
+	    	*/
+	    }
+			
+		]]>
+	</mx:Script>
+	
+</mx:DataGrid>

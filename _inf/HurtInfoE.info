@@ -1,0 +1,38 @@
+{
+    "dws":[
+        {
+            "selectTable": "HurtInfo a INNER JOIN Student b ON a.studentSnA = b.sn 
+                            LEFT OUTER JOIN Staff c ON a.staffSn = c.sn 
+                            LEFT OUTER JOIN Student d ON a.studentSnB = d.sn",
+            "updateTable": "HurtInfo",
+            "defaultTable": "a",
+            "items": [
+                {"fid":"sn"}, 
+                {"fid":"academicYear"},
+                {"fid":"semester"},
+                {"fid":"acaName",         "table":"", "colName":"CONCAT(a.academicYear, ' - ', a.semester)"},
+                {"fid":"classLeavesSnA"},
+                {"fid":"classLeavesSnB"},
+                {"fid":"studentSnA"},
+                {"fid":"studentNameA",     "table":"", "colName":"CONCAT(b.cName, ' ', b.eName)"},                
+                {"fid":"studentSnB"},
+                {"fid":"studentNameB",     "table":"", "colName":"CONCAT(d.cName, ' ', d.eName)"},                
+                {"fid":"occurDate"},
+                {"fid":"occurTimeH"},
+                {"fid":"occurTimeM"},
+                {"fid":"occurTime",        "table":"", "colName":"CONCAT(a.occurTimeH, ' ', a.occurTimeM)"},
+                {"fid":"staffSn"},
+                {"fid":"staffName",        "table":"", "colName":"CONCAT(c.cName, ' ', c.eName)"},
+                {"fid":"occurPlace"},
+                {"fid":"proDescribe"},
+                {"fid":"occurDeal"},
+                {"fid":"introspection"},
+                {"fid":"remark"},
+                {"fid":"creator"},
+                {"fid":"createDate"},           
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+             ]                
+        }
+    ]    
+}

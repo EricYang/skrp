@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:x2="x2.*" 
+	width="384" height="204"
+	title="{Fun.R.title}" 
+	creationPolicy="all" 
+	close="closeWin()"
+	keyDown="keyEnter(event)"
+	show="show()"
+	>
+	
+	<s:Label y="71" width="327" height="22" color="#D23D10" horizontalCenter="0"
+			 text="{Fun.R.plsRelogin}" textAlign="center"/>
+	<s:HGroup y="31" width="327" height="32" horizontalAlign="center" horizontalCenter="0"
+			  verticalAlign="middle">
+		<s:Label text="{Fun.R.userId} :"/>
+		<s:TextInput id="loginID" width="104" displayAsPassword="true"/>
+	</s:HGroup>
+	<s:HGroup y="116" width="184" height="30" horizontalCenter="0" horizontalAlign="center">
+		<!--
+		<s:Button height="26" label="{Fun.R.ok}" click="okClick(event)" fontWeight="normal"/>
+		<s:Button height="26" label="{Fun.R.exit}" click="closeWin()" fontWeight="normal"/>
+		-->
+		<x2:btnOk click="okClick()"/>
+		<x2:btnCancel click="closeWin()"/>
+	</s:HGroup>
+	
+	<fx:Script>
+		<![CDATA[
+		//import mx.managers.PopUpManager;
+	    import flash.events.KeyboardEvent;
+	    
+	    import x2.*;
+
+	    
+	    public var fCallback:Function = null;
+	    
+	    //when user press enter, trigger ok button click
+	    private function keyEnter(p_event:KeyboardEvent):void{
+		    if (p_event.keyCode == Keyboard.ENTER){
+		        okClick();
+		    }	    	
+	    }
+	    
+	    private function show():void{
+			//callLater(Fun.focusField, [null, loginID]);
+			Fun.focusField(loginID, false);
+	    }
+
+		//private function okClick(p_event:Event=null):void{
+		private function okClick():void{
+			//check user account
+			var ts_loginID:String = loginID.text;
+			if (ts_loginID == ""
+				|| (Fun.sAgentId == "" && ts_loginID != Fun.sLoginId)
+				|| (Fun.sAgentId != "" && ts_loginID != Fun.sAgentId)
+				)
+			{			
+				Fun.msg("E", Fun.R.userIdWrong);
+				return;
+			}
+			
+
+			//考慮代理人時, 不需要轉換資料!!
+			var t_info:Object = {fun:"Relogin"};
+			t_info[Fun.csLoginId] = Fun.sLoginId; 
+			t_info[Fun.csUserId] = Fun.sUserId; 
+			t_info[Fun.csAgentId] = Fun.sAgentId; 				
+			//t_info[Fun.csLoginTime] = Fun.sLoginTime; 
+			t_info[Fun.csLoginTime] = Fun.nLoginTime; 
+			t_info[Fun.csUserName] = Fun.sUserName; 
+			//t_info[Fun.csDeptID] = Fun.sDeptID;
+			
+			//var t_data:Object = Fun.ajax("ReLogin", "Login.ashx", t_info, true);
+			//Fun.aKeyByte = Fun.getKeyByte();
+			Fun.async("", "_Login", t_info, okClick2);
+			
+			//set global variables
+			//Fun.loginTime = t_data[Fun.csLoginTime];				
+			closeWin();				
+		}
+				
+		private function okClick2(p_data:Object):void{
+			if (p_data != null && p_data.error != null){
+				Fun.msg("E", p_data.error);
+				/*
+			}else if(p_data[Fun.csKey] != null){
+				var ts_key:String = Fun.decode(p_data[Fun.csKey], false) as String;
+				Fun.aKeyByte = Fun.getKeyByte(ts_key);
+				
+				if (fCallback != null){
+					//var t_data:Object = null;
+					fCallback(null);
+				}
+				*/
+			}
+		}
+		
+		
+		//clear loginID and hide window.
+		private function closeWin():void{
+			Fun.setItem(loginID, "");
+			this.visible = false;			
+		}
+		
+			
+		]]>
+	</fx:Script>
+</s:TitleWindow>

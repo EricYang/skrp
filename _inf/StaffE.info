@@ -1,0 +1,113 @@
+{
+    "dws":[
+	    {
+			"selectTable": "Staff",   
+			"items": [
+                {"fid":"sn"},                
+                {"fid":"empNo"},
+                {"fid":"cName"},
+                {"fid":"eName"},
+                {"fid":"deptSn"},
+                {"fid":"titlesSn"},
+                {"fid":"gender"},
+                {"fid":"birthDate"},
+                {"fid":"idNo"},
+                {"fid":"conTel"},
+                {"fid":"address"},
+                {"fid":"eMail"},
+                {"fid":"takeOfficeDate"},
+                {"fid":"birthplace"},
+                {"fid":"maritalStatus"},
+                {"fid":"bloodType"},
+                {"fid":"stature"},
+                {"fid":"weight"},
+                {"fid":"urgentName"},
+                {"fid":"urgentTel"},
+                {"fid":"dutyFlag"},
+                {"fid":"fileName"},
+                {"fid":"deleFlag"},
+                {"fid":"creator"},
+                {"fid":"createDate"},
+                {"fid":"reviser"},
+                {"fid":"reviseDate"}
+			]				
+	    },
+        {
+            "selectTable": "Account",
+            "upDW": 0,
+            "items": [
+                {"fid":"asn",           "colName":"sn"},
+                {"fid":"userType"},
+                {"fid":"userSn"},
+                {"fid":"loginId"},                
+                {"fid":"loginPw"},
+                {"fid":"adeleFlag",     "colName":"deleFlag"},
+                {"fid":"acreator",      "colName":"creator"},
+                {"fid":"acreateDate",   "colName":"createDate"},
+                {"fid":"areviser",      "colName":"reviser"},
+                {"fid":"areviseDate",   "colName":"reviseDate"}
+            ]                
+        },
+        {
+            "selectTable": "StaffEC [_where] ORDER BY sDate DESC",
+            "updateTable": "StaffEC",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"staffSn"},
+                {"fid":"school"},
+                {"fid":"degree"},
+                {"fid":"department"},
+                {"fid":"sDate"},
+                {"fid":"eDate"},
+                {"fid":"studyStatus"}
+            ]                
+        },
+        {
+            "selectTable": "StaffEP [_where] ORDER BY sDate DESC",
+            "updateTable": "StaffEP",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"staffSn"},
+                {"fid":"company"},
+                {"fid":"titles"},
+                {"fid":"sDate"},
+                {"fid":"eDate"},
+                {"fid":"jobContent"}
+            ]                
+        },
+        {
+            "selectTable": "StaffDL",            
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"staffSn"},
+                {"fid":"funcItemSn"}
+            ]                
+        },
+        {
+            "selectTable": "StaffGL",            
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"staffSn"},
+                {"fid":"licenseName"},
+                {"fid":"fileName"}
+            ]                
+        },
+        {
+            "selectTable": "RoleUser a INNER JOIN Role b ON a.roleSn = b.sn [_where] ORDER BY b.roleName",
+            "updateTable": "RoleUser",
+            "defaultTable":"a",
+            "upDW": 0,
+            "items": [
+                {"fid":"sn"},
+                {"fid":"userSn"},
+                {"fid":"roleSn"},
+                {"fid":"userType"},                
+                {"fid":"roleName",    "table":"b"}
+            ]                
+        }
+    ]    
+}

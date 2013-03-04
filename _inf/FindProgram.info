@@ -1,0 +1,16 @@
+{
+   "list":{
+        "select": "SELECT b.sn AS sn, CONCAT( RTRIM( a.sysCode ) , ' ', RTRIM( a.sysName ) ) AS programMName,
+                    b.sysCode, b.sysName",
+        "from": "FROM ProgramM a, Program b
+                WHERE a.sn = b.programMSn
+                AND b.deleFlag = 0
+                [_where]",
+        "order": "ORDER BY a.sysCode, b.sysCode",
+		"items": [
+            {"fid":"programMSn",   "table":"b"},
+            {"fid":"sysCode",      "table":"b",  "op":"like"},
+			{"fid":"sysName",      "table":"b",  "op":"like"}
+		]
+   }
+}

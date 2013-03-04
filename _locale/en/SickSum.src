@@ -1,0 +1,24 @@
+﻿# list/query fields
+itemName=Item 
+M1=January
+M2=February
+M3=March
+M4=April
+M5=May
+M6=June
+M7=July
+M8=August
+M9=September
+M10=October
+M11=November
+M12=December
+mCount=Total
+
+# Q
+academicYear=Academic Year
+semester=Semester
+
+# message
+message01=Total
+message02=[學年]不可空白！
+message03=此條件下無任何資料！

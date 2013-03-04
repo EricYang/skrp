@@ -1,0 +1,12 @@
+{
+   "list":{
+        "select": "SELECT a.*, b.titlesName",
+        "from": "FROM Staff a, Titles b 
+                WHERE a.titlesSn = b.sn 
+                [_where]",
+		"items": [
+			{"fid":"deptSn",    "table":"a"},
+            {"fid":"cName",     "table":"a",    "op":"like"}
+		]
+   }
+}
