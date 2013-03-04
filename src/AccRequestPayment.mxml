@@ -92,7 +92,7 @@
 		<s:columns>
 			<s:ArrayList>
 				<s:GridColumn dataField="sn" visible="false"/>
-				<s:GridColumn headerText="已支付金額" dataField="amounts"/>
+				<s:GridColumn headerText="{iR.paidOff}" dataField="amounts"/>
 				<s:GridColumn headerText="{iR.serialNos}" dataField="serialNo" width="150"/>
 				<s:GridColumn headerText="{iR.staffName}" dataField="staffName"/>			
 				<s:GridColumn headerText="{iR.cDate}" dataField="cDate" width="100"/>
